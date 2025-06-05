@@ -116,11 +116,139 @@
         #vowels-basic-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
         #vowels-double-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
 
-
+        /* Vocabulary Section Enhancements */
+        .vocab-mode-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .vocab-mode-btn {
+            background-color: #e5e7eb;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        .vocab-mode-btn:hover {
+            background-color: #d1d5db;
+        }
+        .vocab-mode-btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .vocab-category-selector {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .vocab-category-btn {
+            background-color: #f3f4f6;
+            color: #6b7280;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+        }
+        .vocab-category-btn:hover {
+            background-color: #e5e7eb;
+        }
+        .vocab-category-btn.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        .vocab-quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        .vocab-quiz-option {
+            background-color: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .vocab-quiz-option:hover {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+        }
+        .vocab-quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: #16a34a;
+            color: #15803d;
+        }
+        .vocab-quiz-option.incorrect {
+            background-color: #fef2f2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+        .vocab-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #f8fafc;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        .vocab-progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+        .vocab-progress-fill {
+            height: 100%;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .vocab-feedback {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            text-align: center;
+            font-weight: 500;
+        }
+        .vocab-feedback.correct {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        .vocab-feedback.incorrect {
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .pulse {
+            animation: pulse 0.6s ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400,700&display=swap" rel="stylesheet">
 </head>
 <body class="antialiased">
     <div class="container mx-auto p-4 md:p-8 max-w-6xl">
@@ -209,27 +337,75 @@
                 'ㅆ': {'ㅏ':'싸', 'ㅐ':'쌔', 'ㅑ':'쌰', 'ㅒ':'썌', 'ㅓ':'써', 'ㅔ':'쎄', 'ㅕ':'쎠', 'ㅖ':'쎼', 'ㅗ':'쏘', 'ㅘ':'쏴', 'ㅙ':'쐐', 'ㅚ':'쇠', 'ㅛ':'쑈', 'ㅜ':'쑤', 'ㅝ':'쒀', 'ㅞ':'쒜', 'ㅟ':'쒸', 'ㅠ':'쓔', 'ㅡ':'쓰', 'ㅢ':'씌', 'ㅣ':'씨'},
                 'ㅉ': {'ㅏ':'짜', 'ㅐ':'째', 'ㅑ':'쨔', 'ㅒ':'쨰', 'ㅓ':'쩌', 'ㅔ':'쩨', 'ㅕ':'쪄', 'ㅖ':'쪠', 'ㅗ':'쪼', 'ㅘ':'쫘', 'ㅙ':'쫴', 'ㅚ':'쬐', 'ㅛ':'쬬', 'ㅜ':'쭈', 'ㅝ':'쭤', 'ㅞ':'쮀', 'ㅟ':'쮜', 'ㅠ':'쮸', 'ㅡ':'쯔', 'ㅢ':'쯰', 'ㅣ':'찌'}
             }
+        };        const vocabularyByCategory = {
+            family: [
+                { word: '가족', meaning: 'Gia đình', level: 1 },
+                { word: '아버지', meaning: 'Bố', level: 1 },
+                { word: '어머니', meaning: 'Mẹ', level: 1 },
+                { word: '아들', meaning: 'Con trai', level: 1 },
+                { word: '딸', meaning: 'Con gái', level: 1 },
+                { word: '형', meaning: 'Anh trai (nam gọi)', level: 2 },
+                { word: '누나', meaning: 'Chị gái (nam gọi)', level: 2 },
+                { word: '언니', meaning: 'Chị gái (nữ gọi)', level: 2 },
+                { word: '동생', meaning: 'Em', level: 1 }
+            ],
+            body: [
+                { word: '머리', meaning: 'Đầu', level: 1 },
+                { word: '눈', meaning: 'Mắt', level: 1 },
+                { word: '코', meaning: 'Mũi', level: 1 },
+                { word: '입', meaning: 'Miệng', level: 1 },
+                { word: '귀', meaning: 'Tai', level: 1 },
+                { word: '손', meaning: 'Tay', level: 1 },
+                { word: '발', meaning: 'Chân', level: 1 },
+                { word: '다리', meaning: 'Chân (từ hông xuống)', level: 2 }
+            ],
+            animals: [
+                { word: '고양이', meaning: 'Mèo', level: 1 },
+                { word: '강아지', meaning: 'Chó con', level: 1 },
+                { word: '사자', meaning: 'Sư tử', level: 2 },
+                { word: '토끼', meaning: 'Con thỏ', level: 1 },
+                { word: '새', meaning: 'Chim', level: 1 },
+                { word: '물고기', meaning: 'Cá', level: 1 },
+                { word: '까치', meaning: 'Chim ác là', level: 3 },
+                { word: '코끼리', meaning: 'Voi', level: 2 }
+            ],
+            food: [
+                { word: '밥', meaning: 'Cơm', level: 1 },
+                { word: '빵', meaning: 'Bánh mì', level: 1 },
+                { word: '물', meaning: 'Nước', level: 1 },
+                { word: '우유', meaning: 'Sữa', level: 1 },
+                { word: '사과', meaning: 'Táo', level: 1 },
+                { word: '바나나', meaning: 'Chuối', level: 1 },
+                { word: '김치', meaning: 'Kim chi', level: 2 },
+                { word: '라면', meaning: 'Mì tôm', level: 2 }
+            ],
+            basic: [
+                { word: '안녕하세요', meaning: 'Xin chào', level: 1 },
+                { word: '감사합니다', meaning: 'Cảm ơn', level: 1 },
+                { word: '죄송합니다', meaning: 'Xin lỗi', level: 1 },
+                { word: '네', meaning: 'Vâng/Có', level: 1 },
+                { word: '아니요', meaning: 'Không', level: 1 },
+                { word: '좋아요', meaning: 'Tốt', level: 1 },
+                { word: '나쁘다', meaning: 'Xấu/Tệ', level: 2 },
+                { word: '크다', meaning: 'To/Lớn', level: 2 }
+            ]
         };
-        const vocabulary = [
-            { word: '가구', meaning: 'Đồ nội thất' }, { word: '나라', meaning: 'Đất nước' },
-            { word: '다리', meaning: 'Chân, Cây cầu' }, { word: '라디오', meaning: 'Đài radio' },
-            { word: '마음', meaning: 'Tấm lòng' }, { word: '바다', meaning: 'Biển' },
-            { word: '사자', meaning: 'Sư tử' }, { word: '아기', meaning: 'Em bé' },
-            { word: '자다', meaning: 'Ngủ' }, { word: '차', meaning: 'Xe, Trà' },
-            { word: '코', meaning: 'Mũi' }, { word: '타다', meaning: 'Đi (xe), Cháy' },
-            { word: '파도', meaning: 'Sóng biển' }, { word: '하다', meaning: 'Làm' },
-            { word: '까치', meaning: 'Chim ác là' }, { word: '토끼', meaning: 'Con thỏ' },
-            { word: '빵', meaning: 'Bánh mì' }, { word: '쓰다', meaning: 'Viết, Đắng, Đội (nón)' },
-            { word: '짜다', meaning: 'Mặn' }, { word: '크다', meaning: 'To, Lớn' },
-            { word: '나무', meaning: 'Cây' }, { word: '소리', meaning: 'Âm thanh, Tiếng động' },
-            { word: '머리', meaning: 'Đầu' }, { word: '오이', meaning: 'Dưa chuột' }
-        ];
 
-        let activeExerciseId = 'ex_single_syllable';
+        // Flatten all vocabulary for random selection
+        const allVocabulary = Object.values(vocabularyByCategory).flat();        let activeExerciseId = 'ex_single_syllable';
         let selectedConsonant = null; 
         let selectedVowel = null;
         let selectedConsonantActualType = 'plain'; 
         let currentVocabIndex = -1;
+        
+        // Vocabulary Practice Variables
+        let currentVocabMode = 'review'; // 'review', 'quiz', 'flashcard'
+        let currentCategory = 'all';
+        let currentQuizOptions = [];
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+        let reviewedWords = new Set();
+        let difficulty = 1; // 1, 2, 3
 
         const navigationMenu = document.getElementById('navigation-menu');
         const exerciseContentArea = document.getElementById('exercise-content-area');
@@ -331,27 +507,91 @@
             assignSequenceReadingElements();
             generateSequenceButton.addEventListener('click', () => generateSyllableSequence(exercise.sequenceParams));
             generateSyllableSequence(exercise.sequenceParams); 
-        }
-
-        function renderVocabularyPracticeUI(exercise) {
+        }        function renderVocabularyPracticeUI(exercise) {
             exerciseContentArea.innerHTML = `
                 <section id="vocabulary-practice-section" class="exercise-section active">
                     <h2 class="text-2xl font-semibold text-blue-600 mb-3" style="font-family: 'Noto Sans KR', sans-serif;">${exercise.title}</h2>
-                    <p class="text-stone-600 mb-6">Luyện đọc từ và học nghĩa của chúng.</p>
-                    <div class="vocab-display-container text-center">
-                        <div id="vocab-word-display" class="vocab-word-display text-blue-700 font-bold mb-4" style="font-family: 'Noto Sans KR', sans-serif;">Nhấn "Từ Mới"</div>
-                        <div id="vocab-meaning-display" class="vocab-meaning-display mb-6 hidden" style="font-family: 'Inter', sans-serif;">--</div>
-                        <div class="flex justify-center gap-4">
-                            <button id="next-vocab-button" class="btn-action py-2 px-4">Từ Mới</button>
-                            <button id="show-meaning-button" class="btn-action py-2 px-4 bg-sky-500 hover:bg-sky-600">Xem Nghĩa</button>
+                    <p class="text-stone-600 mb-6">Luyện đọc từ và học nghĩa của chúng với nhiều chế độ khác nhau.</p>
+                    
+                    <!-- Mode Selection -->
+                    <div class="vocab-mode-selector">
+                        <button class="vocab-mode-btn active" data-mode="review">📖 Ôn Tập</button>
+                        <button class="vocab-mode-btn" data-mode="quiz">🧠 Trắc Nghiệm</button>
+                        <button class="vocab-mode-btn" data-mode="flashcard">🃏 Thẻ Ghi Nhớ</button>
+                    </div>
+
+                    <!-- Category Selection -->
+                    <div class="vocab-category-selector">
+                        <button class="vocab-category-btn active" data-category="all">Tất Cả</button>
+                        <button class="vocab-category-btn" data-category="basic">Cơ Bản</button>
+                        <button class="vocab-category-btn" data-category="family">Gia Đình</button>
+                        <button class="vocab-category-btn" data-category="body">Cơ Thể</button>
+                        <button class="vocab-category-btn" data-category="animals">Động Vật</button>
+                        <button class="vocab-category-btn" data-category="food">Thức Ăn</button>
+                    </div>
+
+                    <!-- Stats and Progress -->
+                    <div id="vocab-stats" class="vocab-stats">
+                        <span>Điểm: <strong id="vocab-score">0/0</strong></span>
+                        <span>Đã Học: <strong id="vocab-progress">0</strong> từ</span>
+                        <span>Độ Khó: <strong id="vocab-difficulty">Cấp 1</strong></span>
+                    </div>
+                    <div class="vocab-progress-bar">
+                        <div id="vocab-progress-fill" class="vocab-progress-fill" style="width: 0%"></div>
+                    </div>
+
+                    <!-- Main Display Area -->
+                    <div id="vocab-display-container" class="vocab-display-container text-center">
+                        <!-- Review Mode -->
+                        <div id="review-mode" class="vocab-mode-content">
+                            <div id="vocab-word-display" class="vocab-word-display text-blue-700 font-bold mb-4" style="font-family: 'Noto Sans KR', sans-serif;">Nhấn "Từ Mới"</div>
+                            <div id="vocab-meaning-display" class="vocab-meaning-display mb-6 hidden" style="font-family: 'Inter', sans-serif;">--</div>
+                            <div class="flex justify-center gap-4">
+                                <button id="next-vocab-button" class="btn-action py-2 px-4">📚 Từ Mới</button>
+                                <button id="show-meaning-button" class="btn-action py-2 px-4 bg-sky-500 hover:bg-sky-600">👁️ Xem Nghĩa</button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Mode -->
+                        <div id="quiz-mode" class="vocab-mode-content hidden">
+                            <div id="quiz-question" class="vocab-word-display text-blue-700 font-bold mb-4" style="font-family: 'Noto Sans KR', sans-serif;">안녕하세요</div>
+                            <p class="text-sm text-gray-600 mb-4">Chọn nghĩa đúng của từ trên:</p>
+                            <div id="quiz-options" class="vocab-quiz-options">
+                                <!-- Quiz options will be inserted here -->
+                            </div>
+                            <div id="quiz-feedback" class="vocab-feedback hidden"></div>
+                            <button id="next-quiz-button" class="btn-action py-2 px-4 mt-4 hidden">➡️ Câu Tiếp Theo</button>
+                        </div>
+
+                        <!-- Flashcard Mode -->
+                        <div id="flashcard-mode" class="vocab-mode-content hidden">
+                            <div class="flashcard relative">
+                                <div id="flashcard-front" class="flashcard-side">
+                                    <div id="flashcard-word" class="vocab-word-display text-blue-700 font-bold mb-4" style="font-family: 'Noto Sans KR', sans-serif;">안녕하세요</div>
+                                    <p class="text-sm text-gray-600">Nhấn để lật thẻ</p>
+                                </div>
+                                <div id="flashcard-back" class="flashcard-side hidden">
+                                    <div id="flashcard-meaning" class="vocab-meaning-display text-blue-600" style="font-family: 'Inter', sans-serif;">Xin chào</div>
+                                    <p class="text-sm text-gray-600">Nhấn để lật lại</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-center gap-4 mt-6">
+                                <button id="flashcard-flip" class="btn-action py-2 px-4 bg-purple-500 hover:bg-purple-600">🔄 Lật Thẻ</button>
+                                <button id="flashcard-next" class="btn-action py-2 px-4">➡️ Thẻ Tiếp</button>
+                            </div>
+                            <div class="flex justify-center gap-2 mt-4">
+                                <button id="flashcard-easy" class="btn-action py-1 px-3 text-sm bg-green-500 hover:bg-green-600">😊 Dễ</button>
+                                <button id="flashcard-medium" class="btn-action py-1 px-3 text-sm bg-yellow-500 hover:bg-yellow-600">😐 Bình Thường</button>
+                                <button id="flashcard-hard" class="btn-action py-1 px-3 text-sm bg-red-500 hover:bg-red-600">😓 Khó</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             `;
             assignVocabularyElements();
-            nextVocabButton.addEventListener('click', displayNextVocabularyWord);
-            showMeaningButton.addEventListener('click', toggleVocabMeaning);
-            displayNextVocabularyWord(); 
+            setupVocabularyEventListeners();
+            updateVocabularyStats();
+            changeVocabularyMode('review');
         }
 
         function assignInteractiveSingleElements() { 
@@ -567,21 +807,262 @@
             syllableSequenceDisplay.textContent = sequence.join(' ');
             syllableSequenceDisplay.classList.add('fade-in');
         }
-        
-        function displayNextVocabularyWord() {
+          function displayNextVocabularyWord() {
             if (!vocabWordDisplay || !vocabMeaningDisplay) return;
-            currentVocabIndex = Math.floor(Math.random() * vocabulary.length);
-            const currentWord = vocabulary[currentVocabIndex];
+            const currentVocab = getCurrentVocabulary();
+            if (currentVocab.length === 0) return;
+            
+            currentVocabIndex = Math.floor(Math.random() * currentVocab.length);
+            const currentWord = currentVocab[currentVocabIndex];
             vocabWordDisplay.textContent = currentWord.word;
             vocabMeaningDisplay.textContent = currentWord.meaning;
             vocabMeaningDisplay.classList.add('hidden'); 
-            if(showMeaningButton) showMeaningButton.textContent = "Xem Nghĩa";
+            if(showMeaningButton) showMeaningButton.textContent = "👁️ Xem Nghĩa";
+            
+            // Add to reviewed words
+            reviewedWords.add(currentWord.word);
+            updateVocabularyStats();
         }
 
         function toggleVocabMeaning() {
             if (!vocabMeaningDisplay || !showMeaningButton) return;
             vocabMeaningDisplay.classList.toggle('hidden');
-            showMeaningButton.textContent = vocabMeaningDisplay.classList.contains('hidden') ? "Xem Nghĩa" : "Ẩn Nghĩa";
+            showMeaningButton.textContent = vocabMeaningDisplay.classList.contains('hidden') ? "👁️ Xem Nghĩa" : "🙈 Ẩn Nghĩa";
+        }
+
+        function getCurrentVocabulary() {
+            if (currentCategory === 'all') {
+                return allVocabulary.filter(word => word.level <= difficulty);
+            }
+            return vocabularyByCategory[currentCategory]?.filter(word => word.level <= difficulty) || [];
+        }
+
+        function setupVocabularyEventListeners() {
+            // Mode selection
+            document.querySelectorAll('.vocab-mode-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const mode = e.target.dataset.mode;
+                    changeVocabularyMode(mode);
+                });
+            });
+
+            // Category selection
+            document.querySelectorAll('.vocab-category-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const category = e.target.dataset.category;
+                    changeVocabularyCategory(category);
+                });
+            });
+
+            // Review mode buttons
+            if (nextVocabButton) nextVocabButton.addEventListener('click', displayNextVocabularyWord);
+            if (showMeaningButton) showMeaningButton.addEventListener('click', toggleVocabMeaning);
+
+            // Quiz mode buttons
+            const nextQuizButton = document.getElementById('next-quiz-button');
+            if (nextQuizButton) nextQuizButton.addEventListener('click', generateQuizQuestion);
+
+            // Flashcard mode buttons
+            const flashcardFlip = document.getElementById('flashcard-flip');
+            const flashcardNext = document.getElementById('flashcard-next');
+            const flashcardEasy = document.getElementById('flashcard-easy');
+            const flashcardMedium = document.getElementById('flashcard-medium');
+            const flashcardHard = document.getElementById('flashcard-hard');
+
+            if (flashcardFlip) flashcardFlip.addEventListener('click', flipFlashcard);
+            if (flashcardNext) flashcardNext.addEventListener('click', nextFlashcard);
+            if (flashcardEasy) flashcardEasy.addEventListener('click', () => rateFlashcard('easy'));
+            if (flashcardMedium) flashcardMedium.addEventListener('click', () => rateFlashcard('medium'));
+            if (flashcardHard) flashcardHard.addEventListener('click', () => rateFlashcard('hard'));
+        }
+
+        function changeVocabularyMode(mode) {
+            currentVocabMode = mode;
+            
+            // Update mode buttons
+            document.querySelectorAll('.vocab-mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+
+            // Hide all mode contents
+            document.querySelectorAll('.vocab-mode-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show selected mode content
+            const selectedModeContent = document.getElementById(`${mode}-mode`);
+            if (selectedModeContent) {
+                selectedModeContent.classList.remove('hidden');
+            }
+
+            // Initialize mode-specific content
+            if (mode === 'review') {
+                displayNextVocabularyWord();
+            } else if (mode === 'quiz') {
+                generateQuizQuestion();
+            } else if (mode === 'flashcard') {
+                initializeFlashcard();
+            }
+        }
+
+        function changeVocabularyCategory(category) {
+            currentCategory = category;
+            
+            // Update category buttons
+            document.querySelectorAll('.vocab-category-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
+            });
+
+            updateVocabularyStats();
+            
+            // Refresh current mode
+            if (currentVocabMode === 'review') {
+                displayNextVocabularyWord();
+            } else if (currentVocabMode === 'quiz') {
+                generateQuizQuestion();
+            } else if (currentVocabMode === 'flashcard') {
+                initializeFlashcard();
+            }
+        }
+
+        function generateQuizQuestion() {
+            const currentVocab = getCurrentVocabulary();
+            if (currentVocab.length < 4) return; // Need at least 4 words for quiz
+
+            const questionWord = currentVocab[Math.floor(Math.random() * currentVocab.length)];
+            const correctAnswer = questionWord.meaning;
+            
+            // Generate wrong answers
+            const wrongAnswers = [];
+            while (wrongAnswers.length < 3) {
+                const randomWord = currentVocab[Math.floor(Math.random() * currentVocab.length)];
+                if (randomWord.meaning !== correctAnswer && !wrongAnswers.includes(randomWord.meaning)) {
+                    wrongAnswers.push(randomWord.meaning);
+                }
+            }
+
+            // Shuffle all options
+            const allOptions = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
+            // Update UI
+            const questionElement = document.getElementById('quiz-question');
+            const optionsContainer = document.getElementById('quiz-options');
+            const feedbackElement = document.getElementById('quiz-feedback');
+            const nextButton = document.getElementById('next-quiz-button');
+
+            if (questionElement) questionElement.textContent = questionWord.word;
+            if (optionsContainer) {
+                optionsContainer.innerHTML = '';
+                allOptions.forEach(option => {
+                    const optionButton = document.createElement('button');
+                    optionButton.className = 'vocab-quiz-option';
+                    optionButton.textContent = option;
+                    optionButton.addEventListener('click', () => checkQuizAnswer(option, correctAnswer, optionButton));
+                    optionsContainer.appendChild(optionButton);
+                });
+            }
+            
+            if (feedbackElement) feedbackElement.classList.add('hidden');
+            if (nextButton) nextButton.classList.add('hidden');
+            
+            totalQuestions++;
+            updateVocabularyStats();
+        }
+
+        function checkQuizAnswer(selectedAnswer, correctAnswer, buttonElement) {
+            const isCorrect = selectedAnswer === correctAnswer;
+            const feedbackElement = document.getElementById('quiz-feedback');
+            const nextButton = document.getElementById('next-quiz-button');
+            const optionsContainer = document.getElementById('quiz-options');
+
+            // Disable all options
+            optionsContainer.querySelectorAll('.vocab-quiz-option').forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correctAnswer) {
+                    btn.classList.add('correct');
+                } else if (btn === buttonElement && !isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                correctAnswers++;
+                if (feedbackElement) {
+                    feedbackElement.textContent = '🎉 Chính xác!';
+                    feedbackElement.className = 'vocab-feedback correct';
+                    feedbackElement.classList.remove('hidden');
+                }
+                buttonElement.parentElement.classList.add('pulse');
+            } else {
+                if (feedbackElement) {
+                    feedbackElement.textContent = `❌ Sai rồi! Đáp án đúng là: ${correctAnswer}`;
+                    feedbackElement.className = 'vocab-feedback incorrect';
+                    feedbackElement.classList.remove('hidden');
+                }
+                buttonElement.parentElement.classList.add('shake');
+            }
+
+            if (nextButton) nextButton.classList.remove('hidden');
+            updateVocabularyStats();
+        }
+
+        function initializeFlashcard() {
+            const currentVocab = getCurrentVocabulary();
+            if (currentVocab.length === 0) return;
+
+            const randomWord = currentVocab[Math.floor(Math.random() * currentVocab.length)];
+            const wordElement = document.getElementById('flashcard-word');
+            const meaningElement = document.getElementById('flashcard-meaning');
+            const frontElement = document.getElementById('flashcard-front');
+            const backElement = document.getElementById('flashcard-back');
+
+            if (wordElement) wordElement.textContent = randomWord.word;
+            if (meaningElement) meaningElement.textContent = randomWord.meaning;
+            if (frontElement) frontElement.classList.remove('hidden');
+            if (backElement) backElement.classList.add('hidden');
+        }
+
+        function flipFlashcard() {
+            const frontElement = document.getElementById('flashcard-front');
+            const backElement = document.getElementById('flashcard-back');
+            
+            if (frontElement && backElement) {
+                frontElement.classList.toggle('hidden');
+                backElement.classList.toggle('hidden');
+            }
+        }
+
+        function nextFlashcard() {
+            initializeFlashcard();
+            reviewedWords.add(document.getElementById('flashcard-word')?.textContent || '');
+            updateVocabularyStats();
+        }
+
+        function rateFlashcard(rating) {
+            // In a real app, you might save this rating for spaced repetition
+            console.log(`Rated current flashcard as: ${rating}`);
+            nextFlashcard();
+        }
+
+        function updateVocabularyStats() {
+            const scoreElement = document.getElementById('vocab-score');
+            const progressElement = document.getElementById('vocab-progress');
+            const difficultyElement = document.getElementById('vocab-difficulty');
+            const progressFillElement = document.getElementById('vocab-progress-fill');
+            
+            const currentVocab = getCurrentVocabulary();
+            const totalWords = currentVocab.length;
+            const reviewedCount = [...reviewedWords].filter(word => 
+                currentVocab.some(vocab => vocab.word === word)
+            ).length;
+
+            if (scoreElement) scoreElement.textContent = `${correctAnswers}/${totalQuestions}`;
+            if (progressElement) progressElement.textContent = reviewedCount;
+            if (difficultyElement) difficultyElement.textContent = `Cấp ${difficulty}`;
+            if (progressFillElement) {
+                const progressPercent = totalWords > 0 ? (reviewedCount / totalWords) * 100 : 0;
+                progressFillElement.style.width = `${Math.min(progressPercent, 100)}%`;
+            }
         }
 
         function setActiveExercise(exerciseId) {
