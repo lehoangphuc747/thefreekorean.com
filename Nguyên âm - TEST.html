@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Nguyên Âm Tiếng Hàn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Visualization & Content Choices:
+        - Part 1 & 2 (Simple/Double Vowels): Goal: Recognition/Pronunciation. Method: Clickable cards for each vowel displaying pronunciation tip (Romanization removed). Interaction: User clicks to reveal info. Justification: Direct interaction, focused learning. Library: Vanilla JS.
+        - Part 3 (Differentiating Pairs): Goal: Comparison/Distinction. Method: Side-by-side display of vowel pairs. Pronunciation difference initially hidden, revealed as "Answer" on click. Interaction: Click to reveal answer. Justification: Encourages active recall and comparison. Library: Vanilla JS.
+        - Part 4 (Reading Sequences): Goal: Fluency. Method: Display sequences, clicking highlights individual vowels (Romanization removed from detail). Interaction: User clicks to see breakdown. Justification: Aids in deconstructing sequences for practice. Library: Vanilla JS.
+        - Part 5 (Categorizing Vowels): Goal: Recall/Categorization. Method: Drag-and-drop interface. A source list of all vowels, and two drop zones for "Simple Vowels" and "Double Vowels". Interaction: User drags vowels from the source to the appropriate drop zone. "Check Answers" button validates placement. Justification: Kinesthetic learning, active categorization. Library: Vanilla JS (HTML5 Drag and Drop API).
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+            background-color: #FFF9F0; /* Warm Neutral - Soft Cream */
+        }
+        .nav-button.active {
+            background-color: #A0C4FF; /* Muted Blue Accent */
+            color: #1E3A8A; /* Darker Blue for text */
+        }
+        .nav-button {
+            background-color: #E0E7FF; /* Lighter Muted Blue/Lavender */
+            color: #374151; /* Gray text */
+        }
+        .korean-char {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4A5568; /* Dark Gray */
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .vowel-card {
+            background-color: #FFFFFF;
+            border: 1px solid #D1D5DB; /* Light Gray border */
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .vowel-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .vowel-info {
+            background-color: #F0F8FF; /* AliceBlue - very light blue */
+            border-top: 1px solid #D1D5DB;
+        }
+        .section-title {
+            color: #2C5282; /* Dark Blue */
+        }
+        .content-container {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .draggable-vowel {
+            padding: 0.5rem;
+            margin: 0.25rem;
+            border: 1px solid #CBD5E1; /* Cool Gray border */
+            border-radius: 0.375rem; /* rounded-md */
+            background-color: #F9FAFB; /* bg-gray-50 */
+            cursor: grab;
+            text-align: center;
+        }
+        .draggable-vowel:active {
+            cursor: grabbing;
+        }
+        .drop-zone {
+            border: 2px dashed #9CA3AF; /* border-gray-400 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 1rem;
+            min-height: 150px;
+            background-color: #F3F4F6; /* bg-gray-100 */
+            transition: background-color 0.2s;
+        }
+        .drop-zone.drag-over {
+            background-color: #E0E7FF; /* bg-indigo-100 or similar */
+        }
+        .dropped-vowel-item {
+            padding: 0.5rem;
+            margin: 0.25rem;
+            border: 1px solid #A5B4FC; /* border-indigo-300 */
+            border-radius: 0.375rem;
+            background-color: #FFFFFF;
+            display: inline-flex; /* To keep items in a row and allow wrapping */
+            align-items: center;
+            justify-content: center;
+        }
+        .answer-reveal-button {
+            background-color: #BFDBFE; /* bg-blue-200 */
+            color: #1E40AF; /* text-blue-800 */
+            transition: background-color 0.2s;
+        }
+        .answer-reveal-button:hover {
+            background-color: #93C5FD; /* bg-blue-300 */
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold section-title">Bài Kiểm Tra/Ôn Tập: Nguyên Âm Tiếng Hàn</h1>
+        </header>
+
+        <div class="mb-8 p-6 content-container">
+            <h2 class="text-2xl font-semibold mb-3 section-title">Mục tiêu & Lưu ý</h2>
+            <p class="mb-2"><strong>Mục tiêu:</strong> Ôn tập và kiểm tra khả năng nhận diện, phát âm và phân biệt các nguyên âm đơn và nguyên âm đôi trong tiếng Hàn.</p>
+            <p><strong>Lưu ý:</strong></p>
+            <ul class="list-disc list-inside ml-4">
+                <li>Hãy cố gắng phát âm to và rõ ràng từng nguyên âm.</li>
+                <li>Với các phần yêu cầu phân biệt, hãy chú ý đến sự khác biệt (nếu có) trong khẩu hình và vị trí lưỡi khi phát âm.</li>
+            </ul>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-2 mb-8">
+            <button data-section="section1" class="nav-button active text-sm sm:text-base font-medium py-2 px-3 sm:px-4 rounded-lg shadow hover:bg-blue-400 transition-colors">Nguyên âm đơn</button>
+            <button data-section="section2" class="nav-button text-sm sm:text-base font-medium py-2 px-3 sm:px-4 rounded-lg shadow hover:bg-blue-400 transition-colors">Nguyên âm đôi</button>
+            <button data-section="section3" class="nav-button text-sm sm:text-base font-medium py-2 px-3 sm:px-4 rounded-lg shadow hover:bg-blue-400 transition-colors">Phân biệt</button>
+            <button data-section="section4" class="nav-button text-sm sm:text-base font-medium py-2 px-3 sm:px-4 rounded-lg shadow hover:bg-blue-400 transition-colors">Đọc chuỗi</button>
+            <button data-section="section5" class="nav-button text-sm sm:text-base font-medium py-2 px-3 sm:px-4 rounded-lg shadow hover:bg-blue-400 transition-colors">Phân loại (Kéo thả)</button>
+        </nav>
+
+        <main id="app-content">
+            <section id="section1" class="p-6 content-container">
+                <h2 class="text-2xl font-semibold mb-4 section-title">Phần 1: Nhận diện và Phát âm Nguyên âm Đơn</h2>
+                <p class="mb-6 text-gray-700">Phần này giúp bạn làm quen với 10 nguyên âm đơn cơ bản trong tiếng Hàn. Hãy nhấp vào từng nguyên âm để xem gợi ý cách phát âm. Cố gắng đọc to và rõ ràng.</p>
+                <div id="simpleVowelsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            </section>
+
+            <section id="section2" class="hidden p-6 content-container">
+                <h2 class="text-2xl font-semibold mb-4 section-title">Phần 2: Nhận diện và Phát âm Nguyên âm Đôi</h2>
+                 <p class="mb-6 text-gray-700">Tiếp theo là 11 nguyên âm đôi. Tương tự như nguyên âm đơn, hãy nhấp vào từng thẻ để tìm hiểu cách đọc. Một số nguyên âm đôi được tạo thành từ sự kết hợp của các nguyên âm đơn.</p>
+                <div id="doubleVowelsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            </section>
+
+            <section id="section3" class="hidden p-6 content-container">
+                <h2 class="text-2xl font-semibold mb-4 section-title">Phần 3: Phân biệt các cặp/nhóm Nguyên âm</h2>
+                <p class="mb-6 text-gray-700">Luyện tập phân biệt các cặp nguyên âm thường gây nhầm lẫn. Hãy đọc to từng cặp và thử mô tả sự khác biệt. Sau đó, nhấp vào nút "Xem đáp án" để kiểm tra.</p>
+                <div id="differentiatingPairsContainer" class="space-y-6"></div>
+            </section>
+
+            <section id="section4" class="hidden p-6 content-container">
+                <h2 class="text-2xl font-semibold mb-4 section-title">Phần 4: Đọc chuỗi Nguyên âm</h2>
+                <p class="mb-6 text-gray-700">Thực hành đọc các chuỗi nguyên âm liền mạch. Nhấp vào một chuỗi để xem từng nguyên âm được làm nổi bật. Điều này giúp bạn cải thiện khả năng đọc trôi chảy.</p>
+                <div id="vowelSequencesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+            </section>
+
+            <section id="section5" class="hidden p-6 content-container">
+                <h2 class="text-2xl font-semibold mb-4 section-title">Phần 5: Phân loại Nguyên âm (Kéo thả)</h2>
+                <p class="mb-6 text-gray-700">Kiểm tra kiến thức của bạn bằng cách kéo thả các nguyên âm vào đúng nhóm "Nguyên âm đơn" hoặc "Nguyên âm đôi". Sau đó, nhấn nút "Kiểm tra đáp án" để xem kết quả.</p>
+                
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-2 text-center text-gray-700">Kéo các nguyên âm từ đây:</h3>
+                    <div id="vowelSourceContainer" class="p-4 bg-gray-50 rounded-lg flex flex-wrap justify-center items-center min-h-[100px]">
+                        </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2 text-center section-title">Nguyên âm đơn</h3>
+                        <div id="simpleVowelDropZone" class="drop-zone flex flex-wrap gap-2 justify-center content-start">
+                            </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2 text-center section-title">Nguyên âm đôi</h3>
+                        <div id="doubleVowelDropZone" class="drop-zone flex flex-wrap gap-2 justify-center content-start">
+                            </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button id="checkDragDropButton" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors">Kiểm tra đáp án</button>
+                    <button id="resetDragDropButton" class="mt-8 ml-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors">Làm lại</button>
+                </div>
+                <div id="dragDropResult" class="mt-6 font-medium text-center"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const vowelsData = {
+            simple: [
+                { kr: 'ㅏ', tip: 'Mở rộng miệng, lưỡi hạ thấp.' },
+                { kr: 'ㅑ', tip: 'Bắt đầu bằng "ㅣ" rồi nhanh chóng sang "ㅏ".' },
+                { kr: 'ㅓ', tip: 'Mở miệng tự nhiên, lưỡi hơi lùi về sau.' },
+                { kr: 'ㅕ', tip: 'Bắt đầu bằng "ㅣ" rồi nhanh chóng sang "ㅓ".' },
+                { kr: 'ㅗ', tip: 'Tròn môi, lưỡi lùi về sau và nâng cao.' },
+                { kr: 'ㅛ', tip: 'Bắt đầu bằng "ㅣ" rồi nhanh chóng sang "ㅗ".' },
+                { kr: 'ㅜ', tip: 'Tròn môi, đưa môi ra trước, lưỡi lùi về sau và nâng cao.' },
+                { kr: 'ㅠ', tip: 'Bắt đầu bằng "ㅣ" rồi nhanh chóng sang "ㅜ".' },
+                { kr: 'ㅡ', tip: 'Dàn miệng sang hai bên, lưỡi nâng cao.' },
+                { kr: 'ㅣ', tip: 'Dàn miệng sang hai bên, đầu lưỡi chạm lợi hàm dưới.' }
+            ],
+            double: [
+                { kr: 'ㅐ', tip: 'Mở miệng rộng hơn "ㅏ", gần giống "e" trong "apple".' },
+                { kr: 'ㅒ', tip: 'Bắt đầu bằng "ㅣ" rồi nhanh chóng sang "ㅐ".' },
+                { kr: 'ㅔ', tip: 'Mở miệng hẹp hơn "ㅐ", gần giống "e" trong "bed".' },
+                { kr: 'ㅖ', tip: 'Bắt đầu bằng "ㅣ" rồi nhanh chóng sang "ㅔ".' },
+                { kr: 'ㅘ', tip: 'Bắt đầu bằng "ㅗ" rồi nhanh chóng sang "ㅏ".' },
+                { kr: 'ㅙ', tip: 'Bắt đầu bằng "ㅗ" rồi nhanh chóng sang "ㅐ". Phát âm gần giống ㅚ, ㅞ.' },
+                { kr: 'ㅚ', tip: 'Bắt đầu bằng "ㅗ" rồi nhanh chóng sang "ㅣ". Phát âm gần giống ㅙ, ㅞ.' },
+                { kr: 'ㅝ', tip: 'Bắt đầu bằng "ㅜ" rồi nhanh chóng sang "ㅓ".' },
+                { kr: 'ㅞ', tip: 'Bắt đầu bằng "ㅜ" rồi nhanh chóng sang "ㅔ". Phát âm gần giống ㅙ, ㅚ.' },
+                { kr: 'ㅟ', tip: 'Bắt đầu bằng "ㅜ" rồi nhanh chóng sang "ㅣ".' },
+                { kr: 'ㅢ', tip: 'Bắt đầu bằng "ㅡ" rồi nhanh chóng sang "ㅣ". Có thể đọc là /의/, /이/, /에/ tùy vị trí.' }
+            ],
+            allVowelsForDragDrop: []
+        };
+        vowelsData.allVowelsForDragDrop = [...new Set([...vowelsData.simple.map(v => v.kr), ...vowelsData.double.map(v => v.kr)])].sort(
+            (a, b) => a.localeCompare(b, 'ko')
+        );
+
+        const differentiatingPairs = [
+            { pair: ['ㅏ', 'ㅓ'], answer: 'Khi phát âm ㅏ miệng mở rộng hơn, còn ㅓ miệng mở tự nhiên hơn.' },
+            { pair: ['ㅗ', 'ㅜ'], answer: 'Khi phát âm ㅗ, cằm hạ xuống nhiều hơn so với khi phát âm ㅜ. Cả hai đều tròn môi, nhưng ㅜ môi nhô ra nhiều hơn ㅗ.' },
+            { pair: ['ㅐ', 'ㅔ'], answer: 'Độ mở của miệng khi phát âm ㅐ tương đương khoảng 2 đốt ngón tay, còn ㅔ tương đương khoảng 1 đốt ngón tay. Nhiều người Hàn hiện đại phát âm hai âm này gần giống nhau.' },
+            { pair: ['ㅒ', 'ㅖ'], answer: 'Tương tự ㅐ/ㅔ, ㅒ miệng mở rộng hơn ㅖ. Phát âm cũng gần giống nhau trong giao tiếp hiện đại.' },
+            { pair: ['ㅘ', 'ㅝ'], answer: 'ㅘ bắt đầu từ ㅗ (môi tròn, cằm hạ), ㅝ bắt đầu từ ㅜ (môi tròn, nhô ra).' },
+            { group: ['ㅙ', 'ㅚ', 'ㅞ'], answer: 'Trong tiếng Hàn hiện đại, ba âm này thường được phát âm giống nhau (gần như /웨/).' },
+            { pair: ['ㅡ', 'ㅣ'], answer: 'Khi phát âm ㅡ miệng dàn ngang, còn khi phát âm ㅣ miệng cũng dàn ngang nhưng đầu lưỡi chạm vào lợi của hàm dưới.' },
+            { pair: ['ㅣ', 'ㅢ'], answer: 'ㅢ là sự kết hợp, bắt đầu từ âm ㅡ rồi nhanh chóng chuyển sang âm ㅣ.' },
+            { pair: ['ㅏ', 'ㅐ'], answer: 'Độ mở của miệng khi phát âm ㅐ rộng hơn một chút so với ㅏ.' },
+            { pair: ['ㅓ', 'ㅔ'], answer: 'Độ mở của miệng khi phát âm ㅔ hẹp hơn một chút so với ㅓ.' }
+        ];
+
+        const vowelSequences = [
+            '아이', '어에', '오와', '우워', '이의', '야얘', '여예', '요외', '유위', '아어이',
+            '오우아', '야여요', '유으이', '아오이', '애야에', '와여외', '워요위',
+            '아애어에오외우위', '야여요유얘예와워', '으이의아어오우애에외위'
+        ];
+        
+        function createVowelCard(vowel) {
+            const card = document.createElement('div');
+            card.className = 'vowel-card p-4 rounded-lg shadow text-center';
+            const char = document.createElement('div');
+            char.className = 'korean-char';
+            char.textContent = vowel.kr;
+            const info = document.createElement('div');
+            info.className = 'vowel-info mt-3 p-2 text-sm text-gray-600 rounded hidden';
+            info.innerHTML = `<strong>Tip:</strong> ${vowel.tip}`; // Romanji removed
+            card.appendChild(char);
+            card.appendChild(info);
+            card.addEventListener('click', () => info.classList.toggle('hidden'));
+            return card;
+        }
+
+        document.getElementById('simpleVowelsContainer').innerHTML = '';
+        vowelsData.simple.forEach(v => document.getElementById('simpleVowelsContainer').appendChild(createVowelCard(v)));
+        
+        document.getElementById('doubleVowelsContainer').innerHTML = '';
+        vowelsData.double.forEach(v => document.getElementById('doubleVowelsContainer').appendChild(createVowelCard(v)));
+
+        document.getElementById('differentiatingPairsContainer').innerHTML = '';
+        differentiatingPairs.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'p-4 border border-gray-200 rounded-lg bg-white';
+            const title = document.createElement('h3');
+            title.className = 'text-xl font-semibold mb-3 flex items-center justify-center space-x-3 flex-wrap';
+            const vowelsToDisplay = item.pair || item.group;
+            vowelsToDisplay.forEach((v, index) => {
+                const span = document.createElement('span');
+                span.textContent = v;
+                span.className = 'korean-char text-3xl p-2 bg-gray-100 rounded-md my-1';
+                title.appendChild(span);
+                if (index < vowelsToDisplay.length - 1) {
+                    const vs = document.createElement('span');
+                    vs.textContent = 'vs';
+                    vs.className = 'text-gray-500 font-normal mx-1';
+                    title.appendChild(vs);
+                }
+            });
+            
+            const answerButton = document.createElement('button');
+            answerButton.textContent = 'Xem đáp án';
+            answerButton.className = 'answer-reveal-button text-sm font-medium py-1 px-3 rounded-md mt-2 block mx-auto';
+            
+            const answerText = document.createElement('p');
+            answerText.className = 'text-sm text-gray-700 mt-2 text-center bg-yellow-50 p-2 rounded-md hidden';
+            answerText.textContent = item.answer;
+
+            answerButton.addEventListener('click', () => {
+                answerText.classList.toggle('hidden');
+                answerButton.textContent = answerText.classList.contains('hidden') ? 'Xem đáp án' : 'Ẩn đáp án';
+            });
+            
+            div.appendChild(title);
+            div.appendChild(answerButton);
+            div.appendChild(answerText);
+            document.getElementById('differentiatingPairsContainer').appendChild(div);
+        });
+
+        document.getElementById('vowelSequencesContainer').innerHTML = '';
+        vowelSequences.forEach(seq => {
+            const div = document.createElement('div');
+            div.className = 'p-4 border border-gray-200 rounded-lg text-2xl font-semibold text-center korean-char cursor-pointer hover:bg-gray-100 relative';
+            const seqTextNode = document.createElement('span');
+            seqTextNode.textContent = seq;
+            div.appendChild(seqTextNode);
+
+            const detailDiv = document.createElement('div'); // For highlighting, no Romanji needed
+            detailDiv.className = 'text-sm font-normal text-gray-500 mt-2 h-8 opacity-0 transition-opacity duration-300 absolute bottom-0 left-0 right-0 bg-white p-1';
+            div.appendChild(detailDiv);
+            let highlightTimeout;
+
+            div.addEventListener('click', () => {
+                detailDiv.classList.remove('opacity-0');
+                detailDiv.innerHTML = ''; 
+                let currentIndex = 0;
+                clearTimeout(highlightTimeout);
+                
+                function highlightNext() {
+                    if (currentIndex < seq.length) {
+                        const char = seq[currentIndex];
+                        let highlightedSeqHTML = '';
+                        for(let i=0; i<seq.length; i++) {
+                            if (i === currentIndex) {
+                                highlightedSeqHTML += `<span class="text-blue-500 font-bold">${seq[i]}</span>`;
+                            } else {
+                                highlightedSeqHTML += seq[i];
+                            }
+                        }
+                        seqTextNode.innerHTML = highlightedSeqHTML;
+                        detailDiv.textContent = `Đang đọc: ${char}`; // Simple feedback
+                        currentIndex++;
+                        highlightTimeout = setTimeout(highlightNext, 600);
+                    } else {
+                         seqTextNode.textContent = seq; 
+                         detailDiv.classList.add('opacity-0');
+                         setTimeout(() => { detailDiv.innerHTML = ''; }, 300);
+                    }
+                }
+                highlightNext();
+            });
+            document.getElementById('vowelSequencesContainer').appendChild(div);
+        });
+
+        const vowelSourceContainer = document.getElementById('vowelSourceContainer');
+        const simpleVowelDropZone = document.getElementById('simpleVowelDropZone');
+        const doubleVowelDropZone = document.getElementById('doubleVowelDropZone');
+        const checkDragDropButton = document.getElementById('checkDragDropButton');
+        const resetDragDropButton = document.getElementById('resetDragDropButton');
+        const dragDropResult = document.getElementById('dragDropResult');
+
+        function initializeDragDropSection() {
+            vowelSourceContainer.innerHTML = '';
+            simpleVowelDropZone.innerHTML = '';
+            doubleVowelDropZone.innerHTML = '';
+            dragDropResult.innerHTML = '';
+            document.querySelectorAll('.dropped-vowel-item').forEach(el => el.classList.remove('bg-green-200', 'text-green-700', 'bg-red-200', 'text-red-700'));
+
+            vowelsData.allVowelsForDragDrop.forEach(vowelChar => {
+                const draggableVowel = document.createElement('div');
+                draggableVowel.textContent = vowelChar;
+                draggableVowel.className = 'draggable-vowel korean-char text-xl';
+                draggableVowel.draggable = true;
+                draggableVowel.id = `drag-${vowelChar}-${Math.random().toString(36).substr(2, 5)}`;
+                
+                draggableVowel.addEventListener('dragstart', (event) => {
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.dataTransfer.setData('text/vowel', vowelChar);
+                    event.dataTransfer.effectAllowed = 'move';
+                    setTimeout(() => {
+                        event.target.classList.add('opacity-50');
+                    }, 0);
+                });
+                draggableVowel.addEventListener('dragend', (event) => {
+                    event.target.classList.remove('opacity-50');
+                });
+                vowelSourceContainer.appendChild(draggableVowel);
+            });
+        }
+        
+        function setupDropZone(dropZoneElement) {
+            dropZoneElement.addEventListener('dragover', (event) => {
+                event.preventDefault(); 
+                dropZoneElement.classList.add('drag-over');
+            });
+            dropZoneElement.addEventListener('dragleave', () => {
+                dropZoneElement.classList.remove('drag-over');
+            });
+            dropZoneElement.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropZoneElement.classList.remove('drag-over');
+                const draggedItemId = event.dataTransfer.getData('text/plain');
+                const vowelChar = event.dataTransfer.getData('text/vowel');
+                const draggedElement = document.getElementById(draggedItemId);
+
+                if (draggedElement && !isVowelInZone(vowelChar, dropZoneElement)) { // Check if already in this zone
+                    const newDroppedItem = document.createElement('div');
+                    newDroppedItem.textContent = vowelChar;
+                    newDroppedItem.className = 'dropped-vowel-item korean-char text-xl';
+                    newDroppedItem.dataset.vowel = vowelChar;
+                    
+                    if (draggedElement.parentElement !== vowelSourceContainer) { // Moved from another drop zone
+                        draggedElement.remove(); 
+                    } else { // Moved from source
+                         draggedElement.classList.add('hidden');
+                    }
+                    dropZoneElement.appendChild(newDroppedItem);
+                } else if (draggedElement && draggedElement.parentElement !== dropZoneElement && draggedElement.parentElement !== vowelSourceContainer) {
+                    // If trying to move from one drop zone to another and it's already there, do nothing or allow re-ordering (not implemented)
+                }
+            });
+        }
+
+        function isVowelInZone(vowelChar, zone) {
+            return Array.from(zone.children).some(child => child.textContent === vowelChar);
+        }
+
+        setupDropZone(simpleVowelDropZone);
+        setupDropZone(doubleVowelDropZone);
+        
+        vowelSourceContainer.addEventListener('dragover', (event) => event.preventDefault());
+        vowelSourceContainer.addEventListener('dragleave', () => vowelSourceContainer.classList.remove('drag-over'));
+        vowelSourceContainer.addEventListener('drop', (event) => {
+            event.preventDefault();
+            vowelSourceContainer.classList.remove('drag-over');
+            const draggedItemId = event.dataTransfer.getData('text/plain');
+            const draggedElement = document.getElementById(draggedItemId);
+            if (draggedElement && draggedElement.parentElement !== vowelSourceContainer) {
+                const originalSourceItem = Array.from(vowelSourceContainer.children).find(child => child.textContent === draggedElement.textContent && child.classList.contains('hidden'));
+                if (originalSourceItem) {
+                    originalSourceItem.classList.remove('hidden', 'opacity-50');
+                }
+                draggedElement.remove();
+            }
+        });
+
+        checkDragDropButton.addEventListener('click', () => {
+            let correctSimple = 0;
+            let totalSimpleDropped = 0;
+            let correctDouble = 0;
+            let totalDoubleDropped = 0;
+
+            document.querySelectorAll('.dropped-vowel-item').forEach(el => {
+                 el.classList.remove('bg-green-200', 'text-green-700', 'border-green-500', 'bg-red-200', 'text-red-700', 'border-red-500');
+            });
+
+            Array.from(simpleVowelDropZone.children).forEach(item => {
+                totalSimpleDropped++;
+                const vowel = item.textContent;
+                const isActuallySimple = vowelsData.simple.some(sv => sv.kr === vowel);
+                if (isActuallySimple) {
+                    item.classList.add('bg-green-200', 'text-green-700', 'border-green-500');
+                    correctSimple++;
+                } else {
+                    item.classList.add('bg-red-200', 'text-red-700', 'border-red-500');
+                }
+            });
+
+            Array.from(doubleVowelDropZone.children).forEach(item => {
+                totalDoubleDropped++;
+                const vowel = item.textContent;
+                const isActuallyDouble = vowelsData.double.some(dv => dv.kr === vowel);
+                if (isActuallyDouble) {
+                    item.classList.add('bg-green-200', 'text-green-700', 'border-green-500');
+                    correctDouble++;
+                } else {
+                    item.classList.add('bg-red-200', 'text-red-700', 'border-red-500');
+                }
+            });
+            
+            let message = '';
+            if (totalSimpleDropped === 0 && totalDoubleDropped === 0) {
+                message = 'Bạn chưa kéo thả nguyên âm nào. Hãy thử phân loại nhé!';
+                dragDropResult.className = 'mt-6 font-medium text-center text-yellow-600';
+            } else {
+                message = `Nguyên âm đơn: ${correctSimple}/${totalSimpleDropped} đúng. <br> Nguyên âm đôi: ${correctDouble}/${totalDoubleDropped} đúng.`;
+                 if (correctSimple === totalSimpleDropped && correctDouble === totalDoubleDropped && (totalSimpleDropped + totalDoubleDropped) > 0 && (totalSimpleDropped + totalDoubleDropped === vowelsData.allVowelsForDragDrop.length)) {
+                    message += "<br>Tuyệt vời! Bạn đã phân loại đúng tất cả."
+                    dragDropResult.className = 'mt-6 font-medium text-center text-green-600';
+                } else {
+                    dragDropResult.className = 'mt-6 font-medium text-center text-red-600';
+                }
+            }
+            dragDropResult.innerHTML = message;
+        });
+        
+        resetDragDropButton.addEventListener('click', () => {
+            initializeDragDropSection();
+        });
+
+        const navButtons = document.querySelectorAll('nav button');
+        const sections = document.querySelectorAll('main section');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const targetSectionId = button.dataset.section;
+                sections.forEach(section => {
+                    if (section.id === targetSectionId) {
+                        section.classList.remove('hidden');
+                        if (targetSectionId === 'section5') {
+                            initializeDragDropSection();
+                        }
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        if (document.querySelector('.nav-button.active').dataset.section === 'section5') {
+            initializeDragDropSection();
+        }
+    </script>
+</body>
+</html>
