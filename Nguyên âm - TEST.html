@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ôn Tập Nguyên Âm Tiếng Hàn</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="navigation.js"></script>
     <!-- Visualization & Content Choices:
         - Part 1 & 2 (Simple/Double Vowels): Goal: Recognition/Pronunciation. Method: Clickable cards for each vowel displaying pronunciation tip (Romanization removed). Interaction: User clicks to reveal info. Justification: Direct interaction, focused learning. Library: Vanilla JS.
         - Part 3 (Differentiating Pairs): Goal: Comparison/Distinction. Method: Side-by-side display of vowel pairs. Pronunciation difference initially hidden, revealed as "Answer" on click. Interaction: Click to reveal answer. Justification: Encourages active recall and comparison. Library: Vanilla JS.
@@ -96,15 +96,14 @@
         }
         .answer-reveal-button:hover {
             background-color: #93C5FD; /* bg-blue-300 */
-        }
-    </style>
+        }    </style>
+</head>    </style>
 </head>
 <body class="antialiased text-gray-800">
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-5xl">
         <header class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl font-bold section-title">Bài Kiểm Tra/Ôn Tập: Nguyên Âm Tiếng Hàn</h1>
         </header>
-
         <div class="mb-8 p-6 content-container">
             <h2 class="text-2xl font-semibold mb-3 section-title">Mục tiêu & Lưu ý</h2>
             <p class="mb-2"><strong>Mục tiêu:</strong> Ôn tập và kiểm tra khả năng nhận diện, phát âm và phân biệt các nguyên âm đơn và nguyên âm đôi trong tiếng Hàn.</p>
@@ -502,9 +501,7 @@
                     }
                 });
             });
-        });
-        
-        if (document.querySelector('.nav-button.active').dataset.section === 'section5') {
+        });        if (document.querySelector('.nav-button.active').dataset.section === 'section5') {
             initializeDragDropSection();
         }
     </script>
