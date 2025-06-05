@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Free Korean - Học Tiếng Hàn Miễn Phí</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        }
+        .korean-text {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .lesson-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .lesson-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        .hero-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold korean-text">한</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">The Free Korean</h1>
+                        <p class="text-sm text-gray-600">Học tiếng Hàn miễn phí</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#lessons" class="text-gray-700 hover:text-blue-600 transition-colors">Bài học</a>
+                    <a href="#features" class="text-gray-700 hover:text-blue-600 transition-colors">Tính năng</a>
+                    <a href="#about" class="text-gray-700 hover:text-blue-600 transition-colors">Giới thiệu</a>
+                </nav>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <div class="hero-animation">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    Học Tiếng Hàn <span class="korean-text text-yellow-300">한국어</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-blue-100">
+                    Khóa học miễn phí từ cơ bản đến nâng cao
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <a href="#lessons" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-colors inline-flex items-center space-x-2">
+                    <i class="fas fa-play"></i>
+                    <span>Bắt đầu học ngay</span>
+                </a>
+                <a href="#about" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                    Tìm hiểu thêm
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+                <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">6+</div>
+                    <div class="text-blue-100">Bài học tương tác</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">100%</div>
+                    <div class="text-blue-100">Miễn phí</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">💝</div>
+                    <div class="text-blue-100">Học mọi lúc mọi nơi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Tại sao chọn The Free Korean?</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Phương pháp học hiện đại, tương tác và hoàn toàn miễn phí
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Học từ cơ bản</h3>
+                    <p class="text-gray-600">Bắt đầu từ bảng chữ cái Hangeul, nguyên âm, phụ âm với hướng dẫn chi tiết</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gamepad text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Bài tập tương tác</h3>
+                    <p class="text-gray-600">Luyện tập với các trò chơi drag-drop, quiz và bài tập nhận diện âm thanh</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Responsive Design</h3>
+                    <p class="text-gray-600">Học mọi lúc mọi nơi trên điện thoại, tablet hay máy tính</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons Section -->
+    <section id="lessons" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Khóa học của chúng tôi</h2>
+                <p class="text-xl text-gray-600">Từ bảng chữ cái đến phát âm nâng cao</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Nguyên âm -->
+                <div class="lesson-card bg-white rounded-xl p-6 hover:shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-2xl font-bold text-blue-600">ㅏ</span>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Cơ bản</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Nguyên âm tiếng Hàn</h3>
+                    <p class="text-gray-600 mb-4">Học và luyện tập 21 nguyên âm cơ bản và phức hợp</p>
+                    <div class="progress-bar h-2 rounded-full mb-4" style="width: 100%"></div>
+                    <a href="Nguyên âm - TEST.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Bắt đầu học</span>
+                    </a>
+                </div>
+
+                <!-- Phụ âm thường -->
+                <div class="lesson-card bg-white rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-2xl font-bold text-purple-600">ㄱ</span>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Trung bình</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phụ âm thường</h3>
+                    <p class="text-gray-600 mb-4">Nắm vững các phụ âm cơ bản và cách phát âm</p>
+                    <div class="progress-bar h-2 rounded-full mb-4" style="width: 80%"></div>
+                    <a href="Phụ âm thường - LUYỆN TẬP.html" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors inline-flex items-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Luyện tập</span>
+                    </a>
+                </div>
+
+                <!-- Phụ âm bật hơi -->
+                <div class="lesson-card bg-white rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-2xl font-bold text-orange-600">ㅋ</span>
+                        </div>
+                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">Nâng cao</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phụ âm bật hơi</h3>
+                    <p class="text-gray-600 mb-4">Phân biệt và phát âm đúng phụ âm bật hơi</p>
+                    <div class="progress-bar h-2 rounded-full mb-4" style="width: 60%"></div>
+                    <a href="Phụ âm bật hơi - LUYỆN TẬP.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors inline-flex items-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Luyện tập</span>
+                    </a>
+                </div>
+
+                <!-- Phụ âm căng -->
+                <div class="lesson-card bg-white rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-2xl font-bold text-red-600">ㄲ</span>
+                        </div>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Nâng cao</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phụ âm căng</h3>
+                    <p class="text-gray-600 mb-4">Thành thạo phụ âm căng - âm thanh đặc biệt của tiếng Hàn</p>
+                    <div class="progress-bar h-2 rounded-full mb-4" style="width: 40%"></div>
+                    <a href="Phụ âm căng - LUYỆN TẬP.html" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors inline-flex items-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Luyện tập</span>
+                    </a>
+                </div>
+
+                <!-- Phụ âm tổng hợp -->
+                <div class="lesson-card bg-white rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-xl font-bold text-indigo-600">ㄱㅋㄲ</span>
+                        </div>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">Ôn tập</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phụ âm - Luyện tập 1</h3>
+                    <p class="text-gray-600 mb-4">Ôn tập tổng hợp các loại phụ âm đã học</p>
+                    <div class="progress-bar h-2 rounded-full mb-4" style="width: 70%"></div>
+                    <a href="Phụ âm - LUYỆN TẬP 1.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Luyện tập</span>
+                    </a>
+                </div>
+
+                <!-- Phụ âm tổng hợp 2 -->
+                <div class="lesson-card bg-white rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-xl font-bold text-teal-600">전체</span>
+                        </div>
+                        <span class="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded-full">Tổng hợp</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phụ âm - Luyện tập tổng hợp</h3>
+                    <p class="text-gray-600 mb-4">Kiểm tra và củng cố toàn bộ kiến thức phụ âm</p>
+                    <div class="progress-bar h-2 rounded-full mb-4" style="width: 90%"></div>
+                    <a href="Phụ âm - LUYỆN TẬP.html" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors inline-flex items-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Luyện tập</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-8">Về The Free Korean</h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    The Free Korean là nền tảng học tiếng Hàn miễn phí, được thiết kế đặc biệt cho người Việt Nam. 
+                    Chúng tôi cung cấp các bài học tương tác, từ cơ bản đến nâng cao, giúp bạn nắm vững bảng chữ cái 
+                    Hangeul và phát âm tiếng Hàn một cách chính xác.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                    <div class="text-left p-6 bg-gray-50 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-3 flex items-center">
+                            <i class="fas fa-target text-blue-600 mr-2"></i>
+                            Mục tiêu
+                        </h3>
+                        <p class="text-gray-600">
+                            Giúp người Việt học tiếng Hàn một cách dễ dàng, hiệu quả và hoàn toàn miễn phí 
+                            thông qua các phương pháp học tương tác hiện đại.
+                        </p>
+                    </div>
+                    
+                    <div class="text-left p-6 bg-gray-50 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-3 flex items-center">
+                            <i class="fas fa-heart text-red-600 mr-2"></i>
+                            Cam kết
+                        </h3>
+                        <p class="text-gray-600">
+                            Luôn miễn phí, không quảng cáo phiền nhiễu, và liên tục cập nhật nội dung 
+                            chất lượng cao để mang đến trải nghiệm học tập tốt nhất.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold korean-text">한</span>
+                    </div>
+                    <h3 class="text-2xl font-bold">The Free Korean</h3>
+                </div>
+                <p class="text-gray-400 mb-6">Học tiếng Hàn miễn phí - Mọi lúc, mọi nơi</p>
+                
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-facebook text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-youtube text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-400">
+                        © 2025 The Free Korean. Made with ❤️ for Vietnamese learners.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('button');
+        mobileMenuButton.addEventListener('click', function() {
+            // Add mobile menu functionality here if needed
+            console.log('Mobile menu clicked');
+        });
+
+        // Progress bar animation on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-bar');
+                    progressBars.forEach(bar => {
+                        bar.style.transition = 'width 1s ease-in-out';
+                        bar.style.width = bar.style.width;
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.lesson-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
