@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fas fa-book"></i>
                             <span>Tất cả bài học</span>
                         </a>
+                        <a href="index.html#posts" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-1">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Tin tức</span>
+                        </a>
                     </nav>
                     <button class="md:hidden text-gray-700" onclick="toggleMobileMenu()">
                         <i class="fas fa-bars text-xl"></i>
@@ -41,6 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="index.html#lessons" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2">
                             <i class="fas fa-book"></i>
                             <span>Tất cả bài học</span>
+                        </a>
+                        <a href="index.html#posts" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Tin tức</span>
                         </a>
                     </div>
                 </div>
