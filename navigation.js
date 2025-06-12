@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fas fa-book"></i>
                             <span>Tất cả bài học</span>
                         </a>
+                        <a href="anki.html" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-1">
+                            <i class="fas fa-download"></i>
+                            <span>Anki Files</span>
+                        </a>
                         <a href="index.html#posts" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-1">
                             <i class="fas fa-newspaper"></i>
                             <span>Tin tức</span>
@@ -45,6 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="index.html#lessons" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2">
                             <i class="fas fa-book"></i>
                             <span>Tất cả bài học</span>
+                        </a>
+                        <a href="anki.html" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Anki Files</span>
                         </a>
                         <a href="index.html#posts" class="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2">
                             <i class="fas fa-newspaper"></i>
@@ -97,7 +105,8 @@ function addBreadcrumbNavigation() {
         'Phụ âm bật hơi - LUYỆN TẬP.html': 'Luyện tập phụ âm bật hơi',
         'Phụ âm căng - LUYỆN TẬP.html': 'Luyện tập phụ âm căng',
         'Phụ âm - LUYỆN TẬP.html': 'Luyện tập phụ âm',
-        'Phụ âm - LUYỆN TẬP 1.html': 'Luyện tập phụ âm 1'
+        'Phụ âm - LUYỆN TẬP 1.html': 'Luyện tập phụ âm 1',
+        'anki.html': 'Tải Anki Files'
     };
 
     const currentPage = window.location.pathname.split('/').pop();

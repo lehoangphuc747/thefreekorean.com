@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tải Anki Files - The Free Korean</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="navigation.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        }
+        .korean-text {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .download-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .download-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Header Section -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-6">
+                <i class="fas fa-download text-3xl text-white"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Tải Anki Files
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Tải xuống các bộ thẻ Anki để học tiếng Hàn offline. Các file được thiết kế đặc biệt 
+                cho người Việt Nam học tiếng Hàn từ cơ bản đến nâng cao.
+            </p>
+        </div>
+
+        <!-- What is Anki Section -->
+        <div class="bg-white rounded-xl p-8 mb-12 shadow-lg">
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-question-circle text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Anki là gì?</h2>
+                    <p class="text-gray-600 mb-4">
+                        Anki là một ứng dụng flashcard thông minh sử dụng thuật toán lặp lại ngắt quãng (spaced repetition) 
+                        để giúp bạn ghi nhớ từ vựng và kiến thức một cách hiệu quả nhất.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span class="text-gray-700">Học thông minh với thuật toán SRS</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span class="text-gray-700">Đồng bộ trên mọi thiết bị</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span class="text-gray-700">Học offline mọi lúc mọi nơi</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span class="text-gray-700">Theo dõi tiến độ chi tiết</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Bộ Sưu Tập Anki Files</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Korean Alphabet Deck -->
+                <div class="download-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-3xl font-bold text-blue-600">한</span>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-semibold">MỚI</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Bảng Chữ Cái Tiếng Hàn</h3>
+                    <p class="text-gray-600 mb-4">
+                        Học và ghi nhớ toàn bộ 40 chữ cái Hangeul (한글) với phát âm chuẩn. 
+                        Bao gồm cả nguyên âm và phụ âm cơ bản.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Số thẻ:</span>
+                            <span class="font-semibold text-gray-700">40 thẻ</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Cấp độ:</span>
+                            <span class="font-semibold text-gray-700">Cơ bản</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Ngôn ngữ:</span>
+                            <span class="font-semibold text-gray-700">Việt - Hàn</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <a href="https://drive.google.com/file/d/139Id_1DLFiiinkmGcVYhLvk56O51dJbZ/view?usp=drive_link" 
+                           target="_blank" 
+                           class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center justify-center space-x-2 font-semibold">
+                            <i class="fas fa-download"></i>
+                            <span>Tải xuống</span>
+                        </a>
+                        <div class="text-center">
+                            <span class="text-xs text-gray-500">File .apkg • Kích thước: ~2MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon Cards -->
+                <div class="download-card bg-gray-50 rounded-xl p-6 shadow-lg opacity-75">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-3xl font-bold text-gray-500">단어</span>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-semibold">SẮP RA</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-700 mb-3">Từ Vựng Cơ Bản</h3>
+                    <p class="text-gray-500 mb-4">
+                        1000 từ vựng tiếng Hàn cơ bản nhất cho người mới bắt đầu. 
+                        Được sắp xếp theo chủ đề và độ phổ biến.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-400">Số thẻ:</span>
+                            <span class="font-semibold text-gray-500">~1000 thẻ</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-400">Cấp độ:</span>
+                            <span class="font-semibold text-gray-500">Cơ bản</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-400">Ngôn ngữ:</span>
+                            <span class="font-semibold text-gray-500">Việt - Hàn</span>
+                        </div>
+                    </div>
+                    
+                    <button disabled class="w-full bg-gray-300 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed inline-flex items-center justify-center space-x-2 font-semibold">
+                        <i class="fas fa-clock"></i>
+                        <span>Sắp ra mắt</span>
+                    </button>
+                </div>
+
+                <div class="download-card bg-gray-50 rounded-xl p-6 shadow-lg opacity-75">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                            <span class="korean-text text-3xl font-bold text-gray-500">문법</span>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-semibold">SẮP RA</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-700 mb-3">Ngữ Pháp Cơ Bản</h3>
+                    <p class="text-gray-500 mb-4">
+                        Các điểm ngữ pháp cơ bản của tiếng Hàn với ví dụ và cách sử dụng. 
+                        Phù hợp cho level A1-A2.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-400">Số thẻ:</span>
+                            <span class="font-semibold text-gray-500">~200 thẻ</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-400">Cấp độ:</span>
+                            <span class="font-semibold text-gray-500">Trung bình</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-400">Ngôn ngữ:</span>
+                            <span class="font-semibold text-gray-500">Việt - Hàn</span>
+                        </div>
+                    </div>
+                    
+                    <button disabled class="w-full bg-gray-300 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed inline-flex items-center justify-center space-x-2 font-semibold">
+                        <i class="fas fa-clock"></i>
+                        <span>Sắp ra mắt</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Cách Sử Dụng Anki Files</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-blue-600">1</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Tải Anki</h3>
+                    <p class="text-gray-600 text-sm">
+                        Tải ứng dụng Anki miễn phí từ 
+                        <a href="https://apps.ankiweb.net/" target="_blank" class="text-blue-600 hover:underline">AnkiWeb</a>
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-green-600">2</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Tải File</h3>
+                    <p class="text-gray-600 text-sm">
+                        Click vào nút "Tải xuống" để download file .apkg
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-purple-600">3</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Import File</h3>
+                    <p class="text-gray-600 text-sm">
+                        Mở Anki và import file .apkg vào ứng dụng
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-orange-600">4</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Bắt Đầu Học</h3>
+                    <p class="text-gray-600 text-sm">
+                        Học mỗi ngày 15-30 phút để đạt hiệu quả tốt nhất
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">💡 Mẹo Học Hiệu Quả</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-lightbulb text-yellow-500 text-xl mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Học đều đặn mỗi ngày</h3>
+                        <p class="text-gray-600 text-sm">15-30 phút mỗi ngày hiệu quả hơn học tập trung 2-3 tiếng vào cuối tuần.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-volume-up text-blue-500 text-xl mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Nghe phát âm</h3>
+                        <p class="text-gray-600 text-sm">Luôn nghe và lặp lại phát âm để cải thiện kỹ năng nghe và nói.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-sync-alt text-green-500 text-xl mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Đồng bộ thiết bị</h3>
+                        <p class="text-gray-600 text-sm">Tạo tài khoản AnkiWeb để đồng bộ tiến độ học trên mọi thiết bị.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-chart-line text-purple-500 text-xl mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Theo dõi thống kê</h3>
+                        <p class="text-gray-600 text-sm">Xem thống kê học tập để động viên bản thân và điều chỉnh lịch học.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold korean-text">한</span>
+                    </div>
+                    <h3 class="text-2xl font-bold">The Free Korean</h3>
+                </div>
+                <p class="text-gray-400 mb-6">Học tiếng Hàn miễn phí - Mọi lúc, mọi nơi</p>
+                
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-400">
+                        © 2025 The Free Korean. Made with ❤️ for Vietnamese learners.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
