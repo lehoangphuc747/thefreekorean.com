@@ -1,3 +1,7 @@
+---
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+---
 <!doctype html>
 <html lang="en">
 	<head>
@@ -8,7 +12,9 @@
 		<title>Astro Basics</title>
 	</head>
 	<body>
+		<NavBar />
 		<slot />
+		<Footer />
 	</body>
 </html>
 
