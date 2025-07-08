@@ -1,7 +1,512 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import DocumentsList from '../components/DocumentsList.jsx';
+
+// Import tất cả file MDX từ documents
+const documentFiles = await Astro.glob('../documents/*.mdx');
+
+// Chuyển đổi dữ liệu để dễ sử dụng
+const documents = documentFiles.map(file => ({
+  slug: file.file.split('/').pop()?.replace('.mdx', ''),
+  title: file.frontmatter.title,
+  date: file.frontmatter.date,
+  category: file.frontmatter.category,
+  subcategory: file.frontmatter.subcategory,
+  type: file.frontmatter.type,
+  description: file.frontmatter.description,
+  cover: file.frontmatter.cover,
+  downloadUrl: file.frontmatter.downloadUrl,
+  fileSize: file.frontmatter.fileSize,
+  pages: file.frontmatter.pages,
+  duration: file.frontmatter.duration,
+  url: file.frontmatter.url,
+  features: file.frontmatter.features,
+  content: file.Content
+}));
+
+// Lấy danh sách categories và subcategories duy nhất
+const categories = [...new Set(documents.map(doc => doc.category))];
+const subcategoriesByCategory = categories.reduce((acc, category) => {
+  acc[category] = [...new Set(documents.filter(doc => doc.category === category).map(doc => doc.subcategory))];
+  return acc;
+}, {});
 ---
+
 <Layout>
-  <DocumentsList client:load />
-</Layout> 
+  <div class="documents-page">
+    <div class="container">
+      <!-- Header -->
+      <header class="page-header">
+        <h1>📚 Tài liệu học tiếng Hàn</h1>
+        <p>Bộ sưu tập tài liệu học tiếng Hàn miễn phí, chất lượng cao</p>
+      </header>
+
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div class="filter-buttons" id="filter-buttons">
+          <button class="filter-btn active" data-category="">Tất cả ({documents.length})</button>
+          {categories.map(category => {
+            const count = documents.filter(doc => doc.category === category).length;
+            return (
+              <button class="filter-btn" data-category={category}>
+                {category} ({count})
+              </button>
+            );
+          })}
+        </div>
+        
+        <div class="subcategory-filters" id="subcategory-filters">
+          {Object.entries(subcategoriesByCategory).map(([category, subcategories]) => (
+            <div class="subcategory-group" data-parent-category={category} style="display: none;">
+              {subcategories.map(subcategory => {
+                const count = documents.filter(doc => doc.category === category && doc.subcategory === subcategory).length;
+                return (
+                  <button class="subcategory-btn" data-category={category} data-subcategory={subcategory}>
+                    {subcategory} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Documents Grid -->
+      <div class="documents-grid" id="documents-grid">
+        {documents.map(doc => (
+          <div class="document-card" 
+               data-category={doc.category} 
+               data-subcategory={doc.subcategory}>
+            
+            {/* Cover Image */}
+            <div class="document-cover">
+              {doc.cover ? (
+                <img src={doc.cover} alt={doc.title} />
+              ) : (
+                <div class="placeholder-cover">
+                  <span class="thefreekorean-diagonal">The Free Korean</span>
+                  <span class="document-type">{doc.type}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Content */}
+            <div class="document-content">
+              <h3 class="document-title">{doc.title}</h3>
+              <p class="document-description">{doc.description}</p>
+              
+              <div class="document-meta">
+                <div class="meta-row">
+                  <span class="category">{doc.category}</span>
+                  <span class="subcategory">{doc.subcategory}</span>
+                </div>
+                <div class="meta-row">
+                  <span class="type">{doc.type}</span>
+                  {doc.fileSize && <span class="size">{doc.fileSize}</span>}
+                  {doc.pages && <span class="pages">{doc.pages} trang</span>}
+                  {doc.duration && <span class="duration">{doc.duration}</span>}
+                </div>
+                {doc.features && (
+                  <div class="features">
+                    {doc.features.map(feature => (
+                      <span class="feature-tag">{feature}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div class="document-actions">
+                <a href={`/documents/${doc.slug}`} class="btn-primary">Xem chi tiết</a>
+                {doc.downloadUrl && (
+                  <a href={doc.downloadUrl} class="btn-secondary">Tải về</a>
+                )}
+                {doc.url && (
+                  <a href={doc.url} target="_blank" class="btn-secondary">Truy cập</a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Empty State */}
+      <div class="empty-state" id="empty-state" style="display: none;">
+        <p>Không tìm thấy tài liệu nào trong danh mục này.</p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .documents-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 2rem 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    color: #3245ff;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    font-size: 1.2rem;
+    color: #64748b;
+  }
+
+  .filter-section {
+    margin-bottom: 2rem;
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #3245ff;
+    background: white;
+    color: #3245ff;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: #3245ff;
+    color: white;
+  }
+
+  .subcategory-filters {
+    display: flex;
+    justify-content: center;
+  }
+
+  .subcategory-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .subcategory-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #bc52ee;
+    background: white;
+    color: #bc52ee;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .subcategory-btn:hover,
+  .subcategory-btn.active {
+    background: #bc52ee;
+    color: white;
+  }
+
+  .documents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .document-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .document-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .document-cover {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .document-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .placeholder-cover {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3245ff, #bc52ee);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+  }
+  .thefreekorean-diagonal {
+    font-size: 2.1rem;
+    font-family: 'Segoe Script', 'Comic Sans MS', cursive, sans-serif;
+    color: #fff;
+    opacity: 0.85;
+    font-style: italic;
+    font-weight: 700;
+    transform: rotate(-18deg) skew(-10deg, -5deg);
+    letter-spacing: 0.08em;
+    text-shadow: 2px 4px 16px #0005, 0 1px 0 #bc52ee;
+    margin-bottom: 0.5rem;
+    pointer-events: none;
+    user-select: none;
+    white-space: pre;
+  }
+  .placeholder-cover .document-type {
+    font-size: 0.95rem;
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.2rem 0.7rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    box-shadow: 0 2px 8px #0002;
+  }
+
+  .document-content {
+    padding: 1.5rem;
+  }
+
+  .document-title {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .document-description {
+    color: #64748b;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .document-meta {
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .category {
+    background: #e0d7ff;
+    color: #3245ff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .subcategory {
+    background: #fce7f3;
+    color: #bc52ee;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .type, .size, .pages, .duration {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+
+  .features {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .feature-tag {
+    background: #ecfdf5;
+    color: #059669;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  .document-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: 0.75rem;
+    background: #3245ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+  }
+
+  .btn-secondary {
+    padding: 0.75rem 1rem;
+    background: white;
+    color: #3245ff;
+    border: 2px solid #3245ff;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: #3245ff;
+    color: white;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #64748b;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 768px) {
+    .documents-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .filter-buttons,
+    .subcategory-group {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  // Filter functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const subcategoryButtons = document.querySelectorAll('.subcategory-btn');
+    const documentCards = document.querySelectorAll('.document-card');
+    const subcategoryGroups = document.querySelectorAll('.subcategory-group');
+    const emptyState = document.getElementById('empty-state');
+
+    let currentCategory = '';
+    let currentSubcategory = '';
+
+    function filterDocuments() {
+      let visibleCount = 0;
+
+      documentCards.forEach(card => {
+        const cardCategory = card.dataset.category;
+        const cardSubcategory = card.dataset.subcategory;
+        
+        let show = true;
+        
+        if (currentCategory && cardCategory !== currentCategory) {
+          show = false;
+        }
+        
+        if (currentSubcategory && cardSubcategory !== currentSubcategory) {
+          show = false;
+        }
+
+        if (show) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    // Filter by category
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Update active state
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        // Set current category
+        currentCategory = this.dataset.category || '';
+        currentSubcategory = '';
+
+        // Show/hide subcategory buttons
+        subcategoryGroups.forEach(group => {
+          if (currentCategory === '' || group.dataset.parentCategory === currentCategory) {
+            group.style.display = currentCategory ? 'flex' : 'none';
+          } else {
+            group.style.display = 'none';
+          }
+        });
+
+        // Remove active state from subcategory buttons
+        subcategoryButtons.forEach(btn => btn.classList.remove('active'));
+
+        filterDocuments();
+      });
+    });
+
+    // Filter by subcategory
+    subcategoryButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Update active state
+        subcategoryButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        // Set current subcategory
+        currentSubcategory = this.dataset.subcategory || '';
+
+        filterDocuments();
+      });
+    });
+  });
+</script>
