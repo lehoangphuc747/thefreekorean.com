@@ -1,0 +1,133 @@
+---
+---
+
+<button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 4L6 10H10V20H14V10H18L12 4Z" fill="currentColor"/>
+  </svg>
+</button>
+
+<style>
+  .scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3245ff 0%, #bc52ee 100%);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(50, 69, 255, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .scroll-to-top:hover {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(50, 69, 255, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #a855f7 100%);
+  }
+
+  .scroll-to-top:active {
+    transform: translateY(-2px) scale(1.05);
+  }
+
+  .scroll-to-top svg {
+    transition: transform 0.2s ease;
+  }
+
+  .scroll-to-top:hover svg {
+    transform: translateY(-2px);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .scroll-to-top {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+
+    .scroll-to-top svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-to-top {
+      transition: opacity 0.3s ease;
+    }
+    
+    .scroll-to-top:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+    let isVisible = false;
+
+    // Show/hide button based on scroll position
+    function toggleButtonVisibility() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const shouldShow = scrollTop > 300; // Show after scrolling 300px
+
+      if (shouldShow && !isVisible) {
+        scrollToTopButton.classList.add('visible');
+        isVisible = true;
+      } else if (!shouldShow && isVisible) {
+        scrollToTopButton.classList.remove('visible');
+        isVisible = false;
+      }
+    }
+
+    // Smooth scroll to top
+    function scrollToTop() {
+      const startPosition = window.pageYOffset;
+      const startTime = performance.now();
+      const duration = 600; // 600ms animation
+
+      function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        
+        window.scrollTo(0, startPosition * (1 - easeOutCubic));
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      }
+
+      requestAnimationFrame(animateScroll);
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', toggleButtonVisibility, { passive: true });
+    scrollToTopButton.addEventListener('click', scrollToTop);
+
+    // Initial check
+    toggleButtonVisibility();
+  });
+</script>
