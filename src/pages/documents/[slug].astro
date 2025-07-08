@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import DownloadSection from '../../components/DownloadSection.astro';
 
 export async function getStaticPaths() {
   const documentFiles = await Astro.glob('../../documents/*.mdx');
@@ -86,19 +87,14 @@ const frontmatter = document.frontmatter;
             )}
 
             <div class="action-buttons">
-              {frontmatter.downloadUrl && (
-                <a href={frontmatter.downloadUrl} class="btn-download">
-                  📥 Tải về
-                </a>
-              )}
-              {frontmatter.url && (
-                <a href={frontmatter.url} target="_blank" class="btn-visit">
-                  🌐 Truy cập website
-                </a>
-              )}
               <a href="/tai-lieu" class="btn-back">
                 ← Quay lại danh sách
               </a>
+              {(frontmatter.downloadUrl || frontmatter.downloadOriginal || frontmatter.downloadWorkbook || frontmatter.downloadAudio) && (
+                <a href="#download-section" class="btn-download">
+                  📥 File tải về
+                </a>
+              )}
             </div>
           </div>
 
@@ -114,6 +110,9 @@ const frontmatter = document.frontmatter;
       <main class="document-content">
         <Content />
       </main>
+
+      <!-- Download Section -->
+      <DownloadSection frontmatter={frontmatter} />
 
       <!-- Related Documents -->
       <section class="related-documents">
@@ -467,3 +466,20 @@ const frontmatter = document.frontmatter;
     }
   }
 </style>
+
+<script>
+  // Smooth scroll to download section if URL has fragment
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash === '#download-section') {
+      setTimeout(() => {
+        const downloadSection = document.getElementById('download-section');
+        if (downloadSection) {
+          downloadSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 100);
+    }
+  });
+</script>

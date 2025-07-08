@@ -117,7 +117,7 @@ const subcategoriesByCategory = categories.reduce((acc, category) => {
               <div class="document-actions">
                 <a href={`/documents/${doc.slug}`} class="btn-primary">Xem chi tiết</a>
                 {doc.downloadUrl && (
-                  <a href={doc.downloadUrl} class="btn-secondary">Tải về</a>
+                  <a href={`/documents/${doc.slug}#download-section`} class="btn-secondary">📥 Tải về</a>
                 )}
                 {doc.url && (
                   <a href={doc.url} target="_blank" class="btn-secondary">Truy cập</a>
