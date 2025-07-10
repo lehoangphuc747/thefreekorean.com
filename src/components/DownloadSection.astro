@@ -99,6 +99,20 @@ const { frontmatter } = Astro.props;
     </div>
   )}
   
+  {frontmatter.type === 'Anki Deck' && frontmatter.downloadUrl && (
+    <div class="download-grid">
+      <a href={frontmatter.downloadUrl} target="_blank" class="download-card primary">
+        <div class="download-icon">🎴</div>
+        <div class="download-info">
+          <h3>Tải Anki Deck</h3>
+          <p>File .apkg cho Anki</p>
+          {frontmatter.fileSize && <span class="file-size">{frontmatter.fileSize}</span>}
+        </div>
+        <div class="download-indicator">⬇️</div>
+      </a>
+    </div>
+  )}
+  
   <div class="download-note">
     <p>💡 <strong>Khuyến nghị:</strong> Tải file nén để tiết kiệm dung lượng, chất lượng vẫn đảm bảo cho việc học tập.</p>
     <p>🔗 Tất cả file được lưu trữ trên OneDrive, an toàn và tốc độ cao.</p>

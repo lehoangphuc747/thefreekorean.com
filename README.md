@@ -39,6 +39,11 @@ Truy cập `http://localhost:4321` để xem website.
 │   │   │   ├── DocumentCard.astro  # Card hiển thị từng tài liệu
 │   │   │   ├── DocumentGrid.astro  # Grid layout responsive
 │   │   │   └── FilterSection.astro # Bộ lọc category/subcategory
+│   │   ├── home/                  # Components for homepage
+│   │   │   ├── HeroSection.astro
+│   │   │   ├── FeaturesGrid.astro
+│   │   │   ├── StatsSection.astro
+│   │   │   └── ...
 │   │   ├── ui/                     # UI components cơ bản
 │   │   │   ├── Badge.astro         # Badge component
 │   │   │   └── Button.astro        # Button component
@@ -65,15 +70,13 @@ Truy cập `http://localhost:4321` để xem website.
 │   │   ├── documents/
 │   │   │   └── [slug].astro        # Dynamic routing cho từng tài liệu
 │   │   ├── index.astro             # Trang chủ
-│   │   └── tai-lieu.astro          # Trang danh sách tài liệu (REBUILT)
+│   │   └── tai-lieu.astro          # Trang danh sách tài liệu
 │   └── styles/
-│       └── global.css              # Global CSS + component styles
-├── .vscode/
-│   └── tasks.json                  # VS Code tasks
-├── astro.config.mjs                # Astro configuration
-├── package.json
-├── tsconfig.json                   # TypeScript configuration
-└── tailwind.config.mjs             # Tailwind CSS configuration
+│       ├── global.css
+│       └── navbar.css             # Dedicated NavBar styles
+├── astro.config.mjs
+├── tailwind.config.mjs
+└── package.json
 ```
 
 ## 🎯 Tính năng chính
@@ -374,23 +377,105 @@ PRIVATE_API_KEY=your-secret-key
 ### Code Style
 - Use TypeScript for type safety
 - Follow Astro component conventions
-- Consistent naming (camelCase, PascalCase)
+- Consistent naming conventions:
+  - Components: PascalCase (e.g., `DocumentCard.astro`)
+  - File names: kebab-case (e.g., `global.css`)
+  - Document files: Follow the pattern `[type]-[series]-[level]-[lesson].mdx` (e.g., `anki-tieng-han-tong-hop-1-bai-1.mdx`)
+  - Variables: camelCase (e.g., `documentsList`)
 - Comment complex logic
-- Keep components focused và reusable
+- Keep components focused and reusable
+
+### Document File Naming Convention
+
+For all document files in the `/src/documents/` directory, use the following naming pattern:
+
+```
+[type]-[series]-[level]-[lesson].mdx
+```
+
+Examples:
+- `anki-tieng-han-tong-hop-1-bai-1.mdx` - Anki deck for Tiếng Hàn Tổng Hợp 1, Bài 1
+- `pdf-tieng-han-tong-hop-1-bai-2.mdx` - PDF document for Tiếng Hàn Tổng Hợp 1, Bài 2
+- `video-hangul-lesson-1.mdx` - Video lesson about Hangul, Lesson 1
+
+This convention ensures consistency and makes it easier to identify content types at a glance.
+
+### Recent Modernization Changes
+
+The website has undergone significant modernization in July 2025:
+
+1. **Updated UI Components**
+   - Modern, responsive NavBar with dropdowns and mobile menu
+   - Improved document cards with type-specific displays (e.g., card count for Anki decks)
+   - Enhanced filtering and categorization system
+
+2. **Better Code Organization**
+   - Componentized architecture (UI components, document-specific components, etc.)
+   - Styles organized in dedicated CSS files (global.css, navbar.css)
+   - Standardized file naming conventions
+
+3. **Content Updates**
+   - Added Anki deck resources for Tiếng Hàn Tổng Hợp 1 (Bài 1-3)
+   - Properly categorized content types
+
+4. **Performance Improvements**
+   - Fixed layout issues for better responsiveness
+   - Optimized component rendering
+
+## 📋 CHANGELOG
+
+### Phiên bản 1.1.0 (10 tháng 7, 2025)
+
+#### Đã thêm
+
+- Thanh điều hướng hiện đại, tương tác với menu thả xuống và hỗ trợ di động
+- Tài liệu Anki deck mới cho Tiếng Hàn Tổng Hợp 1 (Bài 1-12) - đầy đủ 12 bài
+- File navbar.css bên ngoài để tổ chức style tốt hơn
+- Tài liệu hóa quy tắc đặt tên file tài liệu
+- Logic sắp xếp số học (numeric sorting) cho phần "File Anki liên quan"
+- Hệ thống liên kết tự động giữa giáo trình và Anki decks qua field `relatedTo`
+
+#### Đã thay đổi
+- Cập nhật thẻ tài liệu để hiển thị số lượng thẻ cho loại Anki deck
+- Di chuyển style của NavBar sang file CSS riêng để dễ bảo trì
+- Sửa padding của body để phù hợp với thanh điều hướng cố định
+- Chuẩn hóa cấu trúc đặt tên file cho tất cả tài liệu
+- Cải thiện tài liệu README với thông tin chi tiết về logic "File Anki liên quan"
+- Tối ưu hóa nội dung SEO cho trang Tiếng Hàn Tổng Hợp 1
+
+#### Đã sửa
+
+- Sửa lỗi cú pháp Tailwind CSS trong component NavBar
+- Sửa lỗi padding trùng lặp trong Layout.astro
+- Sửa hiển thị loại tài liệu cho Anki decks
+- Sửa lỗi sắp xếp thứ tự bài học (1, 2, 3... thay vì 1, 10, 11, 12, 2, 3...)
+
+#### Hệ thống File Anki liên quan
+
+**Logic hoạt động:**
+- Tự động tìm các Anki deck có `relatedTo` trùng với slug của trang hiện tại
+- Sắp xếp theo thứ tự số bài học (numeric sorting) thay vì string sorting
+- Hiển thị dạng grid với thông tin chi tiết: title, description, fileSize, số cards
+- Động (dynamic) - hoạt động với mọi giáo trình, không hardcode
+
+**Cấu trúc frontmatter cần thiết:**
+```yaml
+# File Anki deck
+type: "Anki Deck"
+relatedTo: "slug-cua-giao-trinh"  # VD: "tieng-han-tong-hop-1"
+title: "Anki - Tên giáo trình - Bài X"
+fileSize: "X.XMB"
+cards: 100
+```
+
+**Ví dụ thực tế:**
+- Trang `/documents/tieng-han-tong-hop-1` → hiển thị 12 Anki decks (bài 1-12)
+- Trang `/documents/seoul-korean-1a` → hiển thị Anki decks của Seoul Korean (nếu có)
+- Hệ thống scalable, dễ mở rộng cho các giáo trình khác
 
 ---
 
 **Built with ❤️ using Astro, Tailwind CSS, and TypeScript**
-│   │   │   └── [slug].astro         # Dynamic routing cho tài liệu
-│   │   ├── index.astro              # Trang chủ
-│   │   └── tai-lieu.astro           # Trang danh sách tài liệu
-│   └── styles/
-│       └── global.css               # CSS global
-├── astro.config.mjs
-├── package.json
-├── tsconfig.json
-└── README.md
-```
 
 ## 📝 Hướng dẫn thêm tài liệu mới
 
@@ -504,21 +589,57 @@ downloadUrl: "https://youtube.com/watch?v=..."  # Hiển thị với icon 📹
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Here's the current structure of the project:
 
 ```text
 /
 ├── public/
 │   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── src/
+│   ├── assets/
+│   │   ├── astro.svg
+│   │   └── background.svg
+│   ├── components/
+│   │   ├── document/              # Components for document pages
+│   │   │   ├── DocumentCard.astro
+│   │   │   ├── DocumentGrid.astro
+│   │   │   └── FilterSection.astro
+│   │   ├── home/                  # Components for homepage
+│   │   │   ├── HeroSection.astro
+│   │   │   ├── FeaturesGrid.astro
+│   │   │   ├── StatsSection.astro
+│   │   │   └── ...
+│   │   ├── ui/                    # Reusable UI components
+│   │   │   ├── Badge.astro
+│   │   │   └── Button.astro
+│   │   ├── Footer.astro
+│   │   ├── NavBar.astro
+│   │   └── ...
+│   ├── documents/                 # MDX document files
+│   │   ├── anki-tieng-han-tong-hop-1-bai-1.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-2.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-3.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-4.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-5.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-6.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-7.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-8.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-9.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-10.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-11.mdx
+│   │   ├── anki-tieng-han-tong-hop-1-bai-12.mdx
+│   │   ├── tieng-han-tong-hop-1.mdx
+│   │   └── ...
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── pages/
+│   │   ├── index.astro            # Homepage
+│   │   └── tai-lieu.astro         # Documents listing page
+│   └── styles/
+│       ├── global.css
+│       └── navbar.css             # Dedicated NavBar styles
+├── astro.config.mjs
+├── tailwind.config.mjs
 └── package.json
 ```
 

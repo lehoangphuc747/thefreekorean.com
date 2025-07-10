@@ -1,13 +1,168 @@
 ---
+// Define the current path to highlight active links
+const { pathname } = Astro.url;
+
+// Import the styles from the external file
+import '../styles/navbar.css';
 ---
-<nav style="width:100%;background:#3245ff;color:white;padding:1rem 0;box-shadow:0 2px 8px #0001;">
-  <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
-    <span style="font-weight: bold; font-size: 1.2rem; letter-spacing: 1px;">The Free Korean</span>
-    <ul style="display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0;">
-      <li><a href="/" style="color: white; text-decoration: none;">Home</a></li>
-      <li><a href="/tai-lieu" style="color: white; text-decoration: none;">Tài liệu</a></li>
-      <li><a href="#" style="color: white; text-decoration: none;">Ôn tập</a></li>
-      <li><a href="#" style="color: white; text-decoration: none;">TOPIK</a></li>
-    </ul>
+
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="navbar-logo">
+      <span class="logo-icon">한</span>
+      <span class="logo-text">The Free Korean</span>
+    </a>
+    
+    <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </button>
+    
+    <div class="navbar-menu-wrapper" id="navbar-menu-wrapper">
+      <ul class="navbar-menu" id="navbar-menu">
+        <li>
+          <a href="/" class={pathname === '/' ? 'navbar-link active' : 'navbar-link'}>
+            <span class="icon">🏠</span>
+            <span>Home</span>
+          </a>
+        </li>
+        <li class="dropdown-container">
+          <a href="/tai-lieu" class={pathname.includes('/tai-lieu') ? 'navbar-link dropdown-toggle active' : 'navbar-link dropdown-toggle'}>
+            <span class="icon">📚</span>
+            <span>Tài liệu</span>
+            <span class="dropdown-arrow">▼</span>
+          </a>
+          <div class="dropdown-menu">
+            <a href="/tai-lieu?category=Giáo%20trình" class="dropdown-item">Giáo trình</a>
+            <a href="/tai-lieu?category=Từ%20vựng" class="dropdown-item">Từ vựng</a>
+            <a href="/tai-lieu?category=Ngữ%20pháp" class="dropdown-item">Ngữ pháp</a>
+            <a href="/tai-lieu?category=Anki" class="dropdown-item">Anki Decks</a>
+          </div>
+        </li>
+        <li class="dropdown-container">
+          <a href="#" class="navbar-link dropdown-toggle">
+            <span class="icon">✏️</span>
+            <span>Ôn tập</span>
+            <span class="dropdown-arrow">▼</span>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item">Bài tập ngữ pháp</a>
+            <a href="#" class="dropdown-item">Bài tập từ vựng</a>
+            <a href="#" class="dropdown-item">Luyện nghe</a>
+          </div>
+        </li>
+        <li>
+          <a href="#" class="navbar-link">
+            <span class="icon">🏆</span>
+            <span>TOPIK</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="contact-link">
+            <span class="icon">💬</span>
+            <span>Liên hệ</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
-</nav> 
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navbarMenuWrapper = document.getElementById('navbar-menu-wrapper');
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    const dropdownContainers = document.querySelectorAll('.dropdown-container');
+    
+    // Mobile menu toggle
+    if (mobileMenuToggle && navbarMenuWrapper) {
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileMenuToggle.classList.toggle('open');
+        navbarMenuWrapper.classList.toggle('open');
+        document.body.classList.toggle('menu-open');
+      });
+    }
+    
+    // Handle dropdowns on desktop
+    dropdownContainers.forEach(container => {
+      // Desktop hover behavior
+      if (window.innerWidth > 768) {
+        container.addEventListener('mouseenter', () => {
+          container.classList.add('show-dropdown');
+        });
+        container.addEventListener('mouseleave', () => {
+          container.classList.remove('show-dropdown');
+        });
+      }
+      
+      // Mobile click behavior
+      const toggle = container.querySelector('.dropdown-toggle');
+      toggle?.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          container.classList.toggle('show-dropdown');
+          
+          // Close other open dropdowns
+          dropdownContainers.forEach(otherContainer => {
+            if (otherContainer !== container && otherContainer.classList.contains('show-dropdown')) {
+              otherContainer.classList.remove('show-dropdown');
+            }
+          });
+        }
+      });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as Element;
+      
+      // Close mobile menu when clicking outside
+      if (navbarMenuWrapper?.classList.contains('open') && 
+          !navbarMenuWrapper.contains(target) && 
+          !mobileMenuToggle?.contains(target)) {
+        navbarMenuWrapper.classList.remove('open');
+        mobileMenuToggle?.classList.remove('open');
+        document.body.classList.remove('menu-open');
+      }
+      
+      // Close dropdowns when clicking outside on mobile
+      if (window.innerWidth <= 768) {
+        const isClickOnDropdown = Array.from(dropdownContainers).some(container => 
+          container.contains(target) && target.closest('.dropdown-toggle')
+        );
+        
+        if (!isClickOnDropdown) {
+          dropdownContainers.forEach(container => {
+            container.classList.remove('show-dropdown');
+          });
+        }
+      }
+    });
+    
+    // Add scroll effect
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > 100) {
+        navbar?.classList.add('scrolled');
+      } else {
+        navbar?.classList.remove('scrolled');
+      }
+      
+      if (scrollTop > lastScrollTop && scrollTop > 200) {
+        navbar?.classList.add('nav-hidden');
+      } else {
+        navbar?.classList.remove('nav-hidden');
+      }
+      
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+  });
+</script>

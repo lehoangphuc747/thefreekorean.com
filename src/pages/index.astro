@@ -1,11 +1,94 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import IntroSection from '../components/IntroSection.astro';
-import FeaturesSection from '../components/FeaturesSection.astro';
-import RoadmapSection from '../components/RoadmapSection.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import FeaturesGrid from '../components/home/FeaturesGrid.astro';
+import StatsSection from '../components/home/StatsSection.astro';
+import DocumentsPreview from '../components/home/DocumentsPreview.astro';
+import TestimonialsSection from '../components/home/TestimonialsSection.astro';
+import CTASection from '../components/home/CTASection.astro';
+import InteractiveDemo from '../components/home/InteractiveDemo.jsx';
+
+// Get documents for preview
+const documentFiles = await Astro.glob('../documents/*.mdx');
+const recentDocuments = documentFiles
+  .filter(file => file.frontmatter?.title)
+  .map(file => ({
+    slug: file.file.split('/').pop()?.replace('.mdx', '') || '',
+    title: file.frontmatter.title || '',
+    category: file.frontmatter.category || '',
+    type: file.frontmatter.type || '',
+    cover: file.frontmatter.cover,
+    description: file.frontmatter.description || '',
+    date: file.frontmatter.date || new Date().toISOString()
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 6);
+
+const stats = {
+  documents: documentFiles.length,
+  categories: [...new Set(documentFiles.map(f => f.frontmatter?.category).filter(Boolean))].length,
+  downloads: "10,000+",
+  users: "5,000+"
+};
 ---
+
 <Layout>
-  <IntroSection />
-  <FeaturesSection />
-  <RoadmapSection />
+  <!-- Hero Section với background động -->
+  <HeroSection />
+  
+  <!-- Interactive Demo - Astro Island -->
+  <section class="py-16 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Trải nghiệm học tiếng Hàn tương tác
+        </h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Khám phá các tính năng thông minh giúp bạn học tiếng Hàn hiệu quả hơn
+        </p>
+      </div>
+      <!-- Astro Island: Interactive component -->
+      <InteractiveDemo client:load />
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <StatsSection stats={stats} />
+  
+  <!-- Features Grid -->
+  <FeaturesGrid />
+  
+  <!-- Documents Preview -->
+  <DocumentsPreview documents={recentDocuments} />
+  
+  <!-- Testimonials -->
+  <TestimonialsSection />
+  
+  <!-- Call to Action -->
+  <CTASection />
 </Layout>
+
+<style>
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
