@@ -1,0 +1,67 @@
+---
+import DocumentCard from './DocumentCard.astro';
+
+export interface Props {
+  documents: Array<{
+    slug: string;
+    title: string;
+    description: string;
+    category: string;
+    subcategory: string;
+    type: string;
+    cover?: string;
+    fileSize?: string;
+    pages?: number;
+    duration?: string;
+    downloadUrl?: string;
+    downloadOriginal?: string;
+    downloadWorkbook?: string;
+    downloadAudio?: string;
+  }>;
+  class?: string;
+}
+
+const { documents, class: className = '' } = Astro.props;
+---
+
+<div class={`documents-grid ${className}`} id="documents-grid">
+  <!-- Documents Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    {documents.map(doc => (
+      <DocumentCard document={doc} />
+    ))}
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state text-center py-12" id="empty-state" style="display: none;">
+    <div class="max-w-md mx-auto">
+      <div class="text-6xl mb-4">📚</div>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Không tìm thấy tài liệu</h3>
+      <p class="text-gray-600">Không có tài liệu nào phù hợp với bộ lọc hiện tại. Hãy thử chọn danh mục khác.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Card click handler
+  document.addEventListener('DOMContentLoaded', function() {
+    const documentCards = document.querySelectorAll('.document-card-wrapper') as NodeListOf<HTMLElement>;
+    
+    documentCards.forEach(card => {
+      card.addEventListener('click', function(this: HTMLElement, event: Event) {
+        // Prevent navigation if clicking on a button or link
+        const target = event.target as HTMLElement;
+        if (target?.tagName === 'A' || target?.closest('a') || 
+            target?.tagName === 'BUTTON' || target?.closest('button')) {
+          return;
+        }
+        
+        const slug = this.getAttribute('data-slug');
+        if (slug) {
+          // Redirect to document page
+          window.location.href = `/documents/${slug}`;
+        }
+      });
+    });
+  });
+</script>
