@@ -65,12 +65,12 @@ Truy cập `http://localhost:4321` để xem website.
 │   │   ├── tieng-han-tong-hop-1.mdx
 │   │   └── topik-vocabulary.mdx
 │   ├── layouts/
-│   │   └── Layout.astro            # Layout chung cho toàn site
-│   ├── pages/                      # File-based routing
-│   │   ├── documents/
-│   │   │   └── [slug].astro        # Dynamic routing cho từng tài liệu
-│   │   ├── index.astro             # Trang chủ
-│   │   └── tai-lieu.astro          # Trang danh sách tài liệu
+│   │   └── Layout.astro            # Layout chung cho toàn site   │   ├── pages/                      # File-based routing
+   │   │   ├── documents/
+   │   │   │   └── [slug].astro        # Dynamic routing cho từng tài liệu
+   │   │   ├── index.astro             # Trang chủ
+   │   │   ├── tai-lieu.astro          # Trang danh sách tài liệu
+   │   │   └── lo-trinh.astro          # Trang lộ trình học
 │   └── styles/
 │       ├── global.css
 │       └── navbar.css             # Dedicated NavBar styles
@@ -80,6 +80,67 @@ Truy cập `http://localhost:4321` để xem website.
 ```
 
 ## 🎯 Tính năng chính
+
+### 🛣️ Trang `/lo-trinh` (Rebuilt - Dynamic Roadmap System)
+
+**Hệ thống lộ trình học đa dạng, có thể mở rộng:**
+
+1. **RoadmapContainer.tsx**
+   - Container chính quản lý state của toàn bộ roadmap
+   - Nhận props `roadmaps` từ data layer
+   - Render tabs và roadmap list based on selected category
+
+2. **RoadmapCategoryTabs.tsx**
+   - Tab switcher cho các loại lộ trình (Cốt lõi, Du lịch, TOPIK, v.v.)
+   - Responsive design với scroll horizontal trên mobile
+   - Active state management
+
+3. **RoadmapList.tsx**
+   - Hiển thị danh sách các bước trong một roadmap
+   - Timeline layout với đường kẻ nối
+   - Animated hover effects
+
+4. **RoadmapCard.tsx**
+   - Card component cho từng bước học
+   - Status badges (Available, Coming Soon, Completed)
+   - Level indicators với color coding
+   - Resource links với icon types
+   - Duration và difficulty indicators
+
+5. **Data Architecture**
+   - `src/types/roadmap.ts`: Type definitions cho roadmap system
+   - `src/data/roadmaps.ts`: Centralized data source
+   - Expandable structure cho multiple roadmap types
+
+**Supported Roadmap Types:**
+- **Cốt lõi**: Lộ trình học chính từ cơ bản → nâng cao
+- **Du lịch**: Tiếng Hàn thực tế cho người đi du lịch
+- **TOPIK**: Chuẩn bị thi TOPIK I & II
+- **Giao tiếp**: Tập trung vào hội thoại hàng ngày
+- **Nhà hàng**: Tiếng Hàn chuyên ngành F&B
+
+**UX Improvements (v2.0):**
+- **Minimalist Design**: Áp dụng nguyên tắc "Less is More"
+- **Simplified Navigation**: Giảm cognitive load cho người dùng
+- **Visual Hierarchy**: Cải thiện khả năng đọc và hiểu nội dung
+- **Interactive Elements**: FAQ accordion, smooth scroll, hover effects
+- **Mobile-First**: Responsive design tối ưu cho mọi thiết bị
+- **Performance**: Giảm complexity, tăng tốc độ load trang
+
+**New Features (v2.1):**
+- **Interactive Roadmap Selector**: Component chọn lộ trình trực quan với filtering
+- **Resource Popup System**: Popup hiển thị tài liệu thay vì inline links
+- **Enhanced Personalization**: Gợi ý lộ trình dựa trên mục tiêu người dùng
+- **EPS Roadmap**: Lộ trình chuyên biệt cho xuất khẩu lao động
+- **Smart Navigation**: Chuyển đổi giữa selector và roadmap list
+- **Visual Roadmap Cards**: Card-based design với icon, tags, và metadata
+
+**Components Architecture:**
+- **RoadmapSelector**: Interactive roadmap selection với filtering
+- **ResourcePopup**: Modal popup cho tài liệu học tập
+- **RoadmapContainer**: State management và navigation logic
+- **RoadmapCard**: Simplified card với popup integration
+- **RoadmapList**: Clean timeline layout
 
 ### 📚 Trang `/tai-lieu` (Rebuilt)
 
@@ -170,7 +231,8 @@ Viết nội dung chi tiết bằng Markdown/MDX...
 - **Giáo trình**: Sách giáo khoa, tài liệu học chính thức
 - **Website**: Trang web học tiếng Hàn
 - **Video**: Video YouTube, khóa học online
-- **Từ vựng**: Bộ từ vựng, flashcards, Anki decks
+- **Anki**: Bộ thẻ Anki decks, flashcards
+- **Từ vựng**: Bộ từ vựng, flashcards khác
 - **Ứng dụng**: Mobile apps, web apps
 
 #### Types  
@@ -424,6 +486,43 @@ The website has undergone significant modernization in July 2025:
 
 ## 📋 CHANGELOG
 
+### Phiên bản 1.2.0 (23 tháng 7, 2025)
+
+#### Đã thêm
+- **Hệ thống ngữ pháp hoàn chỉnh**: 5 components chính cho việc học ngữ pháp
+  - `GrammarNavigation.astro`: Điều hướng và gợi ý học tập
+  - `GrammarFilter.astro`: Lọc ngữ pháp theo cấp độ và chủ đề
+  - `GrammarProgress.astro`: Theo dõi tiến độ học tập
+  - `GrammarQuiz.astro`: Hệ thống quiz tương tác
+  - `GrammarDashboard.astro`: Bảng điều khiển tổng hợp
+- **Trang ngữ pháp mới**: `/ngu-phap-moi` với giao diện hiện đại và tương tác
+- **Tổ chức tài liệu**: Phân chia documents thành các thư mục có cấu trúc
+  - `anki/`: Tất cả Anki decks (12 files)
+  - `textbooks/`: Giáo trình (4 files)
+  - `resources/`: Tài nguyên học tập (2 files)
+  - `guides/`: Hướng dẫn học tập (2 files)
+  - `topik/`: Tài liệu TOPIK (2 files)
+  - `grammar/`: Ngữ pháp chi tiết (1 file)
+- **Components tương tác**: LearningStats.jsx, QuickReview.jsx với localStorage
+- **Navigation cải tiến**: Dropdown menu cho từng chuyên mục
+
+#### Đã thay đổi
+- **Cấu trúc thư mục documents**: Di chuyển từ flat structure sang organized folders
+- **Xóa pronunciation features**: Loại bỏ PronunciationGuide component và related content
+- **Cải thiện UX**: Tab navigation và responsive design cho grammar system
+- **Performance**: Tối ưu hóa component loading và state management
+
+#### Đã sửa
+- Cải thiện responsive design cho grammar components
+- Sửa localStorage conflicts giữa các components
+- Tối ưu CSS cho grammar demo styles
+
+#### Kỹ thuật
+- **State Management**: localStorage cho progress tracking và user preferences
+- **Component Architecture**: Modular design với reusable components
+- **TypeScript Integration**: Type-safe props và interfaces
+- **Performance Optimization**: Lazy loading và efficient re-renders
+
 ### Phiên bản 1.1.0 (10 tháng 7, 2025)
 
 #### Đã thêm
@@ -461,6 +560,7 @@ The website has undergone significant modernization in July 2025:
 **Cấu trúc frontmatter cần thiết:**
 ```yaml
 # File Anki deck
+category: "Anki"
 type: "Anki Deck"
 relatedTo: "slug-cua-giao-trinh"  # VD: "tieng-han-tong-hop-1"
 title: "Anki - Tên giáo trình - Bài X"
@@ -631,10 +731,10 @@ Here's the current structure of the project:
 │   │   ├── tieng-han-tong-hop-1.mdx
 │   │   └── ...
 │   ├── layouts/
-│   │   └── Layout.astro
-│   ├── pages/
-│   │   ├── index.astro            # Homepage
-│   │   └── tai-lieu.astro         # Documents listing page
+│   │   └── Layout.astro   │   ├── pages/
+   │   │   ├── index.astro            # Homepage
+   │   │   ├── tai-lieu.astro         # Documents listing page
+   │   │   └── lo-trinh.astro         # Learning roadmap page
 │   └── styles/
 │       ├── global.css
 │       └── navbar.css             # Dedicated NavBar styles
@@ -661,3 +761,235 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## 🎨 Design System
+
+### Màu sắc chính
+```css
+/* Primary colors */
+--color-primary: #3245ff;        /* Xanh dương đậm - màu chính */
+--color-secondary: #bc52ee;      /* Tím - màu phụ */
+--color-gradient-primary: linear-gradient(135deg, #3245ff 0%, #bc52ee 100%);  /* Gradient chính */
+--color-gradient-light: linear-gradient(135deg, #f5f5ff 0%, #e0d7ff 100%);    /* Gradient nhẹ cho sections */
+
+/* Neutral colors */
+--color-text-dark: #1a1a2e;      /* Màu chữ chính */
+--color-text-light: #ffffff;     /* Màu chữ trên nền đậm */
+--color-text-muted: #6b7280;     /* Màu chữ phụ */
+--color-background: #ffffff;     /* Nền trắng */
+--color-background-alt: #f5f5f5; /* Nền xám nhẹ */
+```
+
+### Typography
+```css
+/* Font stacks */
+--font-primary: 'Inter', sans-serif;
+--font-korean: 'Noto Sans KR', sans-serif;
+
+/* Font sizes */
+--font-size-xs: 0.75rem;   /* 12px */
+--font-size-sm: 0.875rem;  /* 14px */
+--font-size-base: 1rem;    /* 16px */
+--font-size-lg: 1.125rem;  /* 18px */
+--font-size-xl: 1.25rem;   /* 20px */
+--font-size-2xl: 1.5rem;   /* 24px */
+--font-size-3xl: 1.875rem; /* 30px */
+--font-size-4xl: 2.25rem;  /* 36px */
+--font-size-5xl: 3rem;     /* 48px */
+```
+
+### Shadows & Effects
+```css
+/* Shadows */
+--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+/* Effects */
+--hover-scale: scale(1.05);
+--transition-default: all 0.2s ease-in-out;
+```
+
+### Spacing & Layout
+```css
+/* Spacing system (rem) */
+--space-1: 0.25rem;  /* 4px */
+--space-2: 0.5rem;   /* 8px */
+--space-3: 0.75rem;  /* 12px */
+--space-4: 1rem;     /* 16px */
+--space-6: 1.5rem;   /* 24px */
+--space-8: 2rem;     /* 32px */
+--space-12: 3rem;    /* 48px */
+--space-16: 4rem;    /* 64px */
+
+/* Container widths */
+--container-sm: 640px;
+--container-md: 768px;
+--container-lg: 1024px;
+--container-xl: 1280px;
+--container-2xl: 1536px;
+```
+
+### Component Styles
+
+#### Cards
+- Nền trắng (`--color-background`)
+- Border-radius: `0.5rem` (8px)
+- Box-shadow: `--shadow-md`
+- Hover: Scale up `--hover-scale` với shadow `--shadow-lg`
+- Chuyển tiếp mượt: `--transition-default`
+
+#### Buttons
+- Primary: Nền gradient chính (`--color-gradient-primary`), text white
+- Secondary: Border màu primary (`--color-primary`), text primary
+- Neutral: Nền xám nhẹ (`--color-background-alt`), text dark
+- Border-radius: `0.375rem` (6px)
+- Padding: `0.5rem 1rem` (8px 16px)
+- Hover: Độ sáng tăng 10%
+
+#### Badges
+- Text size: `--font-size-xs`
+- Border-radius: `9999px` (pill)
+- Padding: `0.25rem 0.75rem` (4px 12px)
+- Màu sắc theo category
+
+### Phong cách thiết kế
+- **Tối giản (Minimalist)**: Ưu tiên không gian trắng, tránh phức tạp
+- **Card-based UI**: Sử dụng cards để hiển thị nội dung và tài liệu
+- **Gradient Accents**: Sử dụng gradient chính làm điểm nhấn cho CTA và elements quan trọng
+- **Typography rõ ràng**: Phân cấp kích thước chữ theo tầm quan trọng
+- **Responsive**: Mobile-first, sử dụng breakpoints của Tailwind
+
+### Icons & Graphics
+- Sử dụng Emojis làm icons đơn giản: 📚 📝 🔤 🖥️ 🌐 📹
+- Sử dụng hero icons cho UI elements (search, menu, etc)
+- Hình ảnh cover cho tài liệu có tỷ lệ 3:4
+
+### Responsive Breakpoints
+```css
+/* Tailwind defaults */
+--screen-sm: 640px;   /* @media (min-width: 640px) */
+--screen-md: 768px;   /* @media (min-width: 768px) */
+--screen-lg: 1024px;  /* @media (min-width: 1024px) */
+--screen-xl: 1280px;  /* @media (min-width: 1280px) */
+--screen-2xl: 1536px; /* @media (min-width: 1536px) */
+```
+
+### Hướng dẫn thiết kế trang mới
+
+Khi thiết kế một trang mới cho website, hãy tuân theo các nguyên tắc sau:
+
+1. **Nhất quán về màu sắc**
+   - Sử dụng màu sắc từ bảng màu đã định nghĩa
+   - Gradient chính cho các CTA và điểm nhấn
+   - Gradient nhẹ cho sections cần phân biệt với nền trắng
+
+2. **Layout cơ bản**
+   ```html
+   <Layout>
+     <!-- Hero section (nếu cần) -->
+     <section class="hero-section">
+       <h1>Tiêu đề trang</h1>
+       <p>Mô tả ngắn gọn</p>
+     </section>
+     
+     <!-- Main content -->
+     <main class="container mx-auto px-4 py-8">
+       <!-- Nội dung chính -->
+     </main>
+   </Layout>
+   ```
+
+3. **Components chính để sử dụng**
+   - `Badge.astro`: Hiển thị nhãn nhỏ (category, type, v.v.)
+   - `Button.astro`: CTA và các nút tương tác
+   - Card-based layouts cho hiển thị danh sách
+   - Grid systems với Tailwind (grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4)
+
+4. **Responsive design**
+   - Mobile-first approach
+   - Ít nhất 4 breakpoints: default (mobile), sm, md, lg
+   - Navigation menu có chế độ hamburger menu trên mobile
+
+5. **Best practices**
+   - Lazy loading cho hình ảnh
+   - Sử dụng semantic HTML (section, article, nav, v.v.)
+   - Tối ưu performance với transitions có will-change
+   - Đảm bảo có states cho interactive elements (hover, focus, active)
+   - Sử dụng `npm run dev` để live reload
+   - File MDX hỗ trợ JSX components
+   - CSS scoped tự động trong `.astro` files
+   - TypeScript support built-in
+
+### Ví dụ về một trang mới
+
+Đây là ví dụ về cấu trúc file và code cho một trang mới:
+
+```astro
+---
+// src/pages/new-page.astro
+import Layout from '../layouts/Layout.astro';
+import Badge from '../components/ui/Badge.astro';
+import Button from '../components/ui/Button.astro';
+
+// Data fetching hoặc processing
+const pageData = {
+  title: "Tiêu đề trang mới",
+  description: "Mô tả ngắn gọn về trang",
+  items: [
+    { id: 1, name: "Item 1", category: "Category A" },
+    { id: 2, name: "Item 2", category: "Category B" }
+  ]
+};
+---
+
+<Layout title={pageData.title}>
+  <!-- Hero section với gradient chính -->
+  <section class="min-h-[50vh] flex flex-col justify-center items-center text-center p-6"
+    style="background: linear-gradient(135deg, #3245ff 0%, #bc52ee 100%); color: white;">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">{pageData.title}</h1>
+    <p class="text-xl max-w-2xl">{pageData.description}</p>
+    <Button variant="light" size="lg" class="mt-8">Bắt đầu</Button>
+  </section>
+  
+  <!-- Main content -->
+  <main class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {pageData.items.map(item => (
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-200 hover:scale-105">
+          <h3 class="text-xl font-semibold mb-2">{item.name}</h3>
+          <Badge variant="primary">{item.category}</Badge>
+        </div>
+      ))}
+    </div>
+  </main>
+</Layout>
+```
+
+### Design Checklist
+
+Khi hoàn thành một trang mới, hãy kiểm tra các tiêu chí sau:
+
+- [ ] Sử dụng đúng bảng màu từ design system
+- [ ] Typography nhất quán (font-family, font-size)
+- [ ] Responsive trên tất cả các breakpoints (mobile, tablet, desktop)
+- [ ] Các components chính (Button, Badge, Card) sử dụng đúng variant
+- [ ] Visual hierarchy rõ ràng (H1 > H2 > H3 > text)
+- [ ] Spacing nhất quán theo design system
+- [ ] Hoạt động tốt với dark mode (nếu hỗ trợ)
+- [ ] Tất cả interactive elements có hover/focus states
+- [ ] Animations/transitions mượt mà không gây lag
+- [ ] Tối ưu hóa hình ảnh với lazy loading
+
+### Tài liệu tham khảo về thiết kế
+
+- [Astro UI Components](https://astro.build/integrations/?search=&categories%5B%5D=ui-frameworks) - Các UI framework tích hợp với Astro
+- [Tailwind CSS Components](https://tailwindui.com/components) - Component examples từ Tailwind UI
+- [Gradient generator](https://cssgradient.io/) - Tạo và tùy chỉnh gradients
+- [Coolors](https://coolors.co/) - Công cụ tạo bảng màu
+- [FontPair](https://fontpair.co/) - Gợi ý kết hợp fonts
+- [Heroicons](https://heroicons.com/) - Bộ icon SVG miễn phí
+
+---
+
+Bằng cách tuân theo design system này, chúng ta có thể đảm bảo trải nghiệm người dùng nhất quán trên toàn bộ website "The Free Korean", đồng thời giảm thiểu thời gian phát triển và quyết định thiết kế cho các trang mới.

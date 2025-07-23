@@ -1,0 +1,482 @@
+---
+export interface Props {
+  pronunciations: Array<{
+    korean: string;
+    romanization?: string;
+    ipa?: string;
+    audio?: string;
+    stressPattern?: string; // Pattern like "1-2-3" where 1=primary, 2=secondary, 3=unstressed
+    breakdown?: Array<{
+      syllable: string;
+      ipa: string;
+      stress: 'primary' | 'secondary' | 'unstressed';
+      note?: string;
+    }>;
+    phonetics?: {
+      consonants?: Array<{
+        char: string;
+        ipa: string;
+        description: string;
+      }>;
+      vowels?: Array<{
+        char: string;
+        ipa: string;
+        description: string;
+      }>;
+    };
+  }>;
+  title?: string;
+  showBreakdown?: boolean;
+  showPhonetics?: boolean;
+}
+
+const { 
+  pronunciations, 
+  title = "Hướng dẫn phát âm",
+  showBreakdown = true,
+  showPhonetics = false 
+} = Astro.props;
+
+// Generate unique IDs for audio elements
+const generateAudioId = (index: number) => `pronunciation-audio-${Math.random().toString(36).substr(2, 9)}-${index}`;
+---
+
+<section class="pronunciation-guide bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+  <!-- Section Header -->
+  <div class="bg-gradient-to-r from-amber-50 to-orange-50 px-6 py-4 border-b border-gray-200">
+    <h3 class="text-xl font-semibold text-gray-800 flex items-center">
+      🔊 {title}
+      <span class="ml-3 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm">
+        IPA & Audio
+      </span>
+    </h3>
+  </div>
+
+  {pronunciations.length > 0 ? (
+    <div class="p-6 space-y-6">
+      {pronunciations.map((item, index) => (
+        <div class="pronunciation-item bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-4 border-l-4 border-amber-400">
+          <div class="space-y-4">
+            <!-- Main Pronunciation Display -->
+            <div class="main-pronunciation">
+              <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex-1">
+                  <!-- Korean Text -->
+                  <div class="korean-text text-2xl font-bold text-gray-800 mb-2">
+                    {item.korean}
+                  </div>
+                  
+                  <!-- Romanization and IPA -->
+                  <div class="pronunciation-details space-y-1">
+                    {item.romanization && (
+                      <div class="romanization text-lg text-blue-700 font-medium">
+                        <span class="label text-sm text-gray-600">Phiên âm Latin:</span> {item.romanization}
+                      </div>
+                    )}
+                    {item.ipa && (
+                      <div class="ipa text-lg text-purple-700 font-mono">
+                        <span class="label text-sm text-gray-600">IPA:</span> /{item.ipa}/
+                      </div>
+                    )}
+                    {item.stressPattern && (
+                      <div class="stress-pattern text-sm text-gray-600">
+                        <span class="label">Trọng âm:</span> {item.stressPattern}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <!-- Audio Controls -->
+                {item.audio && (
+                  <div class="audio-controls flex flex-col items-end space-y-2">
+                    <button 
+                      class="audio-play-btn px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600 transition-colors flex items-center space-x-2"
+                      data-audio-src={item.audio}
+                      data-audio-id={generateAudioId(index)}
+                    >
+                      <span class="audio-icon">🔊</span>
+                      <span>Nghe phát âm</span>
+                    </button>
+                    <button 
+                      class="audio-slow-btn px-3 py-1 bg-amber-300 text-amber-800 rounded text-sm hover:bg-amber-400 transition-colors"
+                      data-audio-src={item.audio}
+                      data-audio-id={generateAudioId(index)}
+                      data-playback-rate="0.7"
+                    >
+                      🐌 Chậm
+                    </button>
+                    <audio 
+                      id={generateAudioId(index)}
+                      preload="none"
+                      class="hidden"
+                    >
+                      <source src={item.audio} type="audio/mpeg" />
+                      Trình duyệt của bạn không hỗ trợ audio.
+                    </audio>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <!-- Syllable Breakdown -->
+            {showBreakdown && item.breakdown && item.breakdown.length > 0 && (
+              <div class="syllable-breakdown">
+                <h4 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+                  🔤 Phân tích từng âm tiết
+                </h4>
+                <div class="breakdown-grid grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {item.breakdown.map((syllable, syllableIndex) => (
+                    <div 
+                      class={`syllable-card p-3 rounded-lg border ${
+                        syllable.stress === 'primary' ? 'bg-red-50 border-red-200' :
+                        syllable.stress === 'secondary' ? 'bg-yellow-50 border-yellow-200' :
+                        'bg-gray-50 border-gray-200'
+                      }`}
+                    >
+                      <div class="syllable-korean text-lg font-bold korean-text">
+                        {syllable.syllable}
+                      </div>
+                      <div class="syllable-ipa text-purple-600 font-mono">
+                        /{syllable.ipa}/
+                      </div>
+                      <div class={`stress-indicator text-xs font-medium ${
+                        syllable.stress === 'primary' ? 'text-red-600' :
+                        syllable.stress === 'secondary' ? 'text-yellow-600' :
+                        'text-gray-500'
+                      }`}>
+                        {syllable.stress === 'primary' ? '● Trọng âm chính' :
+                         syllable.stress === 'secondary' ? '◐ Trọng âm phụ' :
+                         '○ Không trọng âm'}
+                      </div>
+                      {syllable.note && (
+                        <div class="syllable-note text-xs text-gray-600 mt-1 italic">
+                          💡 {syllable.note}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <!-- Phonetics Details -->
+            {showPhonetics && item.phonetics && (
+              <div class="phonetics-details">
+                <h4 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+                  🗣️ Chi tiết ngữ âm học
+                </h4>
+                
+                <div class="phonetics-grid grid gap-4 md:grid-cols-2">
+                  <!-- Consonants -->
+                  {item.phonetics.consonants && item.phonetics.consonants.length > 0 && (
+                    <div class="consonants">
+                      <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                        🅰️ Phụ âm
+                      </h5>
+                      <div class="space-y-2">
+                        {item.phonetics.consonants.map((consonant, consIndex) => (
+                          <div class="phoneme-item bg-blue-50 p-2 rounded border-l-3 border-blue-300">
+                            <div class="flex items-center space-x-3">
+                              <span class="korean-char text-lg font-bold korean-text">
+                                {consonant.char}
+                              </span>
+                              <span class="ipa-char text-purple-600 font-mono">
+                                [{consonant.ipa}]
+                              </span>
+                              <span class="description text-sm text-gray-600 flex-1">
+                                {consonant.description}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <!-- Vowels -->
+                  {item.phonetics.vowels && item.phonetics.vowels.length > 0 && (
+                    <div class="vowels">
+                      <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                        🅰️ Nguyên âm
+                      </h5>
+                      <div class="space-y-2">
+                        {item.phonetics.vowels.map((vowel, vowelIndex) => (
+                          <div class="phoneme-item bg-green-50 p-2 rounded border-l-3 border-green-300">
+                            <div class="flex items-center space-x-3">
+                              <span class="korean-char text-lg font-bold korean-text">
+                                {vowel.char}
+                              </span>
+                              <span class="ipa-char text-purple-600 font-mono">
+                                [{vowel.ipa}]
+                              </span>
+                              <span class="description text-sm text-gray-600 flex-1">
+                                {vowel.description}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+      
+      <!-- Pronunciation Tips -->
+      <div class="pronunciation-tips bg-blue-50 rounded-lg p-4 border border-blue-200">
+        <h4 class="text-lg font-semibold text-blue-800 mb-3 flex items-center">
+          💡 Mẹo phát âm
+        </h4>
+        <div class="tips-grid grid gap-3 sm:grid-cols-2">
+          <div class="tip-item">
+            <span class="tip-icon">🎯</span>
+            <span class="tip-text text-blue-700">Chú ý trọng âm thường rơi vào âm tiết đầu</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">👂</span>
+            <span class="tip-text text-blue-700">Nghe và lặp lại nhiều lần để quen âm</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">📚</span>
+            <span class="tip-text text-blue-700">IPA giúp phát âm chính xác hơn Romanization</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">🔄</span>
+            <span class="tip-text text-blue-700">Luyện tập từ chậm đến nhanh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <!-- Empty State -->
+    <div class="p-8 text-center text-gray-500">
+      <div class="text-4xl mb-2">🔊</div>
+      <p class="text-lg font-medium">Chưa có hướng dẫn phát âm</p>
+      <p class="text-sm">Hướng dẫn phát âm sẽ được thêm vào sớm</p>
+    </div>
+  )}
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Audio playback functionality
+    const audioButtons = document.querySelectorAll('.audio-play-btn, .audio-slow-btn');
+    
+    audioButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const audioId = this.getAttribute('data-audio-id');
+        const audioSrc = this.getAttribute('data-audio-src');
+        const playbackRate = this.getAttribute('data-playback-rate') || '1.0';
+        
+        const audioElement = document.getElementById(audioId);
+        
+        if (audioElement && audioSrc) {
+          // Set audio source if not already set
+          if (!audioElement.src) {
+            audioElement.src = audioSrc;
+          }
+          
+          // Set playback rate
+          audioElement.playbackRate = parseFloat(playbackRate);
+          
+          // Visual feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = this.classList.contains('audio-slow-btn') ? 
+            '🔄 Đang phát...' : '🔄 Đang phát...';
+          this.disabled = true;
+          
+          // Play audio
+          audioElement.play().then(() => {
+            // Audio started successfully
+          }).catch(error => {
+            console.warn('Audio playback failed:', error);
+            // Fallback: show message or try alternative
+            this.innerHTML = '❌ Không thể phát audio';
+            setTimeout(() => {
+              this.innerHTML = originalText;
+              this.disabled = false;
+            }, 2000);
+          });
+          
+          // Reset button when audio ends
+          audioElement.addEventListener('ended', () => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+          }, { once: true });
+          
+          // Reset button on error
+          audioElement.addEventListener('error', () => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+          }, { once: true });
+        }
+      });
+    });
+
+    // Keyboard shortcuts for audio
+    document.addEventListener('keydown', function(e) {
+      // Space bar to play first audio
+      if (e.code === 'Space' && !e.target.matches('input, textarea')) {
+        e.preventDefault();
+        const firstAudioBtn = document.querySelector('.audio-play-btn');
+        if (firstAudioBtn) {
+          firstAudioBtn.click();
+        }
+      }
+      
+      // 'S' key for slow playback
+      if (e.code === 'KeyS' && !e.target.matches('input, textarea')) {
+        e.preventDefault();
+        const firstSlowBtn = document.querySelector('.audio-slow-btn');
+        if (firstSlowBtn) {
+          firstSlowBtn.click();
+        }
+      }
+    });
+
+    // Syllable breakdown interaction
+    const syllableCards = document.querySelectorAll('.syllable-card');
+    syllableCards.forEach(card => {
+      card.addEventListener('click', function() {
+        // Add temporary highlight effect
+        this.style.transform = 'scale(1.05)';
+        this.style.transition = 'transform 0.2s ease';
+        
+        setTimeout(() => {
+          this.style.transform = 'scale(1)';
+        }, 200);
+      });
+    });
+
+    // Tooltip functionality for IPA symbols
+    const ipaElements = document.querySelectorAll('.ipa, .ipa-char');
+    ipaElements.forEach(element => {
+      element.setAttribute('title', 'International Phonetic Alphabet - Ký hiệu phiên âm quốc tế');
+    });
+  });
+</script>
+
+<style>
+  /* Korean text styling */
+  .korean-text {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+    word-break: keep-all;
+    line-height: 1.4;
+  }
+
+  /* IPA font styling */
+  .ipa, .ipa-char {
+    font-family: 'Noto Sans', 'Doulos SIL', 'Charis SIL', monospace;
+    font-weight: 500;
+  }
+
+  /* Stress pattern indicators */
+  .stress-pattern {
+    font-family: monospace;
+    letter-spacing: 0.1em;
+  }
+
+  /* Audio button effects */
+  .audio-play-btn:hover .audio-icon,
+  .audio-slow-btn:hover .audio-icon {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+  }
+
+  .audio-play-btn:active,
+  .audio-slow-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Syllable card hover effects */
+  .syllable-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .syllable-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Phoneme item styling */
+  .phoneme-item {
+    transition: all 0.2s ease;
+  }
+
+  .phoneme-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Tips grid styling */
+  .tips-grid .tip-item {
+    display: flex;
+    align-items: center;
+    space-x: 0.5rem;
+  }
+
+  .tip-icon {
+    font-size: 1.2em;
+    margin-right: 0.5rem;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .pronunciation-details {
+      font-size: 0.9rem;
+    }
+    
+    .korean-text {
+      font-size: 1.5rem;
+    }
+    
+    .audio-controls {
+      width: 100%;
+      margin-top: 1rem;
+    }
+    
+    .audio-controls button {
+      width: 100%;
+    }
+  }
+
+  /* Animation for content loading */
+  .pronunciation-item {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus states for accessibility */
+  .audio-play-btn:focus,
+  .audio-slow-btn:focus,
+  .syllable-card:focus {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+  }
+
+  /* Border effects */
+  .border-l-3 {
+    border-left-width: 3px;
+  }
+
+  /* Disabled state */
+  .audio-play-btn:disabled,
+  .audio-slow-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+</style>

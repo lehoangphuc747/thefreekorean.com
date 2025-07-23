@@ -1,0 +1,170 @@
+---
+// src/pages/lo-trinh.astro
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/ui/Button.astro';
+import RoadmapContainer from '../components/roadmap/RoadmapContainer';
+import { roadmaps } from '../data/roadmaps';
+
+const pageData = {
+  title: "Lộ trình học tiếng Hàn",
+  description: "Chọn lộ trình phù hợp với mục tiêu của bạn. Đơn giản, hiệu quả, từng bước một."
+};
+---
+
+<Layout title={pageData.title}>
+  <!-- Hero section với gradient chính -->
+  <section class="min-h-[50vh] flex flex-col justify-center items-center text-center px-6 py-16"
+    style="background: linear-gradient(135deg, #3245ff 0%, #bc52ee 100%); color: white;">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">{pageData.title}</h1>
+    <p class="text-lg md:text-xl max-w-2xl mb-8 opacity-90">{pageData.description}</p>
+    <Button variant="light" size="lg" href="#roadmap">
+      Bắt đầu ngay
+    </Button>
+  </section>
+  
+  <!-- Main content -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Lộ trình chi tiết -->
+    <section id="roadmap" class="mb-12">
+      <div class="max-w-6xl mx-auto">
+        <RoadmapContainer roadmaps={roadmaps} client:load />
+      </div>
+    </section>
+
+    <!-- Lời khuyên nhỏ gọn -->
+    <section class="mb-12">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 md:p-8">
+          <h3 class="text-xl font-bold mb-4 text-center text-gray-800">💡 Bí quyết thành công</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+              <h4 class="font-semibold text-green-700 mb-2">✅ Nên:</h4>
+              <ul class="space-y-1 text-gray-600">
+                <li>• Học đều 20-30 phút/ngày</li>
+                <li>• Hoàn thành từng bước một cách kỹ lưỡng</li>
+                <li>• Luyện tập thường xuyên</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-semibold text-red-700 mb-2">❌ Tránh:</h4>
+              <ul class="space-y-1 text-gray-600">
+                <li>• Học quá nhiều cùng lúc</li>
+                <li>• Bỏ qua bài tập cơ bản</li>
+                <li>• Nản lòng khi gặp khó khăn</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ ngắn gọn -->
+    <section class="mb-12">
+      <div class="max-w-3xl mx-auto">
+        <h3 class="text-xl font-bold mb-6 text-center text-gray-800">❓ Câu hỏi thường gặp</h3>
+        <div class="space-y-4">
+          <details class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <summary class="px-4 py-3 font-medium text-gray-700 cursor-pointer hover:bg-gray-50">
+              Tôi nên chọn lộ trình nào?
+            </summary>
+            <div class="px-4 pb-3 text-sm text-gray-600">
+              <p>Bắt đầu với lộ trình <strong>Cốt lõi</strong> nếu bạn mới học. Các lộ trình khác phù hợp cho mục tiêu cụ thể.</p>
+            </div>
+          </details>
+          
+          <details class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <summary class="px-4 py-3 font-medium text-gray-700 cursor-pointer hover:bg-gray-50">
+              Mất bao lâu để hoàn thành một lộ trình?
+            </summary>
+            <div class="px-4 pb-3 text-sm text-gray-600">
+              <p>Tùy thuộc vào thời gian học của bạn. Trung bình 6-12 tháng cho lộ trình cơ bản.</p>
+            </div>
+          </details>
+          
+          <details class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <summary class="px-4 py-3 font-medium text-gray-700 cursor-pointer hover:bg-gray-50">
+              Có cần học theo thứ tự không?
+            </summary>
+            <div class="px-4 pb-3 text-sm text-gray-600">
+              <p>Nên học theo thứ tự để đảm bảo nền tảng vững chắc. Tuy nhiên, bạn có thể kết hợp nhiều lộ trình.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to action đơn giản -->
+    <section class="text-center">
+      <div class="max-w-lg mx-auto">
+        <h3 class="text-xl font-bold mb-3 text-gray-800">Sẵn sàng bắt đầu?</h3>
+        <p class="text-gray-600 mb-6">Từng bước nhỏ dẫn đến thành công lớn</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button href="/tai-lieu" size="lg">
+            Xem tài liệu
+          </Button>
+          <Button href="/documents/huong-dan" variant="outline" size="lg">
+            Hướng dẫn
+          </Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom styles for FAQ details */
+  details summary {
+    list-style: none;
+    position: relative;
+    padding-right: 2rem;
+  }
+  
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  details summary::after {
+    content: '+';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #6b7280;
+    transition: transform 0.2s ease;
+  }
+  
+  details[open] summary::after {
+    transform: translateY(-50%) rotate(45deg);
+  }
+  
+  /* Animation for roadmap cards */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .roadmap-card {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  /* Utility classes for better UX */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,254 @@
+---
+export interface Props {
+  initialLanguage?: 'vietnamese' | 'korean' | 'both';
+  className?: string;
+}
+
+const { initialLanguage = 'both', className = '' } = Astro.props;
+---
+
+<div class={`language-toggle-global ${className}`}>
+  <div class="flex items-center space-x-2 bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+    <button 
+      class="lang-btn px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 flex items-center space-x-1"
+      data-lang="both"
+      data-active={initialLanguage === 'both'}
+      title="Hiển thị cả tiếng Việt và tiếng Hàn"
+    >
+      <span class="text-base">🇻🇳🇰🇷</span>
+      <span class="hidden sm:inline">Cả hai</span>
+    </button>
+    
+    <button 
+      class="lang-btn px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 flex items-center space-x-1"
+      data-lang="vietnamese"
+      data-active={initialLanguage === 'vietnamese'}
+      title="Chỉ hiển thị tiếng Việt"
+    >
+      <span class="text-base">🇻🇳</span>
+      <span class="hidden sm:inline">Tiếng Việt</span>
+    </button>
+    
+    <button 
+      class="lang-btn px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 flex items-center space-x-1"
+      data-lang="korean"
+      data-active={initialLanguage === 'korean'}
+      title="Chỉ hiển thị tiếng Hàn"
+    >
+      <span class="text-base">🇰🇷</span>
+      <span class="hidden sm:inline">한국어</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  class LanguageToggleManager {
+    constructor() {
+      this.currentLanguage = this.loadPreference();
+      this.init();
+    }
+
+    loadPreference() {
+      try {
+        return localStorage.getItem('korean-learning-language') || 'both';
+      } catch (error) {
+        return 'both';
+      }
+    }
+
+    savePreference(language) {
+      try {
+        localStorage.setItem('korean-learning-language', language);
+      } catch (error) {
+        console.warn('Could not save language preference');
+      }
+    }
+
+    init() {
+      // Set initial state
+      this.updateDisplay(this.currentLanguage);
+      
+      // Add event listeners to all language toggle buttons
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.lang-btn')) {
+          const button = e.target.closest('.lang-btn');
+          const language = button.getAttribute('data-lang');
+          this.setLanguage(language);
+        }
+      });
+
+      // Listen for language change events from other components
+      document.addEventListener('languageChanged', (e) => {
+        this.setLanguage(e.detail.language, false);
+      });
+    }
+
+    setLanguage(language, shouldBroadcast = true) {
+      this.currentLanguage = language;
+      this.savePreference(language);
+      this.updateDisplay(language);
+      
+      if (shouldBroadcast) {
+        // Broadcast change to other components
+        const event = new CustomEvent('languageChanged', {
+          detail: { language },
+          bubbles: true
+        });
+        document.dispatchEvent(event);
+      }
+    }
+
+    updateDisplay(language) {
+      // Update all language toggle buttons
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        const btnLang = btn.getAttribute('data-lang');
+        const isActive = btnLang === language;
+        btn.setAttribute('data-active', isActive.toString());
+      });
+
+      // Update content visibility based on language selection
+      this.updateContentVisibility(language);
+    }
+
+    updateContentVisibility(language) {
+      // Hide/show Vietnamese text
+      const vietnameseElements = document.querySelectorAll('.vietnamese-text, .vn-text, [data-lang="vietnamese"]');
+      vietnameseElements.forEach(el => {
+        switch (language) {
+          case 'both':
+          case 'vietnamese':
+            el.style.display = '';
+            el.style.opacity = '1';
+            break;
+          case 'korean':
+            el.style.display = 'none';
+            break;
+        }
+      });
+
+      // Hide/show Korean text (usually always visible except in special cases)
+      const koreanElements = document.querySelectorAll('.korean-text, .kr-text, [data-lang="korean"]');
+      koreanElements.forEach(el => {
+        switch (language) {
+          case 'both':
+          case 'korean':
+            el.style.display = '';
+            el.style.opacity = '1';
+            break;
+          case 'vietnamese':
+            // Korean text is usually always visible, but can be dimmed
+            el.style.opacity = '0.7';
+            break;
+        }
+      });
+
+      // Update explanations and descriptions
+      const explanationElements = document.querySelectorAll('.explanation-text, .grammar-explanation');
+      explanationElements.forEach(el => {
+        if (el.hasAttribute('data-lang')) {
+          const elLang = el.getAttribute('data-lang');
+          el.style.display = (language === 'both' || language === elLang) ? '' : 'none';
+        }
+      });
+
+      // Smooth transitions for content changes
+      this.addTransitionEffects();
+    }
+
+    addTransitionEffects() {
+      const transitionElements = document.querySelectorAll('.vietnamese-text, .korean-text, .explanation-text');
+      transitionElements.forEach(el => {
+        if (!el.style.transition) {
+          el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }
+      });
+    }
+
+    getCurrentLanguage() {
+      return this.currentLanguage;
+    }
+  }
+
+  // Initialize language toggle manager when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    window.languageToggleManager = new LanguageToggleManager();
+  });
+
+  // Also initialize immediately if DOM is already loaded
+  if (document.readyState === 'loading') {
+    // DOM is still loading
+  } else {
+    // DOM is already loaded
+    window.languageToggleManager = new LanguageToggleManager();
+  }
+</script>
+
+<style>
+  .language-toggle-global {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Active state styling */
+  .lang-btn[data-active="true"] {
+    background-color: #3b82f6;
+    color: white;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.1);
+    transform: translateY(-1px);
+  }
+
+  .lang-btn[data-active="false"] {
+    background-color: transparent;
+    color: #6b7280;
+  }
+
+  .lang-btn[data-active="false"]:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+
+  /* Smooth transitions */
+  .lang-btn {
+    transition: all 0.2s ease;
+  }
+
+  /* Content transition effects */
+  .vietnamese-text,
+  .korean-text,
+  .explanation-text {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Responsive design */
+  @media (max-width: 640px) {
+    .lang-btn {
+      padding: 0.5rem;
+    }
+    
+    .lang-btn span:not(.text-base) {
+      display: none;
+    }
+  }
+
+  /* Focus states for accessibility */
+  .lang-btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Animation for language switches */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .content-switching {
+    animation: fadeInUp 0.3s ease;
+  }
+</style>

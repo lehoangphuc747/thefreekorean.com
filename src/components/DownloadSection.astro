@@ -1,14 +1,13 @@
 ---
+// Component: DownloadSection
+// Description: This component displays download options for document resources (simplified version)
+// Used in: documents/[slug].astro
+// Purpose: Provides PDF download link only, removing additional features as requested
+
 export interface Props {
   frontmatter: {
     downloadUrl?: string;
-    downloadOriginal?: string;
-    downloadWorkbook?: string;
-    downloadAudio?: string;
     fileSize?: string;
-    originalSize?: string;
-    workbookSize?: string;
-    audioSize?: string;
     type?: string;
     title?: string;
   };
@@ -20,55 +19,17 @@ const { frontmatter } = Astro.props;
 <section id="download-section" class="download-section">
   <h2>📥 File tải về</h2>
   
-  {frontmatter.type === 'PDF' && (
+  {frontmatter.type === 'PDF' && frontmatter.downloadUrl && (
     <div class="download-grid">
-      {frontmatter.downloadUrl && (
-        <a href={frontmatter.downloadUrl} target="_blank" class="download-card primary">
-          <div class="download-icon">📚</div>
-          <div class="download-info">
-            <h3>Sách giáo khoa (nén)</h3>
-            <p>Chất lượng tối ưu cho học tập</p>
-            <span class="file-size">{frontmatter.fileSize}</span>
-          </div>
-          <div class="download-indicator">⬇️</div>
-        </a>
-      )}
-      
-      {frontmatter.downloadOriginal && (
-        <a href={frontmatter.downloadOriginal} target="_blank" class="download-card">
-          <div class="download-icon">📚</div>
-          <div class="download-info">
-            <h3>Sách giáo khoa (gốc)</h3>
-            <p>Chất lượng cao nhất</p>
-            <span class="file-size">{frontmatter.originalSize}</span>
-          </div>
-          <div class="download-indicator">⬇️</div>
-        </a>
-      )}
-      
-      {frontmatter.downloadWorkbook && (
-        <a href={frontmatter.downloadWorkbook} target="_blank" class="download-card">
-          <div class="download-icon">📝</div>
-          <div class="download-info">
-            <h3>Sách bài tập</h3>
-            <p>Bài tập đi kèm</p>
-            <span class="file-size">{frontmatter.workbookSize}</span>
-          </div>
-          <div class="download-indicator">⬇️</div>
-        </a>
-      )}
-      
-      {frontmatter.downloadAudio && (
-        <a href={frontmatter.downloadAudio} target="_blank" class="download-card">
-          <div class="download-icon">🎵</div>
-          <div class="download-info">
-            <h3>File nghe</h3>
-            <p>Audio đi kèm sách</p>
-            <span class="file-size">{frontmatter.audioSize}</span>
-          </div>
-          <div class="download-indicator">🔗</div>
-        </a>
-      )}
+      <a href={frontmatter.downloadUrl} target="_blank" class="download-card primary">
+        <div class="download-icon">📚</div>
+        <div class="download-info">
+          <h3>Tải PDF</h3>
+          <p>File PDF chất lượng cao</p>
+          {frontmatter.fileSize && <span class="file-size">{frontmatter.fileSize}</span>}
+        </div>
+        <div class="download-indicator">⬇️</div>
+      </a>
     </div>
   )}
   
@@ -114,8 +75,7 @@ const { frontmatter } = Astro.props;
   )}
   
   <div class="download-note">
-    <p>💡 <strong>Khuyến nghị:</strong> Tải file nén để tiết kiệm dung lượng, chất lượng vẫn đảm bảo cho việc học tập.</p>
-    <p>🔗 Tất cả file được lưu trữ trên OneDrive, an toàn và tốc độ cao.</p>
+    <p> File được lưu trữ trên OneDrive, an toàn và tốc độ cao.</p>
   </div>
 </section>
 

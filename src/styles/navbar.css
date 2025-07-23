@@ -356,6 +356,53 @@
   }
 }
 
+/* Language Toggle in Navbar */
+.language-toggle-item {
+  margin-left: 1rem;
+}
+
+.navbar-language-toggle {
+  margin: 0;
+}
+
+.navbar-language-toggle .language-toggle-global {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+}
+
+.navbar-language-toggle .lang-btn {
+  color: white;
+  border: none;
+  background: transparent;
+}
+
+.navbar-language-toggle .lang-btn[data-active="true"] {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-language-toggle .lang-btn[data-active="false"]:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .language-toggle-item {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .navbar-language-toggle .language-toggle-global {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 350px) {
   .logo-text {
     font-size: 0.9rem;

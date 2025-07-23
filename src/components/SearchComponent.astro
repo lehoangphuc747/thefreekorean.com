@@ -1,0 +1,274 @@
+---
+// Component: SearchComponent
+// Description: This component provides a search functionality for documents
+// Used in: tai-lieu.astro
+// Purpose: Allows users to search through available documents with filtering
+//          and provides real-time search results with highlighting
+
+export interface Props {
+  documents: any[];
+}
+
+const { documents } = Astro.props;
+---
+
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Tìm kiếm tài liệu..." 
+      class="search-input"
+    />
+    <button id="clearSearch" class="clear-button" style="display: none;">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="search-stats" id="searchStats" style="display: none;">
+    <span id="searchStatsText">0 kết quả</span>
+  </div>
+</div>
+
+<script define:vars={{ documents }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const clearButton = document.getElementById('clearSearch');
+    const searchStats = document.getElementById('searchStats');
+    const searchStatsText = document.getElementById('searchStatsText');
+    
+    // Tạo index tìm kiếm
+    const searchIndex = documents.map(doc => ({
+      ...doc.frontmatter,
+      slug: doc.file.split('/').pop()?.replace('.mdx', '') || '',
+      searchText: [
+        doc.frontmatter.title,
+        doc.frontmatter.description,
+        doc.frontmatter.category,
+        doc.frontmatter.subcategory,
+        doc.frontmatter.type
+      ].filter(Boolean).join(' ').toLowerCase()
+    }));
+    
+    function performSearch(query) {
+      const documentCards = document.querySelectorAll('.document-card-wrapper');
+      const emptyState = document.getElementById('empty-state');
+      
+      if (!query.trim()) {
+        // Hiển thị tất cả cards
+        documentCards.forEach(card => {
+          card.style.display = 'block';
+        });
+        searchStats.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'none';
+        return;
+      }
+      
+      const searchQuery = query.toLowerCase();
+      let visibleCount = 0;
+      
+      // Lọc các cards
+      documentCards.forEach(card => {
+        const cardSlug = card.dataset.slug;
+        const matchingDoc = searchIndex.find(doc => doc.slug === cardSlug);
+        
+        if (matchingDoc && matchingDoc.searchText.includes(searchQuery)) {
+          card.style.display = 'block';
+          visibleCount++;
+          
+          // Highlight text trong card
+          highlightInCard(card, query);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Hiển thị thống kê
+      searchStats.style.display = 'block';
+      if (visibleCount === 0) {
+        searchStatsText.textContent = `Không tìm thấy kết quả cho "${query}"`;
+        if (emptyState) emptyState.style.display = 'block';
+      } else {
+        searchStatsText.textContent = `${visibleCount} kết quả cho "${query}"`;
+        if (emptyState) emptyState.style.display = 'none';
+      }
+    }
+    
+    function highlightInCard(card, query) {
+      if (!query.trim()) return;
+      
+      // Remove existing highlights
+      const existingHighlights = card.querySelectorAll('mark');
+      existingHighlights.forEach(mark => {
+        mark.outerHTML = mark.innerHTML;
+      });
+      
+      // Add new highlights
+      const titleElement = card.querySelector('.document-title');
+      const descriptionElement = card.querySelector('.document-description');
+      
+      if (titleElement) {
+        titleElement.innerHTML = highlightText(titleElement.textContent, query);
+      }
+      
+      if (descriptionElement) {
+        descriptionElement.innerHTML = highlightText(descriptionElement.textContent, query);
+      }
+    }
+    
+    function highlightText(text, query) {
+      if (!query.trim()) return text;
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
+    }
+    
+    function clearSearch() {
+      const documentCards = document.querySelectorAll('.document-card-wrapper');
+      
+      // Hiển thị tất cả cards
+      documentCards.forEach(card => {
+        card.style.display = 'block';
+        
+        // Remove highlights
+        const highlights = card.querySelectorAll('mark');
+        highlights.forEach(mark => {
+          mark.outerHTML = mark.innerHTML;
+        });
+      });
+      
+      searchStats.style.display = 'none';
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState) emptyState.style.display = 'none';
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', function() {
+      const query = this.value;
+      
+      if (query.length > 0) {
+        clearButton.style.display = 'block';
+        performSearch(query);
+      } else {
+        clearButton.style.display = 'none';
+        clearSearch();
+      }
+    });
+    
+    clearButton.addEventListener('click', function() {
+      searchInput.value = '';
+      clearButton.style.display = 'none';
+      clearSearch();
+      searchInput.focus();
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+      
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        clearButton.style.display = 'none';
+        clearSearch();
+        searchInput.blur();
+      }
+    });
+  });
+</script>
+
+<style>
+  .search-container {
+    margin-bottom: 2rem;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #64748b;
+    pointer-events: none;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .clear-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .clear-button:hover {
+    color: #ef4444;
+  }
+  
+  .search-stats {
+    margin-top: 1rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Highlight styling */
+  :global(mark) {
+    background: #fef08a;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 640px) {
+    .search-input-wrapper {
+      max-width: 100%;
+    }
+    
+    .search-stats {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>

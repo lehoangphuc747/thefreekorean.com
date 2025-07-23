@@ -1,0 +1,680 @@
+---
+// Component: GrammarFilter
+// Description: Advanced filtering component for grammar lessons
+// Used in: grammar listing pages
+// Purpose: Provides multiple filter options for grammar lessons with search
+
+export interface Props {
+  allGrammar: Array<{
+    slug: string;
+    title: string;
+    pattern: string;
+    level: string;
+    topikLevel: string;
+    grammarType: string;
+    difficulty: number;
+    tags: string[];
+  }>;
+  showAdvanced?: boolean;
+}
+
+const { allGrammar, showAdvanced = false } = Astro.props;
+
+// Extract unique values for filter options
+const levels = [...new Set(allGrammar.map(g => g.level))];
+const topikLevels = [...new Set(allGrammar.map(g => g.topikLevel))];
+const grammarTypes = [...new Set(allGrammar.map(g => g.grammarType))];
+const allTags = [...new Set(allGrammar.flatMap(g => g.tags || []))];
+const difficulties = [1, 2, 3, 4, 5];
+
+// Count items for each filter
+const getCounts = (items: any[], key: string) => {
+  return items.reduce((acc, item) => {
+    const value = item[key];
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
+};
+
+const levelCounts = getCounts(allGrammar, 'level');
+const topikCounts = getCounts(allGrammar, 'topikLevel');
+const typeCounts = getCounts(allGrammar, 'grammarType');
+---
+
+<div class="grammar-filter">
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="grammar-search" 
+        class="search-input" 
+        placeholder="🔍 Tìm kiếm ngữ pháp, ví dụ: -은 것, 과거형, danh từ hóa..."
+        autocomplete="off"
+      />
+      <button class="search-clear" id="search-clear" style="display: none;">✕</button>
+    </div>
+    
+    <div class="search-suggestions" id="search-suggestions" style="display: none;">
+      <!-- Suggestions will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Quick Filters -->
+  <div class="quick-filters">
+    <h4 class="filter-section-title">🚀 Lọc nhanh</h4>
+    <div class="quick-filter-grid">
+      <button class="quick-filter-btn active" data-filter="all">
+        <span class="filter-icon">📚</span>
+        <span class="filter-text">Tất cả</span>
+        <span class="filter-count">{allGrammar.length}</span>
+      </button>
+      
+      <button class="quick-filter-btn" data-filter="beginner">
+        <span class="filter-icon">🌱</span>
+        <span class="filter-text">Sơ cấp</span>
+        <span class="filter-count">{levelCounts['Beginner'] || 0}</span>
+      </button>
+      
+      <button class="quick-filter-btn" data-filter="intermediate">
+        <span class="filter-icon">🚀</span>
+        <span class="filter-text">Trung cấp</span>
+        <span class="filter-count">{levelCounts['Intermediate'] || 0}</span>
+      </button>
+      
+      <button class="quick-filter-btn" data-filter="advanced">
+        <span class="filter-icon">🏆</span>
+        <span class="filter-text">Cao cấp</span>
+        <span class="filter-count">{levelCounts['Advanced'] || 0}</span>
+      </button>
+      
+      <button class="quick-filter-btn" data-filter="topik1">
+        <span class="filter-icon">🎯</span>
+        <span class="filter-text">TOPIK I</span>
+        <span class="filter-count">{Object.entries(topikCounts).filter(([key]) => key.includes('I') || key.includes('초급')).reduce((sum, [, count]) => sum + count, 0)}</span>
+      </button>
+      
+      <button class="quick-filter-btn" data-filter="topik2">
+        <span class="filter-icon">🎯</span>
+        <span class="filter-text">TOPIK II</span>
+        <span class="filter-count">{Object.entries(topikCounts).filter(([key]) => key.includes('II') || key.includes('중급')).reduce((sum, [, count]) => sum + count, 0)}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Advanced Filters Toggle -->
+  <div class="advanced-toggle">
+    <button class="toggle-button" id="advanced-toggle">
+      <span class="toggle-icon">⚙️</span>
+      <span class="toggle-text">Bộ lọc nâng cao</span>
+      <span class="toggle-arrow">▼</span>
+    </button>
+  </div>
+
+  <!-- Advanced Filters -->
+  <div class="advanced-filters" id="advanced-filters" style={showAdvanced ? '' : 'display: none;'}>
+    <div class="filter-grid">
+      <!-- Level Filter -->
+      <div class="filter-group">
+        <h5 class="filter-title">📊 Cấp độ</h5>
+        <div class="filter-options">
+          {levels.map(level => (
+            <label class="filter-option">
+              <input type="checkbox" name="level" value={level} />
+              <span class="option-text">
+                {level === 'Beginner' ? '🌱 Sơ cấp' : 
+                 level === 'Intermediate' ? '🚀 Trung cấp' : '🏆 Cao cấp'}
+              </span>
+              <span class="option-count">({levelCounts[level] || 0})</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <!-- TOPIK Level Filter -->
+      <div class="filter-group">
+        <h5 class="filter-title">🎯 TOPIK</h5>
+        <div class="filter-options">
+          {topikLevels.map(topik => (
+            <label class="filter-option">
+              <input type="checkbox" name="topik" value={topik} />
+              <span class="option-text">{topik}</span>
+              <span class="option-count">({topikCounts[topik] || 0})</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <!-- Grammar Type Filter -->
+      <div class="filter-group">
+        <h5 class="filter-title">📝 Loại ngữ pháp</h5>
+        <div class="filter-options">
+          {grammarTypes.map(type => (
+            <label class="filter-option">
+              <input type="checkbox" name="grammarType" value={type} />
+              <span class="option-text">{type}</span>
+              <span class="option-count">({typeCounts[type] || 0})</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <!-- Difficulty Filter -->
+      <div class="filter-group">
+        <h5 class="filter-title">⭐ Độ khó</h5>
+        <div class="difficulty-slider">
+          <input 
+            type="range" 
+            id="difficulty-range" 
+            min="1" 
+            max="5" 
+            value="5" 
+            class="slider"
+          />
+          <div class="slider-labels">
+            <span>Dễ</span>
+            <span>Khó</span>
+          </div>
+          <div class="slider-value">
+            Tối đa: <span id="difficulty-value">5</span> ⭐
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tag Filter -->
+    <div class="tag-filter">
+      <h5 class="filter-title">🏷️ Thẻ phổ biến</h5>
+      <div class="tag-cloud">
+        {allTags.slice(0, 20).map(tag => {
+          const count = allGrammar.filter(g => g.tags?.includes(tag)).length;
+          return (
+            <button class="tag-filter-btn" data-tag={tag}>
+              #{tag} <span class="tag-count">({count})</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Filter Actions -->
+    <div class="filter-actions">
+      <button class="action-button primary" id="apply-filters">
+        <span class="button-icon">✓</span>
+        <span>Áp dụng bộ lọc</span>
+      </button>
+      
+      <button class="action-button secondary" id="reset-filters">
+        <span class="button-icon">🔄</span>
+        <span>Đặt lại</span>
+      </button>
+      
+      <button class="action-button tertiary" id="save-filters">
+        <span class="button-icon">💾</span>
+        <span>Lưu bộ lọc</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Summary -->
+  <div class="filter-summary" id="filter-summary" style="display: none;">
+    <div class="summary-content">
+      <span class="summary-text">Đang hiển thị <strong id="filtered-count">0</strong> kết quả</span>
+      <div class="active-filters" id="active-filters"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .grammar-filter {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #cbd5e1;
+  }
+
+  /* Search Section */
+  .search-section {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .search-container {
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .suggestion-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.2s ease;
+  }
+
+  .suggestion-item:hover {
+    background: #f8fafc;
+  }
+
+  .suggestion-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Quick Filters */
+  .quick-filters {
+    margin-bottom: 2rem;
+  }
+
+  .filter-section-title {
+    color: #1f2937;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .quick-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .quick-filter-btn {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .quick-filter-btn:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  .quick-filter-btn.active {
+    border-color: #3b82f6;
+    background: #3b82f6;
+    color: white;
+  }
+
+  .filter-icon {
+    font-size: 1.5rem;
+  }
+
+  .filter-text {
+    font-weight: 600;
+  }
+
+  .filter-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .quick-filter-btn.active .filter-count {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Advanced Toggle */
+  .advanced-toggle {
+    margin-bottom: 1rem;
+  }
+
+  .toggle-button {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #374151;
+    width: 100%;
+  }
+
+  .toggle-button:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+  }
+
+  .toggle-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+  }
+
+  .toggle-button.active .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Advanced Filters */
+  .advanced-filters {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e2e8f0;
+  }
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .filter-group {
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #fafbfc;
+  }
+
+  .filter-title {
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+
+  .filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
+  .filter-option:hover {
+    background: rgba(59, 130, 246, 0.1);
+  }
+
+  .filter-option input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .option-text {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #374151;
+  }
+
+  .option-count {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+
+  /* Difficulty Slider */
+  .difficulty-slider {
+    text-align: center;
+  }
+
+  .slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    margin-bottom: 0.5rem;
+  }
+
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+
+  .slider-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  /* Tag Filter */
+  .tag-filter {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag-filter-btn {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #374151;
+  }
+
+  .tag-filter-btn:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+  }
+
+  .tag-filter-btn.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+  }
+
+  .tag-count {
+    color: #6b7280;
+    margin-left: 0.25rem;
+  }
+
+  .tag-filter-btn.active .tag-count {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Filter Actions */
+  .filter-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .action-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .action-button.primary {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .action-button.primary:hover {
+    background: #2563eb;
+  }
+
+  .action-button.secondary {
+    background: #6b7280;
+    color: white;
+  }
+
+  .action-button.secondary:hover {
+    background: #4b5563;
+  }
+
+  .action-button.tertiary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+  }
+
+  .action-button.tertiary:hover {
+    background: #e5e7eb;
+  }
+
+  /* Filter Summary */
+  .filter-summary {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .summary-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .summary-text {
+    color: #1e40af;
+    font-weight: 600;
+  }
+
+  .active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .active-filter-tag {
+    background: #3b82f6;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .remove-filter {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .grammar-filter {
+      padding: 1.5rem;
+    }
+
+    .quick-filter-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-actions {
+      flex-direction: column;
+    }
+
+    .summary-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

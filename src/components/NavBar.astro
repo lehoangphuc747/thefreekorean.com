@@ -1,4 +1,10 @@
 ---
+// Component: NavBar
+// Description: This component displays the main navigation bar for the website
+// Used in: Layout.astro (appears on all pages)
+// Purpose: Provides navigation links to different sections of the website
+//          with responsive design for mobile and desktop views
+
 // Define the current path to highlight active links
 const { pathname } = Astro.url;
 
@@ -24,23 +30,28 @@ import '../styles/navbar.css';
     <div class="navbar-menu-wrapper" id="navbar-menu-wrapper">
       <ul class="navbar-menu" id="navbar-menu">
         <li>
-          <a href="/" class={pathname === '/' ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">🏠</span>
-            <span>Home</span>
+          <a href="/tai-lieu" class={pathname.includes('/tai-lieu') ? 'navbar-link active' : 'navbar-link'}>
+            <span class="icon">📚</span>
+            <span>Tài liệu</span>
           </a>
         </li>
         <li class="dropdown-container">
-          <a href="/tai-lieu" class={pathname.includes('/tai-lieu') ? 'navbar-link dropdown-toggle active' : 'navbar-link dropdown-toggle'}>
-            <span class="icon">📚</span>
-            <span>Tài liệu</span>
+          <a href="/ngu-phap" class={pathname.includes('/ngu-phap') ? 'navbar-link dropdown-toggle active' : 'navbar-link dropdown-toggle'}>
+            <span class="icon">📝</span>
+            <span>Ngữ pháp</span>
             <span class="dropdown-arrow">▼</span>
           </a>
           <div class="dropdown-menu">
-            <a href="/tai-lieu?category=Giáo%20trình" class="dropdown-item">Giáo trình</a>
-            <a href="/tai-lieu?category=Từ%20vựng" class="dropdown-item">Từ vựng</a>
-            <a href="/tai-lieu?category=Ngữ%20pháp" class="dropdown-item">Ngữ pháp</a>
-            <a href="/tai-lieu?category=Anki" class="dropdown-item">Anki Decks</a>
+            <a href="/ngu-phap" class="dropdown-item">📚 Ngữ pháp cơ bản</a>
+            <a href="/ngu-phap-moi" class="dropdown-item">🚀 Dashboard mới</a>
+            <a href="/demo-grammar" class="dropdown-item">🧪 Demo Components</a>
           </div>
+        </li>
+        <li>
+          <a href="/lo-trinh" class={pathname.includes('/lo-trinh') ? 'navbar-link active' : 'navbar-link'}>
+            <span class="icon">🗺️</span>
+            <span>Lộ trình</span>
+          </a>
         </li>
         <li class="dropdown-container">
           <a href="#" class="navbar-link dropdown-toggle">
@@ -49,9 +60,10 @@ import '../styles/navbar.css';
             <span class="dropdown-arrow">▼</span>
           </a>
           <div class="dropdown-menu">
-            <a href="#" class="dropdown-item">Bài tập ngữ pháp</a>
-            <a href="#" class="dropdown-item">Bài tập từ vựng</a>
-            <a href="#" class="dropdown-item">Luyện nghe</a>
+            <a href="/ngu-phap-moi?tab=progress" class="dropdown-item">📊 Tiến độ học tập</a>
+            <a href="/demo-grammar#quiz" class="dropdown-item">📝 Bài kiểm tra</a>
+            <a href="/ngu-phap-moi?tab=list" class="dropdown-item">📋 Danh sách ngữ pháp</a>
+            <a href="#" class="dropdown-item">🎧 Luyện nghe</a>
           </div>
         </li>
         <li>

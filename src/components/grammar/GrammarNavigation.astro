@@ -1,0 +1,688 @@
+---
+// Component: GrammarNavigation
+// Description: Navigation component for grammar lessons with progress tracking
+// Used in: grammar MDX files and grammar listing pages
+// Purpose: Provides easy navigation between grammar lessons with visual progress
+
+export interface Props {
+  currentGrammar?: {
+    slug: string;
+    title: string;
+    level: string;
+    pattern: string;
+  };
+  allGrammarList?: Array<{
+    slug: string;
+    title: string;
+    level: string;
+    pattern: string;
+    difficulty: number;
+    completed?: boolean;
+  }>;
+  showProgress?: boolean;
+}
+
+const { currentGrammar, allGrammarList = [], showProgress = true } = Astro.props;
+
+// Find current position
+const currentIndex = currentGrammar ? allGrammarList.findIndex(g => g.slug === currentGrammar.slug) : -1;
+const prevGrammar = currentIndex > 0 ? allGrammarList[currentIndex - 1] : null;
+const nextGrammar = currentIndex < allGrammarList.length - 1 ? allGrammarList[currentIndex + 1] : null;
+
+// Group by level for better organization
+const grammarByLevel = allGrammarList.reduce((acc, grammar) => {
+  if (!acc[grammar.level]) acc[grammar.level] = [];
+  acc[grammar.level].push(grammar);
+  return acc;
+}, {} as Record<string, typeof allGrammarList>);
+
+// Calculate progress
+const completedCount = allGrammarList.filter(g => g.completed).length;
+const progressPercentage = allGrammarList.length > 0 ? (completedCount / allGrammarList.length) * 100 : 0;
+
+// Level colors
+const getLevelColor = (level: string) => {
+  switch (level) {
+    case 'Beginner': return { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300' };
+    case 'Intermediate': return { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300' };
+    case 'Advanced': return { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300' };
+    default: return { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-300' };
+  }
+};
+
+// Difficulty stars
+const getDifficultyStars = (difficulty: number) => {
+  return Array.from({ length: 5 }, (_, i) => i < difficulty ? '★' : '☆').join('');
+};
+---
+
+<nav class="grammar-navigation">
+  <!-- Quick Navigation -->
+  {(prevGrammar || nextGrammar) && (
+    <div class="quick-nav">
+      <div class="nav-item prev">
+        {prevGrammar ? (
+          <a href={`/ngu-phap/${prevGrammar.slug}`} class="nav-link prev-link">
+            <span class="nav-arrow">←</span>
+            <div class="nav-content">
+              <div class="nav-label">Trước đó</div>
+              <div class="nav-title">{prevGrammar.title}</div>
+              <div class="nav-pattern">{prevGrammar.pattern}</div>
+            </div>
+          </a>
+        ) : (
+          <div class="nav-placeholder"></div>
+        )}
+      </div>
+
+      <div class="nav-center">
+        <a href="/ngu-phap" class="back-to-list">
+          <span class="list-icon">📚</span>
+          <span>Danh sách ngữ pháp</span>
+        </a>
+      </div>
+
+      <div class="nav-item next">
+        {nextGrammar ? (
+          <a href={`/ngu-phap/${nextGrammar.slug}`} class="nav-link next-link">
+            <div class="nav-content">
+              <div class="nav-label">Tiếp theo</div>
+              <div class="nav-title">{nextGrammar.title}</div>
+              <div class="nav-pattern">{nextGrammar.pattern}</div>
+            </div>
+            <span class="nav-arrow">→</span>
+          </a>
+        ) : (
+          <div class="nav-placeholder"></div>
+        )}
+      </div>
+    </div>
+  )}
+
+  <!-- Progress Section -->
+  {showProgress && allGrammarList.length > 0 && (
+    <div class="progress-section">
+      <h4 class="progress-title">📊 Tiến độ học tập</h4>
+      
+      <div class="progress-stats">
+        <div class="progress-bar-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style={`width: ${progressPercentage}%`}></div>
+          </div>
+          <div class="progress-text">
+            {completedCount}/{allGrammarList.length} bài đã hoàn thành ({Math.round(progressPercentage)}%)
+          </div>
+        </div>
+      </div>
+
+      <div class="level-breakdown">
+        {Object.entries(grammarByLevel).map(([level, grammars]) => {
+          const completed = grammars.filter(g => g.completed).length;
+          const levelColors = getLevelColor(level);
+          
+          return (
+            <div class="level-group">
+              <div class="level-header">
+                <span class={`level-badge ${levelColors.bg} ${levelColors.text} ${levelColors.border}`}>
+                  {level === 'Beginner' ? '🌱 Sơ cấp' : level === 'Intermediate' ? '🚀 Trung cấp' : '🏆 Cao cấp'}
+                </span>
+                <span class="level-progress">
+                  {completed}/{grammars.length}
+                </span>
+              </div>
+              
+              <div class="grammar-grid">
+                {grammars.map((grammar) => (
+                  <a 
+                    href={`/ngu-phap/${grammar.slug}`}
+                    class={`grammar-card ${grammar.slug === currentGrammar?.slug ? 'current' : ''} ${grammar.completed ? 'completed' : ''}`}
+                  >
+                    <div class="grammar-pattern">{grammar.pattern}</div>
+                    <div class="grammar-title">{grammar.title}</div>
+                    <div class="grammar-meta">
+                      <span class="difficulty-stars">{getDifficultyStars(grammar.difficulty)}</span>
+                      {grammar.completed && <span class="completed-icon">✅</span>}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  <!-- Study Tips -->
+  <div class="study-tips">
+    <h4 class="tips-title">💡 Gợi ý học tập</h4>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">📝</span>
+        <div class="tip-content">
+          <div class="tip-title">Làm bài tập</div>
+          <div class="tip-desc">Hoàn thành tất cả bài tập để củng cố kiến thức</div>
+        </div>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-icon">🔊</span>
+        <div class="tip-content">
+          <div class="tip-title">Luyện phát âm</div>
+          <div class="tip-desc">Nghe và lặp lại để cải thiện phát âm</div>
+        </div>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-icon">🎴</span>
+        <div class="tip-content">
+          <div class="tip-title">Sử dụng Anki</div>
+          <div class="tip-desc">Tải Anki deck để ôn tập từ vựng</div>
+        </div>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-icon">📚</span>
+        <div class="tip-content">
+          <div class="tip-title">Học theo trình tự</div>
+          <div class="tip-desc">Học từ sơ cấp đến cao cấp một cách có hệ thống</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .grammar-navigation {
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    border: 1px solid #e5e7eb;
+  }
+
+  /* Quick Navigation */
+  .quick-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .nav-item.prev {
+    justify-self: start;
+  }
+
+  .nav-item.next {
+    justify-self: end;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #e5e7eb;
+  }
+
+  .nav-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .nav-arrow {
+    font-size: 1.5rem;
+    color: #3b82f6;
+    font-weight: bold;
+  }
+
+  .nav-content {
+    text-align: left;
+  }
+
+  .next-link .nav-content {
+    text-align: right;
+  }
+
+  .nav-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+
+  .nav-title {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+  }
+
+  .nav-pattern {
+    font-family: monospace;
+    color: #3b82f6;
+    font-size: 0.9rem;
+  }
+
+  .nav-placeholder {
+    height: 1px;
+  }
+
+  .back-to-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .back-to-list:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    color: white;
+    text-decoration: none;
+  }
+
+  /* Progress Section */
+  .progress-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .progress-title {
+    color: #1f2937;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .progress-bar-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    text-align: center;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  /* Level Breakdown */
+  .level-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .level-group {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .level-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .level-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid;
+  }
+
+  .level-progress {
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .grammar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .grammar-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .grammar-card:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .grammar-card.current {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  .grammar-card.completed {
+    border-color: #10b981;
+    background: #ecfdf5;
+  }
+
+  .grammar-pattern {
+    font-family: monospace;
+    color: #3b82f6;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .grammar-title {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .grammar-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .difficulty-stars {
+    color: #fbbf24;
+    font-size: 0.8rem;
+  }
+
+  .completed-icon {
+    font-size: 1rem;
+  }
+
+  /* Study Tips */
+  .study-tips {
+    margin-bottom: 1rem;
+  }
+
+  .tips-title {
+    color: #1f2937;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .tip-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+  }
+
+  .tip-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .tip-content {
+    flex: 1;
+  }
+
+  .tip-title {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+  }
+
+  .tip-desc {
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.4;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .grammar-navigation {
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .quick-nav {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .nav-item.prev,
+    .nav-item.next {
+      justify-self: center;
+    }
+
+    .nav-link {
+      justify-content: center;
+    }
+
+    .next-link .nav-content {
+      text-align: center;
+    }
+
+    .level-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .grammar-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tips-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mark current grammar as completed when user scrolls to bottom
+    let hasScrolledToBottom = false;
+    
+    function checkScrollProgress() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const scrollPercentage = (scrollTop + windowHeight) / documentHeight;
+      
+      if (scrollPercentage >= 0.9 && !hasScrolledToBottom) {
+        hasScrolledToBottom = true;
+        markCurrentAsCompleted();
+      }
+    }
+
+    function markCurrentAsCompleted() {
+      const currentCard = document.querySelector('.grammar-card.current');
+      if (currentCard && !currentCard.classList.contains('completed')) {
+        // Add visual indication
+        currentCard.classList.add('completed');
+        
+        // Update progress bar
+        const progressFill = document.querySelector('.progress-fill');
+        const progressText = document.querySelector('.progress-text');
+        
+        if (progressFill && progressText) {
+          const currentWidth = parseFloat(progressFill.style.width) || 0;
+          const totalCards = document.querySelectorAll('.grammar-card').length;
+          const increment = totalCards > 0 ? (100 / totalCards) : 0;
+          const newWidth = Math.min(100, currentWidth + increment);
+          
+          progressFill.style.width = newWidth + '%';
+          
+          // Update text
+          const completedCards = document.querySelectorAll('.grammar-card.completed').length;
+          progressText.textContent = `${completedCards}/${totalCards} bài đã hoàn thành (${Math.round(newWidth)}%)`;
+        }
+        
+        // Store in localStorage
+        const currentSlug = currentCard.getAttribute('href')?.split('/').pop();
+        if (currentSlug) {
+          const completedGrammars = JSON.parse(localStorage.getItem('completedGrammars') || '[]');
+          if (!completedGrammars.includes(currentSlug)) {
+            completedGrammars.push(currentSlug);
+            localStorage.setItem('completedGrammars', JSON.stringify(completedGrammars));
+          }
+        }
+        
+        // Show celebration
+        showCompletionCelebration();
+      }
+    }
+
+    function showCompletionCelebration() {
+      // Create a simple celebration effect
+      const celebration = document.createElement('div');
+      celebration.innerHTML = '🎉 Bài học hoàn thành!';
+      celebration.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #10b981;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        z-index: 1000;
+        animation: slideIn 0.5s ease;
+      `;
+      
+      document.body.appendChild(celebration);
+      
+      setTimeout(() => {
+        celebration.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => {
+          document.body.removeChild(celebration);
+        }, 500);
+      }, 3000);
+    }
+
+    // Load completed grammars from localStorage
+    function loadCompletedGrammars() {
+      const completedGrammars = JSON.parse(localStorage.getItem('completedGrammars') || '[]');
+      
+      completedGrammars.forEach(slug => {
+        const card = document.querySelector(`[href="/ngu-phap/${slug}"]`);
+        if (card) {
+          card.classList.add('completed');
+        }
+      });
+      
+      // Update progress
+      const completedCards = document.querySelectorAll('.grammar-card.completed').length;
+      const totalCards = document.querySelectorAll('.grammar-card').length;
+      const progressFill = document.querySelector('.progress-fill');
+      const progressText = document.querySelector('.progress-text');
+      
+      if (progressFill && progressText && totalCards > 0) {
+        const percentage = (completedCards / totalCards) * 100;
+        progressFill.style.width = percentage + '%';
+        progressText.textContent = `${completedCards}/${totalCards} bài đã hoàn thành (${Math.round(percentage)}%)`;
+      }
+    }
+
+    // Initialize
+    loadCompletedGrammars();
+    
+    // Add scroll listener
+    window.addEventListener('scroll', checkScrollProgress);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) return;
+      
+      const prevLink = document.querySelector('.prev-link');
+      const nextLink = document.querySelector('.next-link');
+      
+      if (e.key === 'ArrowLeft' && prevLink) {
+        e.preventDefault();
+        prevLink.click();
+      } else if (e.key === 'ArrowRight' && nextLink) {
+        e.preventDefault();
+        nextLink.click();
+      }
+    });
+  });
+</script>
+
+<style>
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+</style>
