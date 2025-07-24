@@ -1,5 +1,6 @@
 ---
 import DocumentCard from './DocumentCard.astro';
+import SkeletonCard from '../ui/SkeletonCard.astro';
 
 export interface Props {
   documents: Array<{
@@ -12,6 +13,7 @@ export interface Props {
     cover?: string;
     fileSize?: string;
     pages?: number;
+
     duration?: string;
     downloadUrl?: string;
     downloadOriginal?: string;
@@ -19,14 +21,23 @@ export interface Props {
     downloadAudio?: string;
   }>;
   class?: string;
+  isLoading?: boolean;
 }
 
-const { documents, class: className = '' } = Astro.props;
+const { documents, class: className = '', isLoading = false } = Astro.props;
 ---
 
 <div class={`documents-grid ${className}`} id="documents-grid">
+  
+  <!-- Skeleton Loading State -->
+  <div class="skeleton-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" id="skeleton-grid" style="display: none;">
+    {Array.from({ length: 10 }, (_, i) => (
+      <SkeletonCard key={i} />
+    ))}
+  </div>
+
   <!-- Documents Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" id="actual-grid">
     {documents.map(doc => (
       <DocumentCard document={doc} />
     ))}
@@ -43,10 +54,40 @@ const { documents, class: className = '' } = Astro.props;
 </div>
 
 <script>
-  // Card click handler
+  // Enhanced loading state management
   document.addEventListener('DOMContentLoaded', function() {
     const documentCards = document.querySelectorAll('.document-card-wrapper') as NodeListOf<HTMLElement>;
+    const skeletonGrid = document.getElementById('skeleton-grid');
+    const actualGrid = document.getElementById('actual-grid');
+    const emptyState = document.getElementById('empty-state');
     
+    // Loading state controller
+    window.DocumentGrid = {
+      showSkeleton() {
+        if (skeletonGrid && actualGrid) {
+          skeletonGrid.style.display = 'grid';
+          actualGrid.style.display = 'none';
+          if (emptyState) emptyState.style.display = 'none';
+        }
+      },
+      
+      hideSkeleton() {
+        if (skeletonGrid && actualGrid) {
+          skeletonGrid.style.display = 'none';
+          actualGrid.style.display = 'grid';
+        }
+      },
+      
+      showEmpty() {
+        if (skeletonGrid && actualGrid && emptyState) {
+          skeletonGrid.style.display = 'none';
+          actualGrid.style.display = 'none';
+          emptyState.style.display = 'block';
+        }
+      }
+    };
+    
+    // Card click handler
     documentCards.forEach(card => {
       card.addEventListener('click', function(this: HTMLElement, event: Event) {
         // Prevent navigation if clicking on a button or link
@@ -58,10 +99,13 @@ const { documents, class: className = '' } = Astro.props;
         
         const slug = this.getAttribute('data-slug');
         if (slug) {
-          // Redirect to document page
+          // Redirect to document page (no skeleton needed for navigation)
           window.location.href = `/tai-lieu/${slug}`;
         }
       });
     });
+    
+    // Initialize with content visible (skeleton hidden by default)
+    window.DocumentGrid?.hideSkeleton();
   });
 </script>

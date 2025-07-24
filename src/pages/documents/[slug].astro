@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import DownloadSection from '../../components/DownloadSection.astro';
+import TableOfContents from '../../components/ui/TableOfContents.astro';
+import ReadingProgress from '../../components/ui/ReadingProgress.astro';
 
 export async function getStaticPaths() {
   const documentFiles = import.meta.glob('../../documents/*.mdx', { eager: true });
@@ -45,6 +47,14 @@ const relatedAnkiFiles = Object.values(allDocuments).filter(doc => {
 ---
 
 <Layout>
+  <!-- Reading Progress Bar -->
+  <ReadingProgress 
+    position="top"
+    showPercentage={true}
+    target=".document-content"
+    color="linear-gradient(90deg, #3245ff 0%, #bc52ee 100%)"
+  />
+  
   <div class="document-page">
     <div class="container">
       <!-- Breadcrumb -->
@@ -132,6 +142,15 @@ const relatedAnkiFiles = Object.values(allDocuments).filter(doc => {
 
       <!-- Document Content -->
       <main class="document-content">
+        <!-- Table of Contents -->
+        <TableOfContents 
+          title="Mục lục tài liệu" 
+          showTitle={true}
+          collapsible={true}
+          maxDepth={3}
+          class="mb-6"
+        />
+        
         <Content />
       </main>
 

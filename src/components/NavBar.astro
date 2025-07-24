@@ -12,55 +12,16 @@ const { pathname } = Astro.url;
 import '../styles/navbar.css';
 ---
 
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="navbar-logo">
-      <span class="logo-icon">한</span>
-      <span class="logo-text">The Free Korean</span>
-    </a>
-    
-    <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
-      <div class="hamburger">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </div>
-    </button>
-    
-    <div class="navbar-menu-wrapper" id="navbar-menu-wrapper">
-      <ul class="navbar-menu" id="navbar-menu">
-        <li>
-          <a href="/gioi-thieu" class={pathname.includes('/gioi-thieu') ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">ℹ️</span>
-            <span>Giới thiệu</span>
-          </a>
-        </li>
-        <li>
-          <a href="/lo-trinh" class={pathname.includes('/lo-trinh') ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">🗺️</span>
-            <span>Lộ trình</span>
-          </a>
-        </li>
-        <li>
-          <a href="/tai-lieu" class={pathname.includes('/tai-lieu') ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">📚</span>
-            <span>Tài liệu</span>
-          </a>
-        </li>
-        <li>
-          <a href="/topik" class={pathname.includes('/topik') ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">🏆</span>
-            <span>TOPIK</span>
-          </a>
-        </li>
-        <li>
-          <a href="/lien-he" class={pathname.includes('/lien-he') ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">💬</span>
-            <span>Liên hệ</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+<nav style="width:100%;background:#3245ff;color:white;padding:1rem 0;box-shadow:0 2px 8px #0001;">
+  <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+    <span style="font-weight: bold; font-size: 1.2rem; letter-spacing: 1px;">The Free Korean</span>
+    <ul style="display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0;">
+      <li><a href="/" style="color: white; text-decoration: none;">Home</a></li>
+      <li><a href="/tai-lieu" style="color: white; text-decoration: none;">Tài liệu</a></li>
+
+      <li><a href="#" style="color: white; text-decoration: none;">Ôn tập</a></li>
+      <li><a href="#" style="color: white; text-decoration: none;">TOPIK</a></li>
+    </ul>
   </div>
 </nav>
 

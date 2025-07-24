@@ -5,6 +5,8 @@ import Button from '../../components/ui/Button.astro';
 import Badge from '../../components/ui/Badge.astro';
 import DownloadSection from '../../components/DownloadSection.astro';
 import PostHero from '../../components/document/PostHero.astro';
+import TableOfContents from '../../components/ui/TableOfContents.astro';
+import ReadingProgress from '../../components/ui/ReadingProgress.astro';
 
 export async function getStaticPaths() {
   const allPosts = await Astro.glob('../../content/**/*.mdx');
@@ -22,6 +24,14 @@ if (!post) {
 ---
 
 <Layout title={post.frontmatter?.title || 'Tài liệu'}>
+  <!-- Reading Progress Bar -->
+  <ReadingProgress 
+    position="top"
+    showPercentage={true}
+    target="#doc-content"
+    color="linear-gradient(90deg, #3245ff 0%, #bc52ee 100%)"
+  />
+  
   <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-12">
     <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
 
@@ -58,11 +68,14 @@ if (!post) {
         <img src={post.frontmatter.cover} alt={post.frontmatter.title} class="w-full max-w-xs mx-auto mb-6 rounded-lg shadow" />
       )}
 
-      <!-- Table of Contents (auto, basic) -->
-      <div id="toc" class="mb-8">
-        <h2 class="text-lg font-semibold mb-2">Mục lục</h2>
-        <ul class="list-disc list-inside text-sm text-blue-700 space-y-1" id="toc-list"></ul>
-      </div>
+      <!-- Table of Contents (auto, enhanced) -->
+      <TableOfContents 
+        title="Mục lục" 
+        showTitle={true}
+        collapsible={true}
+        maxDepth={3}
+        class="mb-8"
+      />
 
       <div class="prose max-w-none mb-8" id="doc-content">
         <post.Content />
@@ -138,26 +151,8 @@ if (!post) {
         });
       }
     });
-    // Table of Contents (auto from h2/h3)
+    // Table of Contents is now handled by TableOfContents component
     document.addEventListener('DOMContentLoaded', function() {
-      // TOC
-      const tocList = document.getElementById('toc-list');
-      const content = document.getElementById('doc-content');
-      if (tocList && content) {
-        const headings = content.querySelectorAll('h2, h3');
-        headings.forEach(h => {
-          const li = document.createElement('li');
-          li.className = h.tagName === 'H2' ? '' : 'ml-4';
-          const a = document.createElement('a');
-          a.textContent = h.textContent;
-          a.href = `#${h.id || h.textContent.replace(/\s+/g, '-').toLowerCase()}`;
-          a.className = 'hover:underline';
-          li.appendChild(a);
-          tocList.appendChild(li);
-          // Ensure heading has id
-          if (!h.id) h.id = h.textContent.replace(/\s+/g, '-').toLowerCase();
-        });
-      }
 
       // Share & Copy Link logic (client only)
       const copyBtn = document.querySelector('[data-copy-link]');

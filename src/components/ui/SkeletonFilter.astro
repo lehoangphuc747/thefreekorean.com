@@ -1,0 +1,44 @@
+---
+// Skeleton loading component for FilterSection
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={`skeleton-filter ${className}`}>
+  <!-- Main Category Filter Skeleton -->
+  <div class="flex flex-wrap gap-3 justify-center mb-4">
+    <div class="h-10 w-20 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-10 w-24 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-10 w-16 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-10 w-28 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-10 w-18 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+  </div>
+  
+  <!-- Subcategory Filter Skeleton -->
+  <div class="flex flex-wrap gap-2 justify-center mb-2">
+    <div class="h-8 w-16 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-8 w-20 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-8 w-14 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+    <div class="h-8 w-22 bg-gray-200 rounded-lg skeleton-shimmer"></div>
+  </div>
+</div>
+
+<style>
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+</style> 

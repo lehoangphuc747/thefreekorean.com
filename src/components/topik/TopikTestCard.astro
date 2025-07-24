@@ -1,0 +1,310 @@
+---
+// TOPIK Test Card component - chuyên dụng cho đề thi thử TOPIK
+export interface Props {
+  test: {
+    id: string;
+    title: string;
+    description: string;
+    level: 'TOPIK I' | 'TOPIK II';
+    year?: string;
+    session?: string; // '1차', '2차', etc.
+    difficulty: 'Easy' | 'Medium' | 'Hard';
+    duration: number; // minutes
+    totalQuestions: number;
+    sections: {
+      listening?: number;
+      reading?: number;
+      writing?: number;
+    };
+    maxScore: number;
+    passScore: number;
+    cover?: string;
+    isOfficial?: boolean;
+    completedCount?: number;
+    averageScore?: number;
+    tags?: string[];
+  };
+  class?: string;
+  showProgress?: boolean;
+}
+
+const { test, class: className = '', showProgress = false } = Astro.props;
+
+// Helper functions
+const getLevelColor = (level: string) => {
+  switch (level) {
+    case 'TOPIK I':
+      return 'from-green-500 to-emerald-600';
+    case 'TOPIK II':
+      return 'from-blue-500 to-indigo-600';
+    default:
+      return 'from-purple-500 to-pink-600';
+  }
+};
+
+const getDifficultyColor = (difficulty: string) => {
+  switch (difficulty) {
+    case 'Easy':
+      return 'bg-green-100 text-green-700 border-green-200';
+    case 'Medium':
+      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+    case 'Hard':
+      return 'bg-red-100 text-red-700 border-red-200';
+    default:
+      return 'bg-gray-100 text-gray-700 border-gray-200';
+  }
+};
+
+const formatDuration = (minutes: number) => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (hours > 0) {
+    return `${hours}h ${mins}m`;
+  }
+  return `${mins}m`;
+};
+
+const getScoreColor = (score: number, maxScore: number) => {
+  const percentage = (score / maxScore) * 100;
+  if (percentage >= 80) return 'text-green-600';
+  if (percentage >= 60) return 'text-yellow-600';
+  return 'text-red-600';
+};
+---
+
+<div class={`topik-test-card group cursor-pointer ${className}`} data-test-id={test.id}>
+  <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full flex flex-col transform hover:-translate-y-2 border border-gray-100">
+    
+    <!-- Header với level badge -->
+    <div class={`h-3 bg-gradient-to-r ${getLevelColor(test.level)}`}></div>
+    
+    <!-- Cover hoặc Icon -->
+    <div class="relative">
+      {test.cover ? (
+        <img 
+          src={test.cover} 
+          alt={test.title}
+          class="w-full h-48 object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div class={`h-48 bg-gradient-to-br ${getLevelColor(test.level)} flex items-center justify-center relative overflow-hidden`}>
+          <div class="absolute inset-0 bg-black/10"></div>
+          <div class="relative z-10 text-center text-white">
+            <div class="text-4xl mb-2">📝</div>
+            <div class="text-lg font-bold">{test.level}</div>
+            {test.year && <div class="text-sm opacity-90">{test.year}</div>}
+          </div>
+        </div>
+      )}
+      
+      <!-- Badges -->
+      <div class="absolute top-3 left-3 flex flex-col gap-2">
+        <span class={`px-3 py-1 bg-gradient-to-r ${getLevelColor(test.level)} text-white text-xs font-bold rounded-full shadow-lg`}>
+          {test.level}
+        </span>
+        {test.isOfficial && (
+          <span class="px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold rounded-full shadow-lg">
+            🏆 CHÍNH THỨC
+          </span>
+        )}
+      </div>
+      
+      <!-- Difficulty Badge -->
+      <div class="absolute top-3 right-3">
+        <span class={`px-2 py-1 text-xs font-medium rounded-lg border ${getDifficultyColor(test.difficulty)}`}>
+          {test.difficulty === 'Easy' ? '🟢 Dễ' : test.difficulty === 'Medium' ? '🟡 Trung bình' : '🔴 Khó'}
+        </span>
+      </div>
+      
+      <!-- Year & Session -->
+      {(test.year || test.session) && (
+        <div class="absolute bottom-3 left-3">
+          <div class="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-medium text-gray-700">
+            {test.year} {test.session}
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 flex-grow flex flex-col">
+      <!-- Title -->
+      <h3 class="font-bold text-xl text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+        {test.title}
+      </h3>
+      
+      <!-- Description -->
+      <p class="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
+        {test.description}
+      </p>
+      
+      <!-- Test Stats -->
+      <div class="grid grid-cols-2 gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-600">{test.totalQuestions}</div>
+          <div class="text-xs text-gray-600">Câu hỏi</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-green-600">{formatDuration(test.duration)}</div>
+          <div class="text-xs text-gray-600">Thời gian</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-purple-600">{test.maxScore}</div>
+          <div class="text-xs text-gray-600">Điểm tối đa</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-orange-600">{test.passScore}</div>
+          <div class="text-xs text-gray-600">Điểm đậu</div>
+        </div>
+      </div>
+      
+      <!-- Sections Breakdown -->
+      <div class="mb-4">
+        <div class="text-xs font-semibold text-gray-700 mb-2">Cấu trúc đề thi:</div>
+        <div class="flex gap-2 text-xs">
+          {test.sections.listening && (
+            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">
+              🎧 {test.sections.listening} câu
+            </span>
+          )}
+          {test.sections.reading && (
+            <span class="px-2 py-1 bg-green-100 text-green-700 rounded">
+              📖 {test.sections.reading} câu
+            </span>
+          )}
+          {test.sections.writing && (
+            <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded">
+              ✍️ {test.sections.writing} câu
+            </span>
+          )}
+        </div>
+      </div>
+      
+      <!-- Statistics (if available) -->
+      {(test.completedCount || test.averageScore) && (
+        <div class="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+          <div class="text-xs font-semibold text-blue-800 mb-2">📊 Thống kê:</div>
+          <div class="flex justify-between text-xs text-blue-700">
+            {test.completedCount && (
+              <span>{test.completedCount} lượt thi</span>
+            )}
+            {test.averageScore && (
+              <span class={getScoreColor(test.averageScore, test.maxScore)}>
+                TB: {test.averageScore}/{test.maxScore}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      
+      <!-- Tags -->
+      {test.tags && test.tags.length > 0 && (
+        <div class="mb-4">
+          <div class="flex flex-wrap gap-1">
+            {test.tags.slice(0, 3).map(tag => (
+              <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                #{tag}
+              </span>
+            ))}
+            {test.tags.length > 3 && (
+              <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                +{test.tags.length - 3}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      
+      <!-- Progress Bar (if showProgress) -->
+      {showProgress && (
+        <div class="mb-4">
+          <div class="flex justify-between text-xs text-gray-600 mb-1">
+            <span>Tiến độ hoàn thành</span>
+            <span>75%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style="width: 75%"></div>
+          </div>
+        </div>
+      )}
+      
+      <!-- Action Buttons -->
+      <div class="flex gap-2 mt-auto">
+        <button 
+          class="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+          onclick="window.location.href = `/topik/tests/${test.id}`"
+        >
+          🎯 Bắt đầu thi
+        </button>
+        <button 
+          class="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200"
+          onclick="event.stopPropagation(); window.TopikTest?.showPreview('${test.id}')"
+          title="Xem trước đề thi"
+        >
+          👁️
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .topik-test-card:hover .bg-gradient-to-r {
+    background-size: 110% 110%;
+  }
+  
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Hover effects */
+  .topik-test-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Animation for badges */
+  .topik-test-card:hover .absolute span {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const testCards = document.querySelectorAll('.topik-test-card');
+    
+    testCards.forEach(card => {
+      card.addEventListener('click', function(this: HTMLElement, event: Event) {
+        // Không navigate nếu click vào button
+        const target = event.target as HTMLElement;
+        if (target?.tagName === 'BUTTON' || target?.closest('button')) {
+          return;
+        }
+        
+        const testId = this.getAttribute('data-test-id');
+        if (testId) {
+          window.location.href = `/topik/tests/${testId}`;
+        }
+      });
+      
+      // Hover effect cho stats
+      const statsGrid = card.querySelector('.grid.grid-cols-2');
+      if (statsGrid) {
+        card.addEventListener('mouseenter', () => {
+          statsGrid.classList.add('bg-blue-50');
+          statsGrid.classList.remove('bg-gray-50');
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          statsGrid.classList.add('bg-gray-50');
+          statsGrid.classList.remove('bg-blue-50');
+        });
+      }
+    });
+  });
+</script> 

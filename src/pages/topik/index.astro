@@ -1,0 +1,343 @@
+---
+import TopikLayout from '../../layouts/TopikLayout.astro';
+import TopikGrid from '../../components/topik/TopikGrid.astro';
+import TopikFilter from '../../components/topik/TopikFilter.astro';
+
+// Import tất cả tài liệu TOPIK từ content
+const topikFiles = import.meta.glob('../../content/topik/*.mdx', { eager: true });
+
+// Transform data cho TOPIK
+const topikDocuments = Object.entries(topikFiles)
+  .map(([path, file]) => ({
+    slug: path.split('/').pop()?.replace('.mdx', '') || '',
+    title: file.frontmatter?.title || '',
+    description: file.frontmatter?.description || '',
+    category: file.frontmatter?.category || 'TOPIK',
+    type: file.frontmatter?.type || '',
+    level: file.frontmatter?.level || '',
+    difficulty: file.frontmatter?.difficulty || '',
+    cover: file.frontmatter?.cover || '',
+    date: file.frontmatter?.date || new Date().toISOString(),
+    downloadUrl: file.frontmatter?.downloadUrl || '',
+    practiceUrl: file.frontmatter?.practiceUrl || '',
+    duration: file.frontmatter?.duration || '',
+    questions: file.frontmatter?.questions || 0,
+    url: file.frontmatter?.url || '',
+    content: file.Content
+  }))
+  .filter(doc => doc.title)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Thống kê TOPIK
+const stats = {
+  total: topikDocuments.length,
+  topikI: topikDocuments.filter(doc => doc.level === 'TOPIK I').length,
+  topikII: topikDocuments.filter(doc => doc.level === 'TOPIK II').length,
+  vocabulary: topikDocuments.filter(doc => doc.type === 'vocabulary').length,
+  practice: topikDocuments.filter(doc => doc.type === 'practice').length,
+  tests: topikDocuments.filter(doc => doc.type === 'test').length,
+};
+---
+
+<TopikLayout 
+  title="TOPIK - Test of Proficiency in Korean" 
+  description="Luyện thi TOPIK miễn phí với tài liệu chất lượng cao"
+  showBackButton={false}
+>
+  
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10"></div>
+    <div class="relative max-w-7xl mx-auto px-4 py-16 text-center">
+      
+      <!-- Hero Icon -->
+      <div class="mb-8">
+        <div class="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-xl animate-pulse">
+          <span class="text-4xl">🎯</span>
+        </div>
+      </div>
+      
+      <!-- Hero Content -->
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">TOPIK</span>
+        <br>
+        <span class="text-2xl md:text-3xl font-semibold text-gray-700">Test of Proficiency in Korean</span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+        Luyện thi TOPIK miễn phí với bộ sưu tập tài liệu chất lượng cao, 
+        đề thi thử và hệ thống học tập hiệu quả
+      </p>
+      
+      <!-- Stats Overview -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-2xl mx-auto">
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+          <div class="text-2xl font-bold text-blue-600">{stats.total}</div>
+          <div class="text-sm text-gray-600">Tài liệu</div>
+        </div>
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+          <div class="text-2xl font-bold text-green-600">{stats.topikI}</div>
+          <div class="text-sm text-gray-600">TOPIK I</div>
+        </div>
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+          <div class="text-2xl font-bold text-indigo-600">{stats.topikII}</div>
+          <div class="text-sm text-gray-600">TOPIK II</div>
+        </div>
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+          <div class="text-2xl font-bold text-purple-600">{stats.vocabulary}</div>
+          <div class="text-sm text-gray-600">Từ vựng</div>
+        </div>
+      </div>
+      
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a 
+          href="/topik/tests" 
+          class="px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-xl font-bold text-lg hover:from-red-700 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          🎯 Làm đề thi ngay
+        </a>
+        <a 
+          href="/topik/practice" 
+          class="px-8 py-4 bg-white text-gray-700 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all duration-300 shadow-lg border border-gray-200"
+        >
+          📝 Luyện tập trước
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Hệ thống thi thử TOPIK hàng đầu
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Trải nghiệm thi thử giống như kỳ thi thật với công nghệ hiện đại
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Feature 1 -->
+        <div class="text-center group">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl">🎯</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Đề thi chính thức</h3>
+          <p class="text-gray-600">Bộ sưu tập đề thi TOPIK chính thức từ các kỳ thi đã tổ chức</p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="text-center group">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl">⏱️</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Đếm giờ thực tế</h3>
+          <p class="text-gray-600">Hệ thống đếm ngược thời gian chính xác như kỳ thi thật</p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="text-center group">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl">📊</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Phân tích kết quả</h3>
+          <p class="text-gray-600">Báo cáo chi tiết điểm số và phân tích từng kỹ năng</p>
+        </div>
+        
+        <!-- Feature 4 -->
+        <div class="text-center group">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl">🎧</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Audio chất lượng cao</h3>
+          <p class="text-gray-600">File âm thanh rõ ràng cho phần thi nghe giống như thi thật</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Tests Section -->
+  <section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4">
+      
+      <!-- Section Header -->
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Đề thi nổi bật
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Các đề thi TOPIK được làm nhiều nhất và đánh giá cao
+        </p>
+      </div>
+
+      <!-- Featured Test Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        
+        <!-- TOPIK I Official -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="h-3 bg-gradient-to-r from-green-500 to-emerald-600"></div>
+          <div class="h-48 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center relative">
+            <div class="text-center text-white">
+              <div class="text-4xl mb-2">🟢</div>
+              <div class="text-xl font-bold">TOPIK I</div>
+              <div class="text-sm opacity-90">Kỳ thi 04/2023</div>
+            </div>
+            <div class="absolute top-3 left-3">
+              <span class="px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold rounded-full shadow-lg">
+                🏆 CHÍNH THỨC
+              </span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">TOPIK I - Kỳ thi chính thức</h3>
+            <p class="text-gray-600 text-sm mb-4">Đề thi TOPIK I chính thức với 70 câu hỏi, thời gian 100 phút</p>
+            <div class="grid grid-cols-2 gap-2 mb-4 text-xs">
+              <div class="text-center">
+                <div class="font-bold text-blue-600">70</div>
+                <div class="text-gray-600">Câu hỏi</div>
+              </div>
+              <div class="text-center">
+                <div class="font-bold text-green-600">100m</div>
+                <div class="text-gray-600">Thời gian</div>
+              </div>
+            </div>
+            <a 
+              href="/topik/tests/topik-i-2023-1"
+              class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 block"
+            >
+              🎯 Bắt đầu thi
+            </a>
+          </div>
+        </div>
+        
+        <!-- TOPIK II Official -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="h-3 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+          <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center relative">
+            <div class="text-center text-white">
+              <div class="text-4xl mb-2">🔵</div>
+              <div class="text-xl font-bold">TOPIK II</div>
+              <div class="text-sm opacity-90">Kỳ thi 04/2023</div>
+            </div>
+            <div class="absolute top-3 left-3">
+              <span class="px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold rounded-full shadow-lg">
+                🏆 CHÍNH THỨC
+              </span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">TOPIK II - Kỳ thi chính thức</h3>
+            <p class="text-gray-600 text-sm mb-4">Đề thi TOPIK II chính thức với 54 câu hỏi, thời gian 180 phút</p>
+            <div class="grid grid-cols-2 gap-2 mb-4 text-xs">
+              <div class="text-center">
+                <div class="font-bold text-blue-600">54</div>
+                <div class="text-gray-600">Câu hỏi</div>
+              </div>
+              <div class="text-center">
+                <div class="font-bold text-green-600">180m</div>
+                <div class="text-gray-600">Thời gian</div>
+              </div>
+            </div>
+            <a 
+              href="/topik/tests/topik-ii-2023-1"
+              class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 block"
+            >
+              🎯 Bắt đầu thi
+            </a>
+          </div>
+        </div>
+        
+        <!-- Practice Test -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="h-3 bg-gradient-to-r from-purple-500 to-pink-600"></div>
+          <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center relative">
+            <div class="text-center text-white">
+              <div class="text-4xl mb-2">📝</div>
+              <div class="text-xl font-bold">Luyện tập</div>
+              <div class="text-sm opacity-90">Đề thi thử</div>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Đề thi thử TOPIK</h3>
+            <p class="text-gray-600 text-sm mb-4">Đề thi luyện tập với độ khó vừa phải cho người mới bắt đầu</p>
+            <div class="grid grid-cols-2 gap-2 mb-4 text-xs">
+              <div class="text-center">
+                <div class="font-bold text-blue-600">70</div>
+                <div class="text-gray-600">Câu hỏi</div>
+              </div>
+              <div class="text-center">
+                <div class="font-bold text-green-600">100m</div>
+                <div class="text-gray-600">Thời gian</div>
+              </div>
+            </div>
+            <a 
+              href="/topik/tests/topik-i-practice-1"
+              class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 block"
+            >
+              📝 Luyện tập ngay
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- View All Tests Button -->
+      <div class="text-center">
+        <a 
+          href="/topik/tests" 
+          class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-xl font-bold text-lg hover:from-red-700 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+        >
+          🎯 Xem tất cả đề thi
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        Sẵn sàng chinh phục TOPIK?
+      </h2>
+      <p class="text-xl mb-8 opacity-90">
+        Bắt đầu hành trình luyện thi TOPIK của bạn ngay hôm nay
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/topik/practice" 
+          class="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+        >
+          🎯 Bắt đầu luyện tập
+        </a>
+        <a 
+          href="/topik/vocabulary" 
+          class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
+        >
+          📖 Học từ vựng
+        </a>
+      </div>
+    </div>
+  </section>
+</TopikLayout>
+
+<style>
+  /* Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-pulse {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+</style> 

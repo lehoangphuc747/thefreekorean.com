@@ -30,6 +30,10 @@ const { document: doc, class: className = '' } = Astro.props;
   data-category={doc.category}
   data-subcategory={doc.subcategory}
   data-slug={doc.slug}
+  data-date={doc.date}
+  data-title={doc.title}
+  data-pages={doc.pages}
+  data-file-size={doc.fileSize}
 >
   <div class="document-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-200 hover:shadow-xl hover:scale-[1.02] h-full flex flex-col">
     
@@ -67,10 +71,10 @@ Korean</span>
       <div class="flex gap-1 flex-wrap">
         <Badge variant="neutral" size="sm">{doc.type}</Badge>
         {doc.fileSize && (
-          <Badge variant="neutral" size="sm">{doc.fileSize}</Badge>
+          <Badge variant="neutral" size="sm" class="file-size">{doc.fileSize}</Badge>
         )}
         {doc.pages && doc.type !== "Anki" && (
-          <Badge variant="neutral" size="sm">{doc.pages} trang</Badge>
+          <Badge variant="neutral" size="sm" class="pages">{doc.pages} trang</Badge>
         )}
         {doc.cards && doc.type === "Anki" && (
           <Badge variant="neutral" size="sm">{doc.cards} thẻ</Badge>
@@ -79,6 +83,8 @@ Korean</span>
           <Badge variant="neutral" size="sm">{doc.duration}</Badge>
         )}
       </div>
+
+
     </div>
   </div>
 </div>
@@ -111,3 +117,5 @@ Korean</span>
     text-align: center;
   }
 </style>
+
+

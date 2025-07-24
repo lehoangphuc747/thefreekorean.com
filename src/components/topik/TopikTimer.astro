@@ -1,0 +1,427 @@
+---
+// TOPIK Timer component - đếm ngược thời gian thi
+export interface Props {
+  duration: number; // minutes
+  onTimeUp?: string; // callback function name
+  showWarnings?: boolean;
+  class?: string;
+  autoSubmit?: boolean;
+}
+
+const { 
+  duration, 
+  onTimeUp = 'handleTimeUp',
+  showWarnings = true,
+  class: className = '',
+  autoSubmit = true
+} = Astro.props;
+
+const totalSeconds = duration * 60;
+---
+
+<div class={`topik-timer ${className}`} id="topik-timer">
+  <div class="timer-container bg-white rounded-xl shadow-lg border-2 border-gray-200 p-4">
+    
+    <!-- Timer Header -->
+    <div class="timer-header flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse" id="timer-indicator"></div>
+        <span class="font-semibold text-gray-700">Thời gian còn lại</span>
+      </div>
+      
+      <!-- Timer Controls -->
+      <div class="flex items-center gap-2">
+        <button 
+          id="timer-pause"
+          class="p-1 text-gray-500 hover:text-blue-600 transition-colors"
+          title="Tạm dừng/Tiếp tục"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path class="play-icon hidden" d="M8 5v10l8-5-8-5z"/>
+            <path class="pause-icon" d="M6 4h2v12H6V4zm6 0h2v12h-2V4z"/>
+          </svg>
+        </button>
+        
+        <button 
+          id="timer-fullscreen"
+          class="p-1 text-gray-500 hover:text-purple-600 transition-colors"
+          title="Toàn màn hình"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Main Timer Display -->
+    <div class="timer-display text-center mb-4">
+      <div class="time-text text-4xl md:text-5xl font-bold font-mono" id="time-display">
+        {Math.floor(duration / 60).toString().padStart(2, '0')}:{(duration % 60).toString().padStart(2, '0')}:00
+      </div>
+      <div class="time-label text-sm text-gray-500 mt-1" id="time-label">
+        Giờ : Phút : Giây
+      </div>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div class="timer-progress mb-3">
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div 
+          class="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-1000" 
+          id="progress-bar"
+          style="width: 100%"
+        ></div>
+      </div>
+      <div class="flex justify-between text-xs text-gray-500 mt-1">
+        <span>Đã trôi qua</span>
+        <span id="progress-text">0%</span>
+        <span>Thời gian thi</span>
+      </div>
+    </div>
+    
+    <!-- Status Messages -->
+    <div class="timer-status text-center text-sm" id="timer-status">
+      <span class="text-green-600">⏰ Thời gian đủ để hoàn thành bài thi</span>
+    </div>
+    
+    <!-- Warning Zone (Hidden by default) -->
+    <div class="timer-warning hidden" id="timer-warning">
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
+        <div class="flex items-center gap-2">
+          <span class="text-yellow-600">⚠️</span>
+          <span class="text-yellow-800 font-medium" id="warning-text">
+            Còn 10 phút! Hãy kiểm tra lại đáp án.
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Critical Zone (Hidden by default) -->
+    <div class="timer-critical hidden" id="timer-critical">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3 mt-3">
+        <div class="flex items-center gap-2">
+          <span class="text-red-600 animate-pulse">🚨</span>
+          <span class="text-red-800 font-bold" id="critical-text">
+            Còn 2 phút! Chuẩn bị nộp bài!
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Fullscreen Timer (Hidden by default) -->
+  <div class="timer-fullscreen fixed inset-0 bg-black/90 flex items-center justify-center z-50 hidden" id="timer-fullscreen-modal">
+    <div class="text-center text-white">
+      <div class="text-8xl font-bold font-mono mb-4" id="fullscreen-time">
+        00:00:00
+      </div>
+      <div class="text-xl mb-8">Thời gian còn lại</div>
+      <button 
+        id="exit-fullscreen"
+        class="px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-gray-100 transition-colors"
+      >
+        Thoát toàn màn hình
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .timer-container {
+    transition: all 0.3s ease;
+  }
+  
+  .timer-warning-active {
+    border-color: #fbbf24;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  }
+  
+  .timer-critical-active {
+    border-color: #ef4444;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    animation: pulse 1s infinite;
+  }
+  
+  .time-text {
+    transition: color 0.3s ease;
+  }
+  
+  .time-warning {
+    color: #f59e0b;
+  }
+  
+  .time-critical {
+    color: #ef4444;
+    animation: pulse 1s infinite;
+  }
+  
+  /* Pulse animation */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  /* Fullscreen styles */
+  .timer-fullscreen {
+    backdrop-filter: blur(10px);
+  }
+</style>
+
+<script define:vars={{ totalSeconds, onTimeUp, showWarnings, autoSubmit }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    let timeLeft = totalSeconds;
+    let isPaused = false;
+    let interval = null;
+    let isFullscreen = false;
+    
+    // Elements
+    const timerDisplay = document.getElementById('time-display');
+    const fullscreenTime = document.getElementById('fullscreen-time');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const timerStatus = document.getElementById('timer-status');
+    const timerWarning = document.getElementById('timer-warning');
+    const timerCritical = document.getElementById('timer-critical');
+    const timerIndicator = document.getElementById('timer-indicator');
+    const timerContainer = document.querySelector('.timer-container');
+    const pauseButton = document.getElementById('timer-pause');
+    const fullscreenButton = document.getElementById('timer-fullscreen');
+    const fullscreenModal = document.getElementById('timer-fullscreen-modal');
+    const exitFullscreenButton = document.getElementById('exit-fullscreen');
+    const warningText = document.getElementById('warning-text');
+    const criticalText = document.getElementById('critical-text');
+    
+    // Format time display
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // Update progress
+    function updateProgress() {
+      const elapsed = totalSeconds - timeLeft;
+      const percentage = (elapsed / totalSeconds) * 100;
+      
+      if (progressBar) {
+        progressBar.style.width = `${100 - percentage}%`;
+        
+        // Change color based on time left
+        if (percentage > 90) {
+          progressBar.className = 'bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-1000';
+        } else if (percentage > 75) {
+          progressBar.className = 'bg-gradient-to-r from-yellow-500 to-orange-500 h-2 rounded-full transition-all duration-1000';
+        } else {
+          progressBar.className = 'bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-1000';
+        }
+      }
+      
+      if (progressText) {
+        progressText.textContent = `${Math.round(percentage)}%`;
+      }
+    }
+    
+    // Update status messages
+    function updateStatus() {
+      if (!showWarnings) return;
+      
+      const minutes = Math.floor(timeLeft / 60);
+      
+      // Hide all warnings first
+      timerWarning?.classList.add('hidden');
+      timerCritical?.classList.add('hidden');
+      timerContainer?.classList.remove('timer-warning-active', 'timer-critical-active');
+      
+      if (minutes <= 2 && timeLeft > 0) {
+        // Critical: 2 minutes or less
+        timerCritical?.classList.remove('hidden');
+        timerContainer?.classList.add('timer-critical-active');
+        timerDisplay?.classList.add('time-critical');
+        timerIndicator?.classList.replace('bg-green-500', 'bg-red-500');
+        
+        if (criticalText) {
+          criticalText.textContent = `Còn ${minutes} phút ${timeLeft % 60} giây! Chuẩn bị nộp bài!`;
+        }
+        
+        if (timerStatus) {
+          timerStatus.innerHTML = '<span class="text-red-600">🚨 Sắp hết thời gian!</span>';
+        }
+      } else if (minutes <= 10 && minutes > 2) {
+        // Warning: 10 minutes or less
+        timerWarning?.classList.remove('hidden');
+        timerContainer?.classList.add('timer-warning-active');
+        timerDisplay?.classList.add('time-warning');
+        timerDisplay?.classList.remove('time-critical');
+        timerIndicator?.classList.replace('bg-green-500', 'bg-yellow-500');
+        timerIndicator?.classList.replace('bg-red-500', 'bg-yellow-500');
+        
+        if (warningText) {
+          warningText.textContent = `Còn ${minutes} phút! Hãy kiểm tra lại đáp án.`;
+        }
+        
+        if (timerStatus) {
+          timerStatus.innerHTML = '<span class="text-yellow-600">⚠️ Hãy nhanh chóng hoàn thành</span>';
+        }
+      } else {
+        // Normal: more than 10 minutes
+        timerDisplay?.classList.remove('time-warning', 'time-critical');
+        timerIndicator?.classList.replace('bg-yellow-500', 'bg-green-500');
+        timerIndicator?.classList.replace('bg-red-500', 'bg-green-500');
+        
+        if (timerStatus) {
+          timerStatus.innerHTML = '<span class="text-green-600">⏰ Thời gian đủ để hoàn thành bài thi</span>';
+        }
+      }
+    }
+    
+    // Update timer display
+    function updateDisplay() {
+      const timeString = formatTime(timeLeft);
+      
+      if (timerDisplay) {
+        timerDisplay.textContent = timeString;
+      }
+      
+      if (fullscreenTime) {
+        fullscreenTime.textContent = timeString;
+      }
+      
+      updateProgress();
+      updateStatus();
+      
+      // Update page title
+      document.title = `(${timeString}) TOPIK Test - The Free Korean`;
+    }
+    
+    // Start timer
+    function startTimer() {
+      if (interval) clearInterval(interval);
+      
+      interval = setInterval(() => {
+        if (!isPaused && timeLeft > 0) {
+          timeLeft--;
+          updateDisplay();
+          
+          // Time up
+          if (timeLeft === 0) {
+            clearInterval(interval);
+            handleTimeUp();
+          }
+        }
+      }, 1000);
+    }
+    
+    // Handle time up
+    function handleTimeUp() {
+      if (timerIndicator) {
+        timerIndicator.classList.replace('bg-green-500', 'bg-red-500');
+        timerIndicator.classList.replace('animate-pulse', 'animate-ping');
+      }
+      
+      if (timerStatus) {
+        timerStatus.innerHTML = '<span class="text-red-600 font-bold">⏰ HẾT THỜI GIAN!</span>';
+      }
+      
+      // Show final notification
+      if (Notification.permission === 'granted') {
+        new Notification('TOPIK Test - Hết thời gian!', {
+          body: 'Thời gian làm bài đã kết thúc. Bài thi sẽ được nộp tự động.',
+          icon: '/favicon.svg'
+        });
+      }
+      
+      // Call external callback if provided
+      if (window[onTimeUp] && typeof window[onTimeUp] === 'function') {
+        window[onTimeUp]();
+      }
+      
+      // Auto submit if enabled
+      if (autoSubmit) {
+        setTimeout(() => {
+          if (window.TopikQuiz && window.TopikQuiz.submitTest) {
+            window.TopikQuiz.submitTest(true); // force submit
+          }
+        }, 2000);
+      }
+    }
+    
+    // Pause/Resume functionality
+    if (pauseButton) {
+      pauseButton.addEventListener('click', function() {
+        isPaused = !isPaused;
+        
+        const playIcon = this.querySelector('.play-icon');
+        const pauseIcon = this.querySelector('.pause-icon');
+        
+        if (isPaused) {
+          playIcon?.classList.remove('hidden');
+          pauseIcon?.classList.add('hidden');
+          timerIndicator?.classList.replace('animate-pulse', 'animate-ping');
+          this.title = 'Tiếp tục';
+        } else {
+          playIcon?.classList.add('hidden');
+          pauseIcon?.classList.remove('hidden');
+          timerIndicator?.classList.replace('animate-ping', 'animate-pulse');
+          this.title = 'Tạm dừng';
+        }
+      });
+    }
+    
+    // Fullscreen functionality
+    if (fullscreenButton) {
+      fullscreenButton.addEventListener('click', function() {
+        isFullscreen = !isFullscreen;
+        
+        if (isFullscreen) {
+          fullscreenModal?.classList.remove('hidden');
+        } else {
+          fullscreenModal?.classList.add('hidden');
+        }
+      });
+    }
+    
+    if (exitFullscreenButton) {
+      exitFullscreenButton.addEventListener('click', function() {
+        isFullscreen = false;
+        fullscreenModal?.classList.add('hidden');
+      });
+    }
+    
+    // Request notification permission
+    if (Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+    
+    // Global timer control
+    window.TopikTimer = {
+      pause: () => { isPaused = true; },
+      resume: () => { isPaused = false; },
+      addTime: (minutes) => { timeLeft += minutes * 60; updateDisplay(); },
+      getTimeLeft: () => timeLeft,
+      getRemainingMinutes: () => Math.floor(timeLeft / 60)
+    };
+    
+    // Initialize
+    updateDisplay();
+    startTimer();
+    
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+      if (interval) clearInterval(interval);
+    });
+    
+    // Warning when user tries to leave page
+    window.addEventListener('beforeunload', function(e) {
+      if (timeLeft > 0 && timeLeft < totalSeconds) {
+        e.preventDefault();
+        e.returnValue = 'Bài thi đang trong quá trình làm. Bạn có chắc chắn muốn rời khỏi trang?';
+      }
+    });
+  });
+</script> 

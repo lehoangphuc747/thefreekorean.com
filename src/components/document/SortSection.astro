@@ -1,0 +1,485 @@
+---
+// Sort Section Component for Documents
+// Provides sorting options: Recently added, A-Z, Z-A, Most pages, File size, etc.
+
+export interface Props {
+  class?: string;
+  defaultSort?: string;
+}
+
+const { 
+  class: className = '',
+  defaultSort = 'date-desc'
+} = Astro.props;
+
+const sortOptions = [
+  { value: 'date-desc', label: '📅 Tài liệu mới nhất', icon: '📅' },
+  { value: 'date-asc', label: '📅 Tài liệu cũ nhất', icon: '📅' },
+  { value: 'title-asc', label: '🔤 A → Z', icon: '🔤' },
+  { value: 'title-desc', label: '🔤 Z → A', icon: '🔤' },
+  { value: 'pages-desc', label: '📄 Nhiều trang nhất', icon: '📄' },
+  { value: 'pages-asc', label: '📄 Ít trang nhất', icon: '📄' },
+  { value: 'size-desc', label: '📦 File lớn nhất', icon: '📦' },
+  { value: 'size-asc', label: '📦 File nhỏ nhất', icon: '📦' }
+];
+---
+
+<div class={`sort-section ${className}`}>
+  <div class="sort-container">
+    <!-- Sort Header -->
+    <div class="sort-header">
+      <div class="sort-title">
+        <span class="sort-icon">⚡</span>
+        <span class="sort-text">Sắp xếp</span>
+      </div>
+      <div class="sort-count" id="sort-count">
+        <span id="visible-count">0</span> tài liệu
+      </div>
+    </div>
+
+    <!-- Sort Options -->
+    <div class="sort-options" id="sort-options">
+      {sortOptions.map((option, index) => (
+        <button 
+          class={`sort-button ${option.value === defaultSort ? 'active' : ''}`}
+          data-sort={option.value}
+          data-label={option.label}
+        >
+          <span class="sort-button-icon">{option.icon}</span>
+          <span class="sort-button-text">{option.label}</span>
+          <span class="sort-button-indicator">✓</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Active Sort Display -->
+    <div class="active-sort" id="active-sort">
+      <span class="active-sort-label">Đang sắp xếp:</span>
+      <span class="active-sort-value" id="active-sort-value">
+        📅 Tài liệu mới nhất
+      </span>
+      <button class="clear-sort" id="clear-sort" title="Reset về mặc định">
+        <span>↻</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sort-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .sort-section:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .sort-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sort-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .sort-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.1rem;
+  }
+
+  .sort-icon {
+    font-size: 1.25rem;
+  }
+
+  .sort-count {
+    background: rgba(50, 69, 255, 0.1);
+    color: #3245ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 1px solid rgba(50, 69, 255, 0.2);
+  }
+
+  .sort-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .sort-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sort-button:hover {
+    border-color: #3245ff;
+    background: rgba(50, 69, 255, 0.05);
+    color: #3245ff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(50, 69, 255, 0.15);
+  }
+
+  .sort-button.active {
+    background: linear-gradient(135deg, #3245ff 0%, #bc52ee 100%);
+    border-color: #3245ff;
+    color: white;
+    font-weight: 600;
+  }
+
+  .sort-button.active:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #a855f7 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(50, 69, 255, 0.3);
+  }
+
+  .sort-button-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .sort-button-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  .sort-button-indicator {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-size: 0.875rem;
+  }
+
+  .sort-button.active .sort-button-indicator {
+    opacity: 1;
+  }
+
+  .active-sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .active-sort-label {
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .active-sort-value {
+    color: #10b981;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .clear-sort {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+  }
+
+  .clear-sort:hover {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    transform: rotate(180deg);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .sort-section {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .sort-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .sort-options {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .sort-button {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .active-sort {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .clear-sort {
+      align-self: flex-end;
+    }
+  }
+
+  /* Animation for count changes */
+  @keyframes countUpdate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  .sort-count.updating {
+    animation: countUpdate 0.3s ease;
+  }
+
+  /* Loading state */
+  .sort-section.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .sort-section.loading .sort-button {
+    cursor: not-allowed;
+  }
+</style>
+
+<script>
+  // Sort functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const sortSection = document.querySelector('.sort-section');
+    const sortButtons = document.querySelectorAll('.sort-button') as NodeListOf<HTMLElement>;
+    const activeSortValue = document.getElementById('active-sort-value');
+    const clearSortButton = document.getElementById('clear-sort');
+    const sortCount = document.getElementById('sort-count');
+    const visibleCount = document.getElementById('visible-count');
+    
+    if (!sortSection) return;
+
+    let currentSort = 'date-desc';
+    let originalDocuments: HTMLElement[] = [];
+
+    // Initialize
+    function init() {
+      // Store original document order
+      const documentCards = document.querySelectorAll('.document-card-wrapper') as NodeListOf<HTMLElement>;
+      originalDocuments = Array.from(documentCards);
+      
+      // Update count
+      updateCount();
+      
+      // Set default active button
+      updateActiveButton(currentSort);
+    }
+
+    // Sort documents
+    function sortDocuments(sortType: string) {
+      if (currentSort === sortType) return; // Already sorted
+      
+      currentSort = sortType;
+      
+      // Show loading state
+      sortSection?.classList.add('loading');
+      
+      // Get all document cards
+      const documentCards = Array.from(document.querySelectorAll('.document-card-wrapper')) as HTMLElement[];
+      const grid = document.querySelector('#documents-grid .grid');
+      
+      if (!grid || documentCards.length === 0) {
+        sortSection?.classList.remove('loading');
+        return;
+      }
+
+      // Sort documents
+      const sortedCards = [...documentCards].sort((a, b) => {
+        return compareDocuments(a, b, sortType);
+      });
+
+      // Animate and reorder
+      setTimeout(() => {
+        // Clear grid
+        grid.innerHTML = '';
+        
+        // Add sorted documents with stagger animation
+        sortedCards.forEach((card, index) => {
+          setTimeout(() => {
+            grid.appendChild(card);
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+              card.style.transition = 'all 0.3s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+          }, index * 50);
+        });
+        
+        // Update UI
+        updateActiveButton(sortType);
+        updateActiveSortDisplay(sortType);
+        
+        // Remove loading state
+        setTimeout(() => {
+          sortSection?.classList.remove('loading');
+        }, sortedCards.length * 50 + 300);
+        
+      }, 200);
+    }
+
+    // Compare documents for sorting
+    function compareDocuments(a: HTMLElement, b: HTMLElement, sortType: string): number {
+      const getDocData = (element: HTMLElement) => ({
+        title: element.querySelector('.document-title')?.textContent?.trim() || '',
+        date: element.getAttribute('data-date') || element.querySelector('[data-date]')?.getAttribute('data-date') || '',
+        pages: parseInt(element.querySelector('.pages')?.textContent?.replace(/\D/g, '') || '0'),
+        fileSize: parseFileSize(element.querySelector('.file-size')?.textContent || '0MB')
+      });
+
+      const dataA = getDocData(a);
+      const dataB = getDocData(b);
+
+      switch (sortType) {
+        case 'date-desc':
+          return new Date(dataB.date).getTime() - new Date(dataA.date).getTime();
+        case 'date-asc':
+          return new Date(dataA.date).getTime() - new Date(dataB.date).getTime();
+        case 'title-asc':
+          return dataA.title.localeCompare(dataB.title, 'vi');
+        case 'title-desc':
+          return dataB.title.localeCompare(dataA.title, 'vi');
+        case 'pages-desc':
+          return dataB.pages - dataA.pages;
+        case 'pages-asc':
+          return dataA.pages - dataB.pages;
+        case 'size-desc':
+          return dataB.fileSize - dataA.fileSize;
+        case 'size-asc':
+          return dataA.fileSize - dataB.fileSize;
+        default:
+          return 0;
+      }
+    }
+
+    // Parse file size to number for comparison
+    function parseFileSize(sizeStr: string): number {
+      const match = sizeStr.match(/(\d+(?:\.\d+)?)\s*(MB|KB|GB)?/i);
+      if (!match) return 0;
+      
+      const value = parseFloat(match[1]);
+      const unit = match[2]?.toUpperCase() || 'MB';
+      
+      switch (unit) {
+        case 'KB': return value * 0.001;
+        case 'MB': return value;
+        case 'GB': return value * 1000;
+        default: return value;
+      }
+    }
+
+    // Update active button
+    function updateActiveButton(sortType: string) {
+      sortButtons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-sort') === sortType) {
+          button.classList.add('active');
+        }
+      });
+    }
+
+    // Update active sort display
+    function updateActiveSortDisplay(sortType: string) {
+      const button = document.querySelector(`[data-sort="${sortType}"]`);
+      const label = button?.getAttribute('data-label') || 'Tài liệu mới nhất';
+      
+      if (activeSortValue) {
+        activeSortValue.textContent = label;
+      }
+    }
+
+    // Update document count
+    function updateCount() {
+      const visibleDocuments = document.querySelectorAll('.document-card-wrapper:not([style*="display: none"])');
+      if (visibleCount) {
+        visibleCount.textContent = visibleDocuments.length.toString();
+        
+        // Add update animation
+        sortCount?.classList.add('updating');
+        setTimeout(() => {
+          sortCount?.classList.remove('updating');
+        }, 300);
+      }
+    }
+
+    // Event listeners
+    sortButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const sortType = this.getAttribute('data-sort');
+        if (sortType) {
+          sortDocuments(sortType);
+        }
+      });
+    });
+
+    // Clear sort (reset to default)
+    clearSortButton?.addEventListener('click', function() {
+      sortDocuments('date-desc');
+    });
+
+    // Listen for filter changes to update count
+    const observer = new MutationObserver(() => {
+      updateCount();
+    });
+
+    // Observe document visibility changes
+    originalDocuments.forEach(doc => {
+      observer.observe(doc, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
+      });
+    });
+
+    // Global access
+    window.DocumentSort = {
+      sort: sortDocuments,
+      getCurrentSort: () => currentSort,
+      updateCount: updateCount
+    };
+
+    // Initialize
+    init();
+  });
+</script> 

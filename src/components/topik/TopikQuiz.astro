@@ -1,0 +1,901 @@
+---
+// TOPIK Quiz component - component chính để làm bài thi TOPIK
+export interface Props {
+  test: {
+    id: string;
+    title: string;
+    duration: number;
+    questions: Array<{
+      id: string;
+      type: 'multiple-choice' | 'listening' | 'reading' | 'writing';
+      section: 'listening' | 'reading' | 'writing';
+      question: string;
+      audio?: string;
+      passage?: string;
+      image?: string;
+      options?: string[];
+      correctAnswer?: string | number;
+      explanation?: string;
+      points: number;
+    }>;
+    totalPoints: number;
+  };
+  class?: string;
+}
+
+const { test, class: className = '' } = Astro.props;
+
+// Group questions by section
+const sections = {
+  listening: test.questions.filter(q => q.section === 'listening'),
+  reading: test.questions.filter(q => q.section === 'reading'),
+  writing: test.questions.filter(q => q.section === 'writing')
+};
+---
+
+<div class={`topik-quiz ${className}`} id="topik-quiz">
+  
+  <!-- Quiz Header -->
+  <div class="quiz-header bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        
+        <!-- Test Info -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span class="text-white font-bold text-sm">T</span>
+            </div>
+            <div>
+              <h1 class="font-bold text-gray-900 text-lg">{test.title}</h1>
+              <div class="text-sm text-gray-500">{test.questions.length} câu hỏi • {test.totalPoints} điểm</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quiz Controls -->
+        <div class="flex items-center gap-3">
+          <!-- Current Question Info -->
+          <div class="hidden md:flex items-center gap-2 text-sm text-gray-600">
+            <span>Câu</span>
+            <span class="font-bold text-blue-600" id="current-question">1</span>
+            <span>/</span>
+            <span>{test.questions.length}</span>
+          </div>
+          
+          <!-- Bookmark Button -->
+          <button 
+            id="bookmark-btn"
+            class="p-2 text-gray-500 hover:text-yellow-500 transition-colors"
+            title="Đánh dấu câu hỏi"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+            </svg>
+          </button>
+          
+          <!-- Question Navigator -->
+          <button 
+            id="navigator-btn"
+            class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+          >
+            📋 Danh sách câu hỏi
+          </button>
+          
+          <!-- Submit Button -->
+          <button 
+            id="submit-btn"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+          >
+            📤 Nộp bài
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Quiz Content -->
+  <div class="quiz-content max-w-7xl mx-auto px-4 py-6">
+    <div class="grid lg:grid-cols-4 gap-6">
+      
+      <!-- Question Area -->
+      <div class="lg:col-span-3">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+          
+          <!-- Section Tab -->
+          <div class="section-tabs border-b border-gray-200">
+            <div class="flex">
+              {sections.listening.length > 0 && (
+                <button 
+                  class="section-tab px-6 py-3 font-medium text-sm border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 transition-colors"
+                  data-section="listening"
+                >
+                  🎧 Nghe ({sections.listening.length})
+                </button>
+              )}
+              {sections.reading.length > 0 && (
+                <button 
+                  class="section-tab px-6 py-3 font-medium text-sm border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 transition-colors"
+                  data-section="reading"
+                >
+                  📖 Đọc ({sections.reading.length})
+                </button>
+              )}
+              {sections.writing.length > 0 && (
+                <button 
+                  class="section-tab px-6 py-3 font-medium text-sm border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 transition-colors"
+                  data-section="writing"
+                >
+                  ✍️ Viết ({sections.writing.length})
+                </button>
+              )}
+            </div>
+          </div>
+          
+          <!-- Question Content -->
+          <div class="question-content p-6" id="question-content">
+            
+            <!-- Section Instructions -->
+            <div class="section-instructions mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg" id="section-instructions">
+              <h3 class="font-bold text-blue-900 mb-2">📋 Hướng dẫn</h3>
+              <p class="text-blue-800 text-sm">Chọn đáp án đúng nhất cho mỗi câu hỏi.</p>
+            </div>
+            
+            <!-- Question Display Area -->
+            <div class="question-display" id="question-display">
+              <!-- Questions will be dynamically loaded here -->
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="question-navigation flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
+              <button 
+                id="prev-btn"
+                class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+              >
+                ← Câu trước
+              </button>
+              
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-600">Câu hỏi:</span>
+                <input 
+                  type="number" 
+                  id="question-jump"
+                  class="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                  min="1" 
+                  max={test.questions.length}
+                  value="1"
+                />
+                <button 
+                  id="jump-btn"
+                  class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+                >
+                  Đi đến
+                </button>
+              </div>
+              
+              <button 
+                id="next-btn"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Câu tiếp theo →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        
+        <!-- Progress Overview -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 mb-6">
+          <h3 class="font-bold text-gray-900 mb-3">📊 Tiến độ</h3>
+          
+          <!-- Overall Progress -->
+          <div class="mb-4">
+            <div class="flex justify-between text-sm text-gray-600 mb-1">
+              <span>Tổng tiến độ</span>
+              <span id="overall-progress">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300" 
+                id="overall-progress-bar"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+          
+          <!-- Section Progress -->
+          {sections.listening.length > 0 && (
+            <div class="mb-3">
+              <div class="flex justify-between text-xs text-gray-600 mb-1">
+                <span>🎧 Nghe</span>
+                <span id="listening-progress">0/{sections.listening.length}</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-1">
+                <div class="bg-blue-500 h-1 rounded-full transition-all duration-300" id="listening-progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+          )}
+          
+          {sections.reading.length > 0 && (
+            <div class="mb-3">
+              <div class="flex justify-between text-xs text-gray-600 mb-1">
+                <span>📖 Đọc</span>
+                <span id="reading-progress">0/{sections.reading.length}</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-1">
+                <div class="bg-green-500 h-1 rounded-full transition-all duration-300" id="reading-progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+          )}
+          
+          {sections.writing.length > 0 && (
+            <div class="mb-3">
+              <div class="flex justify-between text-xs text-gray-600 mb-1">
+                <span>✍️ Viết</span>
+                <span id="writing-progress">0/{sections.writing.length}</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-1">
+                <div class="bg-purple-500 h-1 rounded-full transition-all duration-300" id="writing-progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 mb-6">
+          <h3 class="font-bold text-gray-900 mb-3">⚡ Thao tác nhanh</h3>
+          
+          <div class="space-y-2">
+            <button 
+              id="review-marked"
+              class="w-full px-3 py-2 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition-colors text-sm font-medium"
+            >
+              🔖 Xem câu đã đánh dấu (<span id="marked-count">0</span>)
+            </button>
+            
+            <button 
+              id="review-unanswered"
+              class="w-full px-3 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
+            >
+              ❓ Xem câu chưa trả lời (<span id="unanswered-count">{test.questions.length}</span>)
+            </button>
+            
+            <button 
+              id="review-all"
+              class="w-full px-3 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
+            >
+              📋 Xem tất cả câu hỏi
+            </button>
+          </div>
+        </div>
+        
+        <!-- Test Instructions -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4">
+          <h3 class="font-bold text-gray-900 mb-3">📖 Lưu ý</h3>
+          <div class="space-y-2 text-sm text-gray-600">
+            <div class="flex items-start gap-2">
+              <span class="text-green-600 mt-0.5">✓</span>
+              <span>Có thể chuyển câu hỏi bất kỳ lúc nào</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-blue-600 mt-0.5">🔖</span>
+              <span>Đánh dấu câu khó để xem lại</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-yellow-600 mt-0.5">⚠️</span>
+              <span>Thời gian sẽ tự động nộp bài</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-red-600 mt-0.5">❗</span>
+              <span>Không thể sửa đáp án sau khi nộp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Question Navigator Modal -->
+  <div class="navigator-modal fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="navigator-modal">
+    <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900">📋 Danh sách câu hỏi</h2>
+        <button 
+          id="close-navigator"
+          class="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Modal Content -->
+      <div class="p-6 overflow-y-auto max-h-[60vh]">
+        <div class="grid grid-cols-10 gap-2" id="question-grid">
+          <!-- Question numbers will be generated here -->
+        </div>
+        
+        <!-- Legend -->
+        <div class="mt-6 pt-4 border-t border-gray-200">
+          <div class="flex flex-wrap gap-4 text-sm">
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-gray-200 rounded"></div>
+              <span>Chưa trả lời</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-blue-500 rounded"></div>
+              <span>Đã trả lời</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-yellow-500 rounded"></div>
+              <span>Đã đánh dấu</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-green-500 rounded border-2 border-green-700"></div>
+              <span>Câu hiện tại</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Section tabs */
+  .section-tab.active {
+    border-bottom-color: #3b82f6;
+    color: #3b82f6;
+    background-color: #eff6ff;
+  }
+  
+  /* Question options */
+  .option-button {
+    transition: all 0.2s ease;
+  }
+  
+  .option-button:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .option-button.selected {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Question navigation grid */
+  .question-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    items-center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .question-number:hover {
+    transform: scale(1.1);
+  }
+  
+  .question-number.answered {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .question-number.marked {
+    background: #f59e0b;
+    color: white;
+  }
+  
+  .question-number.current {
+    background: #10b981;
+    color: white;
+    border: 2px solid #047857;
+  }
+  
+  .question-number.unanswered {
+    background: #e5e7eb;
+    color: #6b7280;
+  }
+  
+  /* Audio player custom styles */
+  .audio-player {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  
+  /* Writing textarea */
+  .writing-textarea {
+    min-height: 200px;
+    resize: vertical;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+<script define:vars={{ test }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    let currentQuestionIndex = 0;
+    let answers = {};
+    let markedQuestions = new Set();
+    let currentSection = 'listening';
+    
+    // Initialize first section
+    if (test.questions.length > 0) {
+      currentSection = test.questions[0].section;
+    }
+    
+    // Elements
+    const questionDisplay = document.getElementById('question-display');
+    const currentQuestionSpan = document.getElementById('current-question');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const jumpBtn = document.getElementById('jump-btn');
+    const questionJump = document.getElementById('question-jump');
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    const navigatorBtn = document.getElementById('navigator-btn');
+    const navigatorModal = document.getElementById('navigator-modal');
+    const closeNavigator = document.getElementById('close-navigator');
+    const questionGrid = document.getElementById('question-grid');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    // Progress elements
+    const overallProgress = document.getElementById('overall-progress');
+    const overallProgressBar = document.getElementById('overall-progress-bar');
+    const markedCount = document.getElementById('marked-count');
+    const unansweredCount = document.getElementById('unanswered-count');
+    
+    // Section tabs
+    const sectionTabs = document.querySelectorAll('.section-tab');
+    
+    // Initialize quiz
+    function init() {
+      renderQuestion();
+      updateProgress();
+      generateQuestionGrid();
+      updateNavigationButtons();
+      setActiveSection();
+    }
+    
+    // Render current question
+    function renderQuestion() {
+      const question = test.questions[currentQuestionIndex];
+      if (!question) return;
+      
+      let html = '';
+      
+      // Question header
+      html += `
+        <div class="question-header mb-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-bold text-gray-900">
+              Câu ${currentQuestionIndex + 1} (${question.points} điểm)
+            </h2>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-1 bg-${question.section === 'listening' ? 'blue' : question.section === 'reading' ? 'green' : 'purple'}-100 text-${question.section === 'listening' ? 'blue' : question.section === 'reading' ? 'green' : 'purple'}-700 rounded text-sm font-medium">
+                ${question.section === 'listening' ? '🎧 Nghe' : question.section === 'reading' ? '📖 Đọc' : '✍️ Viết'}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Audio for listening questions
+      if (question.audio) {
+        html += `
+          <div class="audio-player mb-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-blue-600 font-medium">🎧 File âm thanh:</span>
+            </div>
+            <audio controls class="w-full">
+              <source src="${question.audio}" type="audio/mpeg">
+              Trình duyệt không hỗ trợ audio.
+            </audio>
+          </div>
+        `;
+      }
+      
+      // Reading passage
+      if (question.passage) {
+        html += `
+          <div class="passage mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div class="text-sm font-medium text-gray-700 mb-2">📖 Đoạn văn:</div>
+            <div class="prose prose-sm max-w-none">
+              ${question.passage}
+            </div>
+          </div>
+        `;
+      }
+      
+      // Question image
+      if (question.image) {
+        html += `
+          <div class="question-image mb-6 text-center">
+            <img src="${question.image}" alt="Question image" class="max-w-full h-auto rounded-lg shadow-md mx-auto">
+          </div>
+        `;
+      }
+      
+      // Question text
+      html += `
+        <div class="question-text mb-6">
+          <p class="text-gray-900 text-lg leading-relaxed">${question.question}</p>
+        </div>
+      `;
+      
+      // Answer options based on question type
+      if (question.type === 'multiple-choice' && question.options) {
+        html += '<div class="answer-options space-y-3">';
+        question.options.forEach((option, index) => {
+          const optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+          const isSelected = answers[question.id] === index;
+          
+          html += `
+            <button 
+              class="option-button w-full p-4 text-left border-2 rounded-lg ${isSelected ? 'selected' : 'border-gray-200 hover:border-blue-300'}"
+              data-option="${index}"
+              onclick="selectOption('${question.id}', ${index})"
+            >
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-sm font-bold ${isSelected ? 'bg-white text-blue-600' : ''}">
+                  ${optionLetter}
+                </span>
+                <span class="flex-1">${option}</span>
+              </div>
+            </button>
+          `;
+        });
+        html += '</div>';
+      } else if (question.type === 'writing') {
+        const currentAnswer = answers[question.id] || '';
+        html += `
+          <div class="writing-answer">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              ✍️ Viết câu trả lời của bạn:
+            </label>
+            <textarea 
+              class="writing-textarea w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Nhập câu trả lời của bạn ở đây..."
+              data-question-id="${question.id}"
+              onchange="saveWritingAnswer('${question.id}', this.value)"
+            >${currentAnswer}</textarea>
+            <div class="mt-2 text-sm text-gray-500">
+              Khuyến nghị: 150-300 từ
+            </div>
+          </div>
+        `;
+      }
+      
+      if (questionDisplay) {
+        questionDisplay.innerHTML = html;
+      }
+      
+      // Update current question indicator
+      if (currentQuestionSpan) {
+        currentQuestionSpan.textContent = (currentQuestionIndex + 1).toString();
+      }
+      
+      if (questionJump) {
+        questionJump.value = (currentQuestionIndex + 1).toString();
+      }
+      
+      // Update bookmark button
+      updateBookmarkButton();
+    }
+    
+    // Select option for multiple choice
+    window.selectOption = function(questionId, optionIndex) {
+      answers[questionId] = optionIndex;
+      
+      // Update UI
+      const optionButtons = document.querySelectorAll('.option-button');
+      optionButtons.forEach((btn, index) => {
+        if (index === optionIndex) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+      
+      updateProgress();
+      generateQuestionGrid();
+    };
+    
+    // Save writing answer
+    window.saveWritingAnswer = function(questionId, answer) {
+      answers[questionId] = answer;
+      updateProgress();
+      generateQuestionGrid();
+    };
+    
+    // Navigate to question
+    function goToQuestion(index) {
+      if (index >= 0 && index < test.questions.length) {
+        currentQuestionIndex = index;
+        renderQuestion();
+        updateNavigationButtons();
+        updateProgress();
+        generateQuestionGrid();
+        
+        // Close navigator modal if open
+        if (navigatorModal) {
+          navigatorModal.classList.add('hidden');
+        }
+      }
+    }
+    
+    // Update navigation buttons
+    function updateNavigationButtons() {
+      if (prevBtn) {
+        prevBtn.disabled = currentQuestionIndex === 0;
+      }
+      
+      if (nextBtn) {
+        if (currentQuestionIndex === test.questions.length - 1) {
+          nextBtn.textContent = '✅ Hoàn thành';
+          nextBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          nextBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+        } else {
+          nextBtn.textContent = 'Câu tiếp theo →';
+          nextBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+          nextBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+        }
+      }
+    }
+    
+    // Update progress
+    function updateProgress() {
+      const totalQuestions = test.questions.length;
+      const answeredQuestions = Object.keys(answers).length;
+      const progressPercentage = Math.round((answeredQuestions / totalQuestions) * 100);
+      
+      if (overallProgress) {
+        overallProgress.textContent = `${progressPercentage}%`;
+      }
+      
+      if (overallProgressBar) {
+        overallProgressBar.style.width = `${progressPercentage}%`;
+      }
+      
+      if (unansweredCount) {
+        unansweredCount.textContent = (totalQuestions - answeredQuestions).toString();
+      }
+      
+      if (markedCount) {
+        markedCount.textContent = markedQuestions.size.toString();
+      }
+      
+      // Update section progress
+      ['listening', 'reading', 'writing'].forEach(section => {
+        const sectionQuestions = test.questions.filter(q => q.section === section);
+        const sectionAnswered = sectionQuestions.filter(q => answers[q.id] !== undefined).length;
+        const sectionProgress = sectionQuestions.length > 0 ? Math.round((sectionAnswered / sectionQuestions.length) * 100) : 0;
+        
+        const progressElement = document.getElementById(`${section}-progress`);
+        const progressBarElement = document.getElementById(`${section}-progress-bar`);
+        
+        if (progressElement) {
+          progressElement.textContent = `${sectionAnswered}/${sectionQuestions.length}`;
+        }
+        
+        if (progressBarElement) {
+          progressBarElement.style.width = `${sectionProgress}%`;
+        }
+      });
+    }
+    
+    // Generate question grid for navigator
+    function generateQuestionGrid() {
+      if (!questionGrid) return;
+      
+      let html = '';
+      test.questions.forEach((question, index) => {
+        const isAnswered = answers[question.id] !== undefined;
+        const isMarked = markedQuestions.has(question.id);
+        const isCurrent = index === currentQuestionIndex;
+        
+        let classes = 'question-number ';
+        if (isCurrent) {
+          classes += 'current';
+        } else if (isMarked) {
+          classes += 'marked';
+        } else if (isAnswered) {
+          classes += 'answered';
+        } else {
+          classes += 'unanswered';
+        }
+        
+        html += `
+          <button 
+            class="${classes}"
+            onclick="goToQuestion(${index})"
+            title="Câu ${index + 1}${isAnswered ? ' (Đã trả lời)' : ''}${isMarked ? ' (Đã đánh dấu)' : ''}"
+          >
+            ${index + 1}
+          </button>
+        `;
+      });
+      
+      questionGrid.innerHTML = html;
+    }
+    
+    // Update bookmark button
+    function updateBookmarkButton() {
+      const currentQuestion = test.questions[currentQuestionIndex];
+      if (!currentQuestion || !bookmarkBtn) return;
+      
+      const isMarked = markedQuestions.has(currentQuestion.id);
+      
+      if (isMarked) {
+        bookmarkBtn.classList.add('text-yellow-500');
+        bookmarkBtn.classList.remove('text-gray-500');
+        bookmarkBtn.querySelector('svg').setAttribute('fill', 'currentColor');
+      } else {
+        bookmarkBtn.classList.add('text-gray-500');
+        bookmarkBtn.classList.remove('text-yellow-500');
+        bookmarkBtn.querySelector('svg').setAttribute('fill', 'none');
+      }
+    }
+    
+    // Set active section tab
+    function setActiveSection() {
+      sectionTabs.forEach(tab => {
+        const section = tab.getAttribute('data-section');
+        if (section === currentSection) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+    }
+    
+    // Event listeners
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+          goToQuestion(currentQuestionIndex - 1);
+        }
+      });
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        if (currentQuestionIndex < test.questions.length - 1) {
+          goToQuestion(currentQuestionIndex + 1);
+        } else {
+          // Show submit confirmation
+          showSubmitConfirmation();
+        }
+      });
+    }
+    
+    if (jumpBtn && questionJump) {
+      jumpBtn.addEventListener('click', () => {
+        const questionNumber = parseInt(questionJump.value);
+        if (questionNumber >= 1 && questionNumber <= test.questions.length) {
+          goToQuestion(questionNumber - 1);
+        }
+      });
+      
+      questionJump.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          jumpBtn.click();
+        }
+      });
+    }
+    
+    if (bookmarkBtn) {
+      bookmarkBtn.addEventListener('click', () => {
+        const currentQuestion = test.questions[currentQuestionIndex];
+        if (!currentQuestion) return;
+        
+        if (markedQuestions.has(currentQuestion.id)) {
+          markedQuestions.delete(currentQuestion.id);
+        } else {
+          markedQuestions.add(currentQuestion.id);
+        }
+        
+        updateBookmarkButton();
+        updateProgress();
+        generateQuestionGrid();
+      });
+    }
+    
+    if (navigatorBtn) {
+      navigatorBtn.addEventListener('click', () => {
+        navigatorModal?.classList.remove('hidden');
+      });
+    }
+    
+    if (closeNavigator) {
+      closeNavigator.addEventListener('click', () => {
+        navigatorModal?.classList.add('hidden');
+      });
+    }
+    
+    // Section tab switching
+    sectionTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const section = tab.getAttribute('data-section');
+        if (section) {
+          // Find first question of this section
+          const sectionQuestions = test.questions.filter(q => q.section === section);
+          if (sectionQuestions.length > 0) {
+            const firstQuestionIndex = test.questions.findIndex(q => q.section === section);
+            goToQuestion(firstQuestionIndex);
+            currentSection = section;
+            setActiveSection();
+          }
+        }
+      });
+    });
+    
+    // Submit confirmation
+    function showSubmitConfirmation() {
+      const unanswered = test.questions.length - Object.keys(answers).length;
+      let message = '📤 Bạn có chắc chắn muốn nộp bài?';
+      
+      if (unanswered > 0) {
+        message += `\n\n⚠️ Còn ${unanswered} câu chưa trả lời.`;
+      }
+      
+      if (confirm(message)) {
+        submitTest();
+      }
+    }
+    
+    // Submit test
+    function submitTest(isAutoSubmit = false) {
+      const results = {
+        testId: test.id,
+        answers: answers,
+        markedQuestions: Array.from(markedQuestions),
+        submittedAt: new Date().toISOString(),
+        isAutoSubmit: isAutoSubmit
+      };
+      
+      // Store results
+      localStorage.setItem(`topik_result_${test.id}`, JSON.stringify(results));
+      
+      // Redirect to results page
+      window.location.href = `/topik/results/${test.id}`;
+    }
+    
+    if (submitBtn) {
+      submitBtn.addEventListener('click', showSubmitConfirmation);
+    }
+    
+    // Global functions
+    window.goToQuestion = goToQuestion;
+    window.TopikQuiz = {
+      submitTest: submitTest,
+      goToQuestion: goToQuestion,
+      getAnswers: () => answers,
+      getMarkedQuestions: () => Array.from(markedQuestions)
+    };
+    
+    // Initialize
+    init();
+  });
+</script> 

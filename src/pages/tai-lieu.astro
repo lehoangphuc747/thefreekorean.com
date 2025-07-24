@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import FilterSection from '../components/document/FilterSection.astro';
 import DocumentGrid from '../components/document/DocumentGrid.astro';
 import SearchComponent from '../components/SearchComponent.astro';
+import SkeletonFilter from '../components/ui/SkeletonFilter.astro';
+import SortSection from '../components/document/SortSection.astro';
 
 // Import all MDX files from content and subdirectories
 const documentFiles = import.meta.glob('../content/**/*.mdx', { eager: true });
@@ -77,60 +79,121 @@ const subcategoriesByCategory = categories.reduce((acc, category) => {
       <!-- Search Section -->
       <SearchComponent documents={documentFiles} />
 
-      <!-- Filter Section -->
-      <FilterSection 
-        categories={categories}
-        subcategoriesByCategory={subcategoriesByCategory}
-        documents={documents}
-        class="mb-8"
-      />
+      <!-- Sort Section -->
+      <SortSection defaultSort="date-desc" class="mb-6" />
+
+      <!-- Filter Section with Skeleton -->
+      <div id="filter-container" class="mb-8">
+        <!-- Skeleton Filter (Hidden by default) -->
+        <div id="filter-skeleton" style="display: none;">
+          <SkeletonFilter class="mb-8" />
+        </div>
+        
+        <!-- Actual Filter -->
+        <div id="actual-filter">
+          <FilterSection 
+            categories={categories}
+            subcategoriesByCategory={subcategoriesByCategory}
+            documents={documents}
+            class="mb-8"
+          />
+        </div>
+      </div>
 
       <!-- Documents Grid -->
-      <DocumentGrid documents={documents} />
+              <DocumentGrid documents={documents.map(doc => ({ ...doc, date: doc.date }))} />
       
     </div>
   </div>
 </Layout>
 
 <script>
-  // Filter functionality
+  // Enhanced loading state management
   document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-button') as NodeListOf<HTMLElement>;
     const subcategoryFilters = document.querySelectorAll('.subcategory-filter') as NodeListOf<HTMLElement>;
     const documentCards = document.querySelectorAll('.document-card-wrapper') as NodeListOf<HTMLElement>;
     const documentsGrid = document.getElementById('documents-grid');
     const emptyState = document.getElementById('empty-state');
+    const filterSkeleton = document.getElementById('filter-skeleton');
+    const actualFilter = document.getElementById('actual-filter');
     
     let activeCategory = 'all';
     let activeSubcategory = 'all';
+    let isFiltering = false;
+
+    // Loading state controller (only use for real API calls)
+    function showFilterLoading() {
+      if (filterSkeleton && actualFilter) {
+        filterSkeleton.style.display = 'block';
+        actualFilter.style.display = 'none';
+      }
+      if (window.DocumentGrid) {
+        window.DocumentGrid.showSkeleton();
+      }
+    }
+
+    function hideFilterLoading() {
+      if (filterSkeleton && actualFilter) {
+        filterSkeleton.style.display = 'none';
+        actualFilter.style.display = 'block';
+      }
+      if (window.DocumentGrid) {
+        window.DocumentGrid.hideSkeleton();
+      }
+    }
+
+    // Function to show skeleton only for real loading operations
+    window.showSkeletonForLoading = function(promise: Promise<any>) {
+      showFilterLoading();
+      return promise.finally(() => {
+        hideFilterLoading();
+      });
+    };
+
+    // Filter with minimal loading state (only show skeleton for complex operations)
+    function performFilter(callback: () => void) {
+      if (isFiltering) return; // Prevent multiple simultaneous filters
+      
+      isFiltering = true;
+      
+      // For client-side filtering, execute immediately without skeleton
+      // Only show skeleton for actual API calls or heavy operations
+      callback();
+      isFiltering = false;
+    }
     
-    // Category filter logic
+    // Category filter logic with loading
     filterButtons.forEach(button => {
       button.addEventListener('click', function(this: HTMLElement) {
         const category = this.getAttribute('data-category') || 'all';
         
-        // Update active category
-        activeCategory = category;
-        activeSubcategory = 'all'; // Reset subcategory when changing category
-        
-        // Update UI
-        updateFilterButtons();
-        updateSubcategoryVisibility();
-        filterDocuments();
+        performFilter(() => {
+          // Set current category
+          activeCategory = category;
+          activeSubcategory = 'all'; // Reset subcategory when changing category
+          
+          // Update UI
+          updateFilterButtons();
+          updateSubcategoryVisibility();
+          filterDocuments();
+        });
       });
     });
     
-    // Subcategory filter logic
+    // Subcategory filter logic with loading
     subcategoryFilters.forEach(filter => {
       filter.addEventListener('click', function(this: HTMLElement) {
         const subcategory = this.getAttribute('data-subcategory') || 'all';
         
-        // Update active subcategory
-        activeSubcategory = subcategory;
-        
-        // Update UI
-        updateSubcategoryButtons();
-        filterDocuments();
+        performFilter(() => {
+          // Set current subcategory
+          activeSubcategory = subcategory;
+          
+          // Update UI
+          updateSubcategoryButtons();
+          filterDocuments();
+        });
       });
     });
     
@@ -227,6 +290,9 @@ const subcategoriesByCategory = categories.reduce((acc, category) => {
     updateFilterButtons();
     updateSubcategoryVisibility();
     filterDocuments();
+
+    // Initialize with content visible (skeleton hidden by default)
+    hideFilterLoading();
   });
 </script>
 
