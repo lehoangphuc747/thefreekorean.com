@@ -9,24 +9,24 @@ import CTASection from '../components/home/CTASection.astro';
 import InteractiveDemo from '../components/home/InteractiveDemo.jsx';
 
 // Get documents for preview
-const documentFiles = await Astro.glob('../documents/*.mdx');
-const recentDocuments = documentFiles
-  .filter(file => file.frontmatter?.title)
-  .map(file => ({
-    slug: file.file.split('/').pop()?.replace('.mdx', '') || '',
-    title: file.frontmatter.title || '',
-    category: file.frontmatter.category || '',
-    type: file.frontmatter.type || '',
-    cover: file.frontmatter.cover,
-    description: file.frontmatter.description || '',
-    date: file.frontmatter.date || new Date().toISOString()
+const documentFiles = import.meta.glob('../documents/**/*.mdx', { eager: true });
+const recentDocuments = Object.entries(documentFiles)
+  .map(([path, file]) => ({
+    slug: path.split('/').pop()?.replace('.mdx', '') || '',
+    title: file.frontmatter?.title || '',
+    category: file.frontmatter?.category || '',
+    type: file.frontmatter?.type || '',
+    cover: file.frontmatter?.cover,
+    description: file.frontmatter?.description || '',
+    date: file.frontmatter?.date || new Date().toISOString()
   }))
+  .filter(doc => doc.title)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, 6);
 
 const stats = {
-  documents: documentFiles.length,
-  categories: [...new Set(documentFiles.map(f => f.frontmatter?.category).filter(Boolean))].length,
+  documents: Object.keys(documentFiles).length,
+  categories: [...new Set(Object.values(documentFiles).map(f => f.frontmatter?.category).filter(Boolean))].length,
   downloads: "10,000+",
   users: "5,000+"
 };

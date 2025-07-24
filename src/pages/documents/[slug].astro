@@ -3,11 +3,11 @@ import Layout from '../../layouts/Layout.astro';
 import DownloadSection from '../../components/DownloadSection.astro';
 
 export async function getStaticPaths() {
-  const documentFiles = await Astro.glob('../../documents/*.mdx');
+  const documentFiles = import.meta.glob('../../documents/*.mdx', { eager: true });
   
-  return documentFiles.map(file => ({
+  return Object.entries(documentFiles).map(([path, file]) => ({
     params: { 
-      slug: file.file.split('/').pop()?.replace('.mdx', '') 
+      slug: path.split('/').pop()?.replace('.mdx', '') 
     },
     props: { 
       document: file 
@@ -20,10 +20,10 @@ const { Content } = document;
 const frontmatter = document.frontmatter;
 
 // Tìm các file Anki liên quan
-const allDocuments = await Astro.glob('../../documents/*.mdx');
+const allDocuments = import.meta.glob('../../documents/*.mdx', { eager: true });
 const currentSlug = Astro.params.slug;
 
-const relatedAnkiFiles = allDocuments.filter(doc => {
+const relatedAnkiFiles = Object.values(allDocuments).filter(doc => {
   const docFrontmatter = doc.frontmatter;
   return (
     docFrontmatter.type === 'Anki Deck' && 
