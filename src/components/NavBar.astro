@@ -30,9 +30,9 @@ import '../styles/navbar.css';
     <div class="navbar-menu-wrapper" id="navbar-menu-wrapper">
       <ul class="navbar-menu" id="navbar-menu">
         <li>
-          <a href="/tai-lieu" class={pathname.includes('/tai-lieu') ? 'navbar-link active' : 'navbar-link'}>
-            <span class="icon">📚</span>
-            <span>Tài liệu</span>
+          <a href="/gioi-thieu" class={pathname.includes('/gioi-thieu') ? 'navbar-link active' : 'navbar-link'}>
+            <span class="icon">ℹ️</span>
+            <span>Giới thiệu</span>
           </a>
         </li>
         <li>
@@ -41,27 +41,20 @@ import '../styles/navbar.css';
             <span>Lộ trình</span>
           </a>
         </li>
-        <li class="dropdown-container">
-          <a href="#" class="navbar-link dropdown-toggle">
-            <span class="icon">✏️</span>
-            <span>Ôn tập</span>
-            <span class="dropdown-arrow">▼</span>
+        <li>
+          <a href="/tai-lieu" class={pathname.includes('/tai-lieu') ? 'navbar-link active' : 'navbar-link'}>
+            <span class="icon">📚</span>
+            <span>Tài liệu</span>
           </a>
-          <div class="dropdown-menu">
-            <a href="/ngu-phap-moi?tab=progress" class="dropdown-item">📊 Tiến độ học tập</a>
-            <a href="/demo-grammar#quiz" class="dropdown-item">📝 Bài kiểm tra</a>
-            <a href="/ngu-phap-moi?tab=list" class="dropdown-item">📋 Danh sách ngữ pháp</a>
-            <a href="#" class="dropdown-item">🎧 Luyện nghe</a>
-          </div>
         </li>
         <li>
-          <a href="#" class="navbar-link">
+          <a href="/topik" class={pathname.includes('/topik') ? 'navbar-link active' : 'navbar-link'}>
             <span class="icon">🏆</span>
             <span>TOPIK</span>
           </a>
         </li>
         <li>
-          <a href="#" class="contact-link">
+          <a href="/lien-he" class={pathname.includes('/lien-he') ? 'navbar-link active' : 'navbar-link'}>
             <span class="icon">💬</span>
             <span>Liên hệ</span>
           </a>

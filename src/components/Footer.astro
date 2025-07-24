@@ -4,8 +4,71 @@
 Description: This component displays the site footer on all pages
 Used in: Layout.astro (appears on all pages)
 Purpose: Shows copyright information and contact details -->
-<footer style="width:100%;background:#f5f5f5;color:#3245ff;padding:1.2rem 0;margin-top:2rem;">
-  <div style="max-width: 900px; margin: 0 auto; text-align: center; font-size: 1rem;">
-    © 2024 The Free Korean. Liên hệ: <a href="mailto:contact@thefreekorean.com" style="color:#bc52ee;text-decoration:none;">contact@thefreekorean.com</a>
+<footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 mt-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid md:grid-cols-3 gap-8">
+      
+      <!-- Brand & Creator -->
+      <div class="text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start mb-4">
+          <span class="text-3xl font-bold text-blue-400 mr-2">한</span>
+          <span class="text-xl font-bold">The Free Korean</span>
+        </div>
+        <p class="text-gray-300 mb-4">
+          Nền tảng học tiếng Hàn miễn phí được tạo ra bởi 
+          <strong class="text-blue-400">Lê Hoàng Phúc</strong>
+        </p>
+        <p class="text-sm text-gray-400">
+          Developer đam mê giáo dục, tin tưởng vào sức mạnh của công nghệ 
+          trong việc chia sẻ kiến thức.
+        </p>
+      </div>
+      
+      <!-- Quick Links -->
+      <div class="text-center">
+        <h3 class="text-lg font-bold mb-4 text-blue-400">Liên kết nhanh</h3>
+        <ul class="space-y-2">
+          <li><a href="/gioi-thieu" class="text-gray-300 hover:text-blue-400 transition-colors">Giới thiệu</a></li>
+          <li><a href="/tai-lieu" class="text-gray-300 hover:text-blue-400 transition-colors">Tài liệu</a></li>
+          <li><a href="/topik" class="text-gray-300 hover:text-blue-400 transition-colors">TOPIK</a></li>
+          <li><a href="/lien-he" class="text-gray-300 hover:text-blue-400 transition-colors">Liên hệ</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact & Social -->
+      <div class="text-center md:text-right">
+        <h3 class="text-lg font-bold mb-4 text-blue-400">Kết nối với Phúc</h3>
+        <div class="space-y-3">
+          <a 
+            href="https://www.facebook.com/tui.la.phuc747/" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center md:justify-end gap-2 text-gray-300 hover:text-blue-400 transition-colors"
+          >
+            <span>📱</span>
+            <span>Facebook cá nhân</span>
+          </a>
+          <div class="text-sm text-gray-400">
+            <p>📧 Liên hệ hợp tác:</p>
+            <a href="mailto:contact@thefreekorean.com" class="text-blue-400 hover:text-blue-300">
+              contact@thefreekorean.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom Bar -->
+    <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm mb-2 md:mb-0">
+          © 2024 The Free Korean by <strong class="text-blue-400">Lê Hoàng Phúc</strong>. 
+          Made with ❤️ for Vietnamese Korean learners.
+        </p>
+        <p class="text-gray-500 text-xs">
+          Open source project | 100% miễn phí
+        </p>
+      </div>
+    </div>
   </div>
 </footer>

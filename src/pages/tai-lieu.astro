@@ -4,8 +4,8 @@ import FilterSection from '../components/document/FilterSection.astro';
 import DocumentGrid from '../components/document/DocumentGrid.astro';
 import SearchComponent from '../components/SearchComponent.astro';
 
-// Import all MDX files from documents and subdirectories
-const documentFiles = import.meta.glob('../documents/**/*.mdx', { eager: true });
+// Import all MDX files from content and subdirectories
+const documentFiles = import.meta.glob('../content/**/*.mdx', { eager: true });
 
 // Transform data for easier use
 const documents = Object.entries(documentFiles)

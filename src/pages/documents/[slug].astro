@@ -20,7 +20,8 @@ const { Content } = document;
 const frontmatter = document.frontmatter;
 
 // Tìm các file Anki liên quan
-const allDocuments = import.meta.glob('../../documents/*.mdx', { eager: true });
+// Get all MDX files from content directory
+const allPosts = await Astro.glob('../../content/**/*.mdx');
 const currentSlug = Astro.params.slug;
 
 const relatedAnkiFiles = Object.values(allDocuments).filter(doc => {
