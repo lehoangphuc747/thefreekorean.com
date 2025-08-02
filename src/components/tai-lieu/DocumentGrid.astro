@@ -1,0 +1,118 @@
+---
+export interface Props {
+  documents: Array<{
+    title: string;
+    category: string;
+    subcategory?: string;
+    type: string;
+    description: string;
+    pages?: number;
+    cards?: number;
+    fileSize?: string;
+    url: string;
+    slug: string;
+    date: string;
+  }>;
+  class?: string;
+}
+
+const { documents, class: className = '' } = Astro.props;
+---
+
+<div class={`documents-grid ${className}`}>
+  {documents.length === 0 ? (
+    <!-- Empty State -->
+    <div class="no-results-message col-span-full text-center py-16">
+      <div class="max-w-md mx-auto">
+        <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+          <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Không tìm thấy tài liệu</h3>
+        <p class="text-gray-600">
+          Không có tài liệu nào phù hợp với bộ lọc hiện tại. Hãy thử chọn danh mục khác.
+        </p>
+      </div>
+    </div>
+  ) : (
+    <!-- Documents Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {documents.map((doc) => (
+        <div 
+          class="document-card-wrapper cursor-pointer"
+          data-category={doc.category}
+          data-subcategory={doc.subcategory}
+          data-title={doc.title}
+          onclick={`window.location.href='${doc.url}'`}
+        >
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-200 hover:shadow-xl hover:scale-[1.02] h-full flex flex-col">
+            
+            <!-- Cover Image Placeholder -->
+            <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative">
+              <div class="text-white text-center">
+                <div class="text-2xl font-bold mb-2">{doc.type}</div>
+                <div class="text-sm opacity-80">{doc.category}</div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 flex-1 flex flex-col">
+              <!-- Title -->
+              <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                {doc.title}
+              </h3>
+
+              <!-- Description -->
+              <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                {doc.description}
+              </p>
+
+              <!-- Meta Information -->
+              <div class="flex flex-wrap gap-2 mt-auto">
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
+                  {doc.type}
+                </span>
+                {doc.fileSize && (
+                  <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                    {doc.fileSize}
+                  </span>
+                )}
+                {doc.pages && doc.type !== "Anki Deck" && (
+                  <span class="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                    {doc.pages} trang
+                  </span>
+                )}
+                {doc.cards && doc.type === "Anki Deck" && (
+                  <span class="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                    {doc.cards} thẻ
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .document-card-wrapper:hover .bg-white {
+    transform: translateY(-2px);
+  }
+</style>

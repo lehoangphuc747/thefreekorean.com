@@ -1,0 +1,131 @@
+/* Korean Grammar Content Styling */
+.korean-grammar-content h1 {
+  color: #1f2937 !important;
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.5rem !important;
+  border-bottom: 3px solid #3b82f6 !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.korean-grammar-content h2 {
+  color: #374151 !important;
+  font-size: 1.875rem !important;
+  font-weight: 600 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.25rem !important;
+  padding: 0.75rem 1rem !important;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  border-left: 4px solid #0ea5e9 !important;
+  border-radius: 0.5rem !important;
+}
+
+.korean-grammar-content h3 {
+  color: #4b5563 !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1rem !important;
+  padding: 0.5rem 0.75rem !important;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border-left: 3px solid #f59e0b !important;
+  border-radius: 0.375rem !important;
+}
+
+.korean-grammar-content h4 {
+  color: #6b7280 !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0.5rem 0.75rem !important;
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%) !important;
+  border-left: 3px solid #8b5cf6 !important;
+  border-radius: 0.375rem !important;
+}
+
+/* Korean text styling */
+.korean-grammar-content p {
+  line-height: 1.8 !important;
+  margin-bottom: 1.25rem !important;
+  color: #374151 !important;
+}
+
+/* Korean grammar points highlighting */
+.korean-grammar-content strong {
+  background: linear-gradient(120deg, #a78bfa 0%, #ec4899 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: 700 !important;
+}
+
+/* Lists styling */
+.korean-grammar-content ul {
+  margin: 1.5rem 0 !important;
+  padding-left: 1.5rem !important;
+}
+
+.korean-grammar-content li {
+  margin: 0.75rem 0 !important;
+  line-height: 1.7 !important;
+}
+
+/* Table styling */
+.korean-grammar-content table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 2rem 0 !important;
+  background: white !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.korean-grammar-content th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 1rem !important;
+  text-align: left !important;
+}
+
+.korean-grammar-content td {
+  padding: 1rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.korean-grammar-content tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Blockquotes for grammar notes */
+.korean-grammar-content blockquote {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border-left: 4px solid #f59e0b !important;
+  padding: 1.5rem !important;
+  margin: 2rem 0 !important;
+  border-radius: 0.5rem !important;
+  font-style: italic !important;
+  color: #92400e !important;
+}
+
+/* Code blocks for Korean grammar forms */
+.korean-grammar-content code {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: 0.375rem !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+/* Korean dialogue examples */
+.korean-grammar-content p strong {
+  background: linear-gradient(120deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}

@@ -1,0 +1,225 @@
+---
+// Data tổng quan về Anki
+const stats = {
+  totalBooks: 2,
+  totalLessons: 27,
+  totalCards: 2000,
+  totalDownloads: 15000
+};
+
+const featuredBooks = [
+  {
+    id: "tieng-han-tong-hop-1",
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+    description: "Giáo trình phổ biến nhất cho người mới bắt đầu",
+    image: "/images/tieng-han-tong-hop-1.jpg",
+    lessons: 15,
+    cards: 1200,
+    level: "Sơ cấp"
+  },
+  {
+    id: "seoul-korean-1a",
+    title: "Seoul Korean 1A",
+    description: "Giáo trình chính thức từ Đại học Quốc gia Seoul",
+    image: "/images/seoul-korean-1a.jpg",
+    lessons: 12,
+    cards: 800,
+    level: "Sơ cấp"
+  }
+];
+---
+
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <title>Anki Decks - The Free Korean</title>
+  <meta name="description" content="Bộ sưu tập deck Anki miễn phí cho việc học tiếng Hàn từ các giáo trình phổ biến" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center space-x-4">
+          <a href="/" class="text-xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
+            The Free Korean
+          </a>
+          <span class="text-gray-400">•</span>
+          <a href="/tai-lieu" class="text-gray-600 hover:text-blue-600 transition-colors">Tài liệu</a>
+          <span class="text-gray-400">•</span>
+          <span class="text-gray-800 font-medium">Anki</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="/tai-lieu/anki/books" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            Xem tất cả sách
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h1 class="text-5xl font-bold text-gray-900 mb-6">
+        Anki Decks Tiếng Hàn
+      </h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        Bộ sưu tập deck Anki miễn phí được tạo từ các giáo trình tiếng Hàn phổ biến. 
+        Tải về và bắt đầu hành trình học tiếng Hàn hiệu quả ngay hôm nay!
+      </p>
+      
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="text-3xl font-bold text-blue-600 mb-2">{stats.totalBooks}</div>
+          <div class="text-gray-600">Giáo trình</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="text-3xl font-bold text-green-600 mb-2">{stats.totalLessons}</div>
+          <div class="text-gray-600">Bài học</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="text-3xl font-bold text-purple-600 mb-2">{stats.totalCards}</div>
+          <div class="text-gray-600">Thẻ học</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="text-3xl font-bold text-orange-600 mb-2">{stats.totalDownloads.toLocaleString()}</div>
+          <div class="text-gray-600">Lượt tải</div>
+        </div>
+      </div>
+
+      <a 
+        href="/tai-lieu/anki/books" 
+        class="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl text-lg"
+      >
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Khám phá tất cả deck
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Books -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Giáo trình nổi bật</h2>
+        <p class="text-lg text-gray-600">Các bộ deck Anki được yêu thích nhất</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {featuredBooks.map(book => (
+          <div class="bg-gray-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+            <div class="p-8">
+              <div class="flex items-start space-x-6">
+                <img 
+                  src={book.image} 
+                  alt={book.title}
+                  class="w-24 h-32 object-cover rounded-lg shadow-md"
+                  loading="lazy"
+                />
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold text-gray-900 mb-3">{book.title}</h3>
+                  <p class="text-gray-600 mb-4">{book.description}</p>
+                  
+                  <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                      {book.level}
+                    </span>
+                    <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                      {book.lessons} bài học
+                    </span>
+                    <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                      {book.cards} thẻ
+                    </span>
+                  </div>
+
+                  <a 
+                    href={`/tai-lieu/anki/books`}
+                    class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Xem chi tiết
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Use Anki -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Cách sử dụng Anki</h2>
+        <p class="text-lg text-gray-600">Hướng dẫn đơn giản để bắt đầu học với Anki</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-blue-600">1</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Tải Anki</h3>
+          <p class="text-gray-600 text-sm">Tải ứng dụng Anki miễn phí về máy tính hoặc điện thoại</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-green-600">2</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Tải deck</h3>
+          <p class="text-gray-600 text-sm">Chọn và tải deck phù hợp với trình độ của bạn</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-purple-600">3</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Import deck</h3>
+          <p class="text-gray-600 text-sm">Mở Anki và import file .apkg vào ứng dụng</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-orange-600">4</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Bắt đầu học</h3>
+          <p class="text-gray-600 text-sm">Học đều đặn mỗi ngày để đạt hiệu quả tốt nhất</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-blue-600">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-white mb-4">Sẵn sàng bắt đầu?</h2>
+      <p class="text-xl text-blue-100 mb-8">
+        Hàng nghìn người đã sử dụng deck Anki của chúng tôi để học tiếng Hàn hiệu quả
+      </p>
+      <a 
+        href="/tai-lieu/anki/books" 
+        class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg text-lg"
+      >
+        Tải deck miễn phí ngay
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+</body>
+</html>

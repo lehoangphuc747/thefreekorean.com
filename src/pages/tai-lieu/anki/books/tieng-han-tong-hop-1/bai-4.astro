@@ -1,0 +1,75 @@
+﻿---
+import Layout from '../../../../../layouts/Layout.astro';
+
+export const postData = {
+  title: 'Anki - Tiếng Hàn Tổng Hợp 1 - Bài 4',
+  description: 'Anki deck cho Tiếng Hàn Tổng Hợp 1 - Bài 4',
+  date: '2025-07-23',
+  category: 'Anki',
+  subcategory: 'Tiếng Hàn Tổng Hợp',
+  type: 'Anki Deck',
+  downloadUrl: 'https://docs.google.com/uc?export=download&id=1C8Lgj_WErl1pkAXddLDFPvE0M4mFfyyK',
+  fileSize: '11.3MB',
+  relatedTo: 'tieng-han-tong-hop-1',
+  lesson: 'Bài 4',
+  cards: 85,
+  book: 'Tiếng Hàn Tổng Hợp Sơ cấp 1'
+};
+---
+
+<Layout title={postData.title}>
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">{postData.title}</h1>
+      
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Thông tin bộ thẻ</h2>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="font-medium">Bài học:</span>
+                <span>{postData.lesson}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">Số thẻ:</span>
+                <span>{postData.cards} thẻ</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">Kích thước:</span>
+                <span>{postData.fileSize}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">Giáo trình:</span>
+                <span>{postData.book}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Tải xuống</h2>
+            <p class="text-gray-600 mb-4">{postData.description}</p>
+            <a 
+              href={postData.downloadUrl}
+              class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Tải xuống bộ thẻ Anki
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+        <div class="flex">
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              <strong>Hướng dẫn:</strong> Sau khi tải xuống, hãy import file .apkg vào ứng dụng Anki để bắt đầu học.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,94 @@
+---
+export interface RuleExample {
+  before: string;
+  after: string;
+}
+
+export interface IrregularExample {
+  stem: string;
+  example: string;
+}
+
+export interface MorphologySection {
+  id: number;
+  title: string;
+  rule: string;
+  examples: RuleExample[];
+  note?: string;
+}
+
+export interface Props {
+  title: string;
+  sections: MorphologySection[];
+  irregularSection?: {
+    title: string;
+    examples: IrregularExample[];
+  } | null;
+}
+
+const { title, sections, irregularSection } = Astro.props;
+
+// Hàm để highlight ngữ pháp
+const highlightGrammar = (text: string, customPatterns: string[] = []) => {
+  const defaultPatterns = ['으면서', '면서', '으며', '고', '걸으면서', '부드러우면서', '지으면서', '하야면서'];
+  const allPatterns = [...defaultPatterns, ...customPatterns];
+  const regex = new RegExp(`(${allPatterns.join('|')})`, 'g');
+  
+  if (!text) return text;
+  
+  return text.replace(regex, '<strong class="text-purple-600 font-bold">$1</strong>');
+};
+---
+
+<div class="bg-white rounded-3xl shadow-lg p-8 max-w-sm md:max-w-3xl w-full">
+  <h2 class="text-2xl font-bold text-slate-800 mb-6">{title}</h2>
+  <div class="space-y-6">
+    {sections.map((section) => (
+      <div>
+        <h3 class="font-semibold text-slate-700 mb-3">
+          <span class="font-bold bg-slate-200 text-slate-600 rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">
+            {section.id}
+          </span>
+          {section.title}: <span class="font-bold text-purple-600">{section.rule}</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          {section.examples.map((ex) => (
+            <div class="flex items-center justify-center text-center bg-slate-100 p-2 rounded-lg">
+              <span class="text-slate-600 font-medium">{ex.before}</span>
+              <span class="mx-2 font-bold text-purple-500">→</span>
+              <span class="text-slate-800 font-bold">
+                <Fragment set:html={highlightGrammar(ex.after)} />
+              </span>
+            </div>
+          ))}
+        </div>
+        {section.note && (
+          <p class="text-xs text-slate-500 mt-3">
+            <span class="font-bold">*</span> {section.note}
+          </p>
+        )}
+      </div>
+    ))}
+    
+    {irregularSection && irregularSection.examples && irregularSection.examples.length > 0 && (
+      <div>
+        <h3 class="font-semibold text-slate-700 mb-3">
+          <span class="font-bold bg-slate-200 text-slate-600 rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">
+            ④
+          </span>
+          {irregularSection.title}
+        </h3>
+        <div class="space-y-2 text-sm">
+          {irregularSection.examples.map((ex) => (
+            <div class="flex items-center bg-slate-100 p-2 rounded-lg">
+              <span class="w-24 font-bold text-slate-700">{ex.stem}</span>
+              <span class="text-slate-600 font-medium">
+                <Fragment set:html={highlightGrammar(ex.example)} />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>

@@ -21,7 +21,7 @@ src/components/
 │   ├── DocumentsPreview.astro   # Preview documents
 │   ├── TestimonialsSection.astro # Phần đánh giá
 │   ├── CTASection.astro         # Call to action
-│   └── InteractiveDemo.jsx      # Demo tương tác (React)
+
 └── ui/                          # UI components cơ bản
     ├── Badge.astro              # Badge component
     ├── Button.astro             # Button component
@@ -49,7 +49,7 @@ src/components/
 - **home/DocumentsPreview.astro** - Preview documents mới nhất
 - **home/TestimonialsSection.astro** - Phần đánh giá từ người dùng
 - **home/CTASection.astro** - Call to action
-- **home/InteractiveDemo.jsx** - Demo tương tác (React component)
+
 
 ### 🎨 UI Components
 - **ui/Badge.astro** - Badge component cơ bản

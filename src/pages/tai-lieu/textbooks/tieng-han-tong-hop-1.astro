@@ -1,0 +1,175 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const postData = {
+  title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+  date: "2024-05-01",
+  category: "Giáo trình",
+  subcategory: "Tiếng Hàn Tổng Hợp",
+  type: "PDF",
+  cover: "/images/tieng-han-tong-hop-1.jpg",
+  description: "Giáo trình cơ bản cho người mới bắt đầu học tiếng Hàn",
+  downloadUrl: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJW1zQYAAAABsb74FVJACQ2ebQRiCnAQ7w?e=pZZMs4",
+  downloadOriginal: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJWrTwAAAAABsyLYjzmmKd-T3xVagalxBg?e=WJ0Km2",
+  downloadWorkbook: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJWjTwAAAAAB0DgAuqa108zsIb8za1nrdw?e=ZjvnyG",
+  downloadAudio: "https://1drv.ms/f/c/95cd9adb2b8c9171/EnGRjCvbms0ggJXbWwYAAAAB_AwnJEjawYkaIy5e6nP9mQ?e=fesA9k",
+  fileSize: "4.3MB",
+  originalSize: "107.6MB",
+  workbookSize: "16.3MB",
+  audioSize: "Folder audio",
+  pages: 250,
+  seoTitle: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 1 - Học tiếng Hàn hiệu quả",
+  seoDescription: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 1 dành cho người mới bắt đầu. Bao gồm PDF, audio, bài tập, ngữ pháp cơ bản, từ vựng theo chủ đề. Tự học tiếng Hàn dễ dàng.",
+  keywords: ["học tiếng Hàn", "giáo trình tiếng Hàn sơ cấp", "tự học tiếng Hàn", "Tiếng Hàn Tổng Hợp"]
+};
+
+// Export for Astro.glob() access  
+export { postData };
+---
+  fileSize: "4.3MB",
+// Export for Astro.glob() access  
+export { postData };
+---
+
+<Layout title={postData.title}>
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">{postData.title}</h1>
+      
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Thông tin giáo trình</h2>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="font-medium">Loại:</span>
+                <span>{postData.type}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">Số trang:</span>
+                <span>{postData.pages} trang</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">Kích thước:</span>
+                <span>{postData.fileSize}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">Danh mục:</span>
+                <span>{postData.category}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Tải xuống</h2>
+            <p class="text-gray-600 mb-4">{postData.description}</p>
+            <div class="space-y-3">
+              <a 
+                href={postData.downloadUrl}
+                class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full text-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tải giáo trình chính ({postData.fileSize})
+              </a>
+              
+              <a 
+                href={postData.downloadOriginal}
+                class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full text-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tải bản gốc ({postData.originalSize})
+              </a>
+              
+              <a 
+                href={postData.downloadWorkbook}
+                class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full text-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tải bài tập ({postData.workbookSize})
+              </a>
+              
+              <a 
+                href={postData.downloadAudio}
+                class="inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full text-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tải audio ({postData.audioSize})
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+        <div class="flex">
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              <strong>Hướng dẫn:</strong> Giáo trình bao gồm sách chính, bài tập và audio. Tải về để học offline hiệu quả.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+
+
+<style>
+  .prose {
+    color: #374151;
+  }
+  
+  .prose h2 {
+    color: #1f2937;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .prose h3 {
+    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  
+  .prose ul {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  
+  .prose strong {
+    color: #3b82f6;
+    font-weight: 600;
+  }
+
+  .prose hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

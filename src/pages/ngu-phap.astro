@@ -1,31 +1,64 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import GrammarFilter from '../components/grammar/GrammarFilter.astro';
+import GrammarGrid from '../components/grammar/GrammarGrid.astro';
 
-// Đọc tất cả file MDX từ thư mục documents/grammar
-const grammarFiles = import.meta.glob('../documents/grammar/**/*.mdx', { eager: true });
+// Temporary: Use static list to avoid AstroGlobNoMatch error
+const soCap = [];
+const trungCap = [];
+const caoCap = [];
 
-// Transform data cho grammar
-const grammarList = Object.entries(grammarFiles)
-  .map(([path, file]) => ({
-    slug: path.split('/').pop()?.replace('.mdx', '') || '',
-    title: file.frontmatter?.title || '',
-    date: file.frontmatter?.date || new Date().toISOString(),
-    category: file.frontmatter?.category || 'Ngữ pháp',
-    subcategory: file.frontmatter?.subcategory || 'Sơ cấp',
-    level: file.frontmatter?.level || 'Beginner',
-    grammarPattern: file.frontmatter?.grammarPattern || '',
-    meaning: file.frontmatter?.meaning || '',
-    description: file.frontmatter?.description || '',
-    type: file.frontmatter?.type || 'Grammar',
-    tags: file.frontmatter?.tags || [],
-    examples: file.frontmatter?.examples || 0,
-    exercises: file.frontmatter?.exercises || 0,
-    difficulty: file.frontmatter?.difficulty || 1,
-    cover: file.frontmatter?.cover || '/images/grammar-default.jpg',
-    content: file.Content
-  }))
-  .filter(grammar => grammar.title)
+// Static grammar data for demonstration
+const staticGrammarList = [
+  {
+    slug: 'go-sipda',
+    title: '-고 싶다 (muốn làm gì)',
+    date: '2025-01-15',
+    category: 'Ngữ pháp',
+    subcategory: 'Sơ cấp',
+    level: 'Beginner',
+    grammarPattern: '-고 싶다',
+    meaning: 'Biểu hiện ý muốn, mong muốn',
+    description: 'Cấu trúc ngữ pháp để diễn tả mong muốn, ý định muốn làm gì đó.',
+    type: 'Grammar',
+    tags: ['desire', 'want', 'intention'],
+    examples: 5,
+    exercises: 8,
+    difficulty: 2,
+    cover: '/images/default-grammar.svg',
+    url: '/ngu-phap/demo-grammar'
+  },
+  {
+    slug: 'eumyeonseo',
+    title: '-으면서 (trong khi)',
+    date: '2025-01-10',
+    category: 'Ngữ pháp',
+    subcategory: 'Sơ cấp',
+    level: 'Beginner',
+    grammarPattern: '-으면서',
+    meaning: 'Diễn tả hai hành động xảy ra đồng thời',
+    description: 'Cấu trúc ngữ pháp để nối hai hành động hoặc trạng thái xảy ra cùng lúc.',
+    type: 'Grammar',
+    tags: ['simultaneous', 'while', 'conjunction'],
+    examples: 4,
+    exercises: 6,
+    difficulty: 3,
+    cover: '/images/default-grammar.svg',
+    url: '/ngu-phap/demo-grammar'
+  }
+];
+
+console.log('=== USING STATIC GRAMMAR DATA ===');
+console.log('Static grammar found:', staticGrammarList.length);
+
+// Use static grammar list instead of processing files
+const grammarList = staticGrammarList
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Debug logs
+console.log('=== FINAL GRAMMAR RESULTS ===');
+console.log('Total grammar found:', grammarList.length);
+console.log('Sample grammar:', grammarList[0]);
 
 // Get unique levels và subcategories
 const levels = [...new Set(grammarList.map(item => item.level))];
@@ -67,266 +100,12 @@ const levelMapping = {
         </div>
       </header>
 
-      <!-- Search và Filter Section -->
-      <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-        <!-- Search Box -->
-        <div class="flex flex-col md:flex-row gap-4 mb-6">
-          <div class="flex-1">
-            <input 
-              type="text" 
-              id="search-box"
-              placeholder="Tìm kiếm ngữ pháp (VD: -기 때문에, lý do...)"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            />
-          </div>
-        </div>
-
-        <!-- Level Filter -->
-        <div class="flex flex-wrap gap-3 justify-center mb-4">
-          <button 
-            class="filter-btn px-4 py-2 rounded-lg border-2 border-purple-500 bg-white text-purple-500 font-medium transition-all hover:bg-purple-50"
-            data-filter="all"
-            data-type="level"
-          >
-            Tất cả ({grammarList.length})
-          </button>
-          {levels.map(level => (
-            <button 
-              class="filter-btn px-4 py-2 rounded-lg border-2 border-purple-500 text-purple-500 bg-white font-medium transition-all hover:bg-purple-50"
-              data-filter={level}
-              data-type="level"
-            >
-              {levelMapping[level] || level} ({grammarList.filter(g => g.level === level).length})
-            </button>
-          ))}
-        </div>
-
-        <!-- Tags Filter -->
-        {allTags.length > 0 && (
-          <div class="flex flex-wrap gap-2 justify-center">
-            {allTags.slice(0, 10).map(tag => (
-              <button 
-                class="tag-btn px-3 py-1 text-sm rounded-full border border-blue-500 text-blue-500 bg-white hover:bg-blue-50 transition-all"
-                data-tag={tag}
-              >
-                #{tag}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+      <!-- Grammar Filter Section -->
+      <GrammarFilter grammarList={grammarList} />
 
       <!-- Grammar Grid -->
-      <div id="grammar-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {grammarList.map(grammar => (
-          <div 
-            class="grammar-card bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer border border-gray-100"
-            data-level={grammar.level}
-            data-subcategory={grammar.subcategory}
-            data-tags={grammar.tags.join(',')}
-            data-pattern={grammar.grammarPattern}
-            data-meaning={grammar.meaning}
-            data-title={grammar.title}
-          >
-            <!-- Card Content -->
-            <div class="p-6">
-              <div class="flex justify-between items-start mb-3">
-                <div class="flex-1">
-                  <h3 class="text-xl font-bold text-purple-600 mb-1">
-                    {grammar.grammarPattern}
-                  </h3>
-                  <p class="text-gray-600 font-medium">
-                    {grammar.meaning}
-                  </p>
-                </div>
-                <div class="flex flex-col gap-1 items-end">
-                  <span class={`px-2 py-1 text-xs rounded-full font-medium ${
-                    grammar.level === 'Beginner' ? 'bg-green-100 text-green-600' :
-                    grammar.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-600' :
-                    'bg-red-100 text-red-600'
-                  }`}>
-                    {levelMapping[grammar.level] || grammar.level}
-                  </span>
-                  <div class="flex gap-1">
-                    {Array.from({length: grammar.difficulty}, (_, i) => (
-                      <span class="text-yellow-400 text-sm">★</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-                {grammar.description}
-              </p>
-
-              <!-- Stats -->
-              <div class="flex gap-4 text-sm text-gray-500 mb-4">
-                <span class="flex items-center gap-1">
-                  💡 {grammar.examples} ví dụ
-                </span>
-                <span class="flex items-center gap-1">
-                  📝 {grammar.exercises} bài tập
-                </span>
-              </div>
-
-              <!-- Tags -->
-              <div class="flex flex-wrap gap-1">
-                {grammar.tags.slice(0, 3).map(tag => (
-                  <span class="px-2 py-1 text-xs bg-blue-100 text-blue-600 rounded-full">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <!-- Empty State -->
-      <div id="empty-state" class="hidden text-center py-12">
-        <div class="text-6xl mb-4">🔍</div>
-        <h3 class="text-xl font-medium text-gray-600 mb-2">Không tìm thấy ngữ pháp nào</h3>
-        <p class="text-gray-500">Hãy thử tìm kiếm với từ khóa khác hoặc bỏ bớt bộ lọc.</p>
-      </div>
+      <GrammarGrid grammarList={grammarList} />
+      
     </div>
   </div>
 </Layout>
-
-<script>
-  // Filter functionality
-  document.addEventListener('DOMContentLoaded', function() {
-    const grammarCards = document.querySelectorAll('.grammar-card') as NodeListOf<HTMLElement>;
-    const filterBtns = document.querySelectorAll('.filter-btn') as NodeListOf<HTMLElement>;
-    const tagBtns = document.querySelectorAll('.tag-btn') as NodeListOf<HTMLElement>;
-    const searchBox = document.getElementById('search-box') as HTMLInputElement;
-    const emptyState = document.getElementById('empty-state');
-
-    let activeLevel = 'all';
-    let activeTag = '';
-    let searchTerm = '';
-
-    function filterGrammar() {
-      let visibleCount = 0;
-
-      grammarCards.forEach(card => {
-        const cardLevel = card.getAttribute('data-level') || '';
-        const cardTags = card.getAttribute('data-tags') || '';
-        const cardPattern = card.getAttribute('data-pattern') || '';
-        const cardMeaning = card.getAttribute('data-meaning') || '';
-        const cardTitle = card.getAttribute('data-title') || '';
-
-        let show = true;
-
-        // Filter by level
-        if (activeLevel !== 'all' && cardLevel !== activeLevel) {
-          show = false;
-        }
-
-        // Filter by tag
-        if (activeTag && !cardTags.includes(activeTag)) {
-          show = false;
-        }
-
-        // Filter by search
-        if (searchTerm) {
-          const searchLower = searchTerm.toLowerCase();
-          const matchPattern = cardPattern.toLowerCase().includes(searchLower);
-          const matchMeaning = cardMeaning.toLowerCase().includes(searchLower);
-          const matchTitle = cardTitle.toLowerCase().includes(searchLower);
-          
-          if (!matchPattern && !matchMeaning && !matchTitle) {
-            show = false;
-          }
-        }
-
-        if (show) {
-          card.style.display = 'block';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      // Show/hide empty state
-      if (emptyState) {
-        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
-      }
-    }
-
-    function updateFilterButtons() {
-      filterBtns.forEach(btn => {
-        const filter = btn.getAttribute('data-filter') || 'all';
-        if (filter === activeLevel) {
-          btn.classList.add('bg-purple-500', 'text-white');
-          btn.classList.remove('bg-white', 'text-purple-500');
-        } else {
-          btn.classList.remove('bg-purple-500', 'text-white');
-          btn.classList.add('bg-white', 'text-purple-500');
-        }
-      });
-    }
-
-    function updateTagButtons() {
-      tagBtns.forEach(btn => {
-        const tag = btn.getAttribute('data-tag') || '';
-        if (tag === activeTag) {
-          btn.classList.add('bg-blue-500', 'text-white');
-          btn.classList.remove('bg-white', 'text-blue-500');
-        } else {
-          btn.classList.remove('bg-blue-500', 'text-white');
-          btn.classList.add('bg-white', 'text-blue-500');
-        }
-      });
-    }
-
-    // Level filter
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', function(this: HTMLElement) {
-        activeLevel = this.getAttribute('data-filter') || 'all';
-        updateFilterButtons();
-        filterGrammar();
-      });
-    });
-
-    // Tag filter
-    tagBtns.forEach(btn => {
-      btn.addEventListener('click', function(this: HTMLElement) {
-        const tag = this.getAttribute('data-tag') || '';
-        activeTag = activeTag === tag ? '' : tag;
-        updateTagButtons();
-        filterGrammar();
-      });
-    });
-
-    // Search
-    if (searchBox) {
-      searchBox.addEventListener('input', function() {
-        searchTerm = this.value;
-        filterGrammar();
-      });
-    }
-
-    // Card click handler
-    grammarCards.forEach(card => {
-      card.addEventListener('click', function() {
-        // Extract slug from card data or generate from title
-        const pattern = this.getAttribute('data-pattern') || '';
-        const slug = pattern.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase() || 'unknown';
-        window.location.href = `/grammar/${slug}`;
-      });
-    });
-
-    // Initialize
-    updateFilterButtons();
-    filterGrammar();
-  });
-</script>
-
-<style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style> 

@@ -1,0 +1,86 @@
+---
+export interface DialogueLine {
+  speaker: string;
+  text_ko: string;
+  text_vi: string;
+}
+
+export interface Dialogue {
+  id: number;
+  lines: DialogueLine[];
+}
+
+export interface Note {
+  note_ko: string;
+  note_vi: string;
+}
+
+export interface Props {
+  title: string;
+  dialogues: Dialogue[];
+  notes: Note[];
+}
+
+const { title, dialogues, notes } = Astro.props;
+
+// Hàm để highlight ngữ pháp
+const highlightGrammar = (text: string, customPatterns: string[] = []) => {
+  const defaultPatterns = ['으면서', '면서', '으며', '고', '걸으면서', '부드러우면서', '지으면서', '하야면서'];
+  const allPatterns = [...defaultPatterns, ...customPatterns];
+  const regex = new RegExp(`(${allPatterns.join('|')})`, 'g');
+  
+  if (!text) return text;
+  
+  return text.replace(regex, '<strong class="text-purple-600 font-bold">$1</strong>');
+};
+---
+
+<div class="bg-white rounded-3xl shadow-lg p-8 max-w-sm md:max-w-3xl w-full">
+  <h2 class="text-2xl font-bold text-slate-800 mb-6">{title}</h2>
+  <div class="space-y-8">
+    {dialogues.map((dialogue) => (
+      <div>
+        <h3 class="font-bold text-slate-700 mb-2">({dialogue.id})</h3>
+        <div class="space-y-1 text-slate-600 font-medium bg-slate-50 p-4 rounded-xl">
+          {dialogue.lines.map((line) => {
+            const speakerClass = line.speaker === '교사' ? 'text-purple-600' : 'text-orange-500';
+            const translationClass = line.speaker === '교사' ? 'text-purple-500' : 'text-orange-500';
+            
+            return (
+              <div class="dialogue-line cursor-pointer py-1">
+                <p>
+                  <span class={`font-bold ${speakerClass}`}>{line.speaker}: </span>
+                  <Fragment set:html={highlightGrammar(line.text_ko)} />
+                </p>
+                <p class={`translation hidden italic pl-8 text-sm ${translationClass}`}>{line.text_vi}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+    
+    <div class="bg-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg text-sm text-slate-600 font-medium space-y-3">
+      {notes.map((note) => (
+        <div>
+          <p><span class="font-bold text-teal-700">*</span> {note.note_ko}</p>
+          <p class="italic text-slate-500 mt-1">{note.note_vi}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+// JavaScript cho chức năng toggle translation
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.dialogue-line').forEach(line => {
+    line.addEventListener('click', function() {
+      const translation = this.querySelector('.translation');
+      if (translation) {
+        translation.classList.toggle('hidden');
+      }
+    });
+  });
+});
+</script>

@@ -1,23 +1,106 @@
 ---
-import AvatarCard from '../components/gioi-thieu/AvatarCard.jsx';
-import HighlightQuote from '../components/gioi-thieu/HighlightQuote.jsx';
-import AboutSection from '../components/gioi-thieu/AboutSection.jsx';
-import StrengthsList from '../components/gioi-thieu/StrengthsList.jsx';
-import ContactLinks from '../components/gioi-thieu/ContactLinks.jsx';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="vi">
-  <head>
-    <title>Giới thiệu - Lê Hoàng Phúc</title>
-    <meta name="description" content="Giới thiệu về Lê Hoàng Phúc - người sáng lập The Free Korean. Đam mê giáo dục, công nghệ và chia sẻ tri thức." />
-  </head>
-  <body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
-    <main class="max-w-3xl mx-auto px-4 py-16">
-      <AvatarCard client:load />
-      <AboutSection client:load />
-      <StrengthsList client:load />
-      <HighlightQuote client:load />
-      <ContactLinks client:load />
-    </main>
-  </body>
-</html>
+<Layout title="Đội ngũ The Free Korean - Giao diện nâng cấp">
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+
+      <!-- FOUNDER SECTION -->
+      <section class="mb-20 sm:mb-28">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+          <!-- Founder Image -->
+          <div class="lg:col-span-2 flex justify-center">
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80">
+              <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full transform -rotate-12"></div>
+              <div class="relative w-full h-full bg-indigo-100 rounded-full flex items-center justify-center text-8xl ring-8 ring-white shadow-2xl">
+                👨‍💻
+              </div>
+            </div>
+          </div>
+
+          <!-- Founder Info -->
+          <div class="lg:col-span-3 text-center lg:text-left">
+            <p class="text-base font-semibold text-indigo-600 tracking-wide uppercase">Người sáng lập The Free Korean</p>
+            <h1 class="mt-2 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">Lê Hoàng Phúc</h1>
+            <blockquote class="mt-6 border-l-4 border-indigo-500 pl-6">
+              <p class="text-xl text-gray-700 italic">
+                "Tôi tin rằng công nghệ là cầu nối tri thức hiệu quả nhất. The Free Korean ra đời với mong muốn phá bỏ mọi rào cản, giúp người Việt tiếp cận tiếng Hàn một cách dễ dàng và hoàn toàn miễn phí."
+              </p>
+            </blockquote>
+            <p class="mt-8 text-lg text-gray-600 leading-relaxed">
+              Với niềm đam mê giáo dục và mong muốn tạo ra một cộng đồng, lộ trình, và nơi tìm kiếm tài liệu học tập miễn phí, mình đã khởi xướng và trực tiếp phát triển The Free Korean. Mình chịu trách nhiệm định hướng chiến lược, xây dựng nền tảng công nghệ và kết nối cộng đồng để lan tỏa giá trị của dự án.
+            </p>
+            <div class="mt-8 flex justify-center lg:justify-start items-center gap-4">
+              <a href="https://www.facebook.com/tui.la.phuc747/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-full font-semibold text-base shadow-lg hover:bg-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"></path></svg>
+                Kết nối
+              </a>
+              <a href="mailto:thefreekorean@gmail.com" class="text-gray-500 hover:text-indigo-600 p-3 rounded-full transition-colors">
+                <span class="sr-only">Email</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V6a2 2 0 00-2-2H3zm18 2l-9 6-9-6h18z"/></svg>
+        </a>
+      </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KEY COLLABORATORS SECTION -->
+      <section class="py-16 sm:py-20 bg-white rounded-3xl shadow-inner-lg">
+        <div class="text-center mb-12 sm:mb-16">
+          <h2 class="text-3xl sm:text-4xl font-bold text-gray-800">Những người đồng hành</h2>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+            Một dự án không thể thành công nếu thiếu những cộng sự tài năng và nhiệt huyết.
+          </p>
+        </div>
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-center items-stretch gap-8">
+          <!-- Member Card -->
+          <div class="card-hover-effect w-full md:w-1/2 bg-gray-50 rounded-2xl p-8 text-center border border-gray-200 flex flex-col">
+            <div class="w-24 h-24 rounded-full bg-pink-100 flex items-center justify-center text-5xl mx-auto mb-5 ring-4 ring-white shadow-md">👩‍🏫</div>
+            <h3 class="text-xl font-bold text-gray-900">Trần Cẩm Tú</h3>
+            <p class="text-pink-600 font-semibold mt-1 mb-4">Phụ trách nội dung</p>
+            <p class="text-gray-600 mb-6 flex-grow">
+              Biên soạn, kiểm duyệt tài liệu, bài tập và hỗ trợ chuyên môn tiếng Hàn cho học viên.
+            </p>
+            <div class="flex flex-col items-center gap-1 text-sm">
+              <a href="https://www.facebook.com/tu.tran.572697" target="_blank" class="text-gray-500 hover:text-indigo-600 font-medium transition-colors">Facebook 1</a>
+              <a href="https://www.facebook.com/cam.tu.233351" target="_blank" class="text-gray-500 hover:text-indigo-600 font-medium transition-colors">Facebook 2</a>
+            </div>
+        </div>
+      </div>
+    </section>
+      
+      <!-- CTA SECTION -->
+      <section class="mt-20 sm:mt-28">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl sm:text-4xl font-bold text-gray-800">Trở thành một phần của The Free Korean?</h2>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+            Chúng tôi luôn chào đón những cá nhân có cùng chí hướng, mong muốn đóng góp cho cộng đồng. Nếu bạn quan tâm đến việc hợp tác, tài trợ hoặc đóng góp nội dung, đừng ngần ngại liên hệ.
+          </p>
+          <div class="mt-8">
+            <a href="mailto:thefreekorean@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-gray-800 text-white rounded-full font-semibold text-lg shadow-lg hover:bg-gray-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
+              <span>Gửi Email cho chúng tôi</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            </a>
+          </div>
+      </div>
+    </section>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Custom styles for the about page */
+  .card-hover-effect {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  .card-hover-effect:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+  .shadow-inner-lg {
+    box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  }
+</style>

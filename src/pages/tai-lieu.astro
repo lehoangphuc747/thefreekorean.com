@@ -1,63 +1,113 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import FilterSection from '../components/document/FilterSection.astro';
-import DocumentGrid from '../components/document/DocumentGrid.astro';
-import SearchComponent from '../components/SearchComponent.astro';
-import SkeletonFilter from '../components/ui/SkeletonFilter.astro';
-import SortSection from '../components/document/SortSection.astro';
+import FilterSection from '../components/tai-lieu/FilterSection.astro';
+import DocumentGrid from '../components/tai-lieu/DocumentGrid.astro';
 
-// Import all MDX files from content and subdirectories
-const documentFiles = import.meta.glob('../content/**/*.mdx', { eager: true });
+// Get all .astro files using import.meta.glob() (new syntax)
+const ankiFilesModule = import.meta.glob('./tai-lieu/anki/books/tieng-han-tong-hop-1/*.astro', { eager: true });
+const textbookFilesModule = import.meta.glob('./tai-lieu/textbooks/*.astro', { eager: true });
 
-// Transform data for easier use
-const documents = Object.entries(documentFiles)
-  .map(([path, file]) => ({
-    slug: path.split('/').pop()?.replace('.mdx', '') || '',
-    title: file.frontmatter?.title || '',
-    date: file.frontmatter?.date || new Date().toISOString(),
-    category: file.frontmatter?.category || '',
-    subcategory: file.frontmatter?.subcategory || '',
-    type: file.frontmatter?.type || '',
-    description: file.frontmatter?.description || '',
-    cover: file.frontmatter?.cover,
-    downloadUrl: file.frontmatter?.downloadUrl,
-    downloadOriginal: file.frontmatter?.downloadOriginal,
-    downloadWorkbook: file.frontmatter?.downloadWorkbook,
-    downloadAudio: file.frontmatter?.downloadAudio,
-    fileSize: file.frontmatter?.fileSize,
-    originalSize: file.frontmatter?.originalSize,
-    workbookSize: file.frontmatter?.workbookSize,
-    audioSize: file.frontmatter?.audioSize,
-    pages: file.frontmatter?.pages,
-    cards: file.frontmatter?.cards,
-    duration: file.frontmatter?.duration,
-    url: file.frontmatter?.url,
-    features: file.frontmatter?.features,
-    content: file.Content
-  }))
-  .filter(doc => doc.title) // Filter out documents without title
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date desc
+// Convert module objects to array format compatible with old Astro.glob
+const ankiFiles = Object.entries(ankiFilesModule).map(([path, module]) => ({
+  ...module,
+  url: path.replace('./tai-lieu', '/tai-lieu').replace('.astro', ''),
+  file: path
+}));
 
-// Get unique categories and subcategories
-const categories = [...new Set(documents.map(doc => doc.category).filter(Boolean))];
-const subcategoriesByCategory = categories.reduce((acc, category) => {
-  acc[category] = [...new Set(documents
-    .filter(doc => doc.category === category && doc.subcategory)
-    .map(doc => doc.subcategory)
-  )];
-  return acc;
-}, {} as Record<string, string[]>);
+const textbookFiles = Object.entries(textbookFilesModule).map(([path, module]) => ({
+  ...module,
+  url: path.replace('./tai-lieu', '/tai-lieu').replace('.astro', ''),
+  file: path
+}));
+
+console.log('=== DEBUG ASTRO.GLOB ===');
+console.log('Anki files found:', ankiFiles.length);
+console.log('Textbook files found:', textbookFiles.length);
+
+// Sample debug for first file
+if (ankiFiles.length > 0) {
+  const sample = ankiFiles[0];
+  console.log('Sample Anki file keys:', Object.keys(sample));
+  console.log('Sample frontmatter:', sample.frontmatter);
+  console.log('Sample default export:', sample.default);
+}
+
+// Helper function to process import.meta.glob results
+function processDocuments(files: any[], defaultCategory: string) {
+  return files
+    .map((file) => {
+      try {
+        // Get data from the module (import.meta.glob structure)
+        const frontmatter = file.frontmatter || {};
+        const exports = file.postData || file.default?.postData;
+        const data = exports || frontmatter;
+        
+        // Get file path and URL
+        const url = file.url || '';
+        const slug = url.split('/').pop() || '';
+        
+        console.log('Processing file:', slug, 'frontmatter:', frontmatter);
+        console.log('Exports available:', !!exports, 'postData:', exports);
+        console.log('Final data:', data);
+        
+        // Skip if no title or if draft
+        if (!data.title || data.draft || slug.includes('index')) {
+          console.log('Skipped:', slug, 'hasTitle:', !!data.title, 'isDraft:', !!data.draft);
+          return null;
+        }
+        
+        const document = {
+          slug,
+          title: data.title,
+          date: data.date || new Date().toISOString(),
+          category: data.category || defaultCategory,
+          subcategory: data.subcategory || '',
+          type: data.type || (defaultCategory === 'Anki' ? 'Anki Deck' : 'PDF'),
+          description: data.description || '',
+          fileSize: data.fileSize,
+          pages: data.pages,
+          cards: data.cards,
+          downloadUrl: data.downloadUrl,
+          url: url,
+          draft: data.draft
+        };
+        
+        console.log('Created document:', document);
+        return document;
+        
+      } catch (error) {
+        console.error('Error processing file:', file.url, error);
+        return null;
+      }
+    })
+    .filter(Boolean); // Remove null entries
+}
+
+// Process documents
+const ankiDocuments = processDocuments(ankiFiles, 'Anki');
+const textbookDocuments = processDocuments(textbookFiles, 'Giáo trình');
+
+// Combine all documents
+const allDocuments = [...ankiDocuments, ...textbookDocuments]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Debug logs
+console.log('=== FINAL RESULTS ===');
+console.log('Anki documents found:', ankiDocuments.length);
+console.log('Textbook documents found:', textbookDocuments.length);
+console.log('Sample Anki document:', ankiDocuments[0]);
+console.log('Sample textbook document:', textbookDocuments[0]);
+
+// Get unique categories
+const categories = [...new Set(allDocuments.map(doc => doc.category).filter(Boolean))];
 ---
 
-<Layout>
+<Layout title="Tài liệu học tiếng Hàn">
   <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
     <div class="max-w-7xl mx-auto px-4 py-8">
       
       <!-- Header Section -->
       <header class="text-center mb-12">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl mb-4">
-          <span class="text-2xl">📚</span>
-        </div>
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Tài liệu học tiếng Hàn
         </h1>
@@ -67,7 +117,7 @@ const subcategoriesByCategory = categories.reduce((acc, category) => {
         <div class="flex items-center justify-center gap-4 mt-6 text-sm text-gray-500">
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-            <span>{documents.length} tài liệu</span>
+            <span>{allDocuments.length} tài liệu</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
@@ -76,223 +126,30 @@ const subcategoriesByCategory = categories.reduce((acc, category) => {
         </div>
       </header>
 
-      <!-- Search Section -->
-      <SearchComponent documents={documentFiles} />
-
-      <!-- Sort Section -->
-      <SortSection defaultSort="date-desc" class="mb-6" />
-
-      <!-- Filter Section with Skeleton -->
-      <div id="filter-container" class="mb-8">
-        <!-- Skeleton Filter (Hidden by default) -->
-        <div id="filter-skeleton" style="display: none;">
-          <SkeletonFilter class="mb-8" />
-        </div>
-        
-        <!-- Actual Filter -->
-        <div id="actual-filter">
-          <FilterSection 
-            categories={categories}
-            subcategoriesByCategory={subcategoriesByCategory}
-            documents={documents}
-            class="mb-8"
-          />
-        </div>
-      </div>
+      <!-- Filter Section -->
+      <FilterSection documents={allDocuments} />
 
       <!-- Documents Grid -->
-              <DocumentGrid documents={documents.map(doc => ({ ...doc, date: doc.date }))} />
+      <DocumentGrid documents={allDocuments} />
       
     </div>
   </div>
 </Layout>
 
-<script>
-  // Enhanced loading state management
-  document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-button') as NodeListOf<HTMLElement>;
-    const subcategoryFilters = document.querySelectorAll('.subcategory-filter') as NodeListOf<HTMLElement>;
-    const documentCards = document.querySelectorAll('.document-card-wrapper') as NodeListOf<HTMLElement>;
-    const documentsGrid = document.getElementById('documents-grid');
-    const emptyState = document.getElementById('empty-state');
-    const filterSkeleton = document.getElementById('filter-skeleton');
-    const actualFilter = document.getElementById('actual-filter');
-    
-    let activeCategory = 'all';
-    let activeSubcategory = 'all';
-    let isFiltering = false;
+<style>
+  /* Custom styles for the documents page */
+  .documents-grid {
+    animation: fadeIn 0.5s ease-in-out;
+  }
 
-    // Loading state controller (only use for real API calls)
-    function showFilterLoading() {
-      if (filterSkeleton && actualFilter) {
-        filterSkeleton.style.display = 'block';
-        actualFilter.style.display = 'none';
-      }
-      if (window.DocumentGrid) {
-        window.DocumentGrid.showSkeleton();
-      }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    function hideFilterLoading() {
-      if (filterSkeleton && actualFilter) {
-        filterSkeleton.style.display = 'none';
-        actualFilter.style.display = 'block';
-      }
-      if (window.DocumentGrid) {
-        window.DocumentGrid.hideSkeleton();
-      }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-
-    // Function to show skeleton only for real loading operations
-    window.showSkeletonForLoading = function(promise: Promise<any>) {
-      showFilterLoading();
-      return promise.finally(() => {
-        hideFilterLoading();
-      });
-    };
-
-    // Filter with minimal loading state (only show skeleton for complex operations)
-    function performFilter(callback: () => void) {
-      if (isFiltering) return; // Prevent multiple simultaneous filters
-      
-      isFiltering = true;
-      
-      // For client-side filtering, execute immediately without skeleton
-      // Only show skeleton for actual API calls or heavy operations
-      callback();
-      isFiltering = false;
-    }
-    
-    // Category filter logic with loading
-    filterButtons.forEach(button => {
-      button.addEventListener('click', function(this: HTMLElement) {
-        const category = this.getAttribute('data-category') || 'all';
-        
-        performFilter(() => {
-          // Set current category
-          activeCategory = category;
-          activeSubcategory = 'all'; // Reset subcategory when changing category
-          
-          // Update UI
-          updateFilterButtons();
-          updateSubcategoryVisibility();
-          filterDocuments();
-        });
-      });
-    });
-    
-    // Subcategory filter logic with loading
-    subcategoryFilters.forEach(filter => {
-      filter.addEventListener('click', function(this: HTMLElement) {
-        const subcategory = this.getAttribute('data-subcategory') || 'all';
-        
-        performFilter(() => {
-          // Set current subcategory
-          activeSubcategory = subcategory;
-          
-          // Update UI
-          updateSubcategoryButtons();
-          filterDocuments();
-        });
-      });
-    });
-    
-    function updateFilterButtons() {
-      filterButtons.forEach(button => {
-        const category = button.getAttribute('data-category') || 'all';
-        if (category === activeCategory) {
-          button.classList.add('active');
-        } else {
-          button.classList.remove('active');
-        }
-      });
-    }
-    
-    function updateSubcategoryButtons() {
-      subcategoryFilters.forEach(filter => {
-        const subcategory = filter.getAttribute('data-subcategory') || 'all';
-        const filterCategory = filter.getAttribute('data-category');
-        
-        if (filterCategory === activeCategory) {
-          if (subcategory === activeSubcategory) {
-            filter.classList.add('active');
-          } else {
-            filter.classList.remove('active');
-          }
-        }
-      });
-    }
-    
-    function updateSubcategoryVisibility() {
-      const subcategorySections = document.querySelectorAll('.subcategory-section') as NodeListOf<HTMLElement>;
-      
-      subcategorySections.forEach(section => {
-        const sectionCategory = section.getAttribute('data-category');
-        
-        if (activeCategory === 'all') {
-          section.style.display = 'none';
-        } else if (sectionCategory === activeCategory) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-    }
-    
-    function filterDocuments() {
-      let visibleCount = 0;
-      
-      documentCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        const cardSubcategory = card.getAttribute('data-subcategory');
-        
-        let showCard = true;
-        
-        // Filter by category
-        if (activeCategory !== 'all' && cardCategory !== activeCategory) {
-          showCard = false;
-        }
-        
-        // Filter by subcategory
-        if (activeSubcategory !== 'all' && cardSubcategory !== activeSubcategory) {
-          showCard = false;
-        }
-        
-        if (showCard) {
-          card.style.display = 'block';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-      
-      // Show/hide empty state
-      if (visibleCount === 0) {
-        const gridElement = documentsGrid?.querySelector('.grid') as HTMLElement;
-        if (gridElement) {
-          gridElement.style.display = 'none';
-        }
-        if (emptyState) {
-          emptyState.style.display = 'block';
-        }
-      } else {
-        const gridElement = documentsGrid?.querySelector('.grid') as HTMLElement;
-        if (gridElement) {
-          gridElement.style.display = 'grid';
-        }
-        if (emptyState) {
-          emptyState.style.display = 'none';
-        }
-      }
-    }
-    
-    // Initialize
-    updateFilterButtons();
-    updateSubcategoryVisibility();
-    filterDocuments();
-
-    // Initialize with content visible (skeleton hidden by default)
-    hideFilterLoading();
-  });
-</script>
-
+  }
+</style>

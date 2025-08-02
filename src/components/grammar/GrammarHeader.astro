@@ -1,0 +1,210 @@
+---
+export interface Props {
+  grammar: string;
+  wordClass: string;
+  topikLevel: string;
+  cefrLevel: string;
+  meaning?: string;
+  class?: string;
+}
+
+const { 
+  grammar, 
+  wordClass, 
+  topikLevel, 
+  cefrLevel, 
+  meaning,
+  class: className = '' 
+} = Astro.props;
+
+// Map TOPIK levels to Korean
+const topikLevelMap: Record<string, string> = {
+  '초급': '초급 (Sơ cấp)',
+  '중급': '중급 (Trung cấp)', 
+  '고급': '고급 (Cao cấp)',
+  'beginner': '초급 (Sơ cấp)',
+  'intermediate': '중급 (Trung cấp)',
+  'advanced': '고급 (Cao cấp)'
+};
+
+// Map word classes to Korean
+const wordClassMap: Record<string, string> = {
+  '연결어미': '연결어미 (vĩ tố liên kết)',
+  '조사': '조사 (trợ từ)',
+  '어미': '어미 (vĩ tố)',
+  '부사': '부사 (phó từ)',
+  '형용사': '형용사 (tính từ)',
+  '동사': '동사 (động từ)',
+  '명사': '명사 (danh từ)'
+};
+
+const displayTopikLevel = topikLevelMap[topikLevel] || topikLevel;
+const displayWordClass = wordClassMap[wordClass] || wordClass;
+---
+
+<div class={`grammar-header ${className}`}>
+  <div class="grammar-header-title">
+    <h2 class="section-title">
+      📝 표제어 (Thông tin cơ bản)
+    </h2>
+  </div>
+  
+  <div class="grammar-info-grid">
+    <!-- Grammar Expression -->
+    <div class="grammar-info-item grammar-expression">
+      <div class="info-label">문법/표현</div>
+      <div class="info-value korean-text">{grammar}</div>
+    </div>
+    
+    <!-- Word Class -->
+    <div class="grammar-info-item word-class">
+      <div class="info-label">품사</div>
+      <div class="info-value">{displayWordClass}</div>
+    </div>
+    
+    <!-- TOPIK Level -->
+    <div class="grammar-info-item topik-level">
+      <div class="info-label">토픽 등급</div>
+      <div class="info-value">{displayTopikLevel}</div>
+    </div>
+    
+    <!-- CEFR Level -->
+    <div class="grammar-info-item cefr-level">
+      <div class="info-label">국제표준모형 등급</div>
+      <div class="info-value">{cefrLevel}</div>
+    </div>
+  </div>
+  
+  {meaning && (
+    <div class="grammar-meaning">
+      <div class="meaning-label">의미</div>
+      <div class="meaning-text">{meaning}</div>
+    </div>
+  )}
+</div>
+
+<style>
+  .grammar-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-title {
+    color: #1e293b !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .grammar-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .grammar-info-item {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+  }
+
+  .grammar-info-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+  }
+
+  .grammar-expression {
+    border-left: 4px solid #3b82f6;
+  }
+
+  .word-class {
+    border-left: 4px solid #10b981;
+  }
+
+  .topik-level {
+    border-left: 4px solid #f59e0b;
+  }
+
+  .cefr-level {
+    border-left: 4px solid #8b5cf6;
+  }
+
+  .info-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .info-value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+
+  .korean-text {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-size: 1.5rem;
+    color: #0ea5e9;
+  }
+
+  .grammar-meaning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #f59e0b;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .meaning-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #92400e;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meaning-text {
+    font-size: 1rem;
+    color: #451a03;
+    line-height: 1.6;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .grammar-header {
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .grammar-info-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .grammar-info-item {
+      padding: 1rem;
+    }
+
+    .korean-text {
+      font-size: 1.25rem;
+    }
+  }
+</style>

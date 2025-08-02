@@ -10,6 +10,7 @@ export interface Props {
     fileSize?: string;
     type?: string;
     title?: string;
+    cards?: number;
   };
 }
 
@@ -66,7 +67,7 @@ const { frontmatter } = Astro.props;
         <div class="download-icon">🎴</div>
         <div class="download-info">
           <h3>Tải Anki Deck</h3>
-          <p>File .apkg cho Anki</p>
+          <p>File .apkg cho Anki{frontmatter.cards ? ` - ${frontmatter.cards} thẻ` : ''}</p>
           {frontmatter.fileSize && <span class="file-size">{frontmatter.fileSize}</span>}
         </div>
         <div class="download-indicator">⬇️</div>

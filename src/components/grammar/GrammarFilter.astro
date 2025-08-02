@@ -1,0 +1,364 @@
+---
+export interface Props {
+  grammarList: Array<{
+    slug: string;
+    title: string;
+    date: string;
+    category: string;
+    subcategory: string;
+    level: string;
+    grammarPattern: string;
+    meaning: string;
+    description: string;
+    type: string;
+    tags: string[];
+    examples: number;
+    exercises: number;
+    difficulty: number;
+    cover?: string;
+  }>;
+  class?: string;
+}
+
+const { grammarList, class: className = '' } = Astro.props;
+
+// Get unique levels, subcategories, and tags
+const levels = [...new Set(grammarList.map(item => item.level))];
+const subcategories = [...new Set(grammarList.map(item => item.subcategory))];
+const allTags = [...new Set(grammarList.flatMap(item => item.tags))];
+
+// Convert levels to Vietnamese
+const levelMapping = {
+  'Beginner': 'Sơ cấp',
+  'Intermediate': 'Trung cấp', 
+  'Advanced': 'Cao cấp'
+};
+
+// Count grammar by level and subcategory
+const getGrammarCount = (level?: string, subcategory?: string) => {
+  if (!level) return grammarList.length;
+  if (!subcategory) return grammarList.filter(g => g.level === level).length;
+  return grammarList.filter(g => g.level === level && g.subcategory === subcategory).length;
+};
+
+// Get subcategories for each level
+const subcategoriesByLevel = levels.reduce((acc, level) => {
+  acc[level] = [...new Set(grammarList
+    .filter(g => g.level === level && g.subcategory)
+    .map(g => g.subcategory)
+  )];
+  return acc;
+}, {} as Record<string, string[]>);
+---
+
+<div class={`grammar-filter-section ${className}`}>
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+    <!-- Level Filter -->
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Cấp độ</h3>
+      <div class="flex flex-wrap gap-3">
+        <!-- All Levels Button -->
+        <button 
+          type="button"
+          class="filter-btn level-filter active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-purple-600 text-white hover:bg-purple-700"
+          data-level=""
+        >
+          Tất cả ({getGrammarCount()})
+        </button>
+        
+        <!-- Individual Level Buttons -->
+        {levels.map(level => (
+          <button 
+            type="button"
+            class="filter-btn level-filter px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+            data-level={level}
+          >
+            {levelMapping[level] || level} ({getGrammarCount(level)})
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Subcategory Filter -->
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Phân loại</h3>
+      <div class="flex flex-wrap gap-3" id="subcategory-filters">
+        <!-- All Subcategories Button -->
+        <button 
+          type="button"
+          class="filter-btn subcategory-filter active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-blue-600 text-white hover:bg-blue-700"
+          data-subcategory=""
+        >
+          Tất cả
+        </button>
+      </div>
+    </div>
+
+    <!-- Tags Filter -->
+    {allTags.length > 0 && (
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Thẻ (Tags)</h3>
+        <div class="flex flex-wrap gap-2">
+          {allTags.slice(0, 15).map(tag => (
+            <button 
+              type="button"
+              class="tag-filter px-3 py-1 text-sm rounded-full border-2 border-green-500 text-green-600 bg-white hover:bg-green-50 transition-all duration-200"
+              data-tag={tag}
+            >
+              #{tag}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Search -->
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Tìm kiếm</h3>
+      <div class="relative">
+        <input
+          type="text"
+          id="grammar-search"
+          placeholder="Tìm kiếm ngữ pháp (VD: -기 때문에, lý do...)"
+          class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+        />
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="bg-gray-50 rounded-lg p-4">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-600">
+          Hiển thị <span id="visible-count">{grammarList.length}</span> của <span class="font-medium">{grammarList.length}</span> ngữ pháp
+        </span>
+        <button 
+          type="button"
+          id="clear-filters"
+          class="text-sm text-purple-600 hover:text-purple-800 font-medium hidden"
+        >
+          Xóa bộ lọc
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ subcategoriesByLevel, levelMapping }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    const grammarCards = document.querySelectorAll('.grammar-card');
+    const levelFilters = document.querySelectorAll('.level-filter');
+    const subcategoryFilters = document.querySelectorAll('.subcategory-filter');
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    const searchInput = document.getElementById('grammar-search');
+    const visibleCount = document.getElementById('visible-count');
+    const clearFiltersBtn = document.getElementById('clear-filters');
+    const subcategoryContainer = document.getElementById('subcategory-filters');
+
+    let activeLevel = '';
+    let activeSubcategory = '';
+    let activeTag = '';
+    let searchTerm = '';
+
+    function updateSubcategoryFilters() {
+      // Clear existing subcategory filters except "Tất cả"
+      const allBtn = subcategoryContainer.querySelector('[data-subcategory=""]');
+      subcategoryContainer.innerHTML = '';
+      subcategoryContainer.appendChild(allBtn);
+
+      // Add subcategories for the active level
+      if (activeLevel && subcategoriesByLevel[activeLevel]) {
+        subcategoriesByLevel[activeLevel].forEach(subcategory => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'filter-btn subcategory-filter px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200';
+          btn.setAttribute('data-subcategory', subcategory);
+          btn.textContent = subcategory;
+          
+          btn.addEventListener('click', function() {
+            activeSubcategory = this.getAttribute('data-subcategory') || '';
+            updateSubcategoryButtons();
+            filterGrammar();
+          });
+          
+          subcategoryContainer.appendChild(btn);
+        });
+      }
+      
+      // Reset active subcategory if it's not available in new level
+      if (activeLevel && subcategoriesByLevel[activeLevel] && !subcategoriesByLevel[activeLevel].includes(activeSubcategory)) {
+        activeSubcategory = '';
+      }
+      
+      updateSubcategoryButtons();
+    }
+
+    function updateLevelButtons() {
+      levelFilters.forEach(btn => {
+        const level = btn.getAttribute('data-level') || '';
+        if (level === activeLevel) {
+          btn.classList.add('bg-purple-600', 'text-white');
+          btn.classList.remove('bg-gray-100', 'text-gray-700');
+        } else {
+          btn.classList.remove('bg-purple-600', 'text-white');
+          btn.classList.add('bg-gray-100', 'text-gray-700');
+        }
+      });
+    }
+
+    function updateSubcategoryButtons() {
+      const currentSubcategoryFilters = document.querySelectorAll('.subcategory-filter');
+      currentSubcategoryFilters.forEach(btn => {
+        const subcategory = btn.getAttribute('data-subcategory') || '';
+        if (subcategory === activeSubcategory) {
+          btn.classList.add('bg-blue-600', 'text-white');
+          btn.classList.remove('bg-gray-100', 'text-gray-700');
+        } else {
+          btn.classList.remove('bg-blue-600', 'text-white');
+          btn.classList.add('bg-gray-100', 'text-gray-700');
+        }
+      });
+    }
+
+    function updateTagButtons() {
+      tagFilters.forEach(btn => {
+        const tag = btn.getAttribute('data-tag') || '';
+        if (tag === activeTag) {
+          btn.classList.add('bg-green-500', 'text-white', 'border-green-500');
+          btn.classList.remove('bg-white', 'text-green-600');
+        } else {
+          btn.classList.remove('bg-green-500', 'text-white');
+          btn.classList.add('bg-white', 'text-green-600', 'border-green-500');
+        }
+      });
+    }
+
+    function filterGrammar() {
+      let visible = 0;
+      
+      grammarCards.forEach(card => {
+        const cardLevel = card.getAttribute('data-level') || '';
+        const cardSubcategory = card.getAttribute('data-subcategory') || '';
+        const cardTags = card.getAttribute('data-tags') || '';
+        const cardPattern = card.getAttribute('data-pattern') || '';
+        const cardMeaning = card.getAttribute('data-meaning') || '';
+        const cardTitle = card.getAttribute('data-title') || '';
+
+        let show = true;
+
+        // Filter by level
+        if (activeLevel && cardLevel !== activeLevel) {
+          show = false;
+        }
+
+        // Filter by subcategory
+        if (activeSubcategory && cardSubcategory !== activeSubcategory) {
+          show = false;
+        }
+
+        // Filter by tag
+        if (activeTag && !cardTags.includes(activeTag)) {
+          show = false;
+        }
+
+        // Filter by search
+        if (searchTerm) {
+          const searchLower = searchTerm.toLowerCase();
+          const matchPattern = cardPattern.toLowerCase().includes(searchLower);
+          const matchMeaning = cardMeaning.toLowerCase().includes(searchLower);
+          const matchTitle = cardTitle.toLowerCase().includes(searchLower);
+          
+          if (!matchPattern && !matchMeaning && !matchTitle) {
+            show = false;
+          }
+        }
+
+        if (show) {
+          card.style.display = 'block';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Update visible count
+      if (visibleCount) {
+        visibleCount.textContent = visible.toString();
+      }
+
+      // Show/hide clear filters button
+      const hasActiveFilters = activeLevel || activeSubcategory || activeTag || searchTerm;
+      if (clearFiltersBtn) {
+        clearFiltersBtn.style.display = hasActiveFilters ? 'block' : 'none';
+      }
+
+      // Show/hide empty state
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState) {
+        emptyState.style.display = visible === 0 ? 'block' : 'none';
+      }
+    }
+
+    // Level filter event listeners
+    levelFilters.forEach(btn => {
+      btn.addEventListener('click', function() {
+        activeLevel = this.getAttribute('data-level') || '';
+        updateLevelButtons();
+        updateSubcategoryFilters();
+        filterGrammar();
+      });
+    });
+
+    // Subcategory filter event listeners (for initial "Tất cả" button)
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('subcategory-filter')) {
+        activeSubcategory = e.target.getAttribute('data-subcategory') || '';
+        updateSubcategoryButtons();
+        filterGrammar();
+      }
+    });
+
+    // Tag filter event listeners
+    tagFilters.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tag = this.getAttribute('data-tag') || '';
+        activeTag = activeTag === tag ? '' : tag;
+        updateTagButtons();
+        filterGrammar();
+      });
+    });
+
+    // Search event listener
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        searchTerm = this.value;
+        filterGrammar();
+      });
+    }
+
+    // Clear filters event listener
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener('click', function() {
+        activeLevel = '';
+        activeSubcategory = '';
+        activeTag = '';
+        searchTerm = '';
+        if (searchInput) searchInput.value = '';
+        
+        updateLevelButtons();
+        updateSubcategoryFilters();
+        updateTagButtons();
+        filterGrammar();
+      });
+    }
+
+    // Initialize
+    updateLevelButtons();
+    updateSubcategoryFilters();
+    filterGrammar();
+  });
+</script>

@@ -1,0 +1,55 @@
+---
+export interface ExtensionRule {
+  id: number;
+  description: string;
+  examples: string[];
+  note?: string;
+}
+
+export interface Props {
+  title: string;
+  rules: ExtensionRule[];
+}
+
+const { title, rules } = Astro.props;
+
+// Hàm để highlight ngữ pháp
+const highlightGrammar = (text: string, customPatterns: string[] = []) => {
+  const defaultPatterns = ['으면서', '면서', '으며', '고', '걸으면서', '부드러우면서', '지으면서', '하야면서'];
+  const allPatterns = [...defaultPatterns, ...customPatterns];
+  const regex = new RegExp(`(${allPatterns.join('|')})`, 'g');
+  
+  if (!text) return text;
+  
+  return text.replace(regex, '<strong class="text-purple-600 font-bold">$1</strong>');
+};
+---
+
+<div class="bg-white rounded-3xl shadow-lg p-8 max-w-sm md:max-w-3xl w-full">
+  <h2 class="text-2xl font-bold text-slate-800 mb-6">{title}</h2>
+  <div class="space-y-6">
+    {rules.map((rule) => (
+      <div>
+        <h3 class="font-semibold text-slate-700 mb-3">
+          <span class="font-bold bg-slate-200 text-slate-600 rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">
+            {rule.id}
+          </span>
+          <Fragment set:html={highlightGrammar(rule.description)} />
+        </h3>
+        <ul class="space-y-2 text-sm font-medium text-slate-600 pl-6">
+          {rule.examples.map((ex) => (
+            <li class="p-2 rounded-lg bg-slate-50">
+              <Fragment set:html={highlightGrammar(ex)} />
+            </li>
+          ))}
+        </ul>
+        {rule.note && (
+          <p class="text-xs text-slate-500 mt-3">
+            <span class="font-bold">*</span> 
+            <Fragment set:html={highlightGrammar(rule.note)} />
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+</div>

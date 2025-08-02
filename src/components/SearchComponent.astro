@@ -44,14 +44,13 @@ const { documents } = Astro.props;
     
     // Tạo index tìm kiếm
     const searchIndex = documents.map(doc => ({
-      ...doc.frontmatter,
-      slug: doc.file.split('/').pop()?.replace('.mdx', '') || '',
+      ...doc,
       searchText: [
-        doc.frontmatter.title,
-        doc.frontmatter.description,
-        doc.frontmatter.category,
-        doc.frontmatter.subcategory,
-        doc.frontmatter.type
+        doc.title,
+        doc.description,
+        doc.category,
+        doc.subcategory,
+        doc.type
       ].filter(Boolean).join(' ').toLowerCase()
     }));
     

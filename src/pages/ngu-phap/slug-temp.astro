@@ -1,0 +1,16 @@
+---
+// Temporary redirect for grammar dynamic routes
+// Since we're using static files in /ngu-phap/so-cap/ instead of content collections
+export async function getStaticPaths() {
+  // Return empty array to disable dynamic routing for now
+  // Individual grammar pages are handled by static .astro files in subdirectories
+  return [];
+}
+
+// This component will not be reached due to empty getStaticPaths
+// Grammar content is served from /ngu-phap/so-cap/[filename].astro files
+---
+
+<div>
+  <p>Grammar content is served from static files.</p>
+</div>

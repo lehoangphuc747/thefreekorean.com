@@ -38,7 +38,6 @@ Truy cập `http://localhost:4321` để xem website.
 │   │   ├── document/               # Document-specific components
 │   │   │   ├── DocumentCard.astro  # Card hiển thị từng tài liệu
 │   │   │   ├── DocumentGrid.astro  # Grid layout responsive
-│   │   │   └── FilterSection.astro # Bộ lọc category/subcategory
 │   │   ├── home/                  # Components for homepage
 │   │   │   ├── HeroSection.astro
 │   │   │   ├── FeaturesGrid.astro

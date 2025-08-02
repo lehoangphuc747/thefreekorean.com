@@ -1,0 +1,342 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// Import grammar components
+import PageHeader from '../../../components/grammar/PageHeader.astro';
+import BasicInfoCard from '../../../components/grammar/BasicInfoCard.astro';
+import MeaningAndUsageCard from '../../../components/grammar/MeaningAndUsageCard.astro';
+import ExampleCard from '../../../components/grammar/ExampleCard.astro';
+import IntroductionCard from '../../../components/grammar/IntroductionCard.astro';
+import MorphologyInfoCard from '../../../components/grammar/MorphologyInfoCard.astro';
+import MorphologyUsageCard from '../../../components/grammar/MorphologyUsageCard.astro';
+import SentenceCompositionCard from '../../../components/grammar/SentenceCompositionCard.astro';
+import ConstraintInfoCard from '../../../components/grammar/ConstraintInfoCard.astro';
+import ExtensionCard from '../../../components/grammar/ExtensionCard.astro';
+import SimilarGrammarCard from '../../../components/grammar/SimilarGrammarCard.astro';
+
+// Page metadata
+const pageTitle = "Ngữ pháp Tiếng Hàn: -고 싶다";
+const description = "Học cách sử dụng ngữ pháp -고 싶다 để diễn tả mong muốn, ước vọng của người nói";
+
+// Export data for listing page
+export const postData = {
+  title: '-고 싶다 (muốn)',
+  grammar: '-고 싶다',
+  meaning: 'muốn, mong muốn',
+  description: 'Ngữ pháp diễn tả ý muốn, mong muốn làm việc gì đó',
+  level: 'Beginner',
+  category: 'Ngữ pháp',
+  subcategory: 'Sơ cấp',
+  type: 'Grammar',
+  tags: ['mong muốn', 'ý muốn', 'muốn', 'sơ cấp'],
+  examples: 6,
+  exercises: 10,
+  difficulty: 1,
+  date: '2024-07-02'
+};
+
+// Data for components
+const headerData = { 
+  title: `Ngữ pháp -고 싶다` 
+};
+
+const basicInfoData = {
+  details: [ 
+    { label: 'Ngữ pháp', value: '-고 싶다', color: 'text-purple-600' }, 
+    { label: 'Từ loại', value: '표현', color: 'text-blue-600' }, 
+    { label: 'TOPIK', value: '초급', color: 'text-green-600' }, 
+    { label: 'CEFR', value: 'A1', color: 'text-orange-500' } 
+  ]
+};
+
+const meaningData = {
+  title: '📖 Ý nghĩa và cách dùng',
+  sections: [ 
+    { subtitle: 'Ý nghĩa chính', icon: 'lightbulb', content: 'Biểu hiện diễn tả hy vọng, mong muốn của người nói.' }, 
+    { subtitle: 'Cách dùng chi tiết', icon: 'pencil', content: 'Gắn vào sau động từ để thể hiện điều người nói muốn làm hoặc ao ước. Thường được sử dụng khi nói về điều mình muốn liên quan đến kế hoạch hoặc sở thích.' } 
+  ]
+};
+
+const exampleData = {
+  title: '🗣️ Ví dụ',
+  dialogueSection: {
+    subtitle: 'Ví dụ hội thoại',
+    examples: [
+      { q_ko: '주말에 어디 갈까요?', q_vi: 'Cuối tuần này chúng ta đi đâu nhỉ?', a_ko: '명동 어때요? 저는 명동에 가고 싶어요.', a_vi: 'Myeongdong thì sao? Tôi muốn đi Myeongdong.' },
+      { q_ko: '수업 끝나면 뭘 해요?', q_vi: 'Học xong bạn làm gì?', a_ko: '배가 고파서 밥을 먹고 싶어요.', a_vi: 'Tôi đói bụng nên muốn ăn cơm.' },
+      { q_ko: '왜 한국어 공부를 해요?', q_vi: 'Tại sao bạn học tiếng Hàn?', a_ko: '한국 회사에 취직하고 싶어서요.', a_vi: 'Vì tôi muốn xin việc ở công ty Hàn Quốc.' },
+      { q_ko: '줄리아 씨는 어느 나라에서 살고 싶어요?', q_vi: 'Julia muốn sống ở đất nước nào?', a_ko: '저는 베트남에서 살고 싶어요.', a_vi: 'Tôi muốn sống ở Việt Nam.' }
+    ]
+  },
+  sentenceSection: {
+    subtitle: 'Ví dụ câu',
+    examples: [
+      { ko: '이 옷을 입고 싶어요.', vi: 'Tôi muốn mặc cái áo này.' },
+      { ko: '저도 이 가방을 사고 싶어요.', vi: 'Tôi cũng muốn mua cái túi này.' },
+      { ko: '만화책을 읽고 싶어요.', vi: 'Tôi muốn đọc truyện tranh.' },
+      { ko: '신나는 음악을 듣고 싶어요.', vi: 'Tôi muốn nghe nhạc sôi động.' },
+      { ko: '한국 영화를 보고 싶었어요.', vi: 'Tôi đã muốn xem phim Hàn Quốc.' },
+      { ko: '너무 졸려서 커피를 마시고 싶어요.', vi: 'Buồn ngủ quá nên tôi muốn uống cà phê.' },
+      { ko: '한강에서 자전거를 타고 싶어요.', vi: 'Tôi muốn đạp xe ở sông Hàn.' }
+    ]
+  },
+  note: {
+    subtitle: 'Lưu ý',
+    content_vi: `'-고 싶다' chỉ được sử dụng khi chủ ngữ là người nói trong câu trần thuật. Trong câu nghi vấn, có thể dùng cho người nghe.`
+  }
+};
+
+const introductionData = {
+  title: '💡 도입 (Dẫn nhập)',
+  dialogues: [
+    { id: 1, lines: [ 
+      { speaker: '교사', text_ko: '같이 점심을 먹어요. 뭘 먹을까요?', text_vi: 'Chúng ta cùng ăn trưa nhé. Ăn gì bây giờ?'}, 
+      { speaker: '학생 1', text_ko: '저는 피자가 좋아요.', text_vi: 'Em thích pizza ạ.'}, 
+      { speaker: '교사', text_ko: '왕밍 씨는 피자를 먹고 싶어요? 흐엉 씨는요?', text_vi: 'Wang Ming muốn ăn pizza à? Còn Hương thì sao?'}, 
+      { speaker: '학생 2', text_ko: '저는 햄버거가 좋아요.', text_vi: 'Em thích hamburger ạ.'}, 
+      { speaker: '교사', text_ko: '흐엉 씨는 햄버거를 먹고 싶어요.', text_vi: 'Hương muốn ăn hamburger.'} 
+    ] },
+    { id: 2, lines: [ 
+      { speaker: '교사', text_ko: '여러분, 주말에 뭘 해요?', text_vi: 'Các bạn cuối tuần làm gì?'}, 
+      { speaker: '학생', text_ko: '영화를 봐요.', text_vi: 'Em xem phim ạ.'}, 
+      { speaker: '교사', text_ko: '미도리 씨도 영화를 좋아해요? 줄리아 씨와 같이 영화를 보고 싶어요?', text_vi: 'Midori cũng thích phim à? Em có muốn xem phim cùng Julia không?'}, 
+      { speaker: '학생', text_ko: '네, 좋아요.', text_vi: 'Vâng, hay ạ.'}, 
+      { speaker: '교사', text_ko: '저도 여러분과 같이 영화를 보고 싶어요.', text_vi: 'Cô cũng muốn đi xem phim cùng các em.'} 
+    ] }
+  ],
+  notes: [
+    { note_ko: `'-고 싶다'를 도입할 때는 학생들이 원하는 행위에 대해 이야기하게 하여 희망을 나타내는 의미를 인식하게 한다.`, note_vi: "Khi giới thiệu '-고 싶다', hãy dẫn dắt học sinh nói về hành động mà các em mong muốn để nhận biết ý nghĩa 'hy vọng'." },
+    { note_ko: `'-고 싶다'가 형용사와 결합하는 경우가 많지 않으므로 동사가 붙는 예로 이야기할 수 있도록 유도하는 게 좋다.`, note_vi: "Nên hướng dẫn học sinh sử dụng ví dụ với động từ, vì '-고 싶다' ít khi kết hợp với tính từ." }
+  ]
+};
+
+const morphologyInfoData = {
+  title: '📝 형태 정보 (Thông tin hình thái)',
+  sections: [
+    { id: 1, title: 'Gốc động từ có patchim (phụ âm cuối)', rule: '-고 싶다', examples: [ 
+      { before: '찾- + -고 싶다', after: '찾고 싶다' }, 
+      { before: '먹- + -고 싶다', after: '먹고 싶다' }
+    ], note: null },
+    { id: 2, title: 'Gốc động từ không có patchim', rule: '-고 싶다', examples: [ 
+      { before: '가- + -고 싶다', after: '가고 싶다' }, 
+      { before: '사- + -고 싶다', after: '사고 싶다' }
+    ], note: null },
+    { id: 3, title: 'Gốc động từ kết thúc bằng \'ㄹ\'', rule: '-고 싶다', examples: [ 
+      { before: '살- + -고 싶다', after: '살고 싶다' }, 
+      { before: '만들- + -고 싶다', after: '만들고 싶다' }
+    ], note: 'Gốc từ kết thúc bằng \'ㄹ\' vẫn giữ nguyên khi kết hợp với \'-고 싶다\'.' }
+  ],
+  irregularSection: {
+    title: 'Bất quy tắc',
+    examples: []
+  }
+};
+
+const morphologyUsageData = {
+  title: '⚙️ 형태 사용법 (Cách dùng hình thái)',
+  rules: [
+    { condition: '받침 o', rule: '-고 싶다', examples: ['찾고 싶다', '먹고 싶다', '읽고 싶다'] },
+    { condition: '받침 x', rule: '-고 싶다', examples: ['가고 싶다', '사고 싶다', '공부하고 싶다'] },
+    { condition: 'ㄹ 받침', rule: '-고 싶다', examples: ['살고 싶다', '놀고 싶다', '만들고 싶다'] }
+  ]
+};
+
+const sentenceCompositionData = {
+  title: '📖 문장 구성 정보 (Thông tin cấu trúc câu)',
+  rule: {
+    id: 1,
+    description: `부정문은 '안 -고 싶다', '-지 않고 싶다', '-고 싶지 않다'로 표현한다.`,
+    examples: [
+      '쇼핑을 안 하고 싶어요.',
+      '쇼핑을 하지 않고 싶어요.',
+      '쇼핑을 하고 싶지 않아요.'
+    ]
+  }
+};
+
+const constraintData = {
+  title: '⚠️ 제약 정보 (Thông tin hạn định)',
+  rules: [
+    {
+      id: 1,
+      description: 'Chủ ngữ phải là người nói (ngôi thứ nhất) trong câu trần thuật.',
+      examples: [
+        { text: '저는 영화를 보고 싶어요.', isCorrect: true },
+        { text: '줄리아 씨는 영화를 보고 싶어요.', isCorrect: false }
+      ],
+      note: 'Trong câu nghi vấn, chủ ngữ có thể là người nghe (bạn).'
+    },
+    {
+      id: 2,
+      description: 'Không kết hợp trực tiếp với tính từ.',
+      examples: [
+        { text: '저는 예쁘고 싶어요.', isCorrect: false },
+        { text: '저는 예뻐지고 싶어요.', isCorrect: true }
+      ],
+      note: 'Có thể kết hợp nếu tính từ được chuyển thành động từ bằng cách thêm \'-어지다\'.'
+    }
+  ]
+};
+
+const extensionData = {
+  title: '🚀 확장 (Mở rộng)',
+  rules: [
+    {
+      id: 1,
+      description: 'Dạng phủ định: Sử dụng các dạng \'안 -고 싶다\' hoặc \'-고 싶지 않다\'.',
+      examples: [
+        '쇼핑을 안 하고 싶어요.',
+        '쇼핑을 하고 싶지 않아요.'
+      ],
+      note: null
+    },
+    {
+      id: 2,
+      description: 'Kết hợp với một số tính từ: Một số tính từ mang nghĩa tích cực có thể kết hợp dù không theo quy chuẩn.',
+      examples: [
+        '건강하고 싶어서 운동을 열심히 합니다.',
+        '저도 이제 행복하고 싶습니다.'
+      ],
+      note: null
+    }
+  ]
+};
+
+const similarGrammarData = {
+  title: '🔄 유사 문법 (Ngữ pháp tương đồng)',
+  comparisons: [
+    {
+      id: 1,
+      title: "'-고 싶다' vs '-고 싶어 하다'",
+      g1: {
+        name: '-고 싶다',
+        points: [
+          { description: 'Chủ ngữ là người nói (ngôi 1) hoặc người nghe (ngôi 2, trong câu hỏi).', example: '저는 제주도에 가고 싶어요.' },
+          { description: 'Chỉ kết hợp với động từ.', example: '나는 제주도에 가고 싶다.'}
+        ]
+      },
+      g2: {
+        name: '-고 싶어 하다',
+        points: [
+          { description: 'Chủ ngữ là người khác (ngôi 3).', example: '수지 씨는 제주도에 가고 싶어 해요.' },
+          { description: 'Kết hợp với động từ và tính từ.', example: '수지도 제주도에 가고 싶어 한다.'}
+        ]
+      },
+      note: null
+    },
+    {
+      id: 2,
+      title: "'-고 싶다' vs '-(으)ㄹ래'",
+      g1: {
+        name: '-고 싶다',
+        points: [
+          { description: 'Diễn tả một mong muốn đơn thuần, không nhất thiết phải có tính thực tế cao.', example: '나는 하늘을 날고 싶어.' },
+          { description: 'Thể hiện ước mơ, khát khao.', example: '나는 대학을 졸업한 후에 결혼을 해서 아이를 다섯 명 낳고 싶어.' }
+        ]
+      },
+      g2: {
+        name: '-(으)ㄹ래',
+        points: [
+          { description: 'Diễn tả ý định, quyết định sẽ làm gì đó một cách cụ thể trong hoàn cảnh hiện tại.', example: '나는 점심 때 불고기를 먹을래.' },
+          { description: 'Thể hiện kế hoạch thực tế.', example: '나는 대학을 졸업한 후에 유학을 갈래.' }
+        ]
+      },
+      note: null
+    }
+  ]
+};
+---
+
+<Layout title={pageTitle}>
+  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
+    <div class="flex flex-col items-center gap-8 md:gap-10 px-4 py-12">
+      
+      <!-- Header -->
+      <PageHeader title={headerData.title} />
+      
+      <!-- Basic Info -->
+      <BasicInfoCard details={basicInfoData.details} />
+      
+      <!-- Meaning and Usage -->
+      <MeaningAndUsageCard title={meaningData.title} sections={meaningData.sections} />
+      
+      <!-- Examples -->
+      <ExampleCard 
+        title={exampleData.title}
+        dialogueSection={exampleData.dialogueSection}
+        sentenceSection={exampleData.sentenceSection}
+        note={exampleData.note}
+      />
+      
+      <!-- Introduction -->
+      <IntroductionCard 
+        title={introductionData.title}
+        dialogues={introductionData.dialogues}
+        notes={introductionData.notes}
+      />
+      
+      <!-- Morphology Info -->
+      <MorphologyInfoCard 
+        title={morphologyInfoData.title}
+        sections={morphologyInfoData.sections}
+        irregularSection={morphologyInfoData.irregularSection}
+      />
+      
+      <!-- Morphology Usage -->
+      <MorphologyUsageCard 
+        title={morphologyUsageData.title}
+        rules={morphologyUsageData.rules}
+      />
+      
+      <!-- Sentence Composition -->
+      <SentenceCompositionCard 
+        title={sentenceCompositionData.title}
+        rule={sentenceCompositionData.rule}
+      />
+      
+      <!-- Constraints -->
+      <ConstraintInfoCard 
+        title={constraintData.title}
+        rules={constraintData.rules}
+      />
+      
+      <!-- Extensions -->
+      <ExtensionCard 
+        title={extensionData.title}
+        rules={extensionData.rules}
+      />
+      
+      <!-- Similar Grammar -->
+      <SimilarGrammarCard 
+        title={similarGrammarData.title}
+        comparisons={similarGrammarData.comparisons}
+      />
+      
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between items-center w-full max-w-3xl mx-auto px-4 pb-8">
+      <a 
+        href="/ngu-phap" 
+        class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Quay lại danh sách ngữ pháp
+      </a>
+      
+      <div class="flex gap-4">
+        <a 
+          href="/tai-lieu" 
+          class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+        >
+          Tài liệu
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

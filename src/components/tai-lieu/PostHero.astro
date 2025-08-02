@@ -1,0 +1,121 @@
+---
+export interface Props {
+  cover?: string;
+  title: string;
+  description?: string;
+  category?: string;
+  subcategory?: string;
+  class?: string;
+}
+
+const { 
+  cover, 
+  title, 
+  description, 
+  category, 
+  subcategory, 
+  class: className = '' 
+} = Astro.props;
+---
+
+<div class={`post-hero ${className}`}>
+  <div class="w-full max-w-4xl mx-auto">
+    <div class="flex flex-col lg:flex-row items-center gap-8">
+      
+      <!-- Cover Image -->
+      {cover && (
+        <div class="flex-shrink-0">
+          <img 
+            src={cover} 
+            alt={title} 
+            class="w-64 h-80 object-cover rounded-lg shadow-lg"
+            loading="lazy"
+          />
+        </div>
+      )}
+
+      <!-- Content -->
+      <div class="flex-1 text-center lg:text-left">
+        <!-- Category/Subcategory badges -->
+        {(category || subcategory) && (
+          <div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-4">
+            {category && (
+              <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
+                {category}
+              </span>
+            )}
+            {subcategory && (
+              <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full font-medium">
+                {subcategory}
+              </span>
+            )}
+          </div>
+        )}
+
+        <!-- Title -->
+        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          {title}
+        </h1>
+
+        <!-- Description -->
+        {description && (
+          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+            {description}
+          </p>
+        )}
+
+        <!-- Call to Action Button -->
+        <button 
+          id="scroll-to-download-btn"
+          class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          </svg>
+          Tải xuống ngay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .post-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 1rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-hero h1 {
+    color: white;
+  }
+
+  .post-hero p {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  #scroll-to-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+<script>
+  // Scroll to download section when button is clicked
+  document.addEventListener('DOMContentLoaded', function() {
+    const scrollBtn = document.getElementById('scroll-to-download-btn');
+    if (scrollBtn) {
+      scrollBtn.addEventListener('click', function() {
+        const downloadSection = document.getElementById('download-section');
+        if (downloadSection) {
+          downloadSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    }
+  });
+</script>
