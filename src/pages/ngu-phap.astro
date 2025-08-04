@@ -3,56 +3,52 @@ import Layout from '../layouts/Layout.astro';
 import GrammarFilter from '../components/grammar/GrammarFilter.astro';
 import GrammarGrid from '../components/grammar/GrammarGrid.astro';
 
-// Temporary: Use static list to avoid AstroGlobNoMatch error
-const soCap = [];
-const trungCap = [];
-const caoCap = [];
+// Import all grammar files using Vite's glob import
+// Exclude dynamic route files using negative patterns
+const grammarFiles = import.meta.glob(['./ngu-phap/**/*.astro', '!./ngu-phap/[slug].astro'], { 
+  eager: true,
+  import: 'postData' 
+});
 
-// Static grammar data for demonstration
-const staticGrammarList = [
-  {
-    slug: 'go-sipda',
-    title: '-고 싶다 (muốn làm gì)',
-    date: '2025-01-15',
-    category: 'Ngữ pháp',
-    subcategory: 'Sơ cấp',
-    level: 'Beginner',
-    grammarPattern: '-고 싶다',
-    meaning: 'Biểu hiện ý muốn, mong muốn',
-    description: 'Cấu trúc ngữ pháp để diễn tả mong muốn, ý định muốn làm gì đó.',
-    type: 'Grammar',
-    tags: ['desire', 'want', 'intention'],
-    examples: 5,
-    exercises: 8,
-    difficulty: 2,
-    cover: '/images/default-grammar.svg',
-    url: '/ngu-phap/demo-grammar'
-  },
-  {
-    slug: 'eumyeonseo',
-    title: '-으면서 (trong khi)',
-    date: '2025-01-10',
-    category: 'Ngữ pháp',
-    subcategory: 'Sơ cấp',
-    level: 'Beginner',
-    grammarPattern: '-으면서',
-    meaning: 'Diễn tả hai hành động xảy ra đồng thời',
-    description: 'Cấu trúc ngữ pháp để nối hai hành động hoặc trạng thái xảy ra cùng lúc.',
-    type: 'Grammar',
-    tags: ['simultaneous', 'while', 'conjunction'],
-    examples: 4,
-    exercises: 6,
-    difficulty: 3,
-    cover: '/images/default-grammar.svg',
-    url: '/ngu-phap/demo-grammar'
-  }
-];
+console.log('=== USING VITE GLOB IMPORT ===');
+console.log('Grammar files found:', Object.keys(grammarFiles).length);
 
-console.log('=== USING STATIC GRAMMAR DATA ===');
-console.log('Static grammar found:', staticGrammarList.length);
-
-// Use static grammar list instead of processing files
-const grammarList = staticGrammarList
+// Process imported grammar data
+const grammarList = Object.entries(grammarFiles)
+  .map(([path, postData]) => {
+    // Skip if no postData
+    if (!postData) {
+      return null;
+    }
+    
+    // Extract level from path (so-cap, trung-cap, cao-cap)
+    const pathParts = path.split('/');
+    const levelFromPath = pathParts[2]; // Should be 'so-cap', 'trung-cap', or 'cao-cap'
+    const levelMapping = {
+      'so-cap': 'Beginner',
+      'trung-cap': 'Intermediate', 
+      'cao-cap': 'Advanced'
+    };
+    
+    // Extract filename as slug
+    const fileName = pathParts.pop().replace('.astro', '');
+    
+    return {
+      ...postData,
+      slug: `${levelFromPath}/${fileName}`, // Include level folder in slug
+      level: levelMapping[levelFromPath] || 'Beginner',
+      subcategory: levelFromPath === 'so-cap' ? 'Sơ cấp' : 
+                   levelFromPath === 'trung-cap' ? 'Trung cấp' : 'Cao cấp',
+      date: postData.date || new Date().toISOString().split('T')[0],
+      tags: postData.tags || ['grammar'],
+      examples: postData.examples || 3,
+      exercises: postData.exercises || 5,
+      difficulty: postData.difficulty || 2,
+      cover: '/images/default-grammar.svg',
+      url: path.replace('.astro', '').replace('./', '/')
+    };
+  })
+  .filter(item => item && item.title) // Filter out invalid entries
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 // Debug logs
