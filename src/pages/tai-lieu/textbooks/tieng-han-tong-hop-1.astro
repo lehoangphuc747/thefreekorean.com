@@ -2,6 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import TextbooksHeader from '../../../components/tai-lieu/TextbooksHeader.astro';
 import TextbooksDownloader from '../../../components/tai-lieu/TextbooksDownloader.astro';
+import PDFPreview from '../../../components/tai-lieu/PDFPreview.astro';
 
 export const postData = {
   title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
@@ -11,8 +12,8 @@ export const postData = {
   type: "PDF",
   cover: "/images/tieng-han-tong-hop-1.jpg",
   description: "Giáo trình cơ bản cho người mới bắt đầu học tiếng Hàn",
-  downloadUrl: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJW1zQYAAAABsb74FVJACQ2ebQRiCnAQ7w?e=pZZMs4",
-  downloadOriginal: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJWrTwAAAAABsyLYjzmmKd-T3xVagalxBg?e=WJ0Km2",
+  downloadUrl: "https://drive.google.com/open?id=1xZmxTrbwj9zZIUxxFN8MkvTSV6lk6VQn&usp=drive_fs",
+  downloadOriginal: "https://drive.google.com/open?id=1WqjkbAW0QdNzsRJEoqJ6gBkVxjSWsVav&usp=drive_fs",
   downloadWorkbook: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJWjTwAAAAAB0DgAuqa108zsIb8za1nrdw?e=ZjvnyG",
   downloadAudio: "https://1drv.ms/f/c/95cd9adb2b8c9171/EnGRjCvbms0ggJXbWwYAAAAB_AwnJEjawYkaIy5e6nP9mQ?e=fesA9k",
   fileSize: "4.3MB",
@@ -52,6 +53,13 @@ export const postData = {
         originalSize={postData.originalSize}
         workbookSize={postData.workbookSize}
         audioSize={postData.audioSize}
+      />
+
+      <!-- PDF Preview Component -->
+      <PDFPreview 
+        downloadUrl={postData.downloadUrl}
+        title={`Xem trước: ${postData.title}`}
+        height="600px"
       />
     </div>
   </main>

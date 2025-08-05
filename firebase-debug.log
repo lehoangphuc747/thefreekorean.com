@@ -1,0 +1,175 @@
+[debug] [2025-08-05T12:00:04.221Z] ----------------------------------------------------------------------
+[debug] [2025-08-05T12:00:04.225Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --force
+[debug] [2025-08-05T12:00:04.225Z] CLI Version:   14.11.2
+[debug] [2025-08-05T12:00:04.226Z] Platform:      win32
+[debug] [2025-08-05T12:00:04.226Z] Node Version:  v22.14.0
+[debug] [2025-08-05T12:00:04.226Z] Time:          Tue Aug 05 2025 19:00:04 GMT+0700 (Giờ Đông Dương)
+[debug] [2025-08-05T12:00:04.226Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-05T12:00:04.587Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-05T12:00:04.588Z] > authorizing via signed-in user (erk9308@gmail.com)
+[debug] [2025-08-05T12:00:04.588Z] [iam] checking project the-free-korean for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-08-05T12:00:04.589Z] Checked if tokens are valid: false, expires at: 1754324309066
+[debug] [2025-08-05T12:00:04.590Z] Checked if tokens are valid: false, expires at: 1754324309066
+[debug] [2025-08-05T12:00:04.590Z] > refreshing access token with scopes: []
+[debug] [2025-08-05T12:00:04.593Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-08-05T12:00:04.593Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-05T12:00:05.055Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-08-05T12:00:05.056Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-05T12:00:05.068Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/the-free-korean:testIamPermissions [none]
+[debug] [2025-08-05T12:00:05.068Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/the-free-korean:testIamPermissions x-goog-quota-user=projects/the-free-korean
+[debug] [2025-08-05T12:00:05.069Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/the-free-korean:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-08-05T12:00:06.143Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/the-free-korean:testIamPermissions 200
+[debug] [2025-08-05T12:00:06.144Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/the-free-korean:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-08-05T12:00:06.144Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:06.144Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:06.145Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/the-free-korean [none]
+[debug] [2025-08-05T12:00:06.706Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/the-free-korean 200
+[debug] [2025-08-05T12:00:06.707Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/the-free-korean {"projectId":"the-free-korean","projectNumber":"807760697350","displayName":"The Free Korean","name":"projects/the-free-korean","resources":{"hostingSite":"the-free-korean"},"state":"ACTIVE","etag":"1_00dddaf4-4b1d-44cc-b932-ddaa81b4a333"}
+[info] 
+[info] === Deploying to 'the-free-korean'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-08-05T12:00:06.715Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:06.715Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:06.715Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/the-free-korean/versions [none]
+[debug] [2025-08-05T12:00:06.715Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/the-free-korean/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-08-05T12:00:07.958Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/the-free-korean/versions 200
+[debug] [2025-08-05T12:00:07.958Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/the-free-korean/versions {"name":"projects/807760697350/sites/the-free-korean/versions/a1ef3cc37e05ca87","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[the-free-korean]: beginning deploy... 
+[info] i  hosting[the-free-korean]: found 50 files in dist 
+[debug] [2025-08-05T12:00:07.997Z] [hosting] uploading with 200 concurrency
+[debug] [2025-08-05T12:00:08.069Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.070Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.071Z] [hosting] hash cache [ZGlzdA] stored for 50 files
+[debug] [2025-08-05T12:00:08.071Z] [hosting][hash queue][FINAL] {"max":59,"min":1,"avg":28.86,"active":0,"complete":50,"success":50,"errored":0,"retried":0,"total":50,"elapsed":71}
+[debug] [2025-08-05T12:00:08.072Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/807760697350/sites/the-free-korean/versions/a1ef3cc37e05ca87:populateFiles [none]
+[debug] [2025-08-05T12:00:08.072Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/807760697350/sites/the-free-korean/versions/a1ef3cc37e05ca87:populateFiles {"files":{"/favicon.svg":"8a4cce6b4187724c37f27f83af6c96ddc5ba73af62a5758f7e870f651a11bfdb\r","/images/topik-vocabulary.jpg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/tieng-han-tong-hop-1.svg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/tieng-han-tong-hop-1.jpg":"00b1fd3cc14e6b01da020c0e64922803a7dcb0cf7bf8021d178117497be7034d\r","/images/tai-lieu.jpg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/seoul-korean-1a.jpg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/itopik-website.jpg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/huong-dan.jpg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/hangul-video.jpg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e\r","/images/default-grammar.svg":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e","/downloads/tieng-han-tong-hop-1.pdf":"cd7a081d0dbd1b322cc8f60e119008ae34f21b52aad47c5f0edff3af59117b07\r","/anki/index.html":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e","/anki/books/index.html":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e","/anki/books/tieng-han-tong-hop-1/bai-1/index.html":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e","/index.html":"ab47f824084a954f8e6e5daf7e1f571bf59a2339f9914a66d662a302dfcff53f","/_astro/index.astro_astro_type_script_index_0_lang.DSwwZ_Vl.js":"42ad89b192b12968f7875ae484f678680703c8d708edaf20b6866239afc07fa5","/_astro/index.astro_astro_type_script_index_0_lang.CxO_JRN6.js":"42ad89b192b12968f7875ae484f678680703c8d708edaf20b6866239afc07fa5","/topik/index.html":"b306f7ae92fd6951b3a163ea475b7e33c44cf057104be55f712c3a0b7fdc7f7f","/topik/vocabulary/index.html":"a72494c993a894204bf4ab05b7a05535252b25803818fc6cf650f472343c42be","/topik/practice/index.html":"7914221c703f0a260158ccc8206c5a3a193adcbfd53a08748d5a47ca99a0e8db","/tai-lieu/index.html":"4229155d8ae880dcaf6393f657a511c14c277a148d372b225153206c2e1a54f1","/tai-lieu/textbooks/tieng-han-tong-hop-2/index.html":"e5d5cc2987c59c15391cd5bdc92abc0bda7a275547cfea07330cc548f1117000","/tai-lieu/anki/index.html":"07c82320a3fa25300c7c91ca709c5c679606e5242322ade9cb8104f577912040","/tai-lieu/textbooks/tieng-han-tong-hop-1/index.html":"7f3a55ad25835afa9b72c53def8ecaed2f6a18acb29a61ec125a51b36c8f3fea","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-9/index.html":"de3c6b2e3d1133dc764fce5a2219f6550a41dae15b32e6093dcac985b91aa68f","/tai-lieu/anki/books/index.html":"435c7e6618068d52bd66a5951d81002180b2a2398f0673f08965593c727da765","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-8/index.html":"318434adaf30e9b54322996686e8c90e1d1bf85f3364195d3b3521aaa4f83694","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-7/index.html":"b7fe0c68fc54dad7357f2c8991f1d938047f8e61c470a269c32cdde84806153b","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-6/index.html":"f88cdfa44d35c150995399318049f24d6a2d7de3ccef9402892bf6bb804ec575","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-5/index.html":"643b018ad176e7a51a9cf986a5e51637cf9415d411ff820371b8754eaf5395e8","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-4/index.html":"d9eb5db3cb8520998355120b670a6fb336350a20a008f480f3c04d2876bb7bde","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-3/index.html":"f445fb33fc3825442a94698ee2fc4cdaf3cc869887b832fbf482cd6d9fbbc2b3","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-2/index.html":"aa6ea190d6a05fd8ad56866cf48abf54f5fe9c13b8de0eaef8277975b039c1ac","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-13/index.html":"470c4094725c68a5065a929b3c8b0831cdef4e80954910ad86fd4a514ece3f55","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-12/index.html":"9ac9e56df592f3a267747483def726f8249e585c2446574cd28dec7d22e445f8","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-11/index.html":"94ac6e388aedfc68f545e2646d5ff7418fe09ea181dd29d28dd4ca39cb66b71b","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-10/index.html":"0024e19f4aa04702eb1126963e4bcb48a7c19a5bef43653002a027ff5fc37a07","/tai-lieu/anki/books/tieng-han-tong-hop-1/bai-1/index.html":"889cd40370bfd44781a7b44b84412098928ebeee4a03e113cf786133e7b00efa","/ngu-phap/index.html":"652e92279ab325b27870f3a75b2c1e4b39b8ae0012d35cb6ca5abedc31e815dc","/lo-trinh/index.html":"fc3db87a9c5a62374bd96ed5f781a40c8e5e14efa7ced5dd5da56c5fc2738f99","/ngu-phap/so-cap/고-싶다/index.html":"cbc5bd1c4aa51fceda8678fb4bbfc3ce7b8ced0b4ca0ba3923c0d5934a19c84a","/ngu-phap/so-cap/으면서/index.html":"2db997b95b4e7b6fb42fb84250443ea2a255864b89f2904978c6cb4d5e10cc25","/gioi-thieu/index.html":"b14eb3d4bd01fb306f326ceceb9d019ff46d842c5e381d38fdac1367ba02f82d","/lien-he/index.html":"272819117fec7dc68111efe8c434ab26296fcab7ca018575ca3be5f8aec3af3b","/topik/tests/index.html":"f3c2e109e8803748fdedb1c76a97c1078872456e8a45f69ed204a8310c904cbd","/_astro/_slug_.CnHOEoqf.css":"9d45841723bbdb4956c1d24931c6ea6f4156365adc56ca044a45c4bee907fd42","/topik/tests/topik-i-2023-1/index.html":"ecd508eccd1c232647e5176324fe9fa00535ef21f7ad7e4185a29dd8e6940039","/topik/tests/topik-ii-2023-1/index.html":"1cf4e1641b66bc309096792a9c18158a1aa12402de72972906d14dac81ee745f","/_astro/client.Co0vMr8l.js":"8ef6c0dcb433ed2fca5f4cd241d53fee5a0c2eeb247d41adf19900fd1824cd3a","/images/tieng-han-tong-hop-2.jpg":"a903fba80606e28bf55eadb72eb135dbd6ef458e0fe8b411ae8b91ef3dded560"}}
+[debug] [2025-08-05T12:00:08.835Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/807760697350/sites/the-free-korean/versions/a1ef3cc37e05ca87:populateFiles 200
+[debug] [2025-08-05T12:00:08.835Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/807760697350/sites/the-free-korean/versions/a1ef3cc37e05ca87:populateFiles {"uploadRequiredHashes":["7f3a55ad25835afa9b72c53def8ecaed2f6a18acb29a61ec125a51b36c8f3fea","ecd508eccd1c232647e5176324fe9fa00535ef21f7ad7e4185a29dd8e6940039","f3c2e109e8803748fdedb1c76a97c1078872456e8a45f69ed204a8310c904cbd","2db997b95b4e7b6fb42fb84250443ea2a255864b89f2904978c6cb4d5e10cc25","9d45841723bbdb4956c1d24931c6ea6f4156365adc56ca044a45c4bee907fd42","652e92279ab325b27870f3a75b2c1e4b39b8ae0012d35cb6ca5abedc31e815dc","889cd40370bfd44781a7b44b84412098928ebeee4a03e113cf786133e7b00efa","f445fb33fc3825442a94698ee2fc4cdaf3cc869887b832fbf482cd6d9fbbc2b3","1cf4e1641b66bc309096792a9c18158a1aa12402de72972906d14dac81ee745f","272819117fec7dc68111efe8c434ab26296fcab7ca018575ca3be5f8aec3af3b","de3c6b2e3d1133dc764fce5a2219f6550a41dae15b32e6093dcac985b91aa68f","470c4094725c68a5065a929b3c8b0831cdef4e80954910ad86fd4a514ece3f55","e5d5cc2987c59c15391cd5bdc92abc0bda7a275547cfea07330cc548f1117000","cbc5bd1c4aa51fceda8678fb4bbfc3ce7b8ced0b4ca0ba3923c0d5934a19c84a","a72494c993a894204bf4ab05b7a05535252b25803818fc6cf650f472343c42be","fc3db87a9c5a62374bd96ed5f781a40c8e5e14efa7ced5dd5da56c5fc2738f99","4229155d8ae880dcaf6393f657a511c14c277a148d372b225153206c2e1a54f1","94ac6e388aedfc68f545e2646d5ff7418fe09ea181dd29d28dd4ca39cb66b71b","643b018ad176e7a51a9cf986a5e51637cf9415d411ff820371b8754eaf5395e8","ab47f824084a954f8e6e5daf7e1f571bf59a2339f9914a66d662a302dfcff53f","a903fba80606e28bf55eadb72eb135dbd6ef458e0fe8b411ae8b91ef3dded560","318434adaf30e9b54322996686e8c90e1d1bf85f3364195d3b3521aaa4f83694","b7fe0c68fc54dad7357f2c8991f1d938047f8e61c470a269c32cdde84806153b","f88cdfa44d35c150995399318049f24d6a2d7de3ccef9402892bf6bb804ec575","0024e19f4aa04702eb1126963e4bcb48a7c19a5bef43653002a027ff5fc37a07","b306f7ae92fd6951b3a163ea475b7e33c44cf057104be55f712c3a0b7fdc7f7f","7914221c703f0a260158ccc8206c5a3a193adcbfd53a08748d5a47ca99a0e8db","b14eb3d4bd01fb306f326ceceb9d019ff46d842c5e381d38fdac1367ba02f82d","9ac9e56df592f3a267747483def726f8249e585c2446574cd28dec7d22e445f8","d9eb5db3cb8520998355120b670a6fb336350a20a008f480f3c04d2876bb7bde","aa6ea190d6a05fd8ad56866cf48abf54f5fe9c13b8de0eaef8277975b039c1ac"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files"}
+[debug] [2025-08-05T12:00:08.836Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.837Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.837Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.837Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.838Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.838Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.838Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.839Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.839Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.839Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.840Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.840Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.840Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.840Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.841Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.841Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.841Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.841Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.842Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.842Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.842Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.842Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.843Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.843Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.843Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.844Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.844Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.844Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.844Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.845Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.845Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.845Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.846Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.846Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.846Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.846Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.847Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.847Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.848Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.848Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.849Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.849Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.849Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.850Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.850Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.850Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.851Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.851Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.851Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.852Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.852Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.852Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.853Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.853Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.854Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.854Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.854Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.855Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.855Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.855Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.856Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.856Z] Checked if tokens are valid: true, expires at: 1754398804056
+[debug] [2025-08-05T12:00:08.856Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/7f3a55ad25835afa9b72c53def8ecaed2f6a18acb29a61ec125a51b36c8f3fea [none]
+[debug] [2025-08-05T12:00:08.856Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/7f3a55ad25835afa9b72c53def8ecaed2f6a18acb29a61ec125a51b36c8f3fea [stream]
+[debug] [2025-08-05T12:00:08.859Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/ecd508eccd1c232647e5176324fe9fa00535ef21f7ad7e4185a29dd8e6940039 [none]
+[debug] [2025-08-05T12:00:08.860Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/ecd508eccd1c232647e5176324fe9fa00535ef21f7ad7e4185a29dd8e6940039 [stream]
+[debug] [2025-08-05T12:00:08.862Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/f3c2e109e8803748fdedb1c76a97c1078872456e8a45f69ed204a8310c904cbd [none]
+[debug] [2025-08-05T12:00:08.862Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/f3c2e109e8803748fdedb1c76a97c1078872456e8a45f69ed204a8310c904cbd [stream]
+[debug] [2025-08-05T12:00:08.866Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/2db997b95b4e7b6fb42fb84250443ea2a255864b89f2904978c6cb4d5e10cc25 [none]
+[debug] [2025-08-05T12:00:08.866Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/2db997b95b4e7b6fb42fb84250443ea2a255864b89f2904978c6cb4d5e10cc25 [stream]
+[debug] [2025-08-05T12:00:08.870Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/9d45841723bbdb4956c1d24931c6ea6f4156365adc56ca044a45c4bee907fd42 [none]
+[debug] [2025-08-05T12:00:08.870Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/9d45841723bbdb4956c1d24931c6ea6f4156365adc56ca044a45c4bee907fd42 [stream]
+[debug] [2025-08-05T12:00:08.872Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/652e92279ab325b27870f3a75b2c1e4b39b8ae0012d35cb6ca5abedc31e815dc [none]
+[debug] [2025-08-05T12:00:08.872Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/652e92279ab325b27870f3a75b2c1e4b39b8ae0012d35cb6ca5abedc31e815dc [stream]
+[debug] [2025-08-05T12:00:08.875Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/889cd40370bfd44781a7b44b84412098928ebeee4a03e113cf786133e7b00efa [none]
+[debug] [2025-08-05T12:00:08.875Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/889cd40370bfd44781a7b44b84412098928ebeee4a03e113cf786133e7b00efa [stream]
+[debug] [2025-08-05T12:00:08.877Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/f445fb33fc3825442a94698ee2fc4cdaf3cc869887b832fbf482cd6d9fbbc2b3 [none]
+[debug] [2025-08-05T12:00:08.877Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/f445fb33fc3825442a94698ee2fc4cdaf3cc869887b832fbf482cd6d9fbbc2b3 [stream]
+[debug] [2025-08-05T12:00:08.879Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/1cf4e1641b66bc309096792a9c18158a1aa12402de72972906d14dac81ee745f [none]
+[debug] [2025-08-05T12:00:08.879Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/1cf4e1641b66bc309096792a9c18158a1aa12402de72972906d14dac81ee745f [stream]
+[debug] [2025-08-05T12:00:08.882Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/272819117fec7dc68111efe8c434ab26296fcab7ca018575ca3be5f8aec3af3b [none]
+[debug] [2025-08-05T12:00:08.882Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/272819117fec7dc68111efe8c434ab26296fcab7ca018575ca3be5f8aec3af3b [stream]
+[debug] [2025-08-05T12:00:08.885Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/de3c6b2e3d1133dc764fce5a2219f6550a41dae15b32e6093dcac985b91aa68f [none]
+[debug] [2025-08-05T12:00:08.885Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/de3c6b2e3d1133dc764fce5a2219f6550a41dae15b32e6093dcac985b91aa68f [stream]
+[debug] [2025-08-05T12:00:08.887Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/470c4094725c68a5065a929b3c8b0831cdef4e80954910ad86fd4a514ece3f55 [none]
+[debug] [2025-08-05T12:00:08.887Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/470c4094725c68a5065a929b3c8b0831cdef4e80954910ad86fd4a514ece3f55 [stream]
+[debug] [2025-08-05T12:00:08.889Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/e5d5cc2987c59c15391cd5bdc92abc0bda7a275547cfea07330cc548f1117000 [none]
+[debug] [2025-08-05T12:00:08.890Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/e5d5cc2987c59c15391cd5bdc92abc0bda7a275547cfea07330cc548f1117000 [stream]
+[debug] [2025-08-05T12:00:08.891Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/cbc5bd1c4aa51fceda8678fb4bbfc3ce7b8ced0b4ca0ba3923c0d5934a19c84a [none]
+[debug] [2025-08-05T12:00:08.891Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/cbc5bd1c4aa51fceda8678fb4bbfc3ce7b8ced0b4ca0ba3923c0d5934a19c84a [stream]
+[debug] [2025-08-05T12:00:08.893Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/a72494c993a894204bf4ab05b7a05535252b25803818fc6cf650f472343c42be [none]
+[debug] [2025-08-05T12:00:08.893Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/a72494c993a894204bf4ab05b7a05535252b25803818fc6cf650f472343c42be [stream]
+[debug] [2025-08-05T12:00:08.895Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/fc3db87a9c5a62374bd96ed5f781a40c8e5e14efa7ced5dd5da56c5fc2738f99 [none]
+[debug] [2025-08-05T12:00:08.896Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/fc3db87a9c5a62374bd96ed5f781a40c8e5e14efa7ced5dd5da56c5fc2738f99 [stream]
+[debug] [2025-08-05T12:00:08.909Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/4229155d8ae880dcaf6393f657a511c14c277a148d372b225153206c2e1a54f1 [none]
+[debug] [2025-08-05T12:00:08.909Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/4229155d8ae880dcaf6393f657a511c14c277a148d372b225153206c2e1a54f1 [stream]
+[debug] [2025-08-05T12:00:08.912Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/94ac6e388aedfc68f545e2646d5ff7418fe09ea181dd29d28dd4ca39cb66b71b [none]
+[debug] [2025-08-05T12:00:08.912Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/94ac6e388aedfc68f545e2646d5ff7418fe09ea181dd29d28dd4ca39cb66b71b [stream]
+[debug] [2025-08-05T12:00:08.917Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/643b018ad176e7a51a9cf986a5e51637cf9415d411ff820371b8754eaf5395e8 [none]
+[debug] [2025-08-05T12:00:08.921Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/643b018ad176e7a51a9cf986a5e51637cf9415d411ff820371b8754eaf5395e8 [stream]
+[debug] [2025-08-05T12:00:08.922Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/ab47f824084a954f8e6e5daf7e1f571bf59a2339f9914a66d662a302dfcff53f [none]
+[debug] [2025-08-05T12:00:08.925Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/ab47f824084a954f8e6e5daf7e1f571bf59a2339f9914a66d662a302dfcff53f [stream]
+[debug] [2025-08-05T12:00:08.928Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/a903fba80606e28bf55eadb72eb135dbd6ef458e0fe8b411ae8b91ef3dded560 [none]
+[debug] [2025-08-05T12:00:08.929Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/a903fba80606e28bf55eadb72eb135dbd6ef458e0fe8b411ae8b91ef3dded560 [stream]
+[debug] [2025-08-05T12:00:08.932Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/318434adaf30e9b54322996686e8c90e1d1bf85f3364195d3b3521aaa4f83694 [none]
+[debug] [2025-08-05T12:00:08.933Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/318434adaf30e9b54322996686e8c90e1d1bf85f3364195d3b3521aaa4f83694 [stream]
+[debug] [2025-08-05T12:00:08.935Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/b7fe0c68fc54dad7357f2c8991f1d938047f8e61c470a269c32cdde84806153b [none]
+[debug] [2025-08-05T12:00:08.936Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/b7fe0c68fc54dad7357f2c8991f1d938047f8e61c470a269c32cdde84806153b [stream]
+[debug] [2025-08-05T12:00:08.938Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/f88cdfa44d35c150995399318049f24d6a2d7de3ccef9402892bf6bb804ec575 [none]
+[debug] [2025-08-05T12:00:08.938Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/f88cdfa44d35c150995399318049f24d6a2d7de3ccef9402892bf6bb804ec575 [stream]
+[debug] [2025-08-05T12:00:08.941Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/0024e19f4aa04702eb1126963e4bcb48a7c19a5bef43653002a027ff5fc37a07 [none]
+[debug] [2025-08-05T12:00:08.942Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/0024e19f4aa04702eb1126963e4bcb48a7c19a5bef43653002a027ff5fc37a07 [stream]
+[debug] [2025-08-05T12:00:08.944Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/b306f7ae92fd6951b3a163ea475b7e33c44cf057104be55f712c3a0b7fdc7f7f [none]
+[debug] [2025-08-05T12:00:08.944Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/b306f7ae92fd6951b3a163ea475b7e33c44cf057104be55f712c3a0b7fdc7f7f [stream]
+[debug] [2025-08-05T12:00:08.946Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/7914221c703f0a260158ccc8206c5a3a193adcbfd53a08748d5a47ca99a0e8db [none]
+[debug] [2025-08-05T12:00:08.946Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/7914221c703f0a260158ccc8206c5a3a193adcbfd53a08748d5a47ca99a0e8db [stream]
+[debug] [2025-08-05T12:00:08.958Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/b14eb3d4bd01fb306f326ceceb9d019ff46d842c5e381d38fdac1367ba02f82d [none]
+[debug] [2025-08-05T12:00:08.959Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/b14eb3d4bd01fb306f326ceceb9d019ff46d842c5e381d38fdac1367ba02f82d [stream]
+[debug] [2025-08-05T12:00:08.960Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/9ac9e56df592f3a267747483def726f8249e585c2446574cd28dec7d22e445f8 [none]
+[debug] [2025-08-05T12:00:08.960Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/9ac9e56df592f3a267747483def726f8249e585c2446574cd28dec7d22e445f8 [stream]
+[debug] [2025-08-05T12:00:08.962Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/d9eb5db3cb8520998355120b670a6fb336350a20a008f480f3c04d2876bb7bde [none]
+[debug] [2025-08-05T12:00:08.962Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/d9eb5db3cb8520998355120b670a6fb336350a20a008f480f3c04d2876bb7bde [stream]
+[debug] [2025-08-05T12:00:08.969Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/aa6ea190d6a05fd8ad56866cf48abf54f5fe9c13b8de0eaef8277975b039c1ac [none]
+[debug] [2025-08-05T12:00:08.970Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/the-free-korean/versions/a1ef3cc37e05ca87/files/aa6ea190d6a05fd8ad56866cf48abf54f5fe9c13b8de0eaef8277975b039c1ac [stream]
+[debug] [2025-08-05T12:00:08.972Z] [hosting][populate queue][FINAL] {"max":787,"min":787,"avg":787,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":903}
+[debug] [2025-08-05T12:00:08.972Z] [hosting] uploads queued: 31

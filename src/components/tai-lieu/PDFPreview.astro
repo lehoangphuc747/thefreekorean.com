@@ -1,0 +1,148 @@
+---
+export interface Props {
+  downloadUrl: string;
+  title?: string;
+  height?: string;
+  width?: string;
+  class?: string;
+}
+
+const { 
+  downloadUrl, 
+  title = "PDF Preview",
+  height = "600px",
+  width = "100%",
+  class: className = '' 
+} = Astro.props;
+
+// Function to convert Google Drive download URL to preview URL
+function convertToPreviewUrl(url: string): string {
+  try {
+    // Handle Google Drive URLs
+    if (url.includes('drive.google.com')) {
+      // Extract file ID from various Google Drive URL formats
+      let fileId = '';
+      
+      // Format 1: https://drive.google.com/open?id=FILE_ID&usp=drive_fs
+      if (url.includes('open?id=')) {
+        const match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        if (match) fileId = match[1];
+      }
+      
+      // Format 2: https://drive.google.com/file/d/FILE_ID/view
+      if (url.includes('/file/d/')) {
+        const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) fileId = match[1];
+      }
+      
+      // Format 3: https://docs.google.com/document/d/FILE_ID/edit
+      if (url.includes('/document/d/')) {
+        const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) fileId = match[1];
+      }
+      
+      if (fileId) {
+        return `https://drive.google.com/file/d/${fileId}/preview`;
+      }
+    }
+    
+    // If not a Google Drive URL or couldn't extract ID, return original
+    return url;
+  } catch (error) {
+    console.error('Error converting URL to preview format:', error);
+    return url;
+  }
+}
+
+const previewUrl = convertToPreviewUrl(downloadUrl);
+const isValidUrl = previewUrl && previewUrl.startsWith('http');
+---
+
+<div class={`pdf-preview-container ${className}`}>
+  {isValidUrl ? (
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+          </svg>
+          {title}
+        </h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Xem trước tài liệu PDF trực tiếp trên trình duyệt
+        </p>
+      </div>
+      
+      <div class="pdf-iframe-wrapper p-4">
+        <iframe 
+          src={previewUrl}
+          width={width}
+          height={height}
+          allow="autoplay"
+          loading="lazy"
+          class="w-full border border-gray-200 rounded-lg shadow-sm"
+          title={`PDF Preview: ${title}`}
+        ></iframe>
+      </div>
+      
+      <!-- Fallback link if iframe doesn't work -->
+      <div class="px-6 pb-4">
+        <a 
+          href={downloadUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Mở trong tab mới
+        </a>
+      </div>
+    </div>
+  ) : (
+    <!-- Error state -->
+    <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
+      <div class="flex items-center">
+        <svg class="w-6 h-6 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div>
+          <h3 class="text-lg font-semibold text-red-800">Lỗi hiển thị PDF</h3>
+          <p class="text-red-600 mt-1">
+            Không thể hiển thị bản xem trước. Vui lòng sử dụng link tải xuống.
+          </p>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .pdf-preview-container {
+    /* Container styles */
+  }
+  
+  .pdf-iframe-wrapper iframe {
+    min-height: 500px;
+    background: #f9fafb;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .pdf-iframe-wrapper iframe {
+      height: 400px;
+      min-height: 400px;
+    }
+  }
+  
+  /* Loading animation */
+  .pdf-iframe-wrapper iframe {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .pdf-iframe-wrapper iframe[src] {
+    opacity: 1;
+  }
+</style>

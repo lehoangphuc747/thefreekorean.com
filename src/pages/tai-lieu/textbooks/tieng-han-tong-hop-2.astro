@@ -2,6 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import TextbooksHeader from '../../../components/tai-lieu/TextbooksHeader.astro';
 import TextbooksDownloader from '../../../components/tai-lieu/TextbooksDownloader.astro';
+import PDFPreview from '../../../components/tai-lieu/PDFPreview.astro';
 
 export const postData = {
   title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
@@ -11,7 +12,7 @@ export const postData = {
   type: "PDF",
   cover: "/images/tieng-han-tong-hop-2.jpg", // Temporary placeholder until tieng-han-tong-hop-2.jpg is added
   description: "Giáo trình sơ cấp 2 cho người đã học xong cấp độ sơ cấp 1",
-  downloadUrl: "https://1drv.ms/b/c/95cd9adb2b8c9171/EQyXw5hvZAdNh3EFgCXo_wIB2KU1C4cRt1C3LUY5gIwaew?e=liJca4",
+  downloadUrl: "https://drive.google.com/open?id=1mP7H3lMGIBaEVLm13HG0gDiuYuIs4Ubb&usp=drive_fs",
   downloadOriginal: "https://1drv.ms/b/c/95cd9adb2b8c9171/EQyXw5hvZAdNh3EFgCXo_wIB2KU1C4cRt1C3LUY5gIwaew?e=liJca4",
   downloadWorkbook: "https://1drv.ms/b/c/95cd9adb2b8c9171/EZuEzsNwxjJBmUN5VA96NYABhyWRMJfBDUno_Gdm5H23oQ?e=43ovzx",
   downloadAudio: "https://1drv.ms/u/c/95cd9adb2b8c9171/ES38-rd0YGBKoe56PHQWwlgBy_sXKall07FSod8i8ahJSQ?e=3bAcYQ",
@@ -54,6 +55,14 @@ export const postData = {
         audioSize={postData.audioSize}
       />
 
+      <!-- PDF Preview Component -->
+      <PDFPreview 
+        downloadUrl={postData.downloadUrl}
+        title={`Xem trước: ${postData.title}`}
+        height="600px"
+      />
+
+    </div>
   </main>
 </Layout>
 
