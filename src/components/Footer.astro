@@ -4,9 +4,9 @@
 Description: This component displays the site footer on all pages
 Used in: Layout.astro (appears on all pages)
 Purpose: Shows copyright information and contact details -->
-<footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 mt-16">
+<footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12">
   <div class="max-w-7xl mx-auto px-4">
-    <div class="grid md:grid-cols-3 gap-8">
+    <div class="grid md:grid-cols-2 justify-between gap-8">
       
       <!-- Brand & Creator -->
       <div class="text-center md:text-left">
@@ -16,24 +16,18 @@ Purpose: Shows copyright information and contact details -->
         </div>
         <p class="text-gray-300 mb-4">
           Nền tảng học tiếng Hàn miễn phí được tạo ra bởi 
-          <strong class="text-blue-400">Lê Hoàng Phúc</strong>
-        </p>
-        <p class="text-sm text-gray-400">
-          Developer đam mê giáo dục, tin tưởng vào sức mạnh của công nghệ 
-          trong việc chia sẻ kiến thức.
+          <a 
+            href="https://www.facebook.com/tui.la.phuc747/" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            <strong>một kẻ biếng học tiếng Hàn</strong>
+          </a>
         </p>
       </div>
       
-      <!-- Quick Links -->
-      <div class="text-center">
-        <h3 class="text-lg font-bold mb-4 text-blue-400">Liên kết nhanh</h3>
-        <ul class="space-y-2">
-          <li><a href="/gioi-thieu" class="text-gray-300 hover:text-blue-400 transition-colors">Giới thiệu</a></li>
-          <li><a href="/tai-lieu" class="text-gray-300 hover:text-blue-400 transition-colors">Tài liệu</a></li>
-          <li><a href="/topik" class="text-gray-300 hover:text-blue-400 transition-colors">TOPIK</a></li>
-          <li><a href="/lien-he" class="text-gray-300 hover:text-blue-400 transition-colors">Liên hệ</a></li>
-        </ul>
-      </div>
+
       
       <!-- Contact & Social -->
       <div class="text-center md:text-right">
@@ -62,7 +56,7 @@ Purpose: Shows copyright information and contact details -->
     <div class="border-t border-gray-700 mt-8 pt-6 text-center">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <p class="text-gray-400 text-sm mb-2 md:mb-0">
-          © 2024 The Free Korean by <strong class="text-blue-400">Lê Hoàng Phúc</strong>. 
+          © 2024 The Free Korean by <strong class="text-blue-400">một kẻ biếng học tiếng Hàn</strong>. 
           Made with ❤️ for Vietnamese Korean learners.
         </p>
         <p class="text-gray-500 text-xs">

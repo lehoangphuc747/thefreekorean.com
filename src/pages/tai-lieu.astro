@@ -32,6 +32,16 @@ if (ankiFiles.length > 0) {
   console.log('Sample default export:', sample.default);
 }
 
+// Debug textbook files structure
+if (textbookFiles.length > 0) {
+  const sample = textbookFiles[0];
+  console.log('Sample Textbook file keys:', Object.keys(sample));
+  console.log('Sample textbook frontmatter:', sample.frontmatter);
+  console.log('Sample textbook default export:', sample.default);
+  console.log('Sample textbook postData:', sample.postData);
+  console.log('Sample textbook full structure:', sample);
+}
+
 // Helper function to process import.meta.glob results
 function processDocuments(files: any[], defaultCategory: string) {
   return files
@@ -39,6 +49,7 @@ function processDocuments(files: any[], defaultCategory: string) {
       try {
         // Get data from the module (import.meta.glob structure)
         const frontmatter = file.frontmatter || {};
+        // For "export const postData", it's available directly on the module
         const exports = file.postData || file.default?.postData;
         const data = exports || frontmatter;
         
@@ -48,6 +59,7 @@ function processDocuments(files: any[], defaultCategory: string) {
         
         console.log('Processing file:', slug, 'frontmatter:', frontmatter);
         console.log('Exports available:', !!exports, 'postData:', exports);
+        console.log('File keys:', Object.keys(file));
         console.log('Final data:', data);
         
         // Skip if no title or if draft

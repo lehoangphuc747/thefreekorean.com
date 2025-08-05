@@ -4,25 +4,25 @@ import TextbooksHeader from '../../../components/tai-lieu/TextbooksHeader.astro'
 import TextbooksDownloader from '../../../components/tai-lieu/TextbooksDownloader.astro';
 
 export const postData = {
-  title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+  title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
   date: "2024-05-01",
   category: "Giáo trình",
   subcategory: "Tiếng Hàn Tổng Hợp",
   type: "PDF",
-  cover: "/images/tieng-han-tong-hop-1.jpg",
-  description: "Giáo trình cơ bản cho người mới bắt đầu học tiếng Hàn",
-  downloadUrl: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJW1zQYAAAABsb74FVJACQ2ebQRiCnAQ7w?e=pZZMs4",
-  downloadOriginal: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJWrTwAAAAABsyLYjzmmKd-T3xVagalxBg?e=WJ0Km2",
-  downloadWorkbook: "https://1drv.ms/b/c/95cd9adb2b8c9171/EXGRjCvbms0ggJWjTwAAAAAB0DgAuqa108zsIb8za1nrdw?e=ZjvnyG",
-  downloadAudio: "https://1drv.ms/f/c/95cd9adb2b8c9171/EnGRjCvbms0ggJXbWwYAAAAB_AwnJEjawYkaIy5e6nP9mQ?e=fesA9k",
-  fileSize: "4.3MB",
-  originalSize: "107.6MB",
-  workbookSize: "16.3MB",
+  cover: "/images/tieng-han-tong-hop-2.jpg", // Temporary placeholder until tieng-han-tong-hop-2.jpg is added
+  description: "Giáo trình sơ cấp 2 cho người đã học xong cấp độ sơ cấp 1",
+  downloadUrl: "https://1drv.ms/b/c/95cd9adb2b8c9171/EQyXw5hvZAdNh3EFgCXo_wIB2KU1C4cRt1C3LUY5gIwaew?e=liJca4",
+  downloadOriginal: "https://1drv.ms/b/c/95cd9adb2b8c9171/EQyXw5hvZAdNh3EFgCXo_wIB2KU1C4cRt1C3LUY5gIwaew?e=liJca4",
+  downloadWorkbook: "https://1drv.ms/b/c/95cd9adb2b8c9171/EZuEzsNwxjJBmUN5VA96NYABhyWRMJfBDUno_Gdm5H23oQ?e=43ovzx",
+  downloadAudio: "https://1drv.ms/u/c/95cd9adb2b8c9171/ES38-rd0YGBKoe56PHQWwlgBy_sXKall07FSod8i8ahJSQ?e=3bAcYQ",
+  fileSize: "19.6MB",
+  originalSize: "19.6MB",
+  workbookSize: "9.4MB",
   audioSize: "Folder audio",
-  pages: 250,
-  seoTitle: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 1 - Học tiếng Hàn hiệu quả",
-  seoDescription: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 1 dành cho người mới bắt đầu. Bao gồm PDF, audio, bài tập, ngữ pháp cơ bản, từ vựng theo chủ đề. Tự học tiếng Hàn dễ dàng.",
-  keywords: ["học tiếng Hàn", "giáo trình tiếng Hàn sơ cấp", "tự học tiếng Hàn", "Tiếng Hàn Tổng Hợp"]
+  pages: 362,
+  seoTitle: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 2 - Học tiếng Hàn hiệu quả",
+  seoDescription: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 2 cho người đã có nền tảng cơ bản. Bao gồm PDF, audio, bài tập, ngữ pháp nâng cao, từ vựng phong phú. Tiếp tục hành trình học tiếng Hàn.",
+  keywords: ["học tiếng Hàn", "giáo trình tiếng Hàn sơ cấp 2", "tự học tiếng Hàn", "Tiếng Hàn Tổng Hợp", "tiếng Hàn trung cấp"]
 };
 ---
 
@@ -53,11 +53,9 @@ export const postData = {
         workbookSize={postData.workbookSize}
         audioSize={postData.audioSize}
       />
-    </div>
+
   </main>
 </Layout>
-
-
 
 <style>
   .prose {

@@ -2,110 +2,211 @@
 // No props needed for hero section
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800">
-  <!-- Animated Background -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-    <div class="absolute top-20 right-10 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
-  </div>
-  
-  <!-- Content -->
-  <div class="relative z-10 max-w-7xl mx-auto px-4 text-center">
-    <div class="mb-8">
-     
-      <!-- Main Heading -->
-      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-        <span class="gradient-text-white">The Free Korean</span>
-      </h1>
-      
-      <!-- Subheading -->
-      <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-        Học tiếng Hàn miễn phí với bộ sưu tập tài liệu chất lượng cao, 
-        được tuyển chọn kỹ lưỡng cho mọi trình độ
-      </p>
-    </div>
-    
-    <!-- CTA Buttons -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+<section class="animated-gradient h-screen w-full flex items-center justify-center text-center relative overflow-hidden">
+  <!-- Canvas cho hiệu ứng hạt di chuyển -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Nội dung chính -->
+  <div class="content-container text-white px-4 sm:px-6 animate-fade-in-up">
+    <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-wider text-shadow-lg leading-tight">
+      The Free Korean
+    </h1>
+    <p class="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-white animate-fade-in-up animation-delay-300 text-glow leading-relaxed">
+      Dự án học tiếng Hàn miễn phí
+    </p>
+    <div class="mt-6 sm:mt-8 animate-fade-in-up animation-delay-600">
       <a 
         href="/tai-lieu" 
-        class="group bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        class="inline-block px-6 py-3 sm:px-8 sm:py-3 bg-white text-gray-900 font-bold rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-105 duration-300 text-base sm:text-lg"
       >
-        <span class="flex items-center gap-2">
-          📚 Khám phá tài liệu
-          <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </span>
-      </a>
-      
-      <a 
-        href="#features" 
-        class="group bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
-      >
-        <span class="flex items-center gap-2">
-          ✨ Tính năng nổi bật
-          <svg class="w-5 h-5 transform group-hover:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
-        </span>
+        Khám phá
       </a>
     </div>
-    
-    <!-- Quick Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white mb-1">100+</div>
-        <div class="text-blue-200 text-sm">Tài liệu</div>
-      </div>
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white mb-1">10+</div>
-        <div class="text-blue-200 text-sm">Danh mục</div>
-      </div>
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white mb-1">5K+</div>
-        <div class="text-blue-200 text-sm">Người dùng</div>
-      </div>
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white mb-1">FREE</div>
-        <div class="text-blue-200 text-sm">Hoàn toàn</div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-    </svg>
   </div>
 </section>
 
 <style>
-  .gradient-text-white {
-    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Tạo hiệu ứng gradient chuyển động */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    position: relative;
+    overflow: hidden;
   }
-  
-  @keyframes blob {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(0px, 0px) scale(1); }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
-  
-  .animate-blob {
-    animation: blob 7s infinite;
+
+  /* Định vị canvas để nằm dưới nội dung */
+  #particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
   }
-  
-  .animation-delay-2000 {
-    animation-delay: 2s;
+
+  /* Đảm bảo nội dung text nằm trên canvas */
+  .content-container {
+    position: relative;
+    z-index: 2;
   }
-  
-  .animation-delay-4000 {
-    animation-delay: 4s;
+
+  .text-shadow-lg {
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 640px) {
+    .animated-gradient {
+      background-size: 300% 300%;
+      animation-duration: 20s;
+    }
+    
+    .text-shadow-lg {
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+    
+    .text-glow {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-600 { animation-delay: 600ms; }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
   }
 </style>
+
+<script>
+  // Script cho hiệu ứng hạt di chuyển
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let particlesArray;
+
+  // Thiết lập kích thước canvas bằng kích thước của section
+  function setCanvasSize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  setCanvasSize();
+
+  // Tạo lớp Particle (Hạt)
+  class Particle {
+    constructor(x, y, directionX, directionY, size, color) {
+      this.x = x;
+      this.y = y;
+      this.directionX = directionX;
+      this.directionY = directionY;
+      this.size = size;
+      this.color = color;
+    }
+
+    // Vẽ hạt
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+
+    // Cập nhật vị trí hạt
+    update() {
+      // Xử lý khi hạt chạm biên
+      if (this.x > canvas.width || this.x < 0) {
+        this.directionX = -this.directionX;
+      }
+      if (this.y > canvas.height || this.y < 0) {
+        this.directionY = -this.directionY;
+      }
+
+      // Di chuyển hạt
+      this.x += this.directionX;
+      this.y += this.directionY;
+
+      this.draw();
+    }
+  }
+
+  // Khởi tạo mảng các hạt
+  function init() {
+    particlesArray = [];
+    // Giảm số hạt trên mobile để tăng performance
+    const isMobile = window.innerWidth < 768;
+    let numberOfParticles = isMobile 
+      ? (canvas.height * canvas.width) / 15000  // Ít hạt hơn trên mobile
+      : (canvas.height * canvas.width) / 9000;
+    
+    for (let i = 0; i < numberOfParticles; i++) {
+      let size = (Math.random() * 3) + 1;
+      let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
+      let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
+      // Chuyển động chậm hơn trên mobile
+      let speed = isMobile ? 0.2 : 0.4;
+      let directionX = (Math.random() * speed) - (speed / 2);
+      let directionY = (Math.random() * speed) - (speed / 2);
+      let color = 'rgba(255, 255, 255, 0.6)';
+
+      particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+    }
+  }
+
+  // Vòng lặp animation với throttling cho mobile
+  let lastTime = 0;
+  function animate(currentTime) {
+    requestAnimationFrame(animate);
+    
+    // Throttle animation trên mobile để tiết kiệm battery
+    const isMobile = window.innerWidth < 768;
+    const throttleTime = isMobile ? 16 : 8; // 60fps cho desktop, 30fps cho mobile
+    
+    if (currentTime - lastTime >= throttleTime) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+      }
+      lastTime = currentTime;
+    }
+  }
+
+  // Xử lý khi thay đổi kích thước cửa sổ
+  window.addEventListener('resize', () => {
+    setCanvasSize();
+    init();
+  });
+
+  // Bắt đầu
+  init();
+  animate(0);
+</script>
