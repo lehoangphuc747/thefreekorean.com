@@ -1,0 +1,66 @@
+---
+export interface Section {
+  subtitle: string;
+  icon: string;
+  content: string | string[];
+}
+
+export interface Props {
+  title?: string;
+  sections: Section[];
+}
+
+const { title = '📖 Ý nghĩa và cách dùng', sections } = Astro.props;
+
+const icons = {
+  lightbulb: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 11-8.486-8.486A5 5 0 0112 6a5 5 0 015 5 5 5 0 01-5 5z" /></svg>`,
+  pencil: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>`
+};
+
+// Hỗ trợ in đậm với cú pháp **text** hoặc __text__ và cho phép HTML inline (ví dụ <strong>...)
+function renderContent(content: string): string {
+  if (!content) return content;
+  let html = content;
+  // Hỗ trợ inline code bằng backticks `...`
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Chuyển markdown: **...** = đậm xanh dương, __...__ = đậm cam
+  html = html.replace(/__(.+?)__/g, '<strong class="text-orange-600 font-bold">$1</strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="text-blue-600 font-bold">$1</strong>');
+  // Đảm bảo mọi thẻ <strong> không có class sẽ mặc định đậm xanh dương
+  html = html.replace(/<strong(?![^>]*class=)([^>]*)>/g, '<strong class="text-blue-600 font-bold"$1>');
+  // Đảm bảo mọi thẻ <code> không có class sẽ có style rõ ràng, dễ đọc
+  // - nền đậm vừa phải, chữ sáng
+  // - viền mảnh, bo góc
+  // - font mono, không xuống dòng, căn giữa theo dòng
+  html = html.replace(
+    /<code(?![^>]*class=)([^>]*)>/g,
+    '<code class="bg-slate-700 text-slate-50 px-1.5 py-0.5 rounded-md font-mono text-[0.95em] align-middle whitespace-nowrap ring-1 ring-slate-300/40"$1>'
+  );
+  return html;
+}
+---
+
+<div class="bg-white rounded-3xl shadow-lg p-8 max-w-sm md:max-w-3xl w-full">
+  <h2 class="text-2xl font-bold text-slate-800 mb-6">{title}</h2>
+  <div class="space-y-6">
+    {sections.map((section) => (
+      <div>
+        <div class="flex items-center gap-3 mb-2 text-slate-800">
+          <Fragment set:html={icons[section.icon]} />
+          <h3 class="text-lg font-semibold">{section.subtitle}</h3>
+        </div>
+        <div class="text-slate-600 font-medium leading-relaxed pl-9">
+          {Array.isArray(section.content) ? (
+            <ul class="list-disc pl-5 space-y-2">
+              {section.content.map((line) => (
+                <li><Fragment set:html={renderContent(line)} /></li>
+              ))}
+            </ul>
+          ) : (
+            <Fragment set:html={renderContent(section.content)} />
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

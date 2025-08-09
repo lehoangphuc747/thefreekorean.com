@@ -12,7 +12,7 @@ export interface SentenceExample {
 }
 
 export interface Props {
-  title: string;
+  title?: string;
   dialogueSection: {
     subtitle: string;
     examples: DialogueExample[];
@@ -27,7 +27,7 @@ export interface Props {
   };
 }
 
-const { title, dialogueSection, sentenceSection, note } = Astro.props;
+const { title = '🗣️ Ví dụ', dialogueSection, sentenceSection, note } = Astro.props;
 
 // Hàm để highlight ngữ pháp
 const highlightGrammar = (text: string, customPatterns: string[] = []) => {

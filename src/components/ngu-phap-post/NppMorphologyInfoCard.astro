@@ -18,7 +18,7 @@ export interface MorphologySection {
 }
 
 export interface Props {
-  title: string;
+  title?: string;
   sections: MorphologySection[];
   irregularSection?: {
     title: string;
@@ -26,7 +26,7 @@ export interface Props {
   } | null;
 }
 
-const { title, sections, irregularSection } = Astro.props;
+const { title = '📝 Thông tin hình thái', sections, irregularSection } = Astro.props;
 
 // Hàm để highlight ngữ pháp
 const highlightGrammar = (text: string, customPatterns: string[] = []) => {

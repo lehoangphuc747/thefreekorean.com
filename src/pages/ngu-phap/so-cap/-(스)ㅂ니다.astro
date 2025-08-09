@@ -1,0 +1,310 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// Import các component ngữ pháp
+import NppPageHeader from '../../../components/ngu-phap-post/NppPageHeader.astro';
+import NppBasicInfoCard from '../../../components/ngu-phap-post/NppBasicInfoCard.astro';
+import NppMeaningAndUsageCard from '../../../components/ngu-phap-post/NppMeaningAndUsageCard.astro';
+import NppExampleCard from '../../../components/ngu-phap-post/NppExampleCard.astro';
+import NppIntroductionCard from '../../../components/ngu-phap-post/NppIntroductionCard.astro';
+import NppMorphologyInfoCard from '../../../components/ngu-phap-post/NppMorphologyInfoCard.astro';
+import NppMorphologyUsageCard from '../../../components/ngu-phap-post/NppMorphologyUsageCard.astro';
+import NppSentenceCompositionCard from '../../../components/ngu-phap-post/NppSentenceCompositionCard.astro';
+import NppConstraintInfoCard from '../../../components/ngu-phap-post/NppConstraintInfoCard.astro';
+import NppExtensionCard from '../../../components/ngu-phap-post/NppExtensionCard.astro';
+import NppSimilarGrammarCard from '../../../components/ngu-phap-post/NppSimilarGrammarCard.astro';
+
+// Metadata trang
+const pageTitle = "Ngữ pháp Tiếng Hàn: -습니다/-ㅂ니다";
+const description = "Giải thích chi tiết về ngữ pháp -습니다/-ㅂ니다 dùng để diễn đạt sự trang trọng, lịch sự.";
+
+// Export data cho trang danh sách
+export const postData = {
+  title: '-습니다/-ㅂ니다',
+  grammar: '-습니다/-ㅂ니다',
+  meaning: 'Diễn tả sự trang trọng',
+  description: 'Diễn đạt sự trang trọng, lịch sự trong câu trần thuật.',
+  level: 'Beginner',
+  category: 'Ngữ pháp',
+  subcategory: 'Sơ cấp',
+  type: 'Grammar',
+  tags: ['격식체', '높임말', '평서문', '초급'],
+  examples: 10,
+  exercises: 0,
+  difficulty: 1,
+  date: '2024-08-08'
+};
+
+// Dữ liệu cho các component
+const headerData = {
+  title: `Ngữ pháp -습니다/-ㅂ니다`
+};
+
+const basicInfoData = {
+  details: [
+    { label: 'Ngữ pháp', value: '-습니다/-ㅂ니다', color: 'text-purple-600' },
+    { label: 'Từ loại', value: '종결어미 (Vĩ tố kết thúc câu)', color: 'text-blue-600' },
+    { label: 'TOPIK', value: '초급', color: 'text-green-600' },
+    { label: 'CEFR', value: 'A1', color: 'text-orange-500' }
+  ]
+};
+
+const meaningData = {
+  sections: [
+    {
+      subtitle: 'Ý nghĩa chính',
+      icon: 'lightbulb',
+      content: [
+        'Là __vĩ tố kết thúc câu__ dùng để __diễn đạt một cách trang trọng__ một **hành động** hoặc một **trạng thái**.',
+        'Được gắn vào **động từ**, **tính từ**, hoặc **"이다"**, **"아니다"** để giải thích một **hành động**, **trạng thái**, hoặc **sự thật**.',
+        'Là một trong những **đuôi câu trần thuật** mang ý nghĩa __kính trọng cao nhất__, dùng khi cần giải thích **lịch sự** cho người nghe.'
+      ]
+    },
+    {
+      subtitle: 'Cách dùng chi tiết',
+      icon: 'pencil',
+      content: [
+        'Dùng trong __bối cảnh công khai__: **cuộc họp**, **bài phát biểu**, **bản tin**, **phỏng vấn**, v.v.',
+        'Dùng khi __người nghe có địa vị/tuổi tác cao hơn__, khi **gặp lần đầu**, với **khách hàng**, v.v. (__giữ phép lịch sự__).',
+        'Khi dùng <code>-습니다/-ㅂ니다</code> nên ưu tiên **đại từ "저"** (kính ngữ của "나").'
+      ]
+    }
+  ]
+};
+
+const exampleData = {
+  dialogueSection: {
+    subtitle: 'Ví dụ hội thoại',
+    examples: [
+      { q_ko: '책을 읽습니까?', q_vi: 'Bạn đọc sách không?', a_ko: '네, 읽습니다.', a_vi: 'Vâng, tôi đọc.' },
+      { q_ko: '어디에 갑니까?', q_vi: 'Bạn đi đâu?', a_ko: '학교에 갑니다.', a_vi: 'Tôi đi đến trường.' },
+      { q_ko: '앤디 씨의 방은 깨끗합니까?', q_vi: 'Phòng của Andy có sạch không?', a_ko: '네, 깨끗합니다.', a_vi: 'Vâng, rất sạch ạ.' },
+      { q_ko: '수지 씨는 예쁩니까?', q_vi: 'Suji có xinh không?', a_ko: '네, 예쁩니다.', a_vi: 'Vâng, cô ấy xinh ạ.' }
+    ]
+  },
+  sentenceSection: {
+    subtitle: 'Ví dụ câu',
+    examples: [
+      { ko: '저는 아침에 빵을 먹습니다.', vi: 'Tôi ăn bánh mì vào buổi sáng.' },
+      { ko: '미도리 씨는 요리를 잘합니다.', vi: 'Midori nấu ăn rất giỏi.' },
+      { ko: '저는 서울에서 삽니다.', vi: 'Tôi sống ở Seoul.' },
+      { ko: '도서관에 책이 많습니다.', vi: 'Thư viện có rất nhiều sách.' },
+      { ko: '마이클 씨는 키가 큽니다.', vi: 'Michael cao lớn.' },
+      { ko: '저는 샤오잉 입니다. 중국 사람 입니다.', vi: 'Tôi là Xiaoying. Tôi là người Trung Quốc.' },
+      { ko: '이 가방은 19800원입니다.', vi: 'Cái túi này có giá 19800 won.' }
+    ]
+  },
+  note: {
+    subtitle: 'Lưu ý',
+    content_vi: '`-습니다/-ㅂ니다` là đuôi câu trần thuật được sử dụng để diễn tả suy nghĩ hoặc thông báo sự thật. Đây là thể cách trang trọng, được sử dụng trong các tình huống công khai như cuộc họp, bản tin, phỏng vấn, v.v.'
+  }
+};
+
+const introductionData = {
+  dialogues: [
+    {
+      id: 1,
+      lines: [
+        { speaker: '교사', text_ko: '김영희. 김영희입니다.', text_vi: '(Chỉ vào bảng tên của mình) Kim Young-hee. Là Kim Young-hee ạ.' },
+        { speaker: '학생', text_ko: '김영희입니다.', text_vi: 'Là Kim Young-hee ạ.' }
+      ] 
+    },
+    {
+      id: 2,
+      lines: [
+        { speaker: '교사', text_ko: '미도리. 미도리입니다.', text_vi: '(Chỉ vào bảng tên của học sinh) Midori. Là Midori ạ.' },
+        { speaker: '학생', text_ko: '미도리입니다.', text_vi: 'Là Midori ạ.' }
+      ]
+    }
+  ],
+  notes: [
+    {
+      note_ko: '`-습니다`를 도입할 때 먼저 학생에게서 쉽게 끌어낼 수 있는 이름 정보를 바탕으로 학생들이 말하는 이름과 \'이름+-ㅂ니다\'를 나란히 제시하여 문장을 만들어 준다.',
+      note_vi: 'Khi giới thiệu `-습니다`, dựa trên thông tin tên dễ dàng lấy được từ học sinh, giáo viên có thể đặt tên học sinh và cấu trúc \'tên + -ㅂ니다\' cạnh nhau để tạo thành câu.'
+    }
+  ]
+};
+
+const morphologyInfoData = {
+  sections: [
+    {
+      id: 1,
+      title: 'Trường hợp động từ/tính từ có patchim',
+      rule: 'Nếu âm tiết cuối cùng của gốc động từ hoặc tính từ có patchim, dùng `-습니다`.',
+      examples: [
+        { before: '먹-', after: '먹습니다' },
+        { before: '읽-', after: '읽습니다' },
+        { before: '찾-', after: '찾습니다' },
+        { before: '많-', after: '많습니다' },
+        { before: '좋-', after: '좋습니다' },
+        { before: '덥-', after: '덥습니다' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Trường hợp động từ/tính từ không có patchim hoặc có patchim \'ㄹ\'',
+      rule: 'Nếu âm tiết cuối cùng của gốc động từ hoặc tính từ không có patchim hoặc kết thúc bằng patchim \'ㄹ\', dùng `-ㅂ니다`. Lưu ý, khi kết hợp với patchim \'ㄹ\', \'ㄹ\' sẽ bị lược bỏ.',
+      examples: [
+        { before: '가-', after: '갑니다' },
+        { before: '오-', after: '옵니다' },
+        { before: '크-', after: '큽니다' },
+        { before: '공부하-', after: '공부합니다' },
+        { before: '살-', after: '삽니다' },
+        { before: '만들-', after: '만듭니다' }
+      ]
+    },
+    {
+      id: 3,
+      title: 'Trường hợp với 이다, 아니다',
+      rule: 'Gốc \'이다, 아니다\' dùng với `-ㅂ니다`. Trường hợp \'이다\' đứng sau danh từ không có patchim, có thể viết là \'danh từ + -ㅂ니다\'.',
+      examples: [
+        { before: '책이-', after: '책입니다' },
+        { before: '학생이-', after: '학생입니다' },
+        { before: '가수이-', after: '가수입니다/가숩니다' },
+        { before: '아니-', after: '아닙니다' }
+      ]
+    }
+  ],
+  irregularSection: null
+};
+
+const morphologyUsageData = {
+  rules: [
+    { condition: 'Gốc có patchim', rule: '+ -습니다', examples: ['먹습니다', '읽습니다', '찾습니다'] },
+    { condition: 'Gốc không có patchim', rule: '+ -ㅂ니다', examples: ['갑니다', '옵니다', '큽니다'] },
+    { condition: 'Gốc có patchim "ㄹ"', rule: '+ -ㅂ니다 (Lược bỏ "ㄹ")', examples: ['삽니다', '만듭니다'] }
+  ]
+};
+
+const sentenceCompositionData = {
+  rule: {
+    id: 1,
+    description: 'Chủ ngữ (tùy chọn) + Động từ/Tính từ/Danh từ + `-습니다/-ㅂ니다`',
+    examples: ['저는 빵을 먹습니다.', '도서관에 책이 많습니다.', '저는 학생입니다.']
+  }
+};
+
+const constraintData = {
+  rules: [
+    {
+      id: 1,
+      description: 'Dùng để diễn tả sự trang trọng, lịch sự, không dùng trong các tình huống thân mật.',
+      examples: [
+        { text: '저는 학생입니다.', isCorrect: true },
+        { text: '아침에 빵을 먹습니다.', isCorrect: true },
+        { text: '나는 학생이야.', isCorrect: false },
+        { text: '아침에 빵을 먹어.', isCorrect: false }
+      ],
+      note: 'Dùng `-습니다/-ㅂ니다` khi nói chuyện với người lớn tuổi, cấp trên hoặc trong các bối cảnh trang trọng. Không dùng khi nói chuyện với bạn bè, người thân.'
+    }
+  ]
+};
+
+const extensionData = {
+  rules: [
+    {
+      id: 1,
+      description: 'Thường được sử dụng kết hợp với đuôi câu nghi vấn `-습니까?` (có patchim) và `-ㅂ니까?` (không có patchim).',
+      examples: ['밥을 먹습니까?', '학교에 갑니까?']
+    }
+  ]
+};
+
+const similarGrammarData = {
+  comparisons: [
+    {
+      id: 1,
+      title: 'So sánh `-습니다` và `-어/아요`',
+      g1: {
+        name: '-습니다',
+        points: [
+          { description: 'Đuôi câu trang trọng, mang tính nghi thức (격식체) dùng trong các tình huống cần sự lễ phép.', example: '제가 먼저 발표하겠습니다. (Tôi sẽ trình bày trước.)' },
+          { description: 'Dùng khi muốn thể hiện sự kính trọng cao đối với người nghe.', example: '사장님, 오후에 회의가 있습니다. (Giám đốc, chiều nay có cuộc họp ạ.)' }
+        ]
+      },
+      g2: {
+        name: '-어/아요',
+        points: [
+          { description: 'Đuôi câu thân mật, không mang tính nghi thức (비격식체) dùng trong các mối quan hệ gần gũi.', example: '점심으로 햄버거를 먹었어요. (Tôi đã ăn hamburger cho bữa trưa.)' },
+          { description: 'Đuôi `-어요` dùng khi muốn thể hiện sự tôn trọng một cách thân mật, `-어` dùng để nói chuyện thân thiết.', example: '미셸 씨, 오후에 회의가 있어요. (Michelle, chiều nay có cuộc họp.)' }
+        ]
+      },
+      note: 'Cả hai đuôi câu đều dùng để diễn tả suy nghĩ hoặc sự thật. `-습니다` là thể cách trang trọng, còn `-어/아요` là thể cách thân mật.'
+    }
+  ]
+};
+---
+
+<Layout title={pageTitle}>
+  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
+    <div class="flex flex-col items-center gap-8 md:gap-10 px-4 py-12">
+
+      <NppPageHeader title={headerData.title} />
+
+      <NppBasicInfoCard details={basicInfoData.details} />
+
+      <NppMeaningAndUsageCard sections={meaningData.sections} />
+
+      <NppExampleCard
+        dialogueSection={exampleData.dialogueSection}
+        sentenceSection={exampleData.sentenceSection}
+        note={exampleData.note}
+      />
+
+      <NppIntroductionCard
+        dialogues={introductionData.dialogues}
+        notes={introductionData.notes}
+      />
+
+      <NppMorphologyInfoCard
+        sections={morphologyInfoData.sections}
+        irregularSection={morphologyInfoData.irregularSection}
+      />
+
+      <NppMorphologyUsageCard
+        rules={morphologyUsageData.rules}
+      />
+
+      <NppSentenceCompositionCard
+        rule={sentenceCompositionData.rule}
+      />
+
+      <NppConstraintInfoCard
+        rules={constraintData.rules}
+      />
+
+      <NppExtensionCard
+        rules={extensionData.rules}
+      />
+
+      <NppSimilarGrammarCard
+        comparisons={similarGrammarData.comparisons}
+      />
+
+    </div>
+
+    <div class="flex justify-between items-center w-full max-w-3xl mx-auto px-4 pb-8">
+      <a
+        href="/ngu-phap"
+        class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Quay lại danh sách ngữ pháp
+      </a>
+
+      <div class="flex gap-4">
+        <a
+          href="/tai-lieu"
+          class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+        >
+          Tài liệu
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

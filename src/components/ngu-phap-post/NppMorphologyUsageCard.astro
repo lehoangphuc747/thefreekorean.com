@@ -6,11 +6,11 @@ export interface Rule {
 }
 
 export interface Props {
-  title: string;
+  title?: string;
   rules: Rule[];
 }
 
-const { title, rules } = Astro.props;
+const { title = '⚙️ 형태 사용법 (Cách dùng hình thái)', rules } = Astro.props;
 
 // Hàm để highlight ngữ pháp
 const highlightGrammar = (text: string, customPatterns: string[] = []) => {

@@ -1,22 +1,17 @@
 ---
-export interface ConstraintExample {
-  text: string;
-  isCorrect: boolean;
-}
-
-export interface ConstraintRule {
+export interface ExtensionRule {
   id: number;
   description: string;
-  examples: ConstraintExample[];
+  examples: string[];
   note?: string;
 }
 
 export interface Props {
-  title: string;
-  rules: ConstraintRule[];
+  title?: string;
+  rules: ExtensionRule[];
 }
 
-const { title, rules } = Astro.props;
+const { title = '🚀 Mở rộng', rules } = Astro.props;
 
 // Hàm để highlight ngữ pháp
 const highlightGrammar = (text: string, customPatterns: string[] = []) => {
@@ -39,21 +34,19 @@ const highlightGrammar = (text: string, customPatterns: string[] = []) => {
           <span class="font-bold bg-slate-200 text-slate-600 rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">
             {rule.id}
           </span>
-          {rule.description}
+          <Fragment set:html={highlightGrammar(rule.description)} />
         </h3>
-        <ul class="space-y-2 text-sm font-medium">
+        <ul class="space-y-2 text-sm font-medium text-slate-600 pl-6">
           {rule.examples.map((ex) => (
-            <li class={`flex items-start gap-2 p-2 rounded-lg ${ex.isCorrect ? 'bg-green-50 text-slate-700' : 'bg-red-50 text-red-700'}`}>
-              <span class="font-bold">{ex.isCorrect ? '✓' : '✗'}</span>
-              <span class="flex-1">
-                <Fragment set:html={highlightGrammar(ex.text)} />
-              </span>
+            <li class="p-2 rounded-lg bg-slate-50">
+              <Fragment set:html={highlightGrammar(ex)} />
             </li>
           ))}
         </ul>
         {rule.note && (
           <p class="text-xs text-slate-500 mt-3">
-            <span class="font-bold">*</span> {rule.note}
+            <span class="font-bold">*</span> 
+            <Fragment set:html={highlightGrammar(rule.note)} />
           </p>
         )}
       </div>

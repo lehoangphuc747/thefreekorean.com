@@ -16,12 +16,12 @@ export interface Note {
 }
 
 export interface Props {
-  title: string;
+  title?: string;
   dialogues: Dialogue[];
   notes: Note[];
 }
 
-const { title, dialogues, notes } = Astro.props;
+const { title = '💡 Dẫn nhập', dialogues, notes } = Astro.props;
 
 // Hàm để highlight ngữ pháp
 const highlightGrammar = (text: string, customPatterns: string[] = []) => {

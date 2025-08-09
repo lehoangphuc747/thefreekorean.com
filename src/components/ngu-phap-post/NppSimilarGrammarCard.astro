@@ -18,11 +18,11 @@ export interface Comparison {
 }
 
 export interface Props {
-  title: string;
+  title?: string;
   comparisons: Comparison[];
 }
 
-const { title, comparisons } = Astro.props;
+const { title = '🔄 Ngữ pháp tương đồng', comparisons } = Astro.props;
 
 // Hàm để highlight ngữ pháp
 const highlightGrammar = (text: string, customPatterns: string[] = []) => {

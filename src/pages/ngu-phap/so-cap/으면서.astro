@@ -2,17 +2,17 @@
 import Layout from '../../../layouts/Layout.astro';
 
 // Import grammar components
-import PageHeader from '../../../components/grammar/PageHeader.astro';
-import BasicInfoCard from '../../../components/grammar/BasicInfoCard.astro';
-import MeaningAndUsageCard from '../../../components/grammar/MeaningAndUsageCard.astro';
-import ExampleCard from '../../../components/grammar/ExampleCard.astro';
-import IntroductionCard from '../../../components/grammar/IntroductionCard.astro';
-import MorphologyInfoCard from '../../../components/grammar/MorphologyInfoCard.astro';
-import MorphologyUsageCard from '../../../components/grammar/MorphologyUsageCard.astro';
-import SentenceCompositionCard from '../../../components/grammar/SentenceCompositionCard.astro';
-import ConstraintInfoCard from '../../../components/grammar/ConstraintInfoCard.astro';
-import ExtensionCard from '../../../components/grammar/ExtensionCard.astro';
-import SimilarGrammarCard from '../../../components/grammar/SimilarGrammarCard.astro';
+import NppPageHeader from '../../../components/ngu-phap-post/NppPageHeader.astro';
+import NppBasicInfoCard from '../../../components/ngu-phap-post/NppBasicInfoCard.astro';
+import NppMeaningAndUsageCard from '../../../components/ngu-phap-post/NppMeaningAndUsageCard.astro';
+import NppExampleCard from '../../../components/ngu-phap-post/NppExampleCard.astro';
+import NppIntroductionCard from '../../../components/ngu-phap-post/NppIntroductionCard.astro';
+import NppMorphologyInfoCard from '../../../components/ngu-phap-post/NppMorphologyInfoCard.astro';
+import NppMorphologyUsageCard from '../../../components/ngu-phap-post/NppMorphologyUsageCard.astro';
+import NppSentenceCompositionCard from '../../../components/ngu-phap-post/NppSentenceCompositionCard.astro';
+import NppConstraintInfoCard from '../../../components/ngu-phap-post/NppConstraintInfoCard.astro';
+import NppExtensionCard from '../../../components/ngu-phap-post/NppExtensionCard.astro';
+import NppSimilarGrammarCard from '../../../components/ngu-phap-post/NppSimilarGrammarCard.astro';
 
 // Page metadata
 const pageTitle = "Ngữ pháp Tiếng Hàn: -(으)면서";
@@ -52,8 +52,24 @@ const basicInfoData = {
 const meaningData = {
   title: '📖 Ý nghĩa và cách dùng',
   sections: [ 
-    { subtitle: 'Ý nghĩa chính', icon: 'lightbulb', content: 'Là vĩ tố liên kết thể hiện hai hay nhiều hành động hoặc trạng thái diễn ra đồng thời.' }, 
-    { subtitle: 'Cách dùng chi tiết', icon: 'pencil', content: 'Gắn vào sau động từ, tính từ, "이다, 아니다" để thể hiện hai hay nhiều hành động hoặc trạng thái diễn ra đồng thời. Thể hiện việc thực hiện hành động hoặc duy trì trạng thái ở mệnh đề trước, trong khi đồng thời thực hiện một hành động khác hoặc duy trì một trạng thái khác ở mệnh đề sau.' } 
+    { 
+      subtitle: 'Ý nghĩa chính', 
+      icon: 'lightbulb', 
+      content: [
+        'Là vĩ tố liên kết diễn tả hai hay nhiều **hành động**/**trạng thái** xảy ra __đồng thời__.',
+        'Mệnh đề trước và mệnh đề sau cùng diễn ra tại **cùng thời điểm** hoặc **song song**.',
+        'Nhấn mạnh tính **đồng thời** chứ không phải **trình tự** (khác với **-고**).'
+      ]
+    }, 
+    { 
+      subtitle: 'Cách dùng chi tiết', 
+      icon: 'pencil', 
+      content: [
+        'Gắn vào sau **động từ/tính từ**; với danh từ dùng `"이다"`, `"아니다"` → tạo quan hệ **đồng thời** giữa hai mệnh đề.',
+        'Khi chủ ngữ là **con người**, thường yêu cầu chủ ngữ ở hai mệnh đề phải **giống nhau** (xem thêm mục Hạn định).',
+        'Biến thể nhấn mạnh: **-으면서도** (vừa… vừa… mà vẫn…), dùng để nhấn mạnh sự **đối lập** giữa hai nội dung.'
+      ] 
+    } 
   ]
 };
 
@@ -116,7 +132,7 @@ const morphologyInfoData = {
       { before: '찾- + -으면서', after: '찾으면서' }, 
       { before: '입- + -으면서', after: '입으면서' }, 
       { before: '넓- + -으면서', after: '넓으면서' }
-    ], note: null },
+    ] },
     { id: 2, title: 'Gốc động từ/tính từ không có patchim hoặc kết thúc bằng \'ㄹ\'', rule: '-면서', examples: [ 
       { before: '가- + -면서', after: '가면서' }, 
       { before: '살- + -면서', after: '살면서' }, 
@@ -194,8 +210,7 @@ const extensionData = {
       examples: [
         '나는 답을 안 보면서 문제를 풀었어요.',
         '나는 답을 보지 않으면서 문제를 풀었어요.'
-      ],
-      note: null
+      ]
     },
     {
       id: 2,
@@ -204,7 +219,7 @@ const extensionData = {
         '유미 씨는 돈을 벌면서도 대학원에 계속 다녔어요.',
         '비행기는 기차보다 빠르면서도 편합니다.'
       ],
-      note: null
+      
     },
     {
       id: 3,
@@ -238,7 +253,7 @@ const similarGrammarData = {
           { description: 'Chủ yếu dùng trong văn viết.', example: '(예) 최근 게임을 하며 식사를 하는 아이들이 늘어나고 있습니다.'}
         ]
       },
-      note: null
+      
     },
     {
       id: 2,
@@ -268,16 +283,16 @@ const similarGrammarData = {
     <div class="flex flex-col items-center gap-8 md:gap-10 px-4 py-12">
       
       <!-- Header -->
-      <PageHeader title={headerData.title} />
+      <NppPageHeader title={headerData.title} />
       
       <!-- Basic Info -->
-      <BasicInfoCard details={basicInfoData.details} />
+      <NppBasicInfoCard details={basicInfoData.details} />
       
       <!-- Meaning and Usage -->
-      <MeaningAndUsageCard title={meaningData.title} sections={meaningData.sections} />
+      <NppMeaningAndUsageCard title={meaningData.title} sections={meaningData.sections} />
       
       <!-- Examples -->
-      <ExampleCard 
+      <NppExampleCard 
         title={exampleData.title}
         dialogueSection={exampleData.dialogueSection}
         sentenceSection={exampleData.sentenceSection}
@@ -285,45 +300,45 @@ const similarGrammarData = {
       />
       
       <!-- Introduction -->
-      <IntroductionCard 
+      <NppIntroductionCard 
         title={introductionData.title}
         dialogues={introductionData.dialogues}
         notes={introductionData.notes}
       />
       
       <!-- Morphology Info -->
-      <MorphologyInfoCard 
+      <NppMorphologyInfoCard 
         title={morphologyInfoData.title}
         sections={morphologyInfoData.sections}
         irregularSection={morphologyInfoData.irregularSection}
       />
       
       <!-- Morphology Usage -->
-      <MorphologyUsageCard 
+      <NppMorphologyUsageCard 
         title={morphologyUsageData.title}
         rules={morphologyUsageData.rules}
       />
       
       <!-- Sentence Composition -->
-      <SentenceCompositionCard 
+      <NppSentenceCompositionCard 
         title={sentenceCompositionData.title}
         rule={sentenceCompositionData.rule}
       />
       
       <!-- Constraints -->
-      <ConstraintInfoCard 
+      <NppConstraintInfoCard 
         title={constraintData.title}
         rules={constraintData.rules}
       />
       
       <!-- Extensions -->
-      <ExtensionCard 
+      <NppExtensionCard 
         title={extensionData.title}
         rules={extensionData.rules}
       />
       
       <!-- Similar Grammar -->
-      <SimilarGrammarCard 
+      <NppSimilarGrammarCard 
         title={similarGrammarData.title}
         comparisons={similarGrammarData.comparisons}
       />
