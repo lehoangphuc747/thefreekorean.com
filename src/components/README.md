@@ -29,12 +29,13 @@ src/components/
 ├── home/
 │   └── HeroSection.astro         # Hero section trang chủ
 ├── tai-lieu/                     # Components cho hệ thống tài liệu
+│   ├── AnkiLessons.astro                # Hiển thị danh sách bài học Anki
 │   ├── DocumentCard.astro               # Thẻ hiển thị thông tin 1 tài liệu
 │   ├── DocumentGrid.astro               # Lưới danh sách tài liệu
 │   ├── FilterSection.astro              # Bộ lọc theo category/level/format
 │   ├── PDFPreview.astro                 # Xem trước nội dung PDF
 │   ├── PostHero.astro                   # Hero của trang chi tiết tài liệu
-│   ├── TextbooksDownloader.astro        # Tải giáo trình/multiple files
+│   ├── TextbooksDownloader.astro        # Tải giáo trình/multiple files (PDF, Audio, Anki)
 │   └── TextbooksHeader.astro            # Header trang/section giáo trình
 ├── topik/                        # Components cho mục TOPIK
 │   ├── TopikCard.astro                  # Thẻ đề thi/bài luyện tập TOPIK
@@ -66,6 +67,8 @@ src/components/
 - **DownloadSection.astro**: Khu vực tải tài liệu trong trang chi tiết
 - **SearchComponent.astro**: Tìm kiếm trong khu vực tài liệu
 - Thư mục `tai-lieu/`: Card, Grid, Filter, PDF preview, Header và downloader cho giáo trình
+- **TextbooksDownloader.astro**: Hỗ trợ tải PDF, Audio, Workbook và link đến Anki
+- **AnkiLessons.astro**: Hiển thị danh sách bài học Anki với nút tải xuống
 
 ### Ngữ pháp (Grammar)
 - Thư mục `grammar/`: Lọc và hiển thị lưới các mẫu ngữ pháp
@@ -98,3 +101,71 @@ src/components/
 ### Lưu ý khác
 - `NavBar.astro.bak` là file sao lưu, không import trong runtime
 - Đảm bảo đường dẫn import thống nhất với cấu hình module alias của dự án
+
+## Chi tiết Component quan trọng
+
+### TextbooksDownloader.astro
+Component tải xuống tài liệu với giao diện đẹp và gradient màu sắc.
+
+**Props:**
+- `downloadUrl` (required): Link tải PDF chính
+- `downloadOriginal?`: Link tải PDF gốc HD
+- `downloadWorkbook?`: Link tải sách bài tập
+- `downloadAudio?`: Link tải file audio
+- `downloadAnki?`: Link đến trang Anki tổng hợp
+- `fileSize` (required): Kích thước file chính
+- `originalSize?`: Kích thước file gốc
+- `workbookSize?`: Kích thước sách bài tập
+- `audioSize?`: Kích thước file audio
+
+**Sử dụng:**
+```astro
+<TextbooksDownloader 
+  downloadUrl={postData.downloadUrl}
+  downloadOriginal={postData.downloadOriginal}
+  downloadWorkbook={postData.downloadWorkbook}
+  downloadAudio={postData.downloadAudio}
+  downloadAnki={postData.downloadAnki}
+  fileSize={postData.fileSize}
+  originalSize={postData.originalSize}
+  workbookSize={postData.workbookSize}
+  audioSize={postData.audioSize}
+/>
+```
+
+**Tính năng:**
+- Hiển thị tối đa 5 nút download với màu sắc khác nhau
+- Icon SVG cho từng loại tài liệu
+- Hiệu ứng hover và animation
+- Responsive design
+- Link Anki mở trong tab mới
+
+### AnkiLessons.astro
+Component hiển thị danh sách bài học Anki với giao diện card đẹp mắt.
+
+**Props:**
+- `lessons` (required): Array các bài học Anki với cấu trúc:
+  - `number`: Số thứ tự bài học
+  - `title`: Tên bài học
+  - `cards`: Số lượng thẻ
+  - `fileSize`: Kích thước file
+  - `downloadUrl`: Link tải xuống
+  - `date`: Ngày cập nhật
+
+**Sử dụng:**
+```astro
+<AnkiLessons lessons={ankiLessons} />
+```
+
+**Tính năng UX/UI:**
+- **Header gradient** với mô tả rõ ràng
+- **Grid responsive** (1 cột mobile, 2 cột desktop)
+- **Card design hiện đại** với gradient background và shadow
+- **Hover effects** nâng cao: transform, shadow, border color
+- **Stats visualization** với icon và background màu
+- **Nút download gradient** với animation bounce và scale
+- **Tooltip** hiển thị thông tin khi hover
+- **Progress bar** xuất hiện khi hover card
+- **Status indicators** với dot animate pulse
+- **Footer thông tin** với icon và trạng thái
+- **Micro-interactions** tăng engagement

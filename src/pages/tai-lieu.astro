@@ -4,11 +4,11 @@ import FilterSection from '../components/tai-lieu/FilterSection.astro';
 import DocumentGrid from '../components/tai-lieu/DocumentGrid.astro';
 
 // Get all .astro files using import.meta.glob() (new syntax)
-const ankiFilesModule = import.meta.glob('./tai-lieu/anki/books/tieng-han-tong-hop-1/*.astro', { eager: true });
+const ankiSummaryModule = import.meta.glob('./tai-lieu/anki/books/tieng-han-tong-hop/*.astro', { eager: true });
 const textbookFilesModule = import.meta.glob('./tai-lieu/textbooks/*.astro', { eager: true });
 
 // Convert module objects to array format compatible with old Astro.glob
-const ankiFiles = Object.entries(ankiFilesModule).map(([path, module]) => ({
+const ankiSummaryFiles = Object.entries(ankiSummaryModule).map(([path, module]) => ({
   ...module,
   url: path.replace('./tai-lieu', '/tai-lieu').replace('.astro', ''),
   file: path
@@ -21,13 +21,13 @@ const textbookFiles = Object.entries(textbookFilesModule).map(([path, module]) =
 }));
 
 console.log('=== DEBUG ASTRO.GLOB ===');
-console.log('Anki files found:', ankiFiles.length);
+console.log('Anki Summary files found:', ankiSummaryFiles.length);
 console.log('Textbook files found:', textbookFiles.length);
 
 // Sample debug for first file
-if (ankiFiles.length > 0) {
-  const sample = ankiFiles[0];
-  console.log('Sample Anki file keys:', Object.keys(sample));
+if (ankiSummaryFiles.length > 0) {
+  const sample = ankiSummaryFiles[0];
+  console.log('Sample Anki Summary file keys:', Object.keys(sample));
   console.log('Sample frontmatter:', sample.frontmatter);
   console.log('Sample default export:', sample.default);
 }
@@ -97,18 +97,18 @@ function processDocuments(files: any[], defaultCategory: string) {
 }
 
 // Process documents
-const ankiDocuments = processDocuments(ankiFiles, 'Anki');
+const ankiSummaryDocuments = processDocuments(ankiSummaryFiles, 'Anki');
 const textbookDocuments = processDocuments(textbookFiles, 'Giáo trình');
 
 // Combine all documents
-const allDocuments = [...ankiDocuments, ...textbookDocuments]
+const allDocuments = [...ankiSummaryDocuments, ...textbookDocuments]
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 // Debug logs
 console.log('=== FINAL RESULTS ===');
-console.log('Anki documents found:', ankiDocuments.length);
+console.log('Anki Summary documents found:', ankiSummaryDocuments.length);
 console.log('Textbook documents found:', textbookDocuments.length);
-console.log('Sample Anki document:', ankiDocuments[0]);
+console.log('Sample Anki Summary document:', ankiSummaryDocuments[0]);
 console.log('Sample textbook document:', textbookDocuments[0]);
 
 // Get unique categories

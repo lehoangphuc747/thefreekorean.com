@@ -1,0 +1,202 @@
+# Quy tắc phát triển dự án The Free Korean
+
+## Quy tắc Git và Version Control
+
+### Quy trình commit và push
+1. **Luôn kiểm tra trạng thái trước khi commit:**
+   ```bash
+   git status
+   ```
+
+2. **Add tất cả thay đổi:**
+   ```bash
+   git add .
+   ```
+
+3. **Commit với message tiếng Việt có dấu:**
+   ```bash
+   git commit -m "Mô tả ngắn gọn về thay đổi"
+   ```
+   
+   **Ví dụ các message commit tốt:**
+   - "Thêm trang ngữ pháp mới cho trình độ sơ cấp"
+   - "Sửa lỗi hiển thị trên mobile"
+   - "Cập nhật nội dung bài học TOPIK"
+   - "Xóa file không cần thiết"
+   - "Cải thiện giao diện trang chủ"
+
+4. **Push lên repository:**
+   ```bash
+   git push
+   ```
+
+### Quy tắc đặt tên commit message
+- ✅ **Sử dụng tiếng Việt có dấu**
+- ✅ **Viết hoa chữ cái đầu câu**
+- ✅ **Ngắn gọn, rõ ràng (dưới 50 ký tự)**
+- ✅ **Mô tả hành động đã thực hiện**
+
+### Các lệnh Git hữu ích khác
+```bash
+# Xem lịch sử commit
+git log --oneline
+
+# Xem thay đổi chưa commit
+git diff
+
+# Undo commit cuối (chưa push)
+git reset --soft HEAD~1
+
+# Xem trạng thái branch
+git branch -a
+```
+
+### Quy tắc làm việc với branch
+- Luôn làm việc trên branch `master` cho các thay đổi nhỏ
+- Tạo branch mới cho các tính năng lớn:
+  ```bash
+  git checkout -b feature/ten-tinh-nang
+  ```
+
+## Quy tắc phát triển code
+
+### Cấu trúc thư mục
+- `src/pages/` - Các trang chính của website
+- `src/components/` - Các component tái sử dụng
+- `src/layouts/` - Layout chung cho các trang
+- `src/styles/` - CSS và styling
+
+### Quy tắc đặt tên file
+- Sử dụng kebab-case cho file Astro: `bai-hoc-1.astro`
+- Sử dụng PascalCase cho component: `GrammarCard.astro`
+- Sử dụng camelCase cho TypeScript/JavaScript
+- **File Anki tổng hợp**: Bắt đầu với `anki-` để phân biệt: `anki-tong-hop-1.astro`
+
+### Quy tắc code
+- Luôn comment code bằng tiếng Việt
+- Sử dụng semantic HTML
+- Tuân thủ responsive design
+- Tối ưu hóa cho SEO
+
+### Quy tắc đặt type cho tài liệu
+- **Anki**: Tất cả file Anki deck (không dùng "Anki Deck")
+- **PDF**: File PDF giáo trình, sách
+- **Video**: Video học tiếng Hàn
+- **Website**: Trang web học tiếng Hàn
+- **Audio**: File âm thanh, podcast
+- **Worksheet**: Bài tập, worksheet
+- **Grammar**: Ngữ pháp
+- **Vocabulary**: Từ vựng
+- **TOPIK**: Tài liệu liên quan đến kỳ thi TOPIK
+
+### Quy tắc export const postData
+
+#### Cho file Anki bài riêng lẻ:
+```javascript
+export const postData = {
+  title: "Anki - [Tên giáo trình] - [Bài số]",
+  description: "Mô tả ngắn gọn về bộ thẻ Anki",
+  date: "YYYY-MM-DD",
+  category: "Anki",
+  subcategory: "Tiếng Hàn Tổng Hợp",
+  type: "Anki",
+  downloadUrl: "https://docs.google.com/uc?export=download&id=...",
+  fileSize: "X.XMB",
+  relatedTo: "tieng-han-tong-hop-1",
+  lesson: "Bài X",
+  cards: 123,
+  book: "Tiếng Hàn Tổng Hợp Sơ cấp 1"
+};
+```
+
+#### Cho file Anki tổng hợp (bộ thẻ của 1 quyển sách):
+```javascript
+export const postData = {
+  title: "Anki - [Tên giáo trình]",
+  description: "Bộ thẻ Anki - [Tên giáo trình] - X bài học với Y thẻ từ vựng ~Z.Z MB",
+  date: "YYYY-MM-DD",
+  category: "Anki",
+  subcategory: "Tiếng Hàn Tổng Hợp",
+  type: "Anki",
+  book: "[Tên giáo trình]",
+  totalCards: 1234,
+  totalLessons: 14
+};
+```
+
+**Import cần thiết:**
+```javascript
+import Layout from '../../../../../layouts/Layout.astro';
+import AnkiLessons from '../../../../../components/tai-lieu/AnkiLessons.astro';
+```
+
+#### Cho file PDF/Textbook:
+```javascript
+export const postData = {
+  title: "[Tên giáo trình]",
+  date: "YYYY-MM-DD",
+  category: "Giáo trình",
+  subcategory: "Tiếng Hàn Tổng Hợp",
+  type: "PDF",
+  cover: "/images/[tên-hình].jpg",
+  description: "Mô tả giáo trình",
+  downloadUrl: "https://drive.google.com/...",
+  downloadOriginal: "https://drive.google.com/...",
+  downloadWorkbook: "https://1drv.ms/...",
+  downloadAudio: "https://1drv.ms/...",
+  downloadAnki: "/tai-lieu/anki/books/[tên-thư-mục]/[tên-file]",
+  fileSize: "XX.XMB",
+  originalSize: "XXX.XMB",
+  workbookSize: "XX.XMB",
+  audioSize: "Folder audio",
+  pages: 250,
+  seoTitle: "SEO title",
+  seoDescription: "SEO description",
+  keywords: ["từ khóa 1", "từ khóa 2"]
+};
+```
+
+#### Quy tắc chung:
+- **Luôn có title, date, category, type**
+- **Không thêm thuộc tính `draft`** (sẽ bị ẩn)
+- **Date format**: YYYY-MM-DD
+- **File size**: Luôn có đơn vị MB
+- **Download URLs**: Sử dụng Google Drive hoặc OneDrive
+- **downloadAnki**: Link nội bộ đến trang Anki tổng hợp (format: `/tai-lieu/anki/books/[thư-mục]/[file]`)
+- **Component TextbooksDownloader**: Phải truyền prop `downloadAnki={postData.downloadAnki}` khi sử dụng
+- **Component AnkiLessons**: Sử dụng cho file Anki tổng hợp với `<AnkiLessons lessons={ankiLessons} />`
+
+## Quy tắc Build và Deploy
+
+### Quy trình build và deploy lên Firebase
+1. **Build dự án Astro:**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy lên Firebase Hosting:**
+   ```bash
+   npx firebase deploy --only hosting
+   ```
+
+### Lưu ý về Build
+- Dự án sử dụng static output (`output: 'static'`)
+- Build sẽ tạo thư mục `dist/` chứa các file tĩnh
+- Firebase hosting đã được cấu hình sẵn trong `firebase.json`
+
+### URL sau khi deploy
+- **Project Console:** https://console.firebase.google.com/project/the-free-korean/overview
+- **Website URL:** https://the-free-korean.web.app
+
+### Quy trình hoàn chỉnh khi có thay đổi
+1. `git add .`
+2. `git commit -m "Message tiếng Việt có dấu"`
+3. `git push`
+4. `npm run build`
+5. `npx firebase deploy --only hosting`
+
+## Quy tắc nội dung
+- Tất cả nội dung tiếng Việt phải có dấu
+- Sử dụng thuật ngữ tiếng Hàn chuẩn
+- Đảm bảo tính chính xác về ngữ pháp và từ vựng
+- Cập nhật thông tin TOPIK mới nhất
