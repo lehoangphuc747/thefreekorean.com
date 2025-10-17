@@ -1,0 +1,238 @@
+---
+export interface GrammarItem {
+  slug: string;
+  title: string;
+  date: string;
+  category: string;
+  level: string;
+  grammarPattern: string;
+  meaning: string;
+  description: string;
+  type: string;
+  difficulty: number;
+}
+
+export interface Props {
+  grammarList: GrammarItem[];
+  class?: string;
+}
+
+const { grammarList, class: className = '' } = Astro.props;
+
+const levelMapping = {
+  Beginner: 'Sơ cấp',
+  Intermediate: 'Trung cấp',
+  Advanced: 'Cao cấp'
+};
+---
+
+<section class={`grammar-list-component ${className}`}>
+  <div class="mb-6 md:mb-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <h2 class="text-xl md:text-2xl font-bold text-slate-900">Danh sách ngữ pháp</h2>
+        <p class="text-sm text-slate-500">Chọn cách hiển thị phù hợp với bạn</p>
+      </div>
+      <div class="inline-flex rounded-full border border-slate-200 bg-white p-1 shadow-sm transition-shadow hover:shadow-md">
+        <button
+          type="button"
+          class="view-toggle-btn inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-full bg-slate-900 text-white shadow-sm transition-all duration-200 hover:bg-slate-800 hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+          data-view="grid"
+          aria-label="Xem dạng lưới"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h4v4H4V6zm6 0h4v4h-4V6zm6 0h4v4h-4V6zM4 12h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 18h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z" />
+          </svg>
+          <span class="hidden sm:inline">Lưới</span>
+        </button>
+        <button
+          type="button"
+          class="view-toggle-btn inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-full text-slate-600 hover:text-slate-800 hover:bg-slate-50 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200 active:scale-95"
+          data-view="list"
+          aria-label="Xem dạng danh sách"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <span class="hidden sm:inline">Danh sách</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grammar-view" data-view="grid">
+    <div id="grammar-grid-view" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+      {grammarList.map((grammar) => (
+        <a
+          href={`/ngu-phap/${grammar.slug}`}
+          class="grammar-card block h-full rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300"
+          data-level={grammar.level}
+          data-pattern={grammar.grammarPattern}
+          data-meaning={grammar.meaning}
+          data-title={grammar.title}
+        >
+          <div class="flex h-full flex-col gap-3 p-4 sm:p-5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                {levelMapping[grammar.level] || grammar.level}
+              </span>
+              <div class="flex gap-1 text-amber-400 text-xs" aria-hidden="true">
+                {Array.from({ length: grammar.difficulty }, () => <span>★</span>)}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <h3 class="text-base sm:text-lg font-semibold text-slate-900 leading-snug">
+                {grammar.title}
+              </h3>
+              <p class="text-sm font-medium text-slate-500">
+                {grammar.meaning}
+              </p>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">
+              {grammar.description}
+            </p>
+
+            {grammar.grammarPattern && grammar.grammarPattern !== grammar.title && (
+              <span class="mt-auto inline-flex items-center self-start rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500">
+                {grammar.grammarPattern}
+              </span>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div id="grammar-list-view" class="hidden space-y-3">
+      {grammarList.map((grammar) => (
+        <a
+          href={`/ngu-phap/${grammar.slug}`}
+          class="grammar-card block rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300"
+          data-level={grammar.level}
+          data-pattern={grammar.grammarPattern}
+          data-meaning={grammar.meaning}
+          data-title={grammar.title}
+        >
+          <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-start sm:justify-between sm:p-5">
+            <div class="space-y-2 sm:max-w-2xl">
+              <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
+                <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1">
+                  {levelMapping[grammar.level] || grammar.level}
+                </span>
+                {grammar.grammarPattern && grammar.grammarPattern !== grammar.title && (
+                  <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1">
+                    {grammar.grammarPattern}
+                  </span>
+                )}
+              </div>
+              <h3 class="text-base sm:text-lg font-semibold text-slate-900 leading-snug">
+                {grammar.title}
+              </h3>
+              <p class="text-sm font-medium text-slate-500">
+                {grammar.meaning}
+              </p>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                {grammar.description}
+              </p>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-slate-400 sm:flex-col sm:items-end">
+              <span class="flex gap-1 text-amber-400" aria-hidden="true">
+                {Array.from({ length: grammar.difficulty }, () => <span>★</span>)}
+              </span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.grammar-list-component');
+    if (!container) return;
+
+    const gridView = container.querySelector('#grammar-grid-view');
+    const listView = container.querySelector('#grammar-list-view');
+    const toggleButtons = container.querySelectorAll('.view-toggle-btn');
+
+    function setView(view: string) {
+      if (!gridView || !listView) return;
+      
+      const gridElement = gridView as HTMLElement;
+      const listElement = listView as HTMLElement;
+      
+      // Fade out current view
+      const currentView = view === 'list' ? gridElement : listElement;
+      const nextView = view === 'list' ? listElement : gridElement;
+      
+      currentView.style.opacity = '0';
+      
+      setTimeout(() => {
+        if (view === 'list') {
+          gridView.classList.add('hidden');
+          listView.classList.remove('hidden');
+        } else {
+          gridView.classList.remove('hidden');
+          listView.classList.add('hidden');
+        }
+        
+        // Fade in next view
+        requestAnimationFrame(() => {
+          nextView.style.opacity = '1';
+        });
+      }, 200);
+
+      toggleButtons.forEach((btn) => {
+        const isActive = btn.getAttribute('data-view') === view;
+        
+        if (isActive) {
+          btn.classList.add('bg-slate-900', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+        } else {
+          btn.classList.remove('bg-slate-900', 'text-white', 'shadow-sm');
+          btn.classList.add('text-slate-600', 'hover:bg-slate-50');
+        }
+      });
+    }
+
+    toggleButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-view');
+        if (!view) return;
+        setView(view);
+      });
+    });
+
+    // Initialize with fade in
+    if (gridView) {
+      (gridView as HTMLElement).style.transition = 'opacity 0.2s ease';
+      (gridView as HTMLElement).style.opacity = '1';
+    }
+    if (listView) {
+      (listView as HTMLElement).style.transition = 'opacity 0.2s ease';
+      (listView as HTMLElement).style.opacity = '0';
+    }
+
+    setView('grid');
+  });
+</script>
+
+<style>
+  /* Hover effects for active view toggle buttons */
+  .view-toggle-btn.bg-slate-900:hover {
+    background-color: #0f172a !important; /* slate-900 - đậm hơn */
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  /* Hover effects for inactive view toggle buttons */
+  .view-toggle-btn:not(.bg-slate-900):hover {
+    background-color: #f8fafc !important; /* slate-50 */
+    color: #1e293b !important; /* slate-800 */
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+</style>
+

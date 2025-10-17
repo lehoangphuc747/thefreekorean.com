@@ -28,10 +28,9 @@ import '../styles/navbar.css';
   top: 0;
   z-index: 50;
   width: 100%;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 16px 0 rgba(50,69,255,0.07);
-  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 4px 24px 0 rgba(50,69,255,0.12);
+  border-bottom: 1px solid rgba(226,232,240,0.8);
   transition: background 0.3s, box-shadow 0.3s;
 }
 .navbar-container {
@@ -116,8 +115,8 @@ import '../styles/navbar.css';
     top: 100%;
     right: 0;
     left: 0;
-    background: rgba(255,255,255,0.98);
-    box-shadow: 0 8px 32px #3245ff11;
+    background: #ffffff;
+    box-shadow: 0 8px 32px rgba(50,69,255,0.15);
     flex-direction: column;
     gap: 0;
     padding: 1rem 0;
@@ -150,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   // Đóng menu khi click ngoài
   document.addEventListener('click', function(e) {
-    if (menu && menu.classList.contains('open') && !menu.contains(e.target) && e.target !== toggle) {
+    if (menu && menu.classList.contains('open') && !menu.contains(e.target as Node) && e.target !== toggle) {
       menu.classList.remove('open');
     }
   });

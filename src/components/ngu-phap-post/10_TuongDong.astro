@@ -1,0 +1,119 @@
+---
+export interface GrammarPoint {
+  description: string;
+  example?: string;
+}
+
+export interface Grammar {
+  name: string;
+  points: GrammarPoint[];
+}
+
+export interface Comparison {
+  id: number;
+  title: string;
+  g1: Grammar;
+  g2: Grammar;
+  note?: string;
+}
+
+export interface Props {
+  title?: string;
+  comparisons: Comparison[];
+}
+
+const { title = '🔄 Ngữ pháp tương đồng', comparisons } = Astro.props;
+
+// Hàm để highlight ngữ pháp
+const highlightGrammar = (text: string, customPatterns: string[] = []) => {
+  const defaultPatterns = ['으면서', '면서', '으며', '고', '걸으면서', '부드러우면서', '지으면서', '하야면서'];
+  const allPatterns = [...defaultPatterns, ...customPatterns];
+  const regex = new RegExp(`(${allPatterns.join('|')})`, 'g');
+  
+  if (!text) return text;
+  
+  return text.replace(regex, '<strong class="text-purple-600 font-bold">$1</strong>');
+};
+---
+
+<section class="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6">
+  <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+    <h2 class="text-2xl font-semibold text-slate-900 tracking-tight">{title}</h2>
+    <span class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4 4h4m0 0l-2-2m2 2l-2 2" />
+      </svg>
+      So sánh nhanh
+    </span>
+  </div>
+  <div class="space-y-8">
+    {comparisons.map((comp) => (
+      <article class="space-y-4">
+        <header class="flex items-center justify-center gap-3 text-lg font-semibold text-slate-800">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
+            {comp.id}
+          </span>
+          <span class="text-center">
+            <Fragment set:html={highlightGrammar(comp.title)} />
+          </span>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 text-xs font-semibold uppercase tracking-[0.25em] text-indigo-500">
+          <div class="text-center bg-white/70 border border-slate-100 rounded-xl px-3 py-2">{comp.g1.name}</div>
+          <div class="text-center bg-white/70 border border-slate-100 rounded-xl px-3 py-2">{comp.g2.name}</div>
+        </div>
+
+        <div class="space-y-3">
+          {(() => {
+            const rowCount = Math.max(comp.g1.points.length, comp.g2.points.length);
+            return Array.from({ length: rowCount }, (_, index) => {
+              const left = comp.g1.points[index];
+              const right = comp.g2.points[index];
+              return (
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  <div class="bg-white/80 border border-slate-100 rounded-xl p-4 space-y-2 text-sm text-slate-600">
+                    {left ? (
+                      <>
+                        <p class="font-semibold text-slate-800">{left.description}</p>
+                        {left.example && (
+                          <p class="mt-1 text-slate-600">
+                            <Fragment set:html={highlightGrammar(left.example)} />
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <p class="text-slate-300 italic">Không có dữ liệu</p>
+                    )}
+                  </div>
+                  <div class="bg-white/80 border border-slate-100 rounded-xl p-4 space-y-2 text-sm text-slate-600">
+                    {right ? (
+                      <>
+                        <p class="font-semibold text-slate-800">{right.description}</p>
+                        {right.example && (
+                          <p class="mt-1 text-slate-600">
+                            <Fragment set:html={highlightGrammar(right.example)} />
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <p class="text-slate-300 italic">Không có dữ liệu</p>
+                    )}
+                  </div>
+                </div>
+              );
+            });
+          })()}
+        </div>
+
+        {comp.note && (
+          <p class="text-xs text-slate-500 mt-2 flex items-start gap-2 justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 4h.01M12 3a9 9 0 100 18 9 9 0 000-18z" />
+            </svg>
+            {comp.note}
+          </p>
+        )}
+      </article>
+    ))}
+  </div>
+</section>

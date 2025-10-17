@@ -1,0 +1,107 @@
+---
+export interface DialogueLine {
+  speaker: string;
+  text_ko: string;
+  text_vi: string;
+}
+
+export interface Dialogue {
+  id: number;
+  lines: DialogueLine[];
+}
+
+export interface Note {
+  note_ko: string;
+  note_vi: string;
+}
+
+export interface Props {
+  title?: string;
+  dialogues: Dialogue[];
+  notes: Note[];
+}
+
+const { title = '💡 Dẫn nhập', dialogues, notes } = Astro.props;
+
+// Hàm để highlight ngữ pháp
+const highlightGrammar = (text: string, customPatterns: string[] = []) => {
+  const defaultPatterns = ['으면서', '면서', '으며', '고', '걸으면서', '부드러우면서', '지으면서', '하야면서'];
+  const allPatterns = [...defaultPatterns, ...customPatterns];
+  const regex = new RegExp(`(${allPatterns.join('|')})`, 'g');
+  
+  if (!text) return text;
+  
+  return text.replace(regex, '<strong class="text-purple-600 font-bold">$1</strong>');
+};
+---
+
+<section class="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6">
+  <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+    <h2 class="text-2xl font-semibold text-slate-900 tracking-tight">{title}</h2>
+    <span class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+      </svg>
+      Nhấn để xem dịch
+    </span>
+  </div>
+  <div class="space-y-8">
+    {dialogues.map((dialogue) => (
+      <article class="space-y-3">
+        <header class="flex items-center gap-2 text-sm font-semibold text-purple-600">
+          <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-purple-100 text-purple-600">{dialogue.id}</span>
+          Tình huống lớp học
+        </header>
+        <div class="space-y-1 text-slate-700 bg-white/80 border border-slate-100 rounded-xl overflow-hidden">
+          {dialogue.lines.map((line) => {
+            const speakerClass = line.speaker === '교사' ? 'text-purple-600' : 'text-orange-500';
+            const translationClass = line.speaker === '교사' ? 'text-purple-500' : 'text-orange-500';
+            
+            return (
+              <div class="dialogue-line cursor-pointer px-4 py-2.5 transition-colors hover:bg-slate-50">
+                <p class="flex gap-2">
+                  <span class={`font-semibold ${speakerClass}`}>{line.speaker}</span>
+                  <span class="text-slate-800"><Fragment set:html={highlightGrammar(line.text_ko)} /></span>
+                </p>
+                <p class={`translation hidden italic pl-9 text-sm ${translationClass}`}>{line.text_vi}</p>
+              </div>
+            );
+          })}
+        </div>
+      </article>
+    ))}
+    
+    <aside class="bg-gradient-to-r from-teal-50 via-teal-50/70 to-slate-50 border border-teal-100 rounded-2xl px-5 py-4 text-sm text-slate-600">
+      <h3 class="font-semibold text-teal-700 mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+        </svg>
+        Ghi chú giảng dạy
+      </h3>
+      <div class="space-y-3">
+        {notes.map((note) => (
+          <div class="space-y-1">
+            <p class="font-medium text-slate-700">
+              <span class="font-bold text-teal-600">KR:</span> {note.note_ko}
+            </p>
+            <p class="italic text-slate-500">VI: {note.note_vi}</p>
+          </div>
+        ))}
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script>
+// JavaScript cho chức năng toggle translation
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.dialogue-line').forEach(line => {
+    line.addEventListener('click', function() {
+      const translation = this.querySelector('.translation');
+      if (translation) {
+        translation.classList.toggle('hidden');
+      }
+    });
+  });
+});
+</script>

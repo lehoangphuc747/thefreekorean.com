@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import GrammarFilter from '../components/grammar/GrammarFilter.astro';
-import GrammarGrid from '../components/grammar/GrammarGrid.astro';
+import GrammarList from '../components/grammar/GrammarList.astro';
 
 // Import all grammar files using Vite's glob import
 // Exclude dynamic route files using negative patterns
@@ -9,9 +9,6 @@ const grammarFiles = import.meta.glob(['./ngu-phap/**/*.astro', '!./ngu-phap/[sl
   eager: true,
   import: 'postData' 
 });
-
-console.log('=== USING VITE GLOB IMPORT ===');
-console.log('Grammar files found:', Object.keys(grammarFiles).length);
 
 // Process imported grammar data
 const grammarList = Object.entries(grammarFiles)
@@ -31,35 +28,27 @@ const grammarList = Object.entries(grammarFiles)
     };
     
     // Extract filename as slug
-    const fileName = pathParts.pop().replace('.astro', '');
+    const fileName = pathParts.pop()?.replace('.astro', '') || '';
     
     return {
       ...postData,
       slug: `${levelFromPath}/${fileName}`, // Include level folder in slug
       level: levelMapping[levelFromPath] || 'Beginner',
-      subcategory: levelFromPath === 'so-cap' ? 'Sơ cấp' : 
-                   levelFromPath === 'trung-cap' ? 'Trung cấp' : 'Cao cấp',
-      date: postData.date || new Date().toISOString().split('T')[0],
-      tags: postData.tags || ['grammar'],
-      examples: postData.examples || 3,
-      exercises: postData.exercises || 5,
-      difficulty: postData.difficulty || 2,
-      cover: '/images/default-grammar.svg',
+      date: (postData as any).date || new Date().toISOString().split('T')[0],
+      difficulty: (postData as any).difficulty || 2,
       url: path.replace('.astro', '').replace('./', '/')
     };
   })
-  .filter(item => item && item.title) // Filter out invalid entries
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-// Debug logs
-console.log('=== FINAL GRAMMAR RESULTS ===');
-console.log('Total grammar found:', grammarList.length);
-console.log('Sample grammar:', grammarList[0]);
+  .filter(item => item && (item as any).title) // Filter out invalid entries
+  .sort((a, b) => {
+    if (!a || !b) return 0;
+    return new Date((b as any).date).getTime() - new Date((a as any).date).getTime();
+  }) as any[];
 
 // Get unique levels và subcategories
-const levels = [...new Set(grammarList.map(item => item.level))];
-const subcategories = [...new Set(grammarList.map(item => item.subcategory))];
-const allTags = [...new Set(grammarList.flatMap(item => item.tags))];
+const levels = [...new Set(grammarList.map((item: any) => item?.level).filter(Boolean))];
+const subcategories: string[] = [];
+const allTags: string[] = [];
 
 // Convert levels to Vietnamese
 const levelMapping = {
@@ -71,24 +60,22 @@ const levelMapping = {
 
 <Layout title="Ngữ pháp tiếng Hàn">
   <div class="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto px-4 py-6 md:py-10">
       
       <!-- Header Section -->
-      <header class="text-center mb-12">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl mb-4">
-          <span class="text-2xl">📚</span>
-        </div>
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+      <header class="text-center mb-8 md:mb-10 space-y-3">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
           Ngữ pháp tiếng Hàn
         </h1>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Học ngữ pháp tiếng Hàn một cách có hệ thống từ cơ bản đến nâng cao với ví dụ và bài tập thực hành
+        <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Học ngữ pháp tiếng Hàn từ cơ bản tới nâng cao với ví dụ sinh động và hướng dẫn chi tiết dễ hiểu.
         </p>
-        <div class="flex items-center justify-center gap-4 mt-6 text-sm text-gray-500">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm text-gray-500">
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
             <span>{grammarList.length} ngữ pháp</span>
           </div>
+          <div class="hidden sm:block w-px h-4 bg-gray-200" aria-hidden="true"></div>
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
             <span>{levels.length} cấp độ</span>
@@ -96,11 +83,39 @@ const levelMapping = {
         </div>
       </header>
 
-      <!-- Grammar Filter Section -->
-      <GrammarFilter grammarList={grammarList} />
+      <!-- Main Content Container -->
+      <div class="space-y-6 md:space-y-8">
+        <!-- Grammar Filter Section -->
+        <section class="w-full">
+          <GrammarFilter grammarList={grammarList} />
+        </section>
 
-      <!-- Grammar Grid -->
-      <GrammarGrid grammarList={grammarList} />
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden py-12">
+          <div class="flex flex-col items-center gap-6 max-w-md mx-auto">
+            <div class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center">
+              <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="space-y-2 text-center">
+              <h3 class="text-xl font-bold text-slate-900">Không tìm thấy ngữ pháp</h3>
+              <p class="text-slate-600">Thử tìm kiếm với từ khóa khác hoặc chọn cấp độ khác nhé!</p>
+            </div>
+            <button
+              onclick="document.getElementById('clear-filters')?.click()"
+              class="px-6 py-2.5 rounded-full bg-slate-900 text-white font-semibold text-sm hover:bg-slate-800 transition"
+            >
+              Xóa bộ lọc
+            </button>
+          </div>
+        </div>
+
+        <!-- Grammar List with view toggle -->
+        <section class="w-full">
+          <GrammarList grammarList={grammarList} />
+        </section>
+      </div>
       
     </div>
   </div>

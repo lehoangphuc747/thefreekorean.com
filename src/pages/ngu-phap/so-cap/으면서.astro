@@ -1,18 +1,18 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 
-// Import grammar components
-import NppPageHeader from '../../../components/ngu-phap-post/NppPageHeader.astro';
-import NppBasicInfoCard from '../../../components/ngu-phap-post/NppBasicInfoCard.astro';
-import NppMeaningAndUsageCard from '../../../components/ngu-phap-post/NppMeaningAndUsageCard.astro';
-import NppExampleCard from '../../../components/ngu-phap-post/NppExampleCard.astro';
-import NppIntroductionCard from '../../../components/ngu-phap-post/NppIntroductionCard.astro';
-import NppMorphologyInfoCard from '../../../components/ngu-phap-post/NppMorphologyInfoCard.astro';
-import NppMorphologyUsageCard from '../../../components/ngu-phap-post/NppMorphologyUsageCard.astro';
-import NppSentenceCompositionCard from '../../../components/ngu-phap-post/NppSentenceCompositionCard.astro';
-import NppConstraintInfoCard from '../../../components/ngu-phap-post/NppConstraintInfoCard.astro';
-import NppExtensionCard from '../../../components/ngu-phap-post/NppExtensionCard.astro';
-import NppSimilarGrammarCard from '../../../components/ngu-phap-post/NppSimilarGrammarCard.astro';
+// Import grammar components (new naming)
+import Header from '../../../components/ngu-phap-post/00_Header.astro';
+import ThongTin from '../../../components/ngu-phap-post/01_ThongTin.astro';
+import Ynghia from '../../../components/ngu-phap-post/02_Ynghia.astro';
+import ViDu from '../../../components/ngu-phap-post/03_ViDu.astro';
+import DanNhap from '../../../components/ngu-phap-post/04_DanNhap.astro';
+import HinhThai from '../../../components/ngu-phap-post/05_HinhThai.astro';
+import CachDung from '../../../components/ngu-phap-post/06_CachDung.astro';
+import CauTruc from '../../../components/ngu-phap-post/07_CauTruc.astro';
+import LuuY from '../../../components/ngu-phap-post/08_LuuY.astro';
+import MoRong from '../../../components/ngu-phap-post/09_MoRong.astro';
+import TuongDong from '../../../components/ngu-phap-post/10_TuongDong.astro';
 
 // Page metadata
 const pageTitle = "Ngữ pháp Tiếng Hàn: -(으)면서";
@@ -26,7 +26,6 @@ export const postData = {
   description: 'Ngữ pháp diễn tả hai hành động hoặc trạng thái xảy ra đồng thời',
   level: 'Beginner',
   category: 'Ngữ pháp',
-  subcategory: 'Sơ cấp',
   type: 'Grammar',
   tags: ['đồng thời', 'vừa vừa', 'liên kết', 'sơ cấp'],
   examples: 8,
@@ -42,7 +41,6 @@ const headerData = {
 
 const basicInfoData = {
   details: [ 
-    { label: 'Ngữ pháp', value: '-으면서', color: 'text-purple-600' }, 
     { label: 'Từ loại', value: '연결어미', color: 'text-blue-600' }, 
     { label: 'TOPIK', value: '초급', color: 'text-green-600' }, 
     { label: 'CEFR', value: 'A2', color: 'text-orange-500' } 
@@ -279,20 +277,20 @@ const similarGrammarData = {
 ---
 
 <Layout title={pageTitle}>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
-    <div class="flex flex-col items-center gap-8 md:gap-10 px-4 py-12">
+  <div class="min-h-screen bg-slate-50">
+    <div class="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-12 space-y-8 md:space-y-10">
       
       <!-- Header -->
-      <NppPageHeader title={headerData.title} />
+      <Header title={headerData.title} />
       
       <!-- Basic Info -->
-      <NppBasicInfoCard details={basicInfoData.details} />
+      <ThongTin details={basicInfoData.details} />
       
       <!-- Meaning and Usage -->
-      <NppMeaningAndUsageCard title={meaningData.title} sections={meaningData.sections} />
+      <Ynghia title={meaningData.title} sections={meaningData.sections} />
       
       <!-- Examples -->
-      <NppExampleCard 
+      <ViDu 
         title={exampleData.title}
         dialogueSection={exampleData.dialogueSection}
         sentenceSection={exampleData.sentenceSection}
@@ -300,45 +298,45 @@ const similarGrammarData = {
       />
       
       <!-- Introduction -->
-      <NppIntroductionCard 
+      <DanNhap 
         title={introductionData.title}
         dialogues={introductionData.dialogues}
         notes={introductionData.notes}
       />
       
       <!-- Morphology Info -->
-      <NppMorphologyInfoCard 
+      <HinhThai 
         title={morphologyInfoData.title}
         sections={morphologyInfoData.sections}
         irregularSection={morphologyInfoData.irregularSection}
       />
       
       <!-- Morphology Usage -->
-      <NppMorphologyUsageCard 
+      <CachDung 
         title={morphologyUsageData.title}
         rules={morphologyUsageData.rules}
       />
       
       <!-- Sentence Composition -->
-      <NppSentenceCompositionCard 
+      <CauTruc 
         title={sentenceCompositionData.title}
         rule={sentenceCompositionData.rule}
       />
       
       <!-- Constraints -->
-      <NppConstraintInfoCard 
+      <LuuY 
         title={constraintData.title}
         rules={constraintData.rules}
       />
       
       <!-- Extensions -->
-      <NppExtensionCard 
+      <MoRong 
         title={extensionData.title}
         rules={extensionData.rules}
       />
       
       <!-- Similar Grammar -->
-      <NppSimilarGrammarCard 
+      <TuongDong 
         title={similarGrammarData.title}
         comparisons={similarGrammarData.comparisons}
       />
