@@ -1,0 +1,270 @@
+---
+import { getCollection } from 'astro:content';
+
+const allGrammar = await getCollection('grammar');
+const sortedGrammar = allGrammar.sort((a, b) => {
+  const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
+  if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
+    return levelOrder[a.data.level] - levelOrder[b.data.level];
+  }
+  return a.data.order - b.data.order;
+});
+
+const levelMap = {
+  beginner: 'Sơ cấp',
+  intermediate: 'Trung cấp',
+  advanced: 'Cao cấp'
+};
+---
+
+<aside class="grammar-sidebar" id="grammar-sidebar">
+  <div class="sidebar-header">
+    <h2 class="sidebar-title">Ngữ pháp</h2>
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Đóng sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="sidebar-content">
+    <div class="level-section">
+      <h3 class="level-title">Sơ cấp</h3>
+      <ul class="grammar-list">
+        {sortedGrammar
+          .filter(grammar => grammar.data.level === 'beginner')
+          .map(grammar => (
+            <li>
+              <a 
+                href={`/grammar/${grammar.data.level}/${grammar.slug}`}
+                class="grammar-item"
+                data-level="beginner"
+                data-slug={grammar.slug}
+              >
+                <span class="item-title">{grammar.data.title}</span>
+                <span class="item-meaning">{grammar.data.meaning}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="level-section">
+      <h3 class="level-title">Trung cấp</h3>
+      <ul class="grammar-list">
+        {sortedGrammar
+          .filter(grammar => grammar.data.level === 'intermediate')
+          .map(grammar => (
+            <li>
+              <a 
+                href={`/grammar/${grammar.data.level}/${grammar.slug}`}
+                class="grammar-item"
+                data-level="intermediate"
+                data-slug={grammar.slug}
+              >
+                <span class="item-title">{grammar.data.title}</span>
+                <span class="item-meaning">{grammar.data.meaning}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="level-section">
+      <h3 class="level-title">Cao cấp</h3>
+      <ul class="grammar-list">
+        {sortedGrammar
+          .filter(grammar => grammar.data.level === 'advanced')
+          .map(grammar => (
+            <li>
+              <a 
+                href={`/grammar/${grammar.data.level}/${grammar.slug}`}
+                class="grammar-item"
+                data-level="advanced"
+                data-slug={grammar.slug}
+              >
+                <span class="item-title">{grammar.data.title}</span>
+                <span class="item-meaning">{grammar.data.meaning}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .grammar-sidebar {
+    width: 280px;
+    background: #f8fafc;
+    border-right: 1px solid #e2e8f0;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    z-index: 30;
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  .sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+
+  .sidebar-toggle:hover {
+    background: #f1f5f9;
+  }
+
+  .sidebar-content {
+    padding: 1rem 0;
+  }
+
+  .level-section {
+    margin-bottom: 2rem;
+  }
+
+  .level-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .level-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem 1.5rem;
+  }
+
+  .grammar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .grammar-item {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: #374151;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .grammar-item:hover {
+    background: #f1f5f9;
+    color: #3b82f6;
+  }
+
+  .grammar-item.active {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border-left-color: #3b82f6;
+    font-weight: 600;
+  }
+
+  .item-title {
+    display: block;
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .item-meaning {
+    display: block;
+    color: #64748b;
+    font-size: 0.75rem;
+  }
+
+  .grammar-item.active .item-meaning {
+    color: #1e40af;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 1024px) {
+    .grammar-sidebar {
+      left: -280px;
+      transition: left 0.3s ease;
+      z-index: 30;
+    }
+
+    .grammar-sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-toggle {
+      display: block;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grammar-sidebar {
+      width: 100%;
+      left: -100%;
+    }
+
+    .grammar-sidebar.open {
+      left: 0;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('grammar-sidebar');
+    const toggle = document.getElementById('sidebar-toggle');
+
+    // Toggle sidebar on mobile
+    if (toggle) {
+      toggle.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+      });
+    }
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', function(e) {
+      if (sidebar && !sidebar.contains(e.target) && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Highlight active grammar item
+    const currentPath = window.location.pathname;
+    const grammarItems = document.querySelectorAll('.grammar-item');
+    
+    grammarItems.forEach(item => {
+      if (item.getAttribute('href') === currentPath) {
+        item.classList.add('active');
+      }
+    });
+  });
+</script>

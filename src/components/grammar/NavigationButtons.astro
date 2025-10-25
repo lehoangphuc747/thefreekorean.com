@@ -1,0 +1,150 @@
+---
+export interface Props {
+  prevGrammar?: {
+    level: string;
+    slug: string;
+  };
+  nextGrammar?: {
+    level: string;
+    slug: string;
+  };
+  showBackButton?: boolean;
+  position?: 'top' | 'bottom';
+}
+
+const { prevGrammar, nextGrammar, showBackButton = true, position = 'top' } = Astro.props;
+---
+
+<div class="navigation-buttons {position}">
+  {prevGrammar && (
+    <a href={`/grammar/${prevGrammar.level}/${prevGrammar.slug}`} class="nav-btn prev-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 19l-7-7 7-7"/>
+      </svg>
+      <span class="nav-label">Trước</span>
+    </a>
+  )}
+  
+  {showBackButton && (
+    <a href="/grammar" class="nav-btn back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 19l-7-7 7-7"/>
+      </svg>
+      <span class="nav-label">Quay lại</span>
+    </a>
+  )}
+  
+  {nextGrammar && (
+    <a href={`/grammar/${nextGrammar.level}/${nextGrammar.slug}`} class="nav-btn next-btn">
+      <span class="nav-label">Tiếp</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+  )}
+</div>
+
+<style>
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    width: 100%;
+  }
+
+  .navigation-buttons.bottom {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #374151;
+    transition: all 0.2s;
+    justify-content: center;
+    min-width: 100px;
+  }
+
+  .prev-btn, .next-btn {
+    flex: 1;
+    max-width: 200px;
+  }
+
+  .back-btn {
+    flex: 0 0 auto;
+    min-width: 120px;
+    max-width: 150px;
+  }
+
+  .nav-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  }
+
+  .nav-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  /* Single button styles - only next button without prev */
+  .navigation-buttons:has(.next-btn):not(:has(.prev-btn)) {
+    justify-content: flex-end;
+  }
+
+  /* Single button styles - only prev button without next */
+  .navigation-buttons:has(.prev-btn):not(:has(.next-btn)) {
+    justify-content: flex-start;
+  }
+
+  /* When only one nav button exists (no showBackButton) */
+  .navigation-buttons:has(.nav-btn:only-child) {
+    justify-content: center;
+  }
+
+  .navigation-buttons:has(.nav-btn:only-child) .nav-btn {
+    max-width: 400px;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .navigation-buttons {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .nav-btn {
+      max-width: none;
+      padding: 0.875rem 1rem;
+    }
+
+    .back-btn {
+      max-width: none;
+      order: 2;
+    }
+
+    .prev-btn {
+      order: 1;
+    }
+
+    .next-btn {
+      order: 3;
+    }
+
+    .nav-label {
+      font-size: 0.8rem;
+    }
+  }
+</style>

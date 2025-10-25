@@ -1,0 +1,708 @@
+---
+import GrammarLayout from '../layouts/GrammarLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Lấy tất cả ngữ pháp từ content collection
+const allGrammar = await getCollection('grammar');
+
+// Sắp xếp theo level và order
+const sortedGrammar = allGrammar.sort((a, b) => {
+  const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
+  if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
+    return levelOrder[a.data.level] - levelOrder[b.data.level];
+  }
+  return a.data.order - b.data.order;
+});
+
+// Nhóm theo level
+const grammarByLevel = {
+  all: sortedGrammar,
+  beginner: sortedGrammar.filter(g => g.data.level === 'beginner'),
+  intermediate: sortedGrammar.filter(g => g.data.level === 'intermediate'),
+  advanced: sortedGrammar.filter(g => g.data.level === 'advanced')
+};
+---
+
+<GrammarLayout>
+  <div class="grammar-page">
+    <div class="grammar-container">
+      <!-- Sidebar bên trái -->
+      <aside class="grammar-sidebar">
+        <div class="sidebar-header">
+          <h3>Danh sách ngữ pháp</h3>
+        </div>
+        <div class="sidebar-content">
+          <div class="grammar-list" id="grammar-list">
+            {sortedGrammar.map((grammar) => (
+              <div class="grammar-item" data-slug={grammar.slug} data-level={grammar.data.level}>
+                <div class="grammar-item-title">{grammar.data.title}</div>
+                <div class="grammar-item-meaning">{grammar.data.meaning}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </aside>
+
+      <!-- Nội dung chính -->
+      <main class="grammar-main">
+        <div class="grammar-header">
+          <h1>NGỮ PHÁP</h1>
+          <p class="grammar-description">Học ngữ pháp tiếng Hàn từ sơ cấp đến cao cấp</p>
+        </div>
+
+        <!-- Level Filter -->
+        <div class="level-filter">
+          <button class="filter-btn active" data-level="all">TẤT CẢ</button>
+          <button class="filter-btn" data-level="beginner">SƠ CẤP</button>
+          <button class="filter-btn" data-level="intermediate">TRUNG CẤP</button>
+          <button class="filter-btn" data-level="advanced">CAO CẤP</button>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-container">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="Tìm kiếm ngữ pháp..." 
+              class="search-input"
+            />
+            <button id="clearSearch" class="clear-button" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="search-stats" id="searchStats" style="display: none;">
+            <span id="searchStatsText">0 kết quả</span>
+          </div>
+        </div>
+
+        <!-- View Mode Toggle -->
+        <div class="view-controls">
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+              Grid
+            </button>
+            <button class="view-btn" data-view="list">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"/>
+                <line x1="8" y1="12" x2="21" y2="12"/>
+                <line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                <line x1="3" y1="18" x2="3.01" y2="18"/>
+              </svg>
+              List
+            </button>
+          </div>
+        </div>
+
+        <!-- Grammar Cards -->
+        <div class="grammar-cards" id="grammar-cards">
+          {sortedGrammar.map((grammar) => (
+            <div class="grammar-card" data-level={grammar.data.level} data-slug={grammar.slug}>
+              <div class="card-header">
+                <h3 class="card-title">{grammar.data.title}</h3>
+                <span class="card-level">{grammar.data.level}</span>
+              </div>
+              <div class="card-content">
+                <p class="card-meaning">{grammar.data.meaning}</p>
+                <p class="card-description">{grammar.data.description}</p>
+              </div>
+              <div class="card-tags">
+                {grammar.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
+  </div>
+</GrammarLayout>
+
+<style>
+  .grammar-page {
+    min-height: calc(100vh - 120px);
+    background-color: #f8fafc;
+    padding: 2rem 0;
+  }
+
+  .grammar-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .grammar-sidebar {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 90px;
+    z-index: 10;
+  }
+
+  .grammar-main {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+
+  .grammar-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .grammar-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+  }
+
+  .grammar-description {
+    color: #64748b;
+    font-size: 1.125rem;
+  }
+
+  .level-filter {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+  }
+
+  .filter-btn.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+  }
+
+  .search-container {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #64748b;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+
+  .clear-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+  }
+
+  .search-stats {
+    margin-top: 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .view-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  .view-toggle {
+    display: flex;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .view-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+  }
+
+  .view-btn:hover {
+    background: #f8fafc;
+  }
+
+  .view-btn.active {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .grammar-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .grammar-cards.list {
+    grid-template-columns: 1fr;
+  }
+
+  .grammar-cards.list .grammar-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "description"
+      "tags";
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .grammar-cards.list .card-header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .grammar-cards.list .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    order: 1;
+  }
+
+  .grammar-cards.list .card-meaning {
+    color: #3b82f6;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    order: 2;
+  }
+
+  .grammar-cards.list .card-meaning::before {
+    content: "- ";
+    color: #94a3b8;
+  }
+
+  .grammar-cards.list .card-level {
+    order: 3;
+    margin-left: auto;
+  }
+
+  .grammar-cards.list .card-content {
+    grid-area: description;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .grammar-cards.list .card-description {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Hide meaning in content when in list mode (it's moved to header) */
+  .grammar-cards.list .card-content .card-meaning {
+    display: none;
+  }
+
+  .grammar-cards.list .card-tags {
+    grid-area: tags;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .grammar-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+
+  .grammar-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  .card-level {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .card-level.beginner {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .card-level.intermediate {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .card-level.advanced {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .card-meaning {
+    font-size: 1rem;
+    color: #3b82f6;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-description {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.5rem;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+
+  .grammar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .grammar-item {
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border: 1px solid transparent;
+  }
+
+  .grammar-item:hover {
+    background-color: #f8fafc;
+  }
+
+  .grammar-item.active {
+    background-color: #dbeafe;
+    border-color: #3b82f6;
+  }
+
+  .grammar-item-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .grammar-item-meaning {
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 1024px) {
+    .grammar-container {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .grammar-sidebar {
+      display: none;
+    }
+
+    .grammar-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grammar-page {
+      padding: 1rem 0;
+    }
+
+    .grammar-container {
+      padding: 0 0.5rem;
+    }
+
+    .grammar-main {
+      padding: 1rem;
+    }
+
+    .grammar-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .level-filter {
+      justify-content: center;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>
+
+<script define:vars={{ sortedGrammar }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const clearButton = document.getElementById('clearSearch');
+    const searchStats = document.getElementById('searchStats');
+    const searchStatsText = document.getElementById('searchStatsText');
+    const grammarCards = document.getElementById('grammar-cards');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const viewButtons = document.querySelectorAll('.view-btn');
+    const grammarItems = document.querySelectorAll('.grammar-item');
+
+    let currentFilter = 'all';
+    let currentView = 'grid';
+
+    // Load view preference from localStorage
+    const savedView = localStorage.getItem('grammar-view');
+    if (savedView) {
+      currentView = savedView;
+      updateViewMode();
+    }
+
+    // Filter functionality
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentFilter = this.dataset.level;
+        filterAndSearch();
+      });
+    });
+
+    // View mode toggle
+    viewButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        viewButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentView = this.dataset.view;
+        updateViewMode();
+        localStorage.setItem('grammar-view', currentView);
+      });
+    });
+
+    function updateViewMode() {
+      const cards = document.querySelectorAll('.grammar-card');
+      
+      if (currentView === 'list') {
+        grammarCards.classList.add('list');
+        
+        // Move meaning to header for list view
+        cards.forEach(card => {
+          const header = card.querySelector('.card-header');
+          const meaning = card.querySelector('.card-meaning');
+          if (header && meaning && !header.contains(meaning)) {
+            header.appendChild(meaning);
+          }
+        });
+      } else {
+        grammarCards.classList.remove('list');
+        
+        // Move meaning back to content for grid view
+        cards.forEach(card => {
+          const content = card.querySelector('.card-content');
+          const meaning = card.querySelector('.card-meaning');
+          const description = card.querySelector('.card-description');
+          if (content && meaning && !content.contains(meaning)) {
+            content.insertBefore(meaning, description);
+          }
+        });
+      }
+    }
+
+    // Search functionality
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      
+      if (query.length > 0) {
+        clearButton.style.display = 'block';
+        performSearch(query);
+      } else {
+        clearButton.style.display = 'none';
+        clearSearch();
+      }
+    });
+
+    clearButton.addEventListener('click', function() {
+      searchInput.value = '';
+      this.style.display = 'none';
+      clearSearch();
+    });
+
+    function performSearch(query) {
+      const searchQuery = query.toLowerCase();
+      let visibleCount = 0;
+
+      document.querySelectorAll('.grammar-card').forEach(card => {
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const meaning = card.querySelector('.card-meaning').textContent.toLowerCase();
+        const description = card.querySelector('.card-description').textContent.toLowerCase();
+        const level = card.dataset.level;
+
+        const matchesSearch = title.includes(searchQuery) || 
+                             meaning.includes(searchQuery) || 
+                             description.includes(searchQuery);
+
+        const matchesFilter = currentFilter === 'all' || level === currentFilter;
+
+        if (matchesSearch && matchesFilter) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Update search stats
+      searchStats.style.display = 'block';
+      if (visibleCount === 0) {
+        searchStatsText.textContent = `Không tìm thấy kết quả cho "${query}"`;
+      } else {
+        searchStatsText.textContent = `${visibleCount} kết quả cho "${query}"`;
+      }
+    }
+
+    function clearSearch() {
+      document.querySelectorAll('.grammar-card').forEach(card => {
+        card.style.display = 'block';
+      });
+      searchStats.style.display = 'none';
+      filterAndSearch();
+    }
+
+    function filterAndSearch() {
+      const query = searchInput.value.trim();
+      if (query) {
+        performSearch(query);
+      } else {
+        document.querySelectorAll('.grammar-card').forEach(card => {
+          const level = card.dataset.level;
+          if (currentFilter === 'all' || level === currentFilter) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        searchStats.style.display = 'none';
+      }
+    }
+
+    // Card click navigation
+    document.querySelectorAll('.grammar-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const slug = this.dataset.slug;
+        const level = this.dataset.level;
+        window.location.href = `/grammar/${level}/${slug}`;
+      });
+    });
+
+    // Sidebar item click navigation
+    document.querySelectorAll('.grammar-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const slug = this.dataset.slug;
+        const level = this.dataset.level;
+        window.location.href = `/grammar/${level}/${slug}`;
+      });
+    });
+  });
+</script>

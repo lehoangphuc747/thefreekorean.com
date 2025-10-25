@@ -1,0 +1,286 @@
+---
+// Component: Print-friendly CSS
+// Tối ưu hóa giao diện khi in bài viết
+---
+
+<style is:global>
+  @media print {
+    /* Ẩn các phần không cần thiết khi in */
+    nav,
+    .navbar,
+    footer,
+    .footer,
+    .grammar-sidebar,
+    .grammar-post-sidebar,
+    .sidebar,
+    .grammar-toc,
+    .toc,
+    .breadcrumb,
+    .back-button,
+    .action-buttons,
+    .share-button,
+    .print-btn,
+    .pdf-btn,
+    .navigation-buttons,
+    .related-grammar,
+    .scroll-to-top,
+    button,
+    .sidebar-toggle,
+    .toc-toggle {
+      display: none !important;
+    }
+
+    /* Reset layout */
+    body {
+      background: white !important;
+      color: black !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Container tối ưu cho in */
+    .grammar-post,
+    .grammar-main,
+    main {
+      max-width: none !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+      background: white !important;
+    }
+
+    .grammar-post-container {
+      display: block !important;
+      grid-template-columns: 1fr !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Typography tối ưu cho in */
+    .grammar-title,
+    h1 {
+      font-size: 24pt !important;
+      color: black !important;
+      margin-top: 0 !important;
+      margin-bottom: 12pt !important;
+      page-break-after: avoid !important;
+    }
+
+    .grammar-meaning {
+      font-size: 14pt !important;
+      color: #333 !important;
+      margin-bottom: 10pt !important;
+      page-break-after: avoid !important;
+    }
+
+    .grammar-description {
+      font-size: 11pt !important;
+      color: #555 !important;
+      margin-bottom: 14pt !important;
+      line-height: 1.5 !important;
+    }
+
+    h2 {
+      font-size: 18pt !important;
+      color: black !important;
+      margin-top: 20pt !important;
+      margin-bottom: 10pt !important;
+      page-break-after: avoid !important;
+    }
+
+    h3 {
+      font-size: 14pt !important;
+      color: black !important;
+      margin-top: 16pt !important;
+      margin-bottom: 8pt !important;
+      page-break-after: avoid !important;
+    }
+
+    p {
+      font-size: 11pt !important;
+      line-height: 1.6 !important;
+      margin-bottom: 10pt !important;
+      color: black !important;
+      orphans: 3 !important;
+      widows: 3 !important;
+    }
+
+    /* Badges và tags */
+    .grammar-badges,
+    .level-badge,
+    .tag-badge {
+      page-break-inside: avoid !important;
+      margin-bottom: 10pt !important;
+    }
+
+    .level-badge {
+      border: 1px solid #999 !important;
+      padding: 2pt 6pt !important;
+      font-size: 9pt !important;
+      background: white !important;
+      color: black !important;
+    }
+
+    .tag-badge {
+      border: 1px solid #ccc !important;
+      padding: 2pt 4pt !important;
+      font-size: 8pt !important;
+      background: #f5f5f5 !important;
+      color: #333 !important;
+    }
+
+    /* Content area */
+    .grammar-content,
+    .markdown-content {
+      font-size: 11pt !important;
+      line-height: 1.6 !important;
+      color: black !important;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-left: 20pt !important;
+      margin-bottom: 10pt !important;
+      page-break-inside: avoid !important;
+    }
+
+    li {
+      font-size: 11pt !important;
+      line-height: 1.5 !important;
+      margin-bottom: 4pt !important;
+    }
+
+    /* Tables */
+    table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin-bottom: 14pt !important;
+      page-break-inside: avoid !important;
+    }
+
+    th, td {
+      border: 1px solid #999 !important;
+      padding: 6pt !important;
+      font-size: 10pt !important;
+      text-align: left !important;
+    }
+
+    th {
+      background: #f0f0f0 !important;
+      font-weight: bold !important;
+    }
+
+    /* Code blocks */
+    pre {
+      background: #f5f5f5 !important;
+      border: 1px solid #ccc !important;
+      padding: 8pt !important;
+      margin-bottom: 10pt !important;
+      page-break-inside: avoid !important;
+      font-size: 9pt !important;
+      line-height: 1.4 !important;
+    }
+
+    code {
+      background: #f5f5f5 !important;
+      padding: 2pt 4pt !important;
+      font-size: 9pt !important;
+      border: 1px solid #ddd !important;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-left: 3pt solid #999 !important;
+      padding-left: 10pt !important;
+      margin-left: 0 !important;
+      margin-bottom: 10pt !important;
+      font-style: italic !important;
+      color: #333 !important;
+      page-break-inside: avoid !important;
+    }
+
+    /* Links - hiển thị URL */
+    a {
+      color: black !important;
+      text-decoration: underline !important;
+    }
+
+    a[href]:after {
+      content: " (" attr(href) ")" !important;
+      font-size: 9pt !important;
+      color: #555 !important;
+    }
+
+    /* Không hiển thị URL cho anchor links */
+    a[href^="#"]:after {
+      content: "" !important;
+    }
+
+    /* Images */
+    img {
+      max-width: 100% !important;
+      height: auto !important;
+      page-break-inside: avoid !important;
+      margin: 10pt 0 !important;
+    }
+
+    /* Tránh ngắt trang không mong muốn */
+    .grammar-info {
+      page-break-after: avoid !important;
+    }
+
+    /* Page breaks */
+    h1, h2, h3, h4, h5, h6 {
+      page-break-after: avoid !important;
+    }
+
+    /* Đảm bảo nội dung đầy đủ */
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    /* Print header/footer */
+    @page {
+      margin: 2.5cm 2cm 2cm 2cm;
+      size: A4;
+    }
+
+    /* Header - Logo ở đầu trang */
+    .grammar-post::before {
+      content: "📚 THE FREE KOREAN - HỌC TIẾNG HÀN MIỄN PHÍ" !important;
+      display: block !important;
+      text-align: center !important;
+      font-size: 12pt !important;
+      font-weight: bold !important;
+      color: #3b82f6 !important;
+      padding: 12pt 0 !important;
+      margin-bottom: 20pt !important;
+      border-bottom: 2pt solid #3b82f6 !important;
+      letter-spacing: 1pt !important;
+    }
+    
+    /* Đảm bảo không lặp trong các elements con */
+    .grammar-main::before {
+      content: none !important;
+    }
+
+    /* Footer - Watermark */
+    body::after {
+      content: "© The Free Korean - thefreekorean.com" !important;
+      position: fixed !important;
+      bottom: 10pt !important;
+      left: 0 !important;
+      right: 0 !important;
+      text-align: center !important;
+      font-size: 8pt !important;
+      color: #999 !important;
+      padding: 10pt !important;
+      border-top: 1pt solid #e5e7eb !important;
+    }
+  }
+</style>
+

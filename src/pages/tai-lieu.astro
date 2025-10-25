@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import FilterSection from '../components/tai-lieu/FilterSection.astro';
+import DocumentFilter from '../components/tai-lieu/DocumentFilter.astro';
 import DocumentGrid from '../components/tai-lieu/DocumentGrid.astro';
 
 // Get all .astro files using import.meta.glob() (new syntax)
@@ -102,7 +102,8 @@ const textbookDocuments = processDocuments(textbookFiles, 'Giáo trình');
 
 // Combine all documents
 const allDocuments = [...ankiSummaryDocuments, ...textbookDocuments]
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  .filter(Boolean)
+  .sort((a, b) => new Date(b?.date || 0).getTime() - new Date(a?.date || 0).getTime());
 
 // Debug logs
 console.log('=== FINAL RESULTS ===');
@@ -112,7 +113,7 @@ console.log('Sample Anki Summary document:', ankiSummaryDocuments[0]);
 console.log('Sample textbook document:', textbookDocuments[0]);
 
 // Get unique categories
-const categories = [...new Set(allDocuments.map(doc => doc.category).filter(Boolean))];
+const categories = [...new Set(allDocuments.map(doc => doc?.category).filter(Boolean))];
 ---
 
 <Layout title="Tài liệu học tiếng Hàn">
@@ -140,7 +141,7 @@ const categories = [...new Set(allDocuments.map(doc => doc.category).filter(Bool
       </header>
 
       <!-- Filter Section -->
-      <FilterSection documents={allDocuments} />
+      <DocumentFilter documents={allDocuments} />
 
       <!-- Documents Grid -->
       <DocumentGrid documents={allDocuments} />

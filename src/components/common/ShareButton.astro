@@ -1,0 +1,213 @@
+---
+// ShareButton component với dropdown menu
+---
+
+<div class="share-dropdown">
+  <button class="action-btn share-btn" id="shareBtn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
+      <polyline points="16,6 12,2 8,6"/>
+      <line x1="12" y1="2" x2="12" y2="15"/>
+    </svg>
+    Chia sẻ
+  </button>
+  <div class="share-menu" id="shareMenu">
+    <button class="share-option" id="copyLink">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+      </svg>
+      Copy Link
+    </button>
+    <button class="share-option" id="shareFacebook">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+      </svg>
+      Facebook
+    </button>
+    <button class="share-option" id="shareMessenger">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+      Messenger
+    </button>
+  </div>
+</div>
+
+<style>
+  .share-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: #374151;
+  }
+
+  .action-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: #f8fafc;
+  }
+
+  .share-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 200px;
+    display: none;
+    margin-top: 0.5rem;
+  }
+
+  .share-menu.active {
+    display: block;
+  }
+
+  .share-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #374151;
+    font-size: 0.875rem;
+  }
+
+  .share-option:hover {
+    background: #f8fafc;
+  }
+
+  .share-option:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .share-option:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const shareBtn = document.getElementById('shareBtn');
+    const shareMenu = document.getElementById('shareMenu');
+
+    // Toggle share menu
+    if (shareBtn && shareMenu) {
+      shareBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        shareMenu.classList.toggle('active');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!shareMenu.contains(e.target) && !shareBtn.contains(e.target)) {
+          shareMenu.classList.remove('active');
+        }
+      });
+    }
+
+    // Copy Link
+    const copyLinkBtn = document.getElementById('copyLink');
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener('click', async function() {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          // Show subtle notification without user confirmation
+          showNotification('Đã sao chép link!');
+          shareMenu.classList.remove('active');
+        } catch (err) {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = window.location.href;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          showNotification('Đã sao chép link!');
+          shareMenu.classList.remove('active');
+        }
+      });
+    }
+
+    // Facebook Share
+    const shareFacebookBtn = document.getElementById('shareFacebook');
+    if (shareFacebookBtn) {
+      shareFacebookBtn.addEventListener('click', function() {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.title);
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${title}`, '_blank', 'width=600,height=400');
+        shareMenu.classList.remove('active');
+      });
+    }
+
+    // Messenger Share
+    const shareMessengerBtn = document.getElementById('shareMessenger');
+    if (shareMessengerBtn) {
+      shareMessengerBtn.addEventListener('click', function() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.facebook.com/dialog/send?link=${url}`, '_blank', 'width=600,height=400');
+        shareMenu.classList.remove('active');
+      });
+    }
+
+    // Notification function
+    function showNotification(message) {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #10b981;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Animate in
+      setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+      }, 10);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+  });
+</script>

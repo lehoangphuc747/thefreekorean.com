@@ -1,0 +1,149 @@
+---
+export interface Props {
+  title: string;
+  meaning: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  slug: string;
+  href: string;
+}
+
+const { title, meaning, level, slug, href } = Astro.props;
+
+const levelMap = {
+  beginner: 'Sơ cấp',
+  intermediate: 'Trung cấp',
+  advanced: 'Cao cấp'
+};
+---
+
+<a href={href} class="grammar-card">
+  <div class="card-header">
+    <h3 class="card-title">{title}</h3>
+    <span class="level-badge {level}">{levelMap[level]}</span>
+  </div>
+  <p class="card-meaning">{meaning}</p>
+</a>
+
+<style>
+  .grammar-card {
+    display: block;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .grammar-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    gap: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .level-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .level-badge.beginner {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .level-badge.intermediate {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .level-badge.advanced {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .card-meaning {
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Grid layout adjustments */
+  .grammar-card.grid-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grammar-card.grid-view .card-header {
+    flex-shrink: 0;
+  }
+
+  .grammar-card.grid-view .card-meaning {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* List layout adjustments */
+  .grammar-card.list-view {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .grammar-card.list-view .card-header {
+    margin-bottom: 0;
+    flex: 1;
+  }
+
+  .grammar-card.list-view .card-title {
+    font-size: 1.125rem;
+  }
+
+  .grammar-card.list-view .card-meaning {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .grammar-card {
+      padding: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+    }
+
+    .grammar-card.list-view {
+      padding: 0.75rem 1rem;
+    }
+  }
+</style>

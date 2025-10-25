@@ -16,7 +16,7 @@ import '../styles/navbar.css';
     <ul class="navbar-menu" id="navbar-menu">
       <li><a href="/gioi-thieu" class="nav-link">Giới thiệu</a></li>
       <li><a href="/tai-lieu" class="nav-link">Tài liệu</a></li>
-      <li><a href="/ngu-phap" class="nav-link">Ngữ pháp</a></li>
+      <li><a href="/grammar" class="nav-link">Ngữ pháp</a></li>
       <li><a href="/topik" class="nav-link">TOPIK</a></li>
     </ul>
   </div>
@@ -26,12 +26,13 @@ import '../styles/navbar.css';
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   width: 100%;
   background: #ffffff;
   box-shadow: 0 4px 24px 0 rgba(50,69,255,0.12);
   border-bottom: 1px solid rgba(226,232,240,0.8);
   transition: background 0.3s, box-shadow 0.3s;
+  height: 70px;
 }
 .navbar-container {
   max-width: 1100px;
@@ -122,7 +123,7 @@ import '../styles/navbar.css';
     padding: 1rem 0;
     border-radius: 0 0 18px 18px;
     display: none;
-    z-index: 100;
+    z-index: 200;
   }
   .navbar-menu.open {
     display: flex;

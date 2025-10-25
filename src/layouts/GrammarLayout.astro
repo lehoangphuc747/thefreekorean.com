@@ -1,0 +1,42 @@
+---
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Ngữ pháp tiếng Hàn - The Free Korean</title>
+		<meta name="description" content="Danh sách ngữ pháp tiếng Hàn từ sơ cấp đến cao cấp. Học tiếng Hàn miễn phí với The Free Korean." />
+		
+		<!-- Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JNJ099MYS7"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-JNJ099MYS7');
+		</script>
+	</head>
+	<body>
+		<NavBar />
+		<slot />
+		<Footer />
+		<ScrollToTop />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

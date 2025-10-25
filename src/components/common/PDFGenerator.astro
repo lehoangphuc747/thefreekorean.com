@@ -1,0 +1,217 @@
+---
+export interface Props {
+  markdown: string;
+  slug: string;
+  title: string;
+  meaning: string;
+  level: string;
+  description: string;
+  tags: string[];
+}
+
+const { markdown, slug, title, meaning, level, description, tags } = Astro.props;
+
+// Level mapping
+const levelMap = {
+  beginner: 'Sơ cấp',
+  intermediate: 'Trung cấp',
+  advanced: 'Cao cấp'
+};
+---
+
+<button 
+  class="pdf-generator-btn" 
+  id="pdf-generator-btn"
+  data-slug={slug}
+>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M14,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8Z"/>
+    <polyline points="14,2 14,8 20,8"/>
+    <line x1="16" y1="13" x2="8" y2="13"/>
+    <line x1="16" y1="17" x2="8" y2="17"/>
+    <polyline points="10,9 9,9 8,9"/>
+  </svg>
+  Tải PDF
+</button>
+
+<style>
+  .pdf-generator-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: #374151;
+  }
+
+  .pdf-generator-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: #f8fafc;
+  }
+
+  .pdf-generator-btn:active {
+    transform: translateY(1px);
+  }
+
+  .pdf-generator-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  import { jsPDF } from 'jspdf';
+  import html2canvas from 'html2canvas';
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const pdfBtn = document.getElementById('pdf-generator-btn') as HTMLButtonElement;
+    
+    if (!pdfBtn) return;
+    
+    pdfBtn.addEventListener('click', async function() {
+      const slug = this.dataset.slug || 'document';
+      
+      // Save original state
+      const originalHTML = this.innerHTML;
+      
+      try {
+        // Show loading
+        this.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
+            <path d="M21 12a9 9 0 11-6.219-8.56"/>
+          </svg>
+          Đang tạo PDF...
+        `;
+        this.disabled = true;
+
+        // Get the main content
+        const content = document.querySelector('.grammar-post') as HTMLElement;
+        if (!content) {
+          throw new Error('Không tìm thấy nội dung');
+        }
+
+        // Create temporary container for PDF
+        const pdfContainer = document.createElement('div');
+        pdfContainer.style.position = 'fixed';
+        pdfContainer.style.left = '-9999px';
+        pdfContainer.style.top = '0';
+        pdfContainer.style.width = '794px'; // A4 width in pixels at 96 DPI
+        pdfContainer.style.padding = '40px';
+        pdfContainer.style.background = 'white';
+        pdfContainer.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+        
+        // Add header
+        const header = document.createElement('div');
+        header.style.textAlign = 'center';
+        header.style.marginBottom = '30px';
+        header.style.paddingBottom = '20px';
+        header.style.borderBottom = '3px solid #3b82f6';
+        header.innerHTML = `
+          <div style="font-size: 24px; font-weight: bold; color: #3b82f6; margin-bottom: 5px;">
+            📚 THE FREE KOREAN
+          </div>
+          <div style="font-size: 14px; color: #666;">
+            Ngữ pháp tiếng Hàn
+          </div>
+        `;
+        pdfContainer.appendChild(header);
+        
+        // Clone and add content
+        const contentClone = content.cloneNode(true) as HTMLElement;
+        
+        // Remove unwanted elements
+        const removeSelectors = [
+          '.breadcrumb',
+          '.back-button',
+          '.action-buttons',
+          '.navigation-buttons',
+          '.related-grammar',
+          'button',
+          '.share-button'
+        ];
+        
+        removeSelectors.forEach(selector => {
+          contentClone.querySelectorAll(selector).forEach(el => el.remove());
+        });
+        
+        pdfContainer.appendChild(contentClone);
+        
+        // Add footer watermark
+        const footer = document.createElement('div');
+        footer.style.marginTop = '30px';
+        footer.style.paddingTop = '20px';
+        footer.style.borderTop = '1px solid #e5e7eb';
+        footer.style.textAlign = 'center';
+        footer.style.fontSize = '12px';
+        footer.style.color = '#999';
+        footer.innerHTML = '© The Free Korean - thefreekorean.com';
+        pdfContainer.appendChild(footer);
+        
+        document.body.appendChild(pdfContainer);
+
+        // Capture as canvas
+        const canvas = await html2canvas(pdfContainer, {
+          scale: 2, // Higher quality
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff'
+        });
+
+        // Remove temporary container
+        document.body.removeChild(pdfContainer);
+
+        // Create PDF
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        });
+
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // Add first page
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        // Add additional pages if needed
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        // Save PDF
+        const fileName = `thefreekorean.com-${slug}.pdf`;
+        pdf.save(fileName);
+
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('Có lỗi khi tạo PDF. Vui lòng thử lại sau!');
+      } finally {
+        this.innerHTML = originalHTML;
+        this.disabled = false;
+      }
+    });
+  });
+</script>

@@ -1,0 +1,390 @@
+---
+import GrammarPostLayout from '../../../layouts/GrammarPostLayout.astro';
+import ImageViewer from '../../../components/common/ImageViewer.astro';
+import PDFGenerator from '../../../components/common/PDFGenerator.astro';
+import ShareButton from '../../../components/common/ShareButton.astro';
+import NavigationButtons from '../../../components/grammar/NavigationButtons.astro';
+import RelatedGrammar from '../../../components/grammar/RelatedGrammar.astro';
+import TableOfContents from '../../../components/grammar/TableOfContents.astro';
+import { getCollection } from 'astro:content';
+import '../../../styles/markdown.css';
+
+export async function getStaticPaths() {
+  const grammarEntries = await getCollection('grammar');
+  
+  const paths = await Promise.all(
+    grammarEntries.map(async (entry) => {
+      const rendered = await entry.render();
+      return {
+        params: { 
+          level: entry.data.level,
+          slug: entry.slug 
+        },
+        props: { 
+          entry,
+          content: rendered,
+          markdownBody: entry.body // Get raw markdown for PDF
+        }
+      };
+    })
+  );
+  
+  return paths;
+}
+
+const { entry, content, markdownBody } = Astro.props as any;
+const { title, meaning, level, description, tags } = entry.data;
+
+// Get the rendered content
+const { Content } = content;
+
+// Lấy tất cả ngữ pháp để tạo sidebar và navigation
+const allGrammar = await getCollection('grammar');
+const sortedGrammar = allGrammar.sort((a, b) => {
+  const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
+  if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
+    return levelOrder[a.data.level] - levelOrder[b.data.level];
+  }
+  return a.data.order - b.data.order;
+});
+
+// Tìm ngữ pháp trước và sau
+const currentIndex = sortedGrammar.findIndex(g => g.slug === entry.slug);
+const prevGrammar = currentIndex > 0 ? sortedGrammar[currentIndex - 1] : null;
+const nextGrammar = currentIndex < sortedGrammar.length - 1 ? sortedGrammar[currentIndex + 1] : null;
+
+// Tìm ngữ pháp liên quan
+const relatedGrammar = allGrammar
+  .filter(g => g.slug !== entry.slug)
+  .filter(g => {
+    // Ưu tiên cùng tags
+    const commonTags = tags.filter(tag => g.data.tags.includes(tag));
+    if (commonTags.length > 0) return true;
+    // Sau đó cùng level
+    return g.data.level === level;
+  })
+  .slice(0, 3);
+
+// Level mapping cho breadcrumb
+const levelMap = {
+  beginner: 'Sơ cấp',
+  intermediate: 'Trung cấp', 
+  advanced: 'Cao cấp'
+};
+
+// Extract headings from content for TOC
+const headings = content?.headings || [];
+
+// DEBUG: Log markdown content
+console.log('=== DEBUG MARKDOWN CONTENT ===');
+console.log('Entry slug:', entry.slug);
+console.log('Entry data:', entry.data);
+console.log('Content has render?:', !!content);
+console.log('Headings extracted:', headings);
+console.log('Number of headings:', headings.length);
+console.log('================================');
+---
+
+<GrammarPostLayout title={title} description={description}>
+  <div class="grammar-post">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span>></span>
+      <a href="/grammar">Ngữ pháp</a>
+      <span>></span>
+      <span>{levelMap[level]}</span>
+      <span>></span>
+      <span>{title}</span>
+    </nav>
+
+    <!-- Back Button -->
+    <div class="back-button">
+      <a href="/grammar" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 19l-7-7 7-7"/>
+        </svg>
+        Quay lại
+      </a>
+    </div>
+
+    <!-- Grammar Info -->
+    <div class="grammar-info">
+      <h1 class="grammar-title">{title}</h1>
+      <p class="grammar-meaning">{meaning}</p>
+      <div class="grammar-badges">
+        <span class="level-badge {level}">{levelMap[level]}</span>
+        {tags.map(tag => (
+          <span class="tag-badge">{tag}</span>
+        ))}
+      </div>
+      <p class="grammar-description">{description}</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <ShareButton />
+      <button class="action-btn print-btn" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6,9 6,2 18,2 18,9"/>
+          <path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        In bài viết
+      </button>
+      <PDFGenerator 
+        markdown={markdownBody || ''}
+        slug={entry.slug}
+        title={title}
+        meaning={meaning}
+        level={level}
+        description={description}
+        tags={tags}
+      />
+    </div>
+
+    <!-- Main Content -->
+    <div class="grammar-content markdown-content">
+      <Content />
+    </div>
+    
+    <!-- Image Viewer Component -->
+    <ImageViewer />
+
+    <!-- Navigation Buttons (Top) -->
+    <NavigationButtons 
+      prevGrammar={prevGrammar ? {
+        level: prevGrammar.data.level,
+        slug: prevGrammar.slug
+      } : undefined}
+      nextGrammar={nextGrammar ? {
+        level: nextGrammar.data.level,
+        slug: nextGrammar.slug
+      } : undefined}
+      showBackButton={false}
+      position="top"
+    />
+
+    <!-- Related Grammar -->
+    <RelatedGrammar 
+      relatedGrammar={relatedGrammar.map(grammar => ({
+        title: grammar.data.title,
+        meaning: grammar.data.meaning,
+        level: grammar.data.level,
+        slug: grammar.slug
+      }))}
+    />
+  </div>
+
+  <!-- Table of Contents in slot -->
+  <TableOfContents slot="toc" headings={headings} />
+</GrammarPostLayout>
+
+<style>
+  .grammar-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  .breadcrumb a {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .back-button {
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .back-link:hover {
+    background-color: #f8fafc;
+    border-color: #3b82f6;
+  }
+
+  .grammar-info {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+  }
+
+  .grammar-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+  }
+
+  .grammar-meaning {
+    font-size: 1.25rem;
+    color: #3b82f6;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .grammar-badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .level-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .level-badge.beginner {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .level-badge.intermediate {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .level-badge.advanced {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .tag-badge {
+    padding: 0.25rem 0.5rem;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+
+  .grammar-description {
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .action-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+  }
+
+  .grammar-content {
+    margin-bottom: 2rem;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .grammar-post {
+      padding: 1rem;
+    }
+
+    .grammar-title {
+      font-size: 2rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+
+    .action-btn {
+      justify-content: center;
+    }
+
+    .navigation-buttons {
+      flex-direction: column;
+    }
+
+    .nav-btn {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // DEBUG: Check markdown content in DOM
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== DEBUG CLIENT-SIDE ===');
+    
+    const grammarContent = document.querySelector('.grammar-content');
+    console.log('Grammar content element:', grammarContent);
+    console.log('Has content?:', grammarContent ? 'YES' : 'NO');
+    
+    if (grammarContent) {
+      console.log('Content innerHTML length:', grammarContent.innerHTML.length);
+      console.log('Content text length:', grammarContent.textContent?.length);
+      console.log('First 200 chars:', grammarContent.textContent?.substring(0, 200));
+      console.log('All headings found:', grammarContent.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+      console.log('Number of headings:', grammarContent.querySelectorAll('h1, h2, h3, h4, h5, h6').length);
+      
+      // Check if markdown CSS is applied
+      const styles = window.getComputedStyle(grammarContent);
+      console.log('Max-width:', styles.maxWidth);
+      console.log('Line-height:', styles.lineHeight);
+    } else {
+      console.error('❌ Grammar content element NOT FOUND!');
+    }
+    
+    console.log('========================');
+    
+    // PDF functionality
+    const pdfBtn = document.getElementById('pdfBtn');
+    if (pdfBtn) {
+      pdfBtn.addEventListener('click', function() {
+        // TODO: Implement PDF generation
+        alert('Tính năng tải PDF đang được phát triển!');
+      });
+    }
+  });
+</script>

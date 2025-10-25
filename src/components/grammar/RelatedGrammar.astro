@@ -1,0 +1,160 @@
+---
+export interface Props {
+  relatedGrammar: Array<{
+    title: string;
+    meaning: string;
+    level: string;
+    slug: string;
+  }>;
+}
+
+const { relatedGrammar } = Astro.props;
+
+const levelMap = {
+  beginner: 'Sơ cấp',
+  intermediate: 'Trung cấp',
+  advanced: 'Cao cấp'
+};
+---
+
+{relatedGrammar.length > 0 && (
+  <section class="related-grammar">
+    <h3 class="related-title">Ngữ pháp liên quan</h3>
+    <div class="related-list">
+      {relatedGrammar.map(grammar => (
+        <a 
+          href={`/grammar/${grammar.level}/${grammar.slug}`}
+          class="related-item"
+        >
+          <div class="related-content">
+            <span class="related-grammar-title">{grammar.title}</span>
+            <span class="related-grammar-meaning">{grammar.meaning}</span>
+          </div>
+          <span class="related-level-badge {grammar.level}">
+            {levelMap[grammar.level]}
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-grammar {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .related-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1rem 0;
+  }
+
+  .related-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .related-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+    border: 1px solid #e2e8f0;
+  }
+
+  .related-item:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .related-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .related-grammar-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #1e293b;
+    line-height: 1.3;
+  }
+
+  .related-grammar-meaning {
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.3;
+  }
+
+  .related-level-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .related-level-badge.beginner {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .related-level-badge.intermediate {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .related-level-badge.advanced {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .related-item:hover .related-grammar-title {
+    color: #3b82f6;
+  }
+
+  .related-item:hover .related-grammar-meaning {
+    color: #2563eb;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .related-grammar {
+      padding: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .related-item {
+      padding: 0.875rem;
+    }
+
+    .related-grammar-title {
+      font-size: 0.8rem;
+    }
+
+    .related-grammar-meaning {
+      font-size: 0.7rem;
+    }
+
+    .related-level-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+    }
+  }
+</style>
