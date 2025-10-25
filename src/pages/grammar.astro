@@ -1,5 +1,6 @@
 ---
 import GrammarLayout from '../layouts/GrammarLayout.astro';
+import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import { getCollection } from 'astro:content';
 
 // Lấy tất cả ngữ pháp từ content collection
@@ -27,21 +28,7 @@ const grammarByLevel = {
   <div class="grammar-page">
     <div class="grammar-container">
       <!-- Sidebar bên trái -->
-      <aside class="grammar-sidebar">
-        <div class="sidebar-header">
-          <h3>Danh sách ngữ pháp</h3>
-        </div>
-        <div class="sidebar-content">
-          <div class="grammar-list" id="grammar-list">
-            {sortedGrammar.map((grammar) => (
-              <div class="grammar-item" data-slug={grammar.slug} data-level={grammar.data.level}>
-                <div class="grammar-item-title">{grammar.data.title}</div>
-                <div class="grammar-item-meaning">{grammar.data.meaning}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
+      <GrammarSidebar />
 
       <!-- Nội dung chính -->
       <main class="grammar-main">
@@ -141,23 +128,14 @@ const grammarByLevel = {
 
   .grammar-container {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 280px 1fr;
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
   }
 
-  .grammar-sidebar {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    height: fit-content;
-    position: sticky;
-    top: 90px;
-    z-index: 10;
-  }
+
 
   .grammar-main {
     background: white;
@@ -468,42 +446,13 @@ const grammarByLevel = {
     gap: 0.5rem;
   }
 
-  .grammar-item {
-    padding: 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    border: 1px solid transparent;
-  }
 
-  .grammar-item:hover {
-    background-color: #f8fafc;
-  }
-
-  .grammar-item.active {
-    background-color: #dbeafe;
-    border-color: #3b82f6;
-  }
-
-  .grammar-item-title {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .grammar-item-meaning {
-    font-size: 0.875rem;
-    color: #64748b;
-  }
 
   /* Mobile responsive */
   @media (max-width: 1024px) {
     .grammar-container {
       grid-template-columns: 1fr;
       gap: 1rem;
-    }
-
-    .grammar-sidebar {
-      display: none;
     }
 
     .grammar-cards {
@@ -548,7 +497,6 @@ const grammarByLevel = {
     const grammarCards = document.getElementById('grammar-cards');
     const filterButtons = document.querySelectorAll('.filter-btn');
     const viewButtons = document.querySelectorAll('.view-btn');
-    const grammarItems = document.querySelectorAll('.grammar-item');
 
     let currentFilter = 'all';
     let currentView = 'grid';
@@ -696,13 +644,6 @@ const grammarByLevel = {
       });
     });
 
-    // Sidebar item click navigation
-    document.querySelectorAll('.grammar-item').forEach(item => {
-      item.addEventListener('click', function() {
-        const slug = this.dataset.slug;
-        const level = this.dataset.level;
-        window.location.href = `/grammar/${level}/${slug}`;
-      });
-    });
+
   });
 </script>

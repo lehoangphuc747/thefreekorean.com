@@ -4,7 +4,7 @@ meaning: "muốn"
 level: "beginner"
 slug: "go-sipda"
 description: "Ngữ pháp diễn tả ý muốn, mong muốn làm việc gì đó"
-tags: ["mong muốn", "ý muốn"]
+tags: ["muốn"]
 order: 2
 ---
 

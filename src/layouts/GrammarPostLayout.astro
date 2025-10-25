@@ -2,7 +2,7 @@
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
-import GrammarPostSidebar from '../components/grammar/GrammarPostSidebar.astro';
+import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import PrintStyles from '../components/common/PrintStyles.astro';
 import '../styles/global.css';
 
@@ -42,7 +42,7 @@ const { title, description, showTOC = true } = Astro.props;
 		
 		<div class="grammar-post-container">
 			<!-- Sidebar bên trái -->
-			<GrammarPostSidebar />
+			<GrammarSidebar />
 
 			<!-- Nội dung chính -->
 			<main class="grammar-main">
@@ -70,25 +70,12 @@ const { title, description, showTOC = true } = Astro.props;
 
 	.grammar-post-container {
 		display: grid;
-		grid-template-columns: 300px 1fr 250px;
+		grid-template-columns: 280px 1fr 280px;
 		min-height: calc(100vh - 120px);
 		gap: 1rem;
 		padding: 1rem;
 		max-width: 1400px;
 		margin: 0 auto;
-	}
-
-	.grammar-sidebar {
-		background: white;
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		padding: 1rem;
-		height: fit-content;
-		position: sticky;
-		top: 100px; /* NavBar height (70px) + margin (30px) */
-		z-index: 10;
-		max-height: calc(100vh - 120px);
-		overflow-y: auto;
 	}
 
 	.grammar-main {
@@ -98,127 +85,11 @@ const { title, description, showTOC = true } = Astro.props;
 		padding: 2rem;
 	}
 
-	.grammar-toc {
-		background: white;
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		padding: 1rem;
-		height: fit-content;
-		position: sticky;
-		top: 1rem;
-	}
-
-	.sidebar-header,
-	.toc-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 1rem;
-	}
-
-	.sidebar-toggle,
-	.toc-toggle {
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: 0.5rem;
-		border-radius: 4px;
-		transition: background-color 0.2s;
-	}
-
-	.sidebar-toggle:hover,
-	.toc-toggle:hover {
-		background-color: #f3f4f6;
-	}
-
-	.grammar-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.grammar-item {
-		padding: 0.75rem;
-		border-radius: 6px;
-		cursor: pointer;
-		transition: background-color 0.2s;
-		border: 1px solid transparent;
-	}
-
-	.grammar-item:hover {
-		background-color: #f8fafc;
-	}
-
-	.grammar-item.active {
-		background-color: #dbeafe;
-		border-color: #3b82f6;
-	}
-
-	.grammar-item-title {
-		font-weight: 600;
-		margin-bottom: 0.25rem;
-	}
-
-	.grammar-item-meaning {
-		font-size: 0.875rem;
-		color: #64748b;
-	}
-
-	.toc-content {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.toc-item {
-		padding: 0.5rem 0;
-		cursor: pointer;
-		transition: color 0.2s;
-		border-left: 2px solid transparent;
-		padding-left: 0.75rem;
-	}
-
-	.toc-item:hover {
-		color: #3b82f6;
-	}
-
-	.toc-item.active {
-		color: #3b82f6;
-		border-left-color: #3b82f6;
-	}
-
-	.toc-item.h2 {
-		font-weight: 600;
-	}
-
-	.toc-item.h3 {
-		font-size: 0.875rem;
-		margin-left: 1rem;
-	}
-
 	/* Mobile responsive */
 	@media (max-width: 1024px) {
 		.grammar-post-container {
 			grid-template-columns: 1fr;
 			gap: 0;
-		}
-
-		.grammar-sidebar {
-			position: fixed;
-			top: 70px;
-			left: -280px;
-			width: 280px;
-			height: calc(100vh - 70px);
-			z-index: 30;
-			transition: left 0.3s ease;
-		}
-
-		.grammar-sidebar.open {
-			left: 0;
-		}
-
-		.grammar-toc {
-			display: none;
 		}
 
 		.grammar-main {
@@ -236,17 +107,3 @@ const { title, description, showTOC = true } = Astro.props;
 		}
 	}
 </style>
-
-<script>
-	// Sidebar toggle functionality
-	document.addEventListener('DOMContentLoaded', function() {
-		const sidebarToggle = document.getElementById('sidebar-toggle');
-		const sidebar = document.getElementById('grammar-sidebar');
-
-		if (sidebarToggle && sidebar) {
-			sidebarToggle.addEventListener('click', function() {
-				sidebar.classList.toggle('hidden');
-			});
-		}
-	});
-</script>
