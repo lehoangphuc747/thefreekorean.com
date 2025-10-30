@@ -16,15 +16,17 @@ const { prevGrammar, nextGrammar, showBackButton = true, position = 'top' } = As
 ---
 
 <div class="navigation-buttons {position}">
-  {prevGrammar && (
+  {prevGrammar ? (
     <a href={`/grammar/${prevGrammar.level}/${prevGrammar.slug}`} class="nav-btn prev-btn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M15 19l-7-7 7-7"/>
       </svg>
       <span class="nav-label">Trước</span>
     </a>
+  ) : (
+    <div class="nav-spacer" aria-hidden="true"></div>
   )}
-  
+
   {showBackButton && (
     <a href="/grammar" class="nav-btn back-btn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -33,14 +35,16 @@ const { prevGrammar, nextGrammar, showBackButton = true, position = 'top' } = As
       <span class="nav-label">Quay lại</span>
     </a>
   )}
-  
-  {nextGrammar && (
+
+  {nextGrammar ? (
     <a href={`/grammar/${nextGrammar.level}/${nextGrammar.slug}`} class="nav-btn next-btn">
       <span class="nav-label">Tiếp</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M9 5l7 7-7 7"/>
       </svg>
     </a>
+  ) : (
+    <div class="nav-spacer" aria-hidden="true"></div>
   )}
 </div>
 
@@ -52,6 +56,11 @@ const { prevGrammar, nextGrammar, showBackButton = true, position = 'top' } = As
     gap: 1rem;
     margin: 2rem 0;
     width: 100%;
+  }
+
+  .nav-spacer {
+    flex: 1;
+    min-width: 100px;
   }
 
   .navigation-buttons.bottom {
@@ -78,7 +87,6 @@ const { prevGrammar, nextGrammar, showBackButton = true, position = 'top' } = As
 
   .prev-btn, .next-btn {
     flex: 1;
-    max-width: 200px;
   }
 
   .back-btn {

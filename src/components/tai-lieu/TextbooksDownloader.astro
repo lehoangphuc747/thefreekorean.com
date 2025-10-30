@@ -88,32 +88,32 @@ if (downloadAnki) {
 ---
 
 <!-- --- Template --- -->
-<div class="bg-slate-50 rounded-xl shadow-lg p-6 sm:p-8 mb-8 border border-slate-200/80">
-  <div class="text-center mb-6">
-    <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">Tải xuống tài liệu</h2>
-    <p class="text-slate-500 mt-1">Chọn phiên bản tài liệu bạn cần</p>
+<div class="bg-slate-50 rounded-lg shadow p-5 sm:p-6 mb-6 border border-slate-200/80">
+  <div class="text-center mb-4">
+    <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Tải xuống tài liệu</h2>
+    <p class="text-slate-500 mt-1 text-sm">Chọn phiên bản tài liệu bạn cần</p>
   </div>
-  <div class="max-w-md mx-auto">
-    <div class="space-y-4">
+  <div class="max-w-3xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
       <!-- Lặp qua danh sách để render các nút bấm -->
       {downloadItems.map(item => (
         <a
           href={item.href}
           class:list={[
-            "download-btn group flex items-center justify-between text-white font-semibold p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out bg-gradient-to-r",
+            "download-btn group flex items-center justify-between text-white font-semibold p-3 rounded-lg shadow-sm transition-all duration-200 ease-in-out bg-gradient-to-r",
             item.colorClasses
           ]}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="flex items-center">
+          <div class="flex items-center gap-2">
             <Fragment set:html={item.icon} />
-            <span class="text-base">{item.label}</span>
+            <span class="text-sm">{item.label}</span>
           </div>
-          <div class="flex items-center">
-            <span class="text-sm font-medium opacity-80 mr-4">{item.size}</span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-medium opacity-90">{item.size}</span>
             <div class="download-icon-wrapper">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300 ease-in-out" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 ease-in-out" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
             </div>
@@ -128,20 +128,9 @@ if (downloadAnki) {
 <style>
   .download-btn {
     /* Hiệu ứng khi hover */
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    
   }
-  .download-btn:hover {
-    /* Phóng to nhẹ và tăng độ bóng */
-    transform: scale(1.02);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  }
-  /* Hiệu ứng cho icon tải xuống */
-  .download-icon-wrapper .h-6 {
-    transition: transform 0.3s ease-in-out;
-  }
-  .download-btn:hover .download-icon-wrapper .h-6 {
-    /* Icon sẽ di chuyển xuống một chút khi hover */
-    transform: translateY(4px);
+  .download-btn:hover .download-icon-wrapper svg {
+    transform: translateY(1px);
   }
 </style>

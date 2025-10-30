@@ -57,7 +57,7 @@ const grammarByLevel = {
               placeholder="Tìm kiếm ngữ pháp..." 
               class="search-input"
             />
-            <button id="clearSearch" class="clear-button" style="display: none;">
+            <button id="clearSearch" class="clear-button" style="display: none;" aria-label="Xoá tìm kiếm">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -104,7 +104,7 @@ const grammarByLevel = {
               </div>
               <div class="card-content">
                 <p class="card-meaning">{grammar.data.meaning}</p>
-                <p class="card-description">{grammar.data.description}</p>
+                <p class="card-description" set:html={grammar.data.description}></p>
               </div>
               <div class="card-tags">
                 {grammar.data.tags.map((tag) => (
@@ -177,6 +177,7 @@ const grammarByLevel = {
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s;
+    color: #334155;
   }
 
   .filter-btn:hover {
@@ -221,6 +222,11 @@ const grammarByLevel = {
     font-size: 1rem;
     background: white;
     transition: border-color 0.2s;
+    color: #0f172a;
+  }
+
+  .search-input::placeholder {
+    color: #94a3b8;
   }
 
   .search-input:focus {
@@ -236,7 +242,19 @@ const grammarByLevel = {
     background: none;
     border: none;
     cursor: pointer;
-    color: #64748b;
+    color: #94a3b8;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .clear-button.active {
+    color: #dc2626;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .clear-button.active:hover {
+    color: #b91c1c;
   }
 
   .search-stats {
@@ -268,10 +286,12 @@ const grammarByLevel = {
     align-items: center;
     gap: 0.5rem;
     transition: background-color 0.2s;
+    color: #334155;
   }
 
   .view-btn:hover {
     background: #f8fafc;
+    color: #0f172a;
   }
 
   .view-btn.active {
@@ -564,9 +584,11 @@ const grammarByLevel = {
       
       if (query.length > 0) {
         clearButton.style.display = 'block';
+        clearButton.classList.add('active');
         performSearch(query);
       } else {
         clearButton.style.display = 'none';
+        clearButton.classList.remove('active');
         clearSearch();
       }
     });
@@ -574,6 +596,7 @@ const grammarByLevel = {
     clearButton.addEventListener('click', function() {
       searchInput.value = '';
       this.style.display = 'none';
+      this.classList.remove('active');
       clearSearch();
     });
 

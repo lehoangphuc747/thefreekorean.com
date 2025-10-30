@@ -3,6 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import TextbooksHeader from '../../../components/tai-lieu/TextbooksHeader.astro';
 import TextbooksDownloader from '../../../components/tai-lieu/TextbooksDownloader.astro';
 import PDFPreview from '../../../components/tai-lieu/PDFPreview.astro';
+import RelatedDocuments from '../../../components/tai-lieu/RelatedDocuments.astro';
 
 export const postData = {
   title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
@@ -26,6 +27,44 @@ export const postData = {
   seoDescription: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 1 dành cho người mới bắt đầu. Bao gồm PDF, audio, bài tập, ngữ pháp cơ bản, từ vựng theo chủ đề. Tự học tiếng Hàn dễ dàng.",
   keywords: ["học tiếng Hàn", "giáo trình tiếng Hàn sơ cấp", "tự học tiếng Hàn", "Tiếng Hàn Tổng Hợp"]
 };
+
+// Định nghĩa danh sách tài liệu tối thiểu để lọc liên quan
+const allDocuments = [
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+    slug: "tai-lieu/textbooks/tieng-han-tong-hop-1",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-1",
+    type: "PDF",
+    size: postData.fileSize,
+    category: postData.category,
+    subcategory: postData.subcategory,
+    date: postData.date
+  },
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
+    slug: "tai-lieu/textbooks/tieng-han-tong-hop-2",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-2",
+    type: "PDF",
+    size: "~120MB",
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2024-06-01"
+  },
+  {
+    title: "Anki - Tiếng Hàn Tổng Hợp 1",
+    url: "/tai-lieu/anki/books/tieng-han-tong-hop/anki-tong-hop-1",
+    type: "ANKI",
+    cards: 1486,
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2025-09-23"
+  }
+];
+
+const related = allDocuments
+  .filter(d => d.url !== "/tai-lieu/textbooks/tieng-han-tong-hop-1")
+  .filter(d => d.subcategory === postData.subcategory || d.category === postData.category)
+  .slice(0, 6);
 ---
 
 <Layout title={postData.title}>
@@ -63,6 +102,9 @@ export const postData = {
         title={`Xem trước: ${postData.title}`}
         height="600px"
       />
+
+      <!-- Related Documents -->
+      <RelatedDocuments title="Tài liệu liên quan" documents={related} />
     </div>
   </main>
 </Layout>
@@ -115,11 +157,5 @@ export const postData = {
   .prose hr {
     margin: 2rem 0;
     border: none;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
   }
 </style>

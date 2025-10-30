@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../../../layouts/Layout.astro';
+import AnkiLayout from '../../../../../layouts/AnkiLayout.astro';
 import AnkiLessons from '../../../../../components/tai-lieu/AnkiLessons.astro';
 
 export const postData = {
@@ -131,9 +131,8 @@ const ankiLessons = [
 ];
 ---
 
-<Layout title={postData.title}>
-  <main class="container mx-auto px-4 py-8">
-    <div class="max-w-6xl mx-auto">
+<AnkiLayout title={postData.title}>
+  <div class="max-w-6xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-5xl font-bold text-gray-900 mb-4">Anki - Tiếng Hàn Tổng Hợp 1</h1>
@@ -183,6 +182,5 @@ const ankiLessons = [
         <p>🎌 Chúc bạn học tiếng Hàn thành công!</p>
         <p class="text-sm mt-2">The Free Korean - Nguồn tài liệu học tiếng Hàn miễn phí</p>
       </div>
-    </div>
-  </main>
-</Layout>
+  </div>
+</AnkiLayout>

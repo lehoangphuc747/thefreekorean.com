@@ -39,13 +39,7 @@ const { headings } = Astro.props;
 </aside>
 
 <!-- Mobile floating TOC button -->
-<button class="toc-floating-btn" id="toc-floating-btn" aria-label="Mở mục lục">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <line x1="3" y1="6" x2="21" y2="6"/>
-    <line x1="3" y1="12" x2="21" y2="12"/>
-    <line x1="3" y1="18" x2="21" y2="18"/>
-  </svg>
-</button>
+<!-- Removed: moved to page to be inside main content container -->
 
 <style>
   .toc-container {
@@ -152,8 +146,9 @@ const { headings } = Astro.props;
   .toc-floating-btn {
     display: none;
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    top: 7px; /* (70px navbar height - 56px button) / 2 */
+    right: 1rem;
+    bottom: unset;
     width: 56px;
     height: 56px;
     background: #3b82f6;
@@ -162,7 +157,7 @@ const { headings } = Astro.props;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    z-index: 1000;
+    z-index: 1100;
     transition: all 0.2s;
   }
 
@@ -195,6 +190,11 @@ const { headings } = Astro.props;
       display: flex;
       align-items: center;
       justify-content: center;
+      top: 7px; /* center in 70px navbar */
+      right: 1rem;
+      bottom: unset;
+      width: 56px;
+      height: 56px;
     }
   }
 
@@ -205,8 +205,9 @@ const { headings } = Astro.props;
     }
 
     .toc-floating-btn {
-      bottom: 1rem;
+      top: 11px; /* (70px - 48px) / 2 */
       right: 1rem;
+      bottom: unset;
       width: 48px;
       height: 48px;
     }

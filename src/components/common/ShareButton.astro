@@ -60,6 +60,20 @@
     background: #f8fafc;
   }
 
+  /* Mobile adjustments to match other buttons */
+  @media (max-width: 768px) {
+    .share-dropdown {
+      display: block;
+      width: 100%;
+    }
+    .share-btn {
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
   .share-menu {
     position: absolute;
     top: 100%;
@@ -69,7 +83,9 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    min-width: 200px;
+    /* make menu match the width of the trigger button */
+    width: 100%;
+    min-width: unset;
     display: none;
     margin-top: 0.5rem;
   }
@@ -81,12 +97,13 @@
   .share-option {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
     width: 100%;
     padding: 0.75rem 1rem;
     border: none;
     background: none;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
     transition: background-color 0.2s;
     color: #374151;

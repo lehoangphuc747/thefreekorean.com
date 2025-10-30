@@ -1,0 +1,12 @@
+{
+  "livePreview": false,
+  "spellcheck": false,
+  "showLineNumber": true,
+  "trashOption": "local",
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "src/content/grammar",
+  "newLinkFormat": "relative",
+  "showUnsupportedFiles": true,
+  "attachmentFolderPath": "public/images"
+}

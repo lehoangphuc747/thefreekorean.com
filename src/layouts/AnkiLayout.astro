@@ -1,0 +1,48 @@
+---
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  backHref?: string;
+  backLabel?: string;
+}
+
+const {
+  title = 'Anki - The Free Korean',
+  backHref = '/tai-lieu/anki/books',
+  backLabel = 'Quay lại'
+} = Astro.props as Props;
+---
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <NavBar />
+
+    <main class="container mx-auto px-4 py-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-4">
+          <a href={backHref} class="inline-flex items-center gap-2 px-3 py-1.5 bg-white text-gray-700 border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors text-sm font-medium">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            {backLabel}
+          </a>
+        </div>
+        <slot />
+      </div>
+    </main>
+
+    <Footer />
+    <ScrollToTop />
+  </body>
+</html>

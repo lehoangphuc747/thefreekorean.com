@@ -24,9 +24,9 @@ import '../styles/navbar.css';
 
 <style>
 .navbar {
-  position: sticky;
+  position: fixed; /* dùng fixed để luôn ở trên cùng */
   top: 0;
-  z-index: 100;
+  z-index: 3000; /* cao để trên mọi lớp */
   width: 100%;
   background: #ffffff;
   box-shadow: 0 4px 24px 0 rgba(50,69,255,0.12);
@@ -41,6 +41,8 @@ import '../styles/navbar.css';
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1.5rem;
+  position: relative;
+  z-index: 3100; /* cao hơn các phần tử con khác */
 }
 .navbar-logo {
   display: flex;
@@ -70,6 +72,13 @@ import '../styles/navbar.css';
   cursor: pointer;
   color: #3245ff;
   margin-left: 1rem;
+  position: relative;
+  z-index: 3200; /* ensure clickable */
+  width: 44px; /* tăng vùng click tối thiểu */
+  height: 44px;
+  padding: 8px; /* tăng vùng tap */
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto; /* bảo đảm nhận click */
 }
 .navbar-menu {
   display: flex;
@@ -123,7 +132,7 @@ import '../styles/navbar.css';
     padding: 1rem 0;
     border-radius: 0 0 18px 18px;
     display: none;
-    z-index: 200;
+    z-index: 3300; /* menu nổi cao hơn */
   }
   .navbar-menu.open {
     display: flex;

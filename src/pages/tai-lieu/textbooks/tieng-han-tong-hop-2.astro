@@ -3,28 +3,61 @@ import Layout from '../../../layouts/Layout.astro';
 import TextbooksHeader from '../../../components/tai-lieu/TextbooksHeader.astro';
 import TextbooksDownloader from '../../../components/tai-lieu/TextbooksDownloader.astro';
 import PDFPreview from '../../../components/tai-lieu/PDFPreview.astro';
+import RelatedDocuments from '../../../components/tai-lieu/RelatedDocuments.astro';
 
 export const postData = {
   title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
-  date: "2024-05-01",
+  date: "2024-08-01",
   category: "Giáo trình",
   subcategory: "Tiếng Hàn Tổng Hợp",
   type: "PDF",
-  cover: "/images/tieng-han-tong-hop-2.jpg", // Temporary placeholder until tieng-han-tong-hop-2.jpg is added
-  description: "Giáo trình sơ cấp 2 cho người đã học xong cấp độ sơ cấp 1",
-  downloadUrl: "https://drive.google.com/open?id=1mP7H3lMGIBaEVLm13HG0gDiuYuIs4Ubb&usp=drive_fs",
-  downloadOriginal: "https://1drv.ms/b/c/95cd9adb2b8c9171/EQyXw5hvZAdNh3EFgCXo_wIB2KU1C4cRt1C3LUY5gIwaew?e=liJca4",
-  downloadWorkbook: "https://1drv.ms/b/c/95cd9adb2b8c9171/EZuEzsNwxjJBmUN5VA96NYABhyWRMJfBDUno_Gdm5H23oQ?e=43ovzx",
-  downloadAudio: "https://1drv.ms/u/c/95cd9adb2b8c9171/ES38-rd0YGBKoe56PHQWwlgBy_sXKall07FSod8i8ahJSQ?e=3bAcYQ",
-  fileSize: "19.6MB",
-  originalSize: "19.6MB",
-  workbookSize: "9.4MB",
+  cover: "/images/tieng-han-tong-hop-2.jpg",
+  description: "Giáo trình nâng cao tiếp nối Sơ cấp 1",
+  downloadUrl: "#",
+  downloadOriginal: "#",
+  downloadWorkbook: "#",
+  downloadAudio: "#",
+  fileSize: "~120MB",
+  originalSize: "~200MB",
+  workbookSize: "~30MB",
   audioSize: "Folder audio",
-  pages: 362,
-  seoTitle: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 2 - Học tiếng Hàn hiệu quả",
-  seoDescription: "Giáo trình Tiếng Hàn Tổng Hợp Sơ cấp 2 cho người đã có nền tảng cơ bản. Bao gồm PDF, audio, bài tập, ngữ pháp nâng cao, từ vựng phong phú. Tiếp tục hành trình học tiếng Hàn.",
-  keywords: ["học tiếng Hàn", "giáo trình tiếng Hàn sơ cấp 2", "tự học tiếng Hàn", "Tiếng Hàn Tổng Hợp", "tiếng Hàn trung cấp"]
+  pages: 260
 };
+
+const allDocuments = [
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-1",
+    type: "PDF",
+    size: "18.1MB",
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2024-05-01"
+  },
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-2",
+    type: "PDF",
+    size: postData.fileSize,
+    category: postData.category,
+    subcategory: postData.subcategory,
+    date: postData.date
+  },
+  {
+    title: "Anki - Tiếng Hàn Tổng Hợp 1",
+    url: "/tai-lieu/anki/books/tieng-han-tong-hop/anki-tong-hop-1",
+    type: "ANKI",
+    cards: 1486,
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2025-09-23"
+  }
+];
+
+const related = allDocuments
+  .filter(d => d.url !== "/tai-lieu/textbooks/tieng-han-tong-hop-2")
+  .filter(d => d.subcategory === postData.subcategory || d.category === postData.category)
+  .slice(0, 6);
 ---
 
 <Layout title={postData.title}>
@@ -47,8 +80,8 @@ export const postData = {
       <TextbooksDownloader 
         downloadUrl={postData.downloadUrl}
         downloadOriginal={postData.downloadOriginal}
-        downloadWorkbook={postData.downloadWorkbook}
-        downloadAudio={postData.downloadAudio}
+        downloadWorkbook={postData.workbookSize}
+        downloadAudio={postData.audioSize}
         fileSize={postData.fileSize}
         originalSize={postData.originalSize}
         workbookSize={postData.workbookSize}
@@ -62,61 +95,13 @@ export const postData = {
         height="600px"
       />
 
+      <!-- Related Documents -->
+      <RelatedDocuments title="Tài liệu liên quan" documents={related} />
+
     </div>
   </main>
 </Layout>
 
 <style>
-  .prose {
-    color: #374151;
-  }
-  
-  .prose h2 {
-    color: #1f2937;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0.5rem;
-  }
-  
-  .prose h3 {
-    color: #374151;
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .prose p {
-    margin-bottom: 1rem;
-    line-height: 1.7;
-  }
-  
-  .prose ul {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-  
-  .prose li {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-  }
-  
-  .prose strong {
-    color: #3b82f6;
-    font-weight: 600;
-  }
-
-  .prose hr {
-    margin: 2rem 0;
-    border: none;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
+  .prose { color: #374151; }
 </style>

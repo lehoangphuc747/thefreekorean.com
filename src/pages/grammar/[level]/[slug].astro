@@ -16,9 +16,9 @@ export async function getStaticPaths() {
     grammarEntries.map(async (entry) => {
       const rendered = await entry.render();
       return {
-        params: { 
+        params: {
           level: entry.data.level,
-          slug: entry.slug 
+          slug: entry.slug
         },
         props: { 
           entry,
@@ -87,17 +87,16 @@ console.log('================================');
 
 <GrammarPostLayout title={title} description={description}>
   <div class="grammar-post">
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb">
-      <a href="/">Home</a>
-      <span>></span>
-      <a href="/grammar">Ngữ pháp</a>
-      <span>></span>
-      <span>{levelMap[level]}</span>
-      <span>></span>
-      <span>{title}</span>
-    </nav>
-
+    
+    <!-- Floating TOC Button inside main content -->
+    <button class="toc-floating-btn" id="toc-floating-btn" aria-label="Mở mục lục">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    
     <!-- Back Button -->
     <div class="back-button">
       <a href="/grammar" class="back-link">
@@ -118,7 +117,7 @@ console.log('================================');
           <span class="tag-badge">{tag}</span>
         ))}
       </div>
-      <p class="grammar-description">{description}</p>
+      <p class="grammar-description" set:html={description}></p>
     </div>
 
     <!-- Action Buttons -->
@@ -185,28 +184,46 @@ console.log('================================');
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
+    position: relative; /* allow absolute positioning of floating button */
   }
 
-  .breadcrumb {
-    display: flex;
+  /* Local positioning for TOC floating button inside main */
+  .toc-floating-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 48px;
+    height: 48px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-    color: #64748b;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    z-index: 5;
   }
 
-  .breadcrumb a {
-    color: #3b82f6;
-    text-decoration: none;
+  .toc-floating-btn:hover {
+    background: #2563eb;
   }
 
-  .breadcrumb a:hover {
-    text-decoration: underline;
+  /* Hide floating TOC button on mobile */
+  @media (max-width: 768px) {
+    .toc-floating-btn {
+      display: none;
+    }
   }
 
   .back-button {
     margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .back-button {
+      display: none;
+    }
   }
 
   .back-link {
@@ -262,6 +279,8 @@ console.log('================================');
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
+    background: #f1f5f9;
+    color: #475569;
   }
 
   .level-badge.beginner {
@@ -313,6 +332,7 @@ console.log('================================');
     cursor: pointer;
     font-weight: 500;
     transition: all 0.2s;
+    color: #374151;
   }
 
   .action-btn:hover {
@@ -322,6 +342,36 @@ console.log('================================');
 
   .grammar-content {
     margin-bottom: 2rem;
+  }
+
+  /* Ordered list default numbering */
+  .markdown-content ol {
+    list-style: decimal outside;
+    padding-left: 1.5rem;
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
+  .markdown-content ol > li {
+    margin: 0.25rem 0;
+    line-height: 1.6;
+  }
+
+  /* Unordered lists keep disc bullets */
+  .markdown-content ul {
+    list-style: disc outside;
+    padding-left: 1.5rem;
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
+  .markdown-content ul > li {
+    margin: 0.25rem 0;
+    line-height: 1.6;
+  }
+
+  .markdown-content ol li ul {
+    list-style: disc outside;
+    padding-left: 1.5rem;
+    margin: 0.25rem 0 0.5rem 0;
   }
 
   /* Mobile responsive */
@@ -378,6 +428,74 @@ console.log('================================');
     
     console.log('========================');
     
+    // Grammar keyword highlighting
+    function highlightGrammarKeywords() {
+      const content = document.querySelector('.grammar-content');
+      if (!content) return;
+
+      // Common grammar keywords to highlight
+      const keywords = [
+        '조사', '서술어', '명사', '동사', '형용사', '어미',
+        '선어말어미', '연결어미', '종결어미', '받침',
+        '주격조사', '목적격조사', '보격조사', '부사격조사',
+        '서술격조사', '접속조사', '관형사', '부사',
+        '대명사', '수사', '감탄사', '체언', '용언',
+        '형태소', '단어', '문장', '문법', '활용',
+        '어미', '어간', '어말어미', '선어말어미',
+        '연결어미', '종결어미', '존칭어', '반말',
+        '높임말', '낮춤말', '표준어', '방언'
+      ];
+
+      // Function to highlight text
+      function highlightText(element, searchTerm) {
+        const text = element.textContent;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        const highlighted = text.replace(regex, '<span class="grammar-keyword">$1</span>');
+        if (highlighted !== text) {
+          element.innerHTML = highlighted;
+        }
+      }
+
+      // Apply highlighting to paragraphs, list items, and table cells
+      const elements = content.querySelectorAll('p, li, td, blockquote');
+      elements.forEach(element => {
+        keywords.forEach(keyword => {
+          if (element.textContent.includes(keyword)) {
+            highlightText(element, keyword);
+          }
+        });
+      });
+    }
+
+    // Highlight correctness indicators
+    function highlightCorrectnessIndicators() {
+      const content = document.querySelector('.grammar-content');
+      if (!content) return;
+
+      const indicators = [
+        { pattern: /\(O\)/g, className: 'correct' },
+        { pattern: /\(X\)/g, className: 'incorrect' },
+        { pattern: /\(\?\)/g, className: 'warning' }
+      ];
+
+      const tableCells = content.querySelectorAll('td');
+      tableCells.forEach(cell => {
+        indicators.forEach(indicator => {
+          const text = cell.textContent;
+          const highlighted = text.replace(indicator.pattern,
+            (match) => `<span class="${indicator.className}">${match}</span>`
+          );
+          if (highlighted !== text) {
+            cell.innerHTML = highlighted;
+          }
+        });
+      });
+    }
+
+    // Apply highlighting after content loads
+    highlightGrammarKeywords();
+    highlightCorrectnessIndicators();
+
     // PDF functionality
     const pdfBtn = document.getElementById('pdfBtn');
     if (pdfBtn) {

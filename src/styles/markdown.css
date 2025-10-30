@@ -33,7 +33,19 @@
   color: #374151;
 }
 
-.markdown-content h4,
+.markdown-content h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eef6fc;
+  border-left: 4px solid #3b82f6;
+  padding: 0.6rem 1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.8rem;
+  border-radius: 6px 0 0 6px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.04);
+}
+
 .markdown-content h5,
 .markdown-content h6 {
   font-weight: 600;
@@ -185,6 +197,80 @@
   font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   font-size: 1.1em;
   line-height: 1.8;
+}
+
+/* Grammar keyword highlighting */
+.markdown-content .grammar-keyword {
+  font-weight: 600;
+  color: #2563eb;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.1);
+  transition: all 0.2s ease;
+}
+
+.markdown-content .grammar-keyword:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  transform: translateY(-0.5px);
+}
+
+/* Special styling for correctness indicators */
+.markdown-content .correct {
+  color: #059669;
+  font-weight: 600;
+  background: #ecfdf5;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  border: 1px solid #a7f3d0;
+}
+
+.markdown-content .incorrect {
+  color: #dc2626;
+  font-weight: 600;
+  background: #fef2f2;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+}
+
+.markdown-content .warning {
+  color: #d97706;
+  font-weight: 600;
+  background: #fffbeb;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  border: 1px solid #fed7aa;
+}
+
+/* Auto-highlight common grammar terms */
+.markdown-content p:contains("조사"),
+.markdown-content p:contains("서술어"),
+.markdown-content p:contains("명사"),
+.markdown-content p:contains("동사"),
+.markdown-content p:contains("형용사"),
+.markdown-content p:contains("어미"),
+.markdown-content p:contains("선어말어미"),
+.markdown-content p:contains("연결어미"),
+.markdown-content p:contains("종결어미"),
+.markdown-content li:contains("조사"),
+.markdown-content li:contains("서술어"),
+.markdown-content li:contains("명사"),
+.markdown-content li:contains("동사"),
+.markdown-content li:contains("형용사"),
+.markdown-content li:contains("어미"),
+.markdown-content li:contains("선어말어미"),
+.markdown-content li:contains("연결어미"),
+.markdown-content li:contains("종결어미") {
+  /* Note: CSS :contains() is not widely supported, using manual approach instead */
+}
+
+/* Manual keyword highlighting for common terms */
+.markdown-content p,
+.markdown-content li,
+.markdown-content td,
+.markdown-content blockquote {
+  /* This will be handled by JavaScript for better control */
 }
 
 /* Example styling */

@@ -38,8 +38,10 @@ const totalCount = sortedGrammar.length;
   <div class="sidebar-header">
     <div class="sidebar-heading">
       <h2 class="sidebar-title">Ngữ pháp</h2>
-      <span class="sidebar-count">{totalCount} mẫu câu</span>
+      <span class="sidebar-count">{totalCount} mẫu</span>
     </div>
+
+    <a href="/grammar" class="sidebar-back" aria-label="Quay lại">Quay lại</a>
 
     <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Đóng sidebar">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -49,12 +51,6 @@ const totalCount = sortedGrammar.length;
     </button>
   </div>
 
-  <div class="sidebar-actions">
-    <button class="sidebar-action active" data-action="list">Danh sách</button>
-    <button class="sidebar-action" data-action="bookmark">Đánh dấu</button>
-    <button class="sidebar-action" data-action="recent">Gần đây</button>
-  </div>
-
   <div class="sidebar-search">
     <label for="sidebar-search-input" class="sr-only">Tìm kiếm ngữ pháp</label>
     <div class="sidebar-search-wrapper">
@@ -62,7 +58,7 @@ const totalCount = sortedGrammar.length;
         <circle cx="11" cy="11" r="7" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
-      <input id="sidebar-search-input" type="text" placeholder="Tìm nhanh trong sidebar..." />
+      <input id="sidebar-search-input" type="text" placeholder="Tìm nhanh trong sidebar..." class="flex-1" />
       <button id="sidebar-search-clear" aria-label="Xoá tìm kiếm">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18" />
@@ -194,36 +190,28 @@ const totalCount = sortedGrammar.length;
     transform: translateY(-1px);
   }
 
-  .sidebar-actions {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
-    padding: 0.5rem;
-    background: #f8fafc;
-    border-radius: 12px;
-  }
-
-  .sidebar-action {
-    border: none;
-    background: transparent;
+  .sidebar-back {
+    display: none;
+    margin-left: auto;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #e2e8f0;
     border-radius: 10px;
-    padding: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .sidebar-action:hover {
-    background: #e2e8f0;
     color: #1d4ed8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #ffffff;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
   }
 
-  .sidebar-action.active {
-    background: #1d4ed8;
-    color: #ffffff;
-    box-shadow: 0 8px 16px rgba(29, 78, 216, 0.15);
+  .sidebar-back[hidden] {
+    display: none !important;
+  }
+
+  .sidebar-back:hover {
+    color: #1e40af;
+    border-color: #bfdbfe;
+    background: #eff6ff;
   }
 
   .sidebar-search {
@@ -242,6 +230,31 @@ const totalCount = sortedGrammar.length;
     gap: 0.5rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     background: #ffffff;
+  }
+
+  #sidebar-search-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  #sidebar-search-clear.active {
+    color: #dc2626;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #sidebar-search-clear.active:hover {
+    color: #b91c1c;
   }
 
   .sidebar-search-wrapper:focus-within {
@@ -578,12 +591,26 @@ const totalCount = sortedGrammar.length;
       left: 0;
     }
   }
+
+  @media (min-width: 1024px) {
+    .sidebar-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('grammar-sidebar');
     if (!sidebar) return;
+
+    const backLink = sidebar.querySelector('.sidebar-back') as HTMLAnchorElement | null;
+    if (backLink) {
+      const isGrammarList = window.location.pathname === '/grammar';
+      backLink.toggleAttribute('hidden', isGrammarList);
+    }
 
     const toggle = document.getElementById('sidebar-toggle');
     const searchInput = document.getElementById('sidebar-search-input') as HTMLInputElement | null;
@@ -621,6 +648,14 @@ const totalCount = sortedGrammar.length;
       if (!searchInput) return;
       const keyword = searchInput.value.trim().toLowerCase();
       let visibleCount = 0;
+
+      if (clearButton) {
+        if (keyword.length > 0) {
+          clearButton.classList.add('active');
+        } else {
+          clearButton.classList.remove('active');
+        }
+      }
 
       levelSections.forEach((section) => {
         const level = section.dataset.levelSection || '';
@@ -742,6 +777,7 @@ const totalCount = sortedGrammar.length;
           searchInput.value = '';
           searchInput.focus();
         }
+        clearButton.classList.remove('active');
         filterItems();
       });
     }
