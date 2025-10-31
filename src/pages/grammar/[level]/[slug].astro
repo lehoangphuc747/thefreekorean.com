@@ -72,8 +72,12 @@ const levelMap = {
   advanced: 'Cao cấp'
 };
 
-// Extract headings from content for TOC
-const headings = content?.headings || [];
+// Extract headings from content for TOC and map to expected shape
+const headings = (content?.headings || []).map((h: any) => ({
+  id: h.slug,
+  text: h.text,
+  level: h.depth
+}));
 
 // DEBUG: Log markdown content
 console.log('=== DEBUG MARKDOWN CONTENT ===');
@@ -86,27 +90,11 @@ console.log('================================');
 ---
 
 <GrammarPostLayout title={title} description={description}>
+  
+  
   <div class="grammar-post">
     
-    <!-- Floating TOC Button inside main content -->
-    <button class="toc-floating-btn" id="toc-floating-btn" aria-label="Mở mục lục">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
     
-    <!-- Back Button -->
-    <div class="back-button">
-      <a href="/grammar" class="back-link">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 19l-7-7 7-7"/>
-        </svg>
-        Quay lại
-      </a>
-    </div>
-
     <!-- Grammar Info -->
     <div class="grammar-info">
       <h1 class="grammar-title">{title}</h1>
@@ -122,6 +110,12 @@ console.log('================================');
 
     <!-- Action Buttons -->
     <div class="action-buttons">
+      <a href="/grammar" class="action-btn back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 19l-7-7 7-7"/>
+        </svg>
+        Quay lại
+      </a>
       <ShareButton />
       <button class="action-btn print-btn" onclick="window.print()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -184,37 +178,67 @@ console.log('================================');
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
-    position: relative; /* allow absolute positioning of floating button */
+    position: relative;
   }
 
-  /* Local positioning for TOC floating button inside main */
-  .toc-floating-btn {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 48px;
-    height: 48px;
-    background: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 50%;
+  .action-buttons { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+  .action-btn.back-link { color: #3b82f6; }
+  .action-btn.back-link:hover { border-color: #3b82f6; }
+
+  .toc-floating-btn { display: none; }
+
+  /* Heading link icon */
+  .markdown-content .heading-anchor {
+    margin-left: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    color: #94a3b8;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    z-index: 5;
+    line-height: 1;
+  }
+  .markdown-content h1:hover .heading-anchor,
+  .markdown-content h2:hover .heading-anchor,
+  .markdown-content h3:hover .heading-anchor,
+  .markdown-content h4:hover .heading-anchor { opacity: 1; }
+  .heading-anchor:hover { color: #3b82f6; }
+
+  /* Đảm bảo icon nằm cùng hàng với heading */
+  .markdown-content h1,
+  .markdown-content h2,
+  .markdown-content h3,
+  .markdown-content h4,
+  .markdown-content h5,
+  .markdown-content h6 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
   }
 
-  .toc-floating-btn:hover {
-    background: #2563eb;
+  /* Toast */
+  .copy-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #10b981;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(16,185,129,0.3);
+    z-index: 9999;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
   }
+  .copy-toast.show { opacity: 1; transform: translateY(0); }
 
-  /* Hide floating TOC button on mobile */
-  @media (max-width: 768px) {
-    .toc-floating-btn {
-      display: none;
-    }
-  }
+  .grammar-post { /* keep spacing */ }
+
+  .toc-floating-btn:hover { background: #2563eb; }
 
   .back-button {
     margin-bottom: 1.5rem;
@@ -495,6 +519,104 @@ console.log('================================');
     // Apply highlighting after content loads
     highlightGrammarKeywords();
     highlightCorrectnessIndicators();
+
+    // Heading link anchors + copy on click
+    (function enableHeadingAnchorsAndCopy() {
+      const contentRoot = document.querySelector('.grammar-content');
+      if (!contentRoot) return;
+
+      const slugify = (text) => {
+        return text
+          .toString()
+          .trim()
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^\w\s-가-힣]+/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-|-$/g, '');
+      };
+
+      const showToast = (message) => {
+        let toast = document.querySelector('.copy-toast');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.className = 'copy-toast';
+          document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 1600);
+        });
+      };
+
+      const copyLink = (id) => {
+        const url = `${location.origin}${location.pathname}#${id}`;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() => {
+            history.replaceState(null, '', `#${id}`);
+            showToast('Đã sao chép liên kết heading');
+          }).catch(() => {
+            // Fallback
+            const input = document.createElement('input');
+            input.value = url;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            history.replaceState(null, '', `#${id}`);
+            showToast('Đã sao chép liên kết heading');
+          });
+        } else {
+          history.replaceState(null, '', `#${id}`);
+          showToast('Đã cập nhật liên kết heading');
+        }
+      };
+
+      const headings = contentRoot.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      headings.forEach((h) => {
+        const level = parseInt(h.tagName.substring(1), 10);
+        // Bỏ qua h1 tiêu đề bài (đã có phần header riêng), chỉ xử lý nội dung markdown
+        if (level === 1 && h.closest('.grammar-info')) return;
+
+        if (!h.id || h.id === 'undefined') {
+          const text = h.textContent || '';
+          const gen = slugify(text) || 'section';
+          // Tránh trùng id
+          let candidate = gen;
+          let i = 2;
+          while (document.getElementById(candidate)) {
+            candidate = `${gen}-${i++}`;
+          }
+          h.id = candidate;
+        }
+
+        // Chỉ thêm anchor 1 lần
+        if (!h.querySelector('.heading-anchor')) {
+          const a = document.createElement('a');
+          a.href = `#${h.id}`;
+          a.className = 'heading-anchor';
+          a.setAttribute('aria-label', 'Sao chép liên kết heading');
+          a.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.07 0l1.76-1.76a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5.17 12.76a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>';
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            copyLink(h.id);
+          });
+          h.appendChild(a);
+        }
+
+        // Click vào chính heading cũng copy
+        h.style.cursor = 'pointer';
+        h.addEventListener('click', (e) => {
+          // Nếu click vào anchor icon đã xử lý ở trên
+          if ((e.target instanceof HTMLElement) && e.target.closest('.heading-anchor')) return;
+          copyLink(h.id);
+        });
+      });
+    })();
 
     // PDF functionality
     const pdfBtn = document.getElementById('pdfBtn');

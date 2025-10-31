@@ -7,6 +7,8 @@ export interface Props {
   }>;
 }
 
+import './TableOfContents.css';
+
 const { headings } = Astro.props;
 ---
 
@@ -38,209 +40,64 @@ const { headings } = Astro.props;
   </nav>
 </aside>
 
-<!-- Mobile floating TOC button -->
-<!-- Removed: moved to page to be inside main content container -->
-
-<style>
-  .toc-container {
-    width: 280px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    position: sticky;
-    top: 100px; /* NavBar height (70px) + margin (30px) */
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
-  }
-
-  .toc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-    background: white;
-    border-radius: 8px 8px 0 0;
-  }
-
-  .toc-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0;
-  }
-
-  .toc-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: #64748b;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-  }
-
-  .toc-toggle:hover {
-    background: #f1f5f9;
-  }
-
-  .toc-nav {
-    padding: 1rem;
-  }
-
-  .toc-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .toc-item {
-    margin-bottom: 0.5rem;
-  }
-
-  .toc-item:last-child {
-    margin-bottom: 0;
-  }
-
-  .toc-link {
-    display: block;
-    padding: 0.5rem 0.75rem;
-    color: #64748b;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.2s;
-    font-size: 0.875rem;
-    line-height: 1.4;
-  }
-
-  .toc-link:hover {
-    background: #f1f5f9;
-    color: #3b82f6;
-  }
-
-  .toc-link.active {
-    background: #dbeafe;
-    color: #1d4ed8;
-    font-weight: 600;
-  }
-
-  /* Level indentation */
-  .toc-level-1 {
-    padding-left: 0;
-  }
-
-  .toc-level-2 {
-    padding-left: 1rem;
-  }
-
-  .toc-level-3 {
-    padding-left: 2rem;
-  }
-
-  .toc-level-4 {
-    padding-left: 3rem;
-  }
-
-  /* Mobile floating button */
-  .toc-floating-btn {
-    display: none;
-    position: fixed;
-    top: 7px; /* (70px navbar height - 56px button) / 2 */
-    right: 1rem;
-    bottom: unset;
-    width: 56px;
-    height: 56px;
-    background: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    z-index: 1100;
-    transition: all 0.2s;
-  }
-
-  .toc-floating-btn:hover {
-    background: #2563eb;
-    transform: scale(1.05);
-  }
-
-  /* Mobile responsive */
-  @media (max-width: 1024px) {
-    .toc-container {
-      position: fixed;
-      top: 0;
-      right: -280px;
-      height: 100vh;
-      border-radius: 0;
-      transition: right 0.3s ease;
-      z-index: 1000;
-    }
-
-    .toc-container.open {
-      right: 0;
-    }
-
-    .toc-toggle {
-      display: block;
-    }
-
-    .toc-floating-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      top: 7px; /* center in 70px navbar */
-      right: 1rem;
-      bottom: unset;
-      width: 56px;
-      height: 56px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .toc-container {
-      width: 100%;
-      right: -100%;
-    }
-
-    .toc-floating-btn {
-      top: 11px; /* (70px - 48px) / 2 */
-      right: 1rem;
-      bottom: unset;
-      width: 48px;
-      height: 48px;
-    }
-  }
-</style>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const tocContainer = document.getElementById('toc-container');
     const tocToggle = document.getElementById('toc-toggle');
-    const tocFloatingBtn = document.getElementById('toc-floating-btn');
     const tocNav = document.getElementById('toc-nav');
 
-    // Toggle TOC visibility
-    if (tocToggle) {
-      tocToggle.addEventListener('click', function() {
-        tocNav.style.display = tocNav.style.display === 'none' ? 'block' : 'none';
-      });
+    function setToggleIcon(collapsed) {
+      if (!tocToggle) return;
+      const xIcon = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>`;
+      const menuIcon = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>`;
+      const isCollapsed = tocContainer?.classList.contains('collapsed');
+      tocToggle.innerHTML = isCollapsed ? menuIcon : xIcon;
     }
 
-    // Mobile floating button
-    if (tocFloatingBtn) {
-      tocFloatingBtn.addEventListener('click', function() {
-        tocContainer.classList.toggle('open');
-      });
+    function updateToggleA11y() {
+      if (!tocContainer || !tocToggle) return;
+      const collapsed = tocContainer.classList.contains('collapsed');
+      tocToggle.setAttribute('aria-expanded', String(!collapsed));
+      tocToggle.setAttribute('aria-label', collapsed ? 'Hiện mục lục' : 'Ẩn mục lục');
+      tocToggle.setAttribute('title', collapsed ? 'Hiện mục lục (T)' : 'Ẩn mục lục (T)');
+      setToggleIcon(collapsed);
     }
 
-    // Close TOC when clicking outside
-    document.addEventListener('click', function(e) {
-      if (tocContainer && !tocContainer.contains(e.target) && !tocFloatingBtn.contains(e.target)) {
-        tocContainer.classList.remove('open');
-      }
-    });
+    // Toggle ẩn/hiện TOC (luôn dùng collapsed để chừa lại button)
+    if (tocToggle && tocContainer) {
+      tocToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Nếu đang ở mobile và panel đang ở trạng thái open slide-in thì đóng panel, sau đó chuyển collapsed
+        if (window.matchMedia('(max-width: 1024px)').matches && tocContainer.classList.contains('open')) {
+          tocContainer.classList.remove('open');
+        }
+        tocContainer.classList.toggle('collapsed');
+        updateToggleA11y();
+      });
+
+      // Phím tắt T
+      document.addEventListener('keydown', (e) => {
+        if ((e.target instanceof HTMLInputElement) || (e.target instanceof HTMLTextAreaElement) || (e.target)?.isContentEditable) return;
+        if (e.key.toLowerCase() === 't') {
+          if (window.matchMedia('(max-width: 1024px)').matches && tocContainer.classList.contains('open')) {
+            tocContainer.classList.remove('open');
+          }
+          tocContainer.classList.toggle('collapsed');
+          updateToggleA11y();
+        }
+      });
+
+      updateToggleA11y();
+    }
 
     // Active heading detection
     const tocLinks = document.querySelectorAll('.toc-link');
@@ -248,14 +105,12 @@ const { headings } = Astro.props;
 
     function updateActiveHeading() {
       let currentHeading = '';
-      
       headings.forEach(heading => {
         const rect = heading.getBoundingClientRect();
         if (rect.top <= 100) {
           currentHeading = heading.id;
         }
       });
-
       tocLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('data-heading') === currentHeading) {
@@ -263,9 +118,7 @@ const { headings } = Astro.props;
         }
       });
     }
-
-    // Update active heading on scroll
     window.addEventListener('scroll', updateActiveHeading);
-    updateActiveHeading(); // Initial call
+    updateActiveHeading();
   });
 </script>

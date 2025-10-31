@@ -1,7 +1,5 @@
 ---
-import NavBar from '../components/NavBar.astro';
-import Footer from '../components/Footer.astro';
-import ScrollToTop from '../components/ScrollToTop.astro';
+import Layout from './Layout.astro';
 import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import PrintStyles from '../components/common/PrintStyles.astro';
 import '../styles/global.css';
@@ -12,98 +10,101 @@ export interface Props {
   showTOC?: boolean;
 }
 
-const { title, description, showTOC = true } = Astro.props;
+const { title, description, showTOC = true } = Astro.props as Props;
 ---
 
-<!doctype html>
-<html lang="vi">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title} - Ngữ pháp tiếng Hàn</title>
-		<meta name="description" content={description || `Học ngữ pháp ${title} tiếng Hàn miễn phí với The Free Korean.`} />
-		
-		<!-- Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JNJ099MYS7"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('config', 'G-JNJ099MYS7');
-		</script>
-	</head>
-	<body>
-		<!-- Print-friendly CSS -->
-		<PrintStyles />
-		
-		<NavBar />
-		
-		<div class="grammar-post-container">
-			<!-- Sidebar bên trái -->
-			<GrammarSidebar />
+<Layout title={`${title} - Ngữ pháp tiếng Hàn`} description={description || `Học ngữ pháp ${title} tiếng Hàn miễn phí với The Free Korean.`}>
+  <!-- Print-friendly CSS -->
+  <PrintStyles />
 
-			<!-- Nội dung chính -->
-			<main class="grammar-main">
-				<slot />
-			</main>
+  <div class="grammar-post-container">
+    <!-- Sidebar bên trái -->
+    <GrammarSidebar />
 
-			<!-- TOC bên phải - slot cho TableOfContents component -->
-			{showTOC && (
-				<slot name="toc" />
-			)}
-		</div>
+    <!-- Nội dung chính -->
+    <main class="grammar-main">
+      <slot />
+    </main>
 
-		<Footer />
-		<ScrollToTop />
-	</body>
-</html>
+    <!-- TOC bên phải - slot cho TableOfContents component -->
+    {showTOC && (
+      <slot name="toc" />
+    )}
+  </div>
+</Layout>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 
-	.grammar-post-container {
-		display: grid;
-		grid-template-columns: 280px 1fr 280px;
-		min-height: calc(100vh - 120px);
-		gap: 1rem;
-		padding: 1rem;
-		max-width: 1400px;
-		margin: 0 auto;
-	}
+  .grammar-post-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    min-height: calc(100vh - 120px);
+    gap: 1rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 
-	.grammar-main {
-		background: white;
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		padding: 2rem;
-	}
+  /* Khi sidebar thu gọn, thu nhỏ cột trái để main nới rộng */
+  .grammar-post-container:has(.grammar-sidebar.collapsed) {
+    grid-template-columns: 56px 1fr 280px;
+  }
 
-	/* Mobile responsive */
-	@media (max-width: 1024px) {
-		.grammar-post-container {
-			grid-template-columns: 1fr;
-			gap: 0;
-		}
+  /* Khi TOC slide-out, thu nhỏ cột phải để main nới rộng */
+  .grammar-post-container:has(#toc-container.slide-out),
+  .grammar-post-container:has(#toc-container.collapsed) {
+    grid-template-columns: 280px 1fr 48px;
+  }
 
-		.grammar-main {
-			padding: 1rem;
-		}
-	}
+  .grammar-main {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
 
-	@media (max-width: 768px) {
-		.grammar-post-container {
-			padding: 0.5rem;
-		}
+  /* Khi một trong hai cột thu gọn, cho nội dung mở rộng hơn */
+  .grammar-post-container:has(.grammar-sidebar.collapsed) .grammar-post,
+  .grammar-post-container:has(#toc-container.collapsed) .grammar-post {
+    max-width: 100%;
+  }
 
-		.grammar-main {
-			padding: 1rem;
-		}
-	}
+  /* Khi cả hai bên đều thu gọn, giảm gap để nội dung tiến gần 2 nút toggle */
+  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) {
+    grid-template-columns: 56px 1fr 48px;
+    gap: 0.5rem;
+  }
+
+  /* Đảm bảo cột giữa co giãn đúng và không bị lệch */
+  .grammar-post-container > .grammar-main {
+    min-width: 0;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 1024px) {
+    .grammar-post-container {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .grammar-main {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grammar-post-container {
+      padding: 0.5rem;
+    }
+
+    .grammar-main {
+      padding: 1rem;
+    }
+  }
 </style>
