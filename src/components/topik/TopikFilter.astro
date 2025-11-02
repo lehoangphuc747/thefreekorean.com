@@ -25,13 +25,10 @@ const levelOptions = [
 
 const typeOptions = [
   { value: 'all', label: 'Tất cả loại', icon: '📚', color: 'gray' },
-  { value: 'vocabulary', label: 'Từ vựng', icon: '📖', color: 'purple' },
-  { value: 'practice', label: 'Luyện tập', icon: '📝', color: 'orange' },
   { value: 'test', label: 'Đề thi', icon: '🎯', color: 'red' },
   { value: 'listening', label: 'Nghe', icon: '🎧', color: 'blue' },
   { value: 'reading', label: 'Đọc', icon: '📄', color: 'green' },
-  { value: 'writing', label: 'Viết', icon: '✍️', color: 'indigo' },
-  { value: 'website', label: 'Website', icon: '🌐', color: 'cyan' }
+  { value: 'writing', label: 'Viết', icon: '✍️', color: 'indigo' }
 ];
 
 // Helper function để tạo class màu
@@ -78,10 +75,6 @@ const getButtonClass = (color: string, isActive = false) => {
   <div class="filter-section">
     <!-- Cấp độ TOPIK -->
     <div class="mb-6">
-      <h4 class="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
-        <span class="text-base">🎯</span>
-        <span>Cấp độ TOPIK</span>
-      </h4>
       <div class="flex flex-wrap gap-2">
         {levelOptions.map((option) => (
           <button
@@ -98,10 +91,6 @@ const getButtonClass = (color: string, isActive = false) => {
 
     <!-- Loại tài liệu -->
     <div class="mb-6">
-      <h4 class="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
-        <span class="text-base">📚</span>
-        <span>Loại tài liệu</span>
-      </h4>
       <div class="flex flex-wrap gap-2">
         {typeOptions.map((option) => (
           <button
@@ -132,7 +121,7 @@ const getButtonClass = (color: string, isActive = false) => {
 
   <!-- Search Box -->
   <div class="mt-6">
-    <div class="relative max-w-md mx-auto">
+    <div class="relative w-full">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
