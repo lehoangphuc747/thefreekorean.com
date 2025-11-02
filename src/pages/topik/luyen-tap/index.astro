@@ -77,12 +77,40 @@ sortedGroups.forEach(key => {
 
     <!-- Danh sách các dạng bài -->
     <div class="max-w-4xl mx-auto">
-      {sortedGroups.map((groupKey) => (
+      {sortedGroups.map((groupKey) => {
+        // Format heading: "reading (TOPIK II)" -> "Reading (TOPIK II)"
+        const formatHeading = (key: string) => {
+          const match = key.match(/(\w+)\s*\((.+)\)/);
+          if (match) {
+            const type = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
+            const level = match[2];
+            return `${type} (${level})`;
+          }
+          return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
+        };
+        
+        return (
         <div class="bg-white rounded-xl shadow-lg p-8 mb-6">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6 capitalize">
-            {groupKey}
-          </h2>
-          <ul class="space-y-3">
+          <button 
+            class="w-full flex items-center justify-between text-left group"
+            data-collapse-toggle={`group-${groupKey.replace(/\s+/g, '-').toLowerCase()}`}
+          >
+            <h2 class="text-2xl font-bold text-gray-900">
+              {formatHeading(groupKey)}
+            </h2>
+            <svg 
+              class="w-6 h-6 text-gray-500 transform transition-transform duration-200 group-hover:text-gray-700 collapse-icon"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <ul 
+            class="space-y-3 collapse-content mt-6"
+            data-collapse-target={`group-${groupKey.replace(/\s+/g, '-').toLowerCase()}`}
+          >
             {groupedExercises[groupKey].map((exercise: any) => {
               // Lấy tên dạng từ title (ví dụ: "Reading – Dạng 01" -> "Dạng 01", "Reading – Dạng 03A" -> "Dạng 03A")
               const formatName = (title: string) => {
@@ -123,8 +151,80 @@ sortedGroups.forEach(key => {
             })}
           </ul>
         </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </TopikLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const collapseButtons = document.querySelectorAll('[data-collapse-toggle]');
+    
+    collapseButtons.forEach((button) => {
+      const targetId = button.getAttribute('data-collapse-toggle');
+      const target = document.querySelector(`[data-collapse-target="${targetId}"]`);
+      const icon = button.querySelector('.collapse-icon');
+      
+      if (!target) return;
+      
+      // Mặc định mở (expanded)
+      target.classList.add('expanded');
+      if (icon) {
+        icon.style.transform = 'rotate(180deg)';
+      }
+      
+      button.addEventListener('click', () => {
+        const isExpanded = target.classList.contains('expanded');
+        
+        if (isExpanded) {
+          // Collapse
+          target.classList.remove('expanded');
+          target.classList.add('collapsed');
+          if (icon) {
+            icon.style.transform = 'rotate(0deg)';
+          }
+        } else {
+          // Expand
+          target.classList.remove('collapsed');
+          target.classList.add('expanded');
+          if (icon) {
+            icon.style.transform = 'rotate(180deg)';
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .collapse-content {
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .collapse-content.expanded {
+    max-height: 2000px;
+    opacity: 1;
+  }
+  
+  .collapse-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0 !important;
+  }
+  
+  .collapse-icon {
+    transition: transform 0.2s ease;
+  }
+  
+  [data-collapse-toggle] {
+    cursor: pointer;
+    padding: 0.5rem 0;
+  }
+  
+  [data-collapse-toggle]:hover {
+    opacity: 0.8;
+  }
+</style>
 
