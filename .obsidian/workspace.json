@@ -35,9 +35,23 @@
               "icon": "lucide-file",
               "title": "ida"
             }
+          },
+          {
+            "id": "10fd7dec9b39e2af",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/ida.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "ida"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -183,8 +197,11 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "d31550f5c0fdc9e6",
+  "active": "10fd7dec9b39e2af",
   "lastOpenFiles": [
+    "src/components/topik/TopikExercise.astro",
+    "topik_vocabulary.md",
+    "src/content/grammar/ida.md",
     "GRAMMAR.md",
     "src/content/grammar/anida.md",
     "dist/_astro/_slug_.Dyosf2au.css",
@@ -197,7 +214,6 @@
     "dist/_astro/index.astro_astro_type_script_index_0_lang.CxO_JRN6.js",
     "dist/_astro/grammar.CXRrM77I.css",
     "dist/_astro/client.Co0vMr8l.js",
-    "src/content/grammar/ida.md",
     "src/content/grammar/n-ibnida.md",
     "src/content/grammar/go-sipda.md",
     "src/content/grammar/eumyeonseo.md",

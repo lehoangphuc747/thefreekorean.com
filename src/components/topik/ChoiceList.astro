@@ -7,13 +7,40 @@ export interface Props {
 }
 
 const { choices, answer, selectedIndex, onSelect } = Astro.props;
+
+// Xáo trộn thứ tự các đáp án
+function shuffleArray<T>(array: T[]): { shuffled: T[]; mapping: number[] } {
+  // Tạo mảng indices và copy của array
+  const indices = array.map((_, i) => i);
+  const shuffled = [...array];
+  
+  // Fisher-Yates shuffle algorithm
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  
+  // Tạo mapping từ index mới -> index gốc
+  const mapping = new Array(shuffled.length);
+  indices.forEach((originalIndex, newIndex) => {
+    mapping[newIndex] = originalIndex;
+  });
+  
+  return { shuffled, mapping };
+}
+
+const { shuffled: shuffledChoices, mapping: originalIndices } = shuffleArray(choices);
+// Tìm vị trí mới của đáp án đúng
+const shuffledAnswerIndex = originalIndices.findIndex((origIdx) => origIdx === answer);
 ---
 
-<div class="space-y-2" data-choice-list>
-  {choices.map((choice, index) => {
+<div class="space-y-2" data-choice-list data-original-answer={answer}>
+  {shuffledChoices.map((choice, index) => {
     const choiceLetter = String.fromCharCode(65 + index);
+    const originalIndex = originalIndices[index];
     const isSelected = selectedIndex === index;
-    const isCorrect = index === answer;
+    const isCorrect = index === shuffledAnswerIndex;
     const isSelectedAndCorrect = isSelected && isCorrect;
     const isSelectedAndWrong = isSelected && !isCorrect;
     const isCorrectAnswerButNotSelected = isCorrect && selectedIndex !== null && !isSelected;
@@ -45,6 +72,7 @@ const { choices, answer, selectedIndex, onSelect } = Astro.props;
       <div 
         class={choiceClasses}
         data-choice-index={index}
+        data-original-index={originalIndex}
         data-choice-letter={choiceLetter}
         data-choice-is-correct={isCorrect}
       >
