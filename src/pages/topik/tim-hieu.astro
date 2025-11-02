@@ -36,13 +36,22 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
       
       <!-- Table of Contents -->
       <div class="mb-16 bg-gradient-to-br from-purple-50 via-indigo-50 to-pink-50 border-2 border-purple-300 rounded-2xl p-6 md:p-8 shadow-lg">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md">
-            <span class="text-2xl">📑</span>
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md">
+              <span class="text-2xl">📑</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Mục lục</h2>
           </div>
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Mục lục</h2>
+          <button 
+            id="toc-toggle"
+            class="w-10 h-10 flex items-center justify-center rounded-lg bg-white hover:bg-purple-100 transition-colors shadow-sm"
+            aria-label="Thu gọn/Mở rộng mục lục"
+          >
+            <span class="text-xl transition-transform duration-300" id="toc-icon">▼</span>
+          </button>
         </div>
-        <nav class="grid md:grid-cols-2 gap-4">
+        <nav id="toc-content" class="grid md:grid-cols-2 gap-4 transition-all duration-300 ease-in-out" style="max-height: none; opacity: 1;">
           <a href="#topik-la-gi" class="flex items-start gap-4 p-4 bg-white rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300 group shadow-sm hover:shadow-md hover:-translate-y-1">
             <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🎯</span>
             <span class="text-gray-800 group-hover:text-purple-700 font-semibold leading-relaxed flex-1">TOPIK là gì?</span>
@@ -349,113 +358,125 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Tiêu chí đánh giá tổng thể theo cấp độ</h2>
         </div>
         
-        <p class="text-lg text-gray-700 mb-8">
-          Dưới đây là tiêu chí đánh giá chính thức của từng cấp độ TOPIK do NIIED (Viện Giáo dục Quốc tế Quốc gia Hàn Quốc) công bố:
+        <p class="text-lg text-gray-800 mb-8 leading-relaxed">
+          Dưới đây là tiêu chí đánh giá chính thức của từng cấp độ TOPIK do <strong class="text-gray-900">NIIED (Viện Giáo dục Quốc tế Quốc gia Hàn Quốc)</strong> công bố:
         </p>
 
-        <div class="overflow-x-auto mb-6">
+        <div class="overflow-x-auto mb-6 shadow-lg rounded-lg">
           <table class="w-full border-collapse border border-gray-300">
             <thead>
               <tr class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">TOPIK</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Cấp</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Điểm tối thiểu</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Tiêu chí đánh giá</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">TOPIK</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Cấp</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Điểm tối thiểu</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">Tiêu chí đánh giá</th>
               </tr>
             </thead>
             <tbody class="bg-white">
               <!-- TOPIK I - Cấp 1 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="2" class="border border-gray-300 px-4 py-3 font-bold text-green-700 align-middle text-center whitespace-nowrap">TOPIK I</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 1</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">Trên 80 điểm</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <p class="mb-2">
-                    Có thể thực hiện các cuộc hội thoại cơ bản liên quan đến kỹ năng sinh tồn hàng ngày như tự giới thiệu, mua sắm, đặt đồ ăn, v.v., và hiểu được nội dung liên quan đến các chủ đề rất cá nhân và quen thuộc như bản thân, gia đình, sở thích, thời tiết và những điều tương tự.
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="2" class="border border-gray-300 px-5 py-4 font-bold text-green-700 align-middle text-center whitespace-nowrap bg-green-50">TOPIK I</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 1</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap">
+                  <span class="font-bold text-indigo-700 text-lg">Trên 80 điểm</span>
+                </td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <p class="mb-3 leading-relaxed">
+                    Có thể thực hiện các <strong class="text-gray-900">cuộc hội thoại cơ bản</strong> liên quan đến <strong class="text-gray-900">kỹ năng sinh tồn hàng ngày</strong> như <strong class="text-gray-900">tự giới thiệu, mua sắm, đặt đồ ăn</strong>, v.v., và hiểu được nội dung liên quan đến các chủ đề rất <strong class="text-gray-900">cá nhân và quen thuộc</strong> như bản thân, gia đình, sở thích, thời tiết và những điều tương tự.
                   </p>
-                  <p>
-                    Có thể tạo các câu đơn giản dựa trên khoảng <strong>800 từ vựng cơ bản</strong> và có hiểu biết về ngữ pháp cơ bản. Có thể hiểu và soạn các câu đơn giản và hữu ích liên quan đến cuộc sống hàng ngày.
+                  <p class="leading-relaxed">
+                    Có thể tạo các câu đơn giản dựa trên khoảng <strong class="text-indigo-700 text-lg font-bold">800 từ vựng cơ bản</strong> và có hiểu biết về <strong class="text-gray-900">ngữ pháp cơ bản</strong>. Có thể hiểu và soạn các câu <strong class="text-gray-900">đơn giản và hữu ích</strong> liên quan đến cuộc sống hàng ngày.
                   </p>
                 </td>
               </tr>
               <!-- TOPIK I - Cấp 2 -->
-              <tr class="hover:bg-gray-50 bg-green-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 2</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">Trên 140 điểm</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <p class="mb-2">
-                    Có thể thực hiện các cuộc hội thoại đơn giản liên quan đến các thói quen hàng ngày như gọi điện và yêu cầu sự giúp đỡ, cũng như sử dụng các cơ sở công cộng trong cuộc sống hàng ngày. (Có thể sử dụng khoảng <strong>1,500 đến 2,000 từ vựng</strong> và hiểu các chủ đề cá nhân và quen thuộc theo một trật tự nhất định, chẳng hạn như đoạn văn.)
+              <tr class="hover:bg-green-50 bg-green-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 2</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap">
+                  <span class="font-bold text-indigo-700 text-lg">Trên 140 điểm</span>
+                </td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <p class="mb-3 leading-relaxed">
+                    Có thể thực hiện các <strong class="text-gray-900">cuộc hội thoại đơn giản</strong> liên quan đến các <strong class="text-gray-900">thói quen hàng ngày</strong> như <strong class="text-gray-900">gọi điện và yêu cầu sự giúp đỡ</strong>, cũng như sử dụng các <strong class="text-gray-900">cơ sở công cộng</strong> trong cuộc sống hàng ngày. (Có thể sử dụng khoảng <strong class="text-indigo-700 text-lg font-bold">1,500 đến 2,000 từ vựng</strong> và hiểu các chủ đề cá nhân và quen thuộc theo một <strong class="text-gray-900">trật tự nhất định</strong>, chẳng hạn như <strong class="text-gray-900">đoạn văn</strong>.)
                   </p>
-                  <p>
-                    Có thể sử dụng biểu hiện trang trọng và không trang trọng tùy thuộc vào tình huống.
+                  <p class="leading-relaxed">
+                    Có thể sử dụng <strong class="text-gray-900">biểu hiện trang trọng và không trang trọng</strong> tùy thuộc vào tình huống.
                   </p>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 3 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="4" class="border border-gray-300 px-4 py-3 font-bold text-blue-700 align-middle text-center whitespace-nowrap">TOPIK II</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 3</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">Trên 120 điểm</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <p class="mb-2">
-                    Có thể thực hiện các chức năng ngôn ngữ cơ bản cần thiết để sử dụng các cơ sở công cộng khác nhau và duy trì các mối quan hệ xã hội, không gặp khó khăn đáng kể trong cuộc sống thường nhật.
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="4" class="border border-gray-300 px-5 py-4 font-bold text-blue-700 align-middle text-center whitespace-nowrap bg-blue-50">TOPIK II</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 3</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap">
+                  <span class="font-bold text-indigo-700 text-lg">Trên 120 điểm</span>
+                </td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <p class="mb-3 leading-relaxed">
+                    Có thể thực hiện các <strong class="text-gray-900">chức năng ngôn ngữ cơ bản</strong> cần thiết để sử dụng các <strong class="text-gray-900">cơ sở công cộng khác nhau</strong> và <strong class="text-gray-900">duy trì các mối quan hệ xã hội</strong>, không gặp khó khăn đáng kể trong cuộc sống thường nhật.
                   </p>
-                  <p class="mb-2">
-                    Có thể thực hiện các thói quen hàng ngày, sử dụng các cơ sở công cộng một cách công bằng và có thể giao tiếp xã hội mà không gặp khó khăn đáng kể.
+                  <p class="mb-3 leading-relaxed">
+                    Có thể thực hiện các <strong class="text-gray-900">thói quen hàng ngày</strong>, sử dụng các cơ sở công cộng một cách công bằng và có thể <strong class="text-gray-900">giao tiếp xã hội</strong> mà không gặp khó khăn đáng kể.
                   </p>
-                  <p>
-                    Có thể diễn đạt hoặc hiểu các chủ đề xã hội quen thuộc với bản thân, cũng như các chủ đề cụ thể, dựa trên chủ đề của đoạn văn. Có thể hiểu và sử dụng ngôn ngữ viết và ngôn ngữ nói dựa trên các đặc điểm cơ bản riêng biệt của chúng.
+                  <p class="leading-relaxed">
+                    Có thể diễn đạt hoặc hiểu các <strong class="text-gray-900">chủ đề xã hội quen thuộc</strong> với bản thân, cũng như các <strong class="text-gray-900">chủ đề cụ thể</strong>, dựa trên chủ đề của đoạn văn. Có thể hiểu và sử dụng <strong class="text-gray-900">ngôn ngữ viết và ngôn ngữ nói</strong> dựa trên các đặc điểm cơ bản riêng biệt của chúng.
                   </p>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 4 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 4</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">Trên 150 điểm</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <p class="mb-2">
-                    Thực hiện chức năng ngôn ngữ cần thiết để sử dụng các cơ sở công cộng khác nhau và duy trì các mối quan hệ xã hội, và thực hiện chức năng ở một mức độ nhất định cần thiết cho việc thực hiện các công việc thông thường.
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 4</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap">
+                  <span class="font-bold text-indigo-700 text-lg">Trên 150 điểm</span>
+                </td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <p class="mb-3 leading-relaxed">
+                    Thực hiện <strong class="text-gray-900">chức năng ngôn ngữ cần thiết</strong> để sử dụng các cơ sở công cộng khác nhau và duy trì các mối quan hệ xã hội, và thực hiện chức năng ở một mức độ nhất định cần thiết cho việc thực hiện các <strong class="text-gray-900">công việc thông thường</strong>.
                   </p>
-                  <p class="mb-2">
-                    Có thể sử dụng các cơ sở công cộng khác nhau, giao tiếp xã hội và thực hiện một mức độ công việc thông thường.
+                  <p class="mb-3 leading-relaxed">
+                    Có thể sử dụng các <strong class="text-gray-900">cơ sở công cộng khác nhau</strong>, <strong class="text-gray-900">giao tiếp xã hội</strong> và thực hiện một mức độ <strong class="text-gray-900">công việc thông thường</strong>.
                   </p>
-                  <p class="mb-2">
-                    Có thể hiểu các phần dễ trong bản tin phát thanh, báo chí, và hiểu cũng như sử dụng các biểu hiện liên quan đến các chủ đề xã hội và trừu tượng tương đối chính xác và trôi chảy.
+                  <p class="mb-3 leading-relaxed">
+                    Có thể hiểu các phần dễ trong <strong class="text-gray-900">bản tin phát thanh, báo chí</strong>, và hiểu cũng như sử dụng các biểu hiện liên quan đến các chủ đề <strong class="text-gray-900">xã hội và trừu tượng</strong> tương đối chính xác và trôi chảy.
                   </p>
-                  <p>
-                    Có thể hiểu các chủ đề xã hội và văn hóa, dựa trên sự hiểu biết về văn hóa Hàn Quốc và các biểu hiện thành ngữ thường được sử dụng.
+                  <p class="leading-relaxed">
+                    Có thể hiểu các chủ đề <strong class="text-gray-900">xã hội và văn hóa</strong>, dựa trên sự hiểu biết về <strong class="text-gray-900">văn hóa Hàn Quốc</strong> và các <strong class="text-gray-900">biểu hiện thành ngữ</strong> thường được sử dụng.
                   </p>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 5 -->
-              <tr class="hover:bg-gray-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 5</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">Trên 190 điểm</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <p class="mb-2">
-                    Có thể thực hiện chức năng ngôn ngữ ở một mức độ nhất định cần thiết cho nghiên cứu và công việc trong các lĩnh vực chuyên môn.
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 5</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap">
+                  <span class="font-bold text-indigo-700 text-lg">Trên 190 điểm</span>
+                </td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <p class="mb-3 leading-relaxed">
+                    Có thể thực hiện chức năng ngôn ngữ ở một mức độ nhất định cần thiết cho <strong class="text-gray-900">nghiên cứu và công việc</strong> trong các <strong class="text-gray-900">lĩnh vực chuyên môn</strong>.
                   </p>
-                  <p class="mb-2">
-                    Có thể hiểu và sử dụng các biểu hiện liên quan đến ngay cả những khía cạnh không quen thuộc của chính trị, kinh tế, xã hội và văn hóa.
+                  <p class="mb-3 leading-relaxed">
+                    Có thể hiểu và sử dụng các biểu hiện liên quan đến ngay cả những khía cạnh không quen thuộc của <strong class="text-gray-900">chính trị, kinh tế, xã hội và văn hóa</strong>.
                   </p>
-                  <p>
-                    Có thể sử dụng biểu hiện một cách phù hợp, tùy thuộc vào bối cảnh trang trọng, không trang trọng, nói/viết.
+                  <p class="leading-relaxed">
+                    Có thể sử dụng biểu hiện một cách phù hợp, tùy thuộc vào bối cảnh <strong class="text-gray-900">trang trọng, không trang trọng, nói/viết</strong>.
                   </p>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 6 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 6</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">Trên 230 điểm</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <p class="mb-2">
-                    Có thể thực hiện chức năng ngôn ngữ cần thiết cho nghiên cứu và công việc trong các lĩnh vực chuyên môn một cách tương đối chính xác và trôi chảy.
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 6</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap">
+                  <span class="font-bold text-indigo-700 text-lg">Trên 230 điểm</span>
+                </td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <p class="mb-3 leading-relaxed">
+                    Có thể thực hiện chức năng ngôn ngữ cần thiết cho <strong class="text-gray-900">nghiên cứu và công việc</strong> trong các <strong class="text-gray-900">lĩnh vực chuyên môn</strong> một cách <strong class="text-gray-900">tương đối chính xác và trôi chảy</strong>.
                   </p>
-                  <p class="mb-2">
-                    Có thể hiểu và sử dụng các biểu hiện liên quan đến ngay cả các chủ đề không quen thuộc của chính trị, kinh tế, xã hội và văn hóa.
+                  <p class="mb-3 leading-relaxed">
+                    Có thể hiểu và sử dụng các biểu hiện liên quan đến ngay cả các chủ đề không quen thuộc của <strong class="text-gray-900">chính trị, kinh tế, xã hội và văn hóa</strong>.
                   </p>
-                  <p>
-                    Không gặp khó khăn trong việc thực hiện các chức năng hoặc truyền đạt ý nghĩa, mặc dù trình độ thành thạo chưa đạt đến mức hoàn toàn như người bản ngữ.
+                  <p class="leading-relaxed">
+                    <strong class="text-gray-900">Không gặp khó khăn</strong> trong việc thực hiện các chức năng hoặc truyền đạt ý nghĩa, mặc dù trình độ thành thạo chưa đạt đến mức hoàn toàn như người bản ngữ.
                   </p>
                 </td>
               </tr>
@@ -503,7 +524,7 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">30 câu</td>
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">40 phút</td>
                 <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  Đánh giá mức độ nghe, hiểu, có thể suy luận được nội dung hội thoại cá nhân liên quan đến cuộc sống hàng ngày.
+                  Đánh giá mức độ <strong class="text-gray-900">nghe, hiểu, có thể suy luận</strong> được nội dung hội thoại cá nhân liên quan đến <strong class="text-gray-900">cuộc sống hàng ngày</strong>.
                 </td>
               </tr>
               <!-- TOPIK I - Cấp 2 -->
@@ -513,9 +534,9 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">40 phút</td>
                 <td class="border border-gray-300 px-4 py-3 text-gray-700">
                   <ul class="space-y-1 list-disc list-inside">
-                    <li>Nội dung hội thoại cá nhân liên quan đến cuộc sống hàng ngày</li>
-                    <li>Nội dung hội thoại được xây dựng dựa trên đề tài xã hội</li>
-                    <li>Những câu văn được sử dụng thực tế đơn giản</li>
+                    <li>Nội dung <strong class="text-gray-900">hội thoại cá nhân</strong> liên quan đến cuộc sống hàng ngày</li>
+                    <li>Nội dung hội thoại được xây dựng dựa trên <strong class="text-gray-900">đề tài xã hội</strong></li>
+                    <li>Những câu văn được sử dụng <strong class="text-gray-900">thực tế đơn giản</strong></li>
                   </ul>
                 </td>
               </tr>
@@ -527,8 +548,8 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
                 <td class="border border-gray-300 px-4 py-3 text-gray-700">
                   <ul class="space-y-1 list-disc list-inside">
-                    <li>Hội thoại cá nhân thân thuộc được xây dựng dựa trên đề tài xã hội đơn giản</li>
-                    <li>Hội thoại thực dụng như quảng cáo, phỏng vấn, dự báo thời tiết...</li>
+                    <li>Hội thoại cá nhân thân thuộc được xây dựng dựa trên <strong class="text-gray-900">đề tài xã hội đơn giản</strong></li>
+                    <li>Hội thoại <strong class="text-gray-900">thực dụng</strong> như quảng cáo, phỏng vấn, dự báo thời tiết...</li>
                   </ul>
                 </td>
               </tr>
@@ -539,9 +560,9 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
                 <td class="border border-gray-300 px-4 py-3 text-gray-700">
                   <ul class="space-y-1 list-disc list-inside">
-                    <li>Hội thoại có đề tài thân thuộc cần thiết trong việc duy trì các quan hệ xã hội</li>
-                    <li>Hội thoại có đề tài mang tính xã hội - mang tính trừu tượng thông thường</li>
-                    <li>Tin tức hoặc thảo luận có nội dung tương đối dễ</li>
+                    <li>Hội thoại có đề tài thân thuộc cần thiết trong việc <strong class="text-gray-900">duy trì các quan hệ xã hội</strong></li>
+                    <li>Hội thoại có đề tài mang tính <strong class="text-gray-900">xã hội - trừu tượng</strong> thông thường</li>
+                    <li><strong class="text-gray-900">Tin tức hoặc thảo luận</strong> có nội dung tương đối dễ</li>
                   </ul>
                 </td>
               </tr>
@@ -551,11 +572,11 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
                 <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
                 <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <strong>Đánh giá mức độ nghe, nắm rõ nội dung, suy luận, mức độ hiểu mang tính phê phán:</strong>
+                  <strong class="text-gray-900 text-base">Đánh giá mức độ nghe, nắm rõ nội dung, suy luận, mức độ hiểu mang tính phê phán:</strong>
                   <ul class="space-y-1 list-disc list-inside mt-2">
-                    <li>Hội thoại trong lĩnh vực thực hiện các nghiệp vụ thông thường</li>
-                    <li>Hội thoại thông thường có liên quan đến những lĩnh vực chuyên ngành như kinh tế, xã hội, văn hoá...</li>
-                    <li>Hội thoại hoặc bài diễn văn có đề tài thân thuộc</li>
+                    <li>Hội thoại trong lĩnh vực <strong class="text-gray-900">thực hiện các nghiệp vụ thông thường</strong></li>
+                    <li>Hội thoại thông thường có liên quan đến những <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> như kinh tế, xã hội, văn hoá...</li>
+                    <li>Hội thoại hoặc <strong class="text-gray-900">bài diễn văn</strong> có đề tài thân thuộc</li>
                   </ul>
                 </td>
               </tr>
@@ -891,19 +912,15 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           <h3 class="text-2xl font-bold text-gray-900 mb-4">⏰ Thời gian ôn thi, nên học kiến thức hay nên học kỹ năng làm bài?</h3>
           <div class="bg-green-50 border-l-4 border-green-500 p-6 md:p-8 rounded-xl shadow-md">
             <div class="space-y-5">
-              <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
-                <p class="text-gray-800 leading-relaxed text-base">
-                  <strong class="text-gray-900 font-bold text-lg">Ở thời điểm ôn thi, bạn cần phải xác định rõ rằng bạn học luyện kỹ năng làm bài thi + ôn tập kiến thức</strong>, không phải là thời điểm học mở rộng kiến thức vì sẽ bị rối và không thể tiếp thu kiến thức mới.
-                </p>
-              </div>
-              <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
-                <p class="text-gray-800 leading-relaxed text-base">
-                  <strong class="text-gray-900 font-bold text-lg">Trong thời gian ôn thi, bạn cũng chỉ nên tập trung ôn lại kiến thức tương đương trình độ của mình</strong>, trình độ mình cấp 3-4 thì không nên ôn kiến thức 5-6 vì điều đó là quá sức.
-                </p>
-              </div>
-              <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
+              <p class="text-gray-800 leading-relaxed text-base">
+                <strong class="text-gray-900 font-bold text-lg">Ở thời điểm ôn thi, bạn cần phải xác định rõ rằng bạn học luyện kỹ năng làm bài thi + ôn tập kiến thức</strong>, không phải là thời điểm <strong class="text-gray-900">học mở rộng kiến thức</strong> vì sẽ bị rối và không thể tiếp thu kiến thức mới.
+              </p>
+              <p class="text-gray-800 leading-relaxed text-base">
+                <strong class="text-gray-900 font-bold text-lg">Trong thời gian ôn thi, bạn cũng chỉ nên tập trung ôn lại kiến thức tương đương trình độ của mình</strong>, trình độ mình <strong class="text-gray-900">cấp 3-4</strong> thì không nên ôn kiến thức <strong class="text-gray-900">5-6</strong> vì điều đó là quá sức.
+              </p>
+              <div>
                 <p class="text-gray-800 leading-relaxed text-base mb-3">
-                  <strong class="text-gray-900 font-bold text-lg">Kỹ năng làm bài là cực kỳ quan trọng</strong>, vì thế phải tập trung học các kỹ năng này. Ví dụ: Với những câu yêu cầu chọn chủ đề thì cách làm thế nào:
+                  <strong class="text-gray-900 font-bold text-lg">Kỹ năng làm bài là cực kỳ quan trọng</strong>, vì thế phải tập trung học các kỹ năng này. Ví dụ: Với những câu yêu cầu <strong class="text-gray-900">chọn chủ đề</strong> thì cách làm thế nào:
                 </p>
                 <ul class="text-gray-700 space-y-2 list-disc list-inside ml-4 mt-3">
                   <li>Chủ đề là gì?</li>
@@ -943,15 +960,15 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
             <ul class="space-y-5 text-gray-700">
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-purple-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed">Kết cấu đề thi có thay đổi theo thời gian và yêu cầu của từng thời kỳ (ví dụ: trước đây chia làm 1-2, 3-4, 4-6, nhưng sau này thì gộp lại còn 1-2, còn 3-4-5-6 thì thi chung một đề).</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Kết cấu đề thi có thay đổi</strong> theo thời gian và yêu cầu của từng thời kỳ (ví dụ: trước đây chia làm <strong class="text-gray-900">1-2, 3-4, 4-6</strong>, nhưng sau này thì gộp lại còn <strong class="text-gray-900">1-2</strong>, còn <strong class="text-gray-900">3-4-5-6</strong> thì thi chung một đề).</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-purple-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed">Hiện tại TOPIK đã tổ chức <strong class="text-purple-900">>80 đợt thi</strong>. Qua nghiên cứu thì thấy cấu trúc, kiểu ra đề thi đề lần 1-10 là một dạng, từ 20-30 gần giống nhau, đề 30-40 một dạng, 41-50 cũng một dạng và 51-60 gần đây cũng có xu thế ra đề giống nhau.</span>
+                <span class="flex-1 leading-relaxed text-gray-800">Hiện tại TOPIK đã tổ chức <strong class="text-gray-900">>80 đợt thi</strong>. Qua nghiên cứu thì thấy <strong class="text-gray-900">cấu trúc, kiểu ra đề thi</strong> đề lần <strong class="text-gray-900">1-10</strong> là một dạng, từ <strong class="text-gray-900">20-30</strong> gần giống nhau, đề <strong class="text-gray-900">30-40</strong> một dạng, <strong class="text-gray-900">41-50</strong> cũng một dạng và <strong class="text-gray-900">51-60</strong> gần đây cũng có xu thế ra đề giống nhau.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-purple-700 font-bold mt-0.5">✓</span>
-                <span>Do xu thế ra đề như vậy nên <strong>ôn thi bằng cách luyện những đề gần nhất mới ra</strong>. Có thể ôn đề từ 50 trở lại đây nếu được. Thay vì ôn thi hay sử dụng một số giáo trình khác (chỉ nên dùng tham khảo) vì chất lượng của những loại đề này cũng không đồng nhất và chỉ có ích về mặt kiến thức, còn cách ra đề thì không giống với các đề của tổ chức Viện học trình đánh giá Hàn Quốc, đơn vị ra đề thi TOPIK.</span>
+                <span class="flex-1 leading-relaxed text-gray-800">Do xu thế ra đề như vậy nên <strong class="text-gray-900">ôn thi bằng cách luyện những đề gần nhất mới ra</strong>. Có thể ôn đề từ <strong class="text-gray-900">50 trở lại đây</strong> nếu được. Thay vì ôn thi hay sử dụng một số giáo trình khác (chỉ nên dùng tham khảo) vì chất lượng của những loại đề này cũng không đồng nhất và chỉ có ích về mặt kiến thức, còn cách ra đề thì không giống với các đề của <strong class="text-gray-900">tổ chức Viện học trình đánh giá Hàn Quốc, đơn vị ra đề thi TOPIK</strong>.</span>
               </li>
             </ul>
           </div>
@@ -961,25 +978,25 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
         <div class="mb-10">
           <h3 class="text-2xl font-bold text-gray-900 mb-4">2. 🎯 Nguyên tắc loại trừ là gì?</h3>
           <div class="bg-blue-50 border-l-4 border-blue-500 p-6 md:p-8 rounded-xl shadow-md">
-            <p class="text-gray-700 mb-5 leading-relaxed text-lg">
-              Đây là phương pháp cổ điển nhưng thực ra rất hiệu quả. <strong class="text-blue-900">Phương pháp loại trừ là loại dần các câu sai bằng cách chứng minh nó sai.</strong> Câu sai có thể thuộc các loại sau:
+            <p class="text-gray-800 mb-5 leading-relaxed text-lg">
+              Đây là phương pháp <strong class="text-gray-900">cổ điển</strong> nhưng thực ra <strong class="text-gray-900">rất hiệu quả</strong>. <strong class="text-gray-900 font-bold text-lg">Phương pháp loại trừ là loại dần các câu sai bằng cách chứng minh nó sai.</strong> Câu sai có thể thuộc các loại sau:
             </p>
-            <ul class="space-y-4 text-gray-700">
+            <ul class="space-y-4 text-gray-800">
               <li class="flex items-start gap-4">
                 <span class="text-xl text-blue-700 font-bold mt-1">•</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-blue-900">Sai về 5W+1H</strong> (Who, What, When, Where, Why, How)</span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Sai về 5W+1H</strong> (Who, What, When, Where, Why, How)</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-xl text-blue-700 font-bold mt-1">•</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-blue-900">Sai vì không có thông tin ở trong bài</strong></span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Sai vì không có thông tin ở trong bài</strong></span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-xl text-blue-700 font-bold mt-1">•</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-blue-900">Sai vì trái với chân lý, sự thật hiển nhiên</strong></span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Sai vì trái với chân lý, sự thật hiển nhiên</strong></span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-xl text-blue-700 font-bold mt-1">•</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-blue-900">Sai với ý mà người viết trong bài</strong></span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Sai với ý mà người viết trong bài</strong></span>
               </li>
             </ul>
           </div>
@@ -992,19 +1009,19 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
             <ul class="space-y-5 text-gray-700">
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-green-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed">Bạn không nên quá tập trung và mất thời gian vì từ mới đó, mà hãy cố gắng <strong class="text-green-900">hiểu ý của cả câu</strong>.</span>
+                <span class="flex-1 leading-relaxed text-gray-800">Bạn không nên quá tập trung và mất thời gian vì <strong class="text-gray-900">từ mới đó</strong>, mà hãy cố gắng <strong class="text-gray-900">hiểu ý của cả câu</strong>.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-green-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-green-900">Dùng ngữ cảnh để đoán ý của từ</strong>, bạn có thể đoán ý nghĩa của từ bằng ý nghĩa của từ trước và sau từ đó, hoặc cả câu trước và sau câu đó.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Dùng ngữ cảnh để đoán ý của từ</strong>, bạn có thể đoán ý nghĩa của từ bằng ý nghĩa của <strong class="text-gray-900">từ trước và sau từ đó</strong>, hoặc cả <strong class="text-gray-900">câu trước và sau câu đó</strong>.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-green-700 font-bold mt-0.5">✓</span>
-                <span><strong>Có thể dùng âm Hán Việt để đoán</strong>; tất nhiên dùng âm Hán Việt thì bạn cần phải hiểu nguyên tắc đoán là gì. Nếu có điều kiện nên học lớp âm Hán Việt trong tiếng Hàn.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Có thể dùng âm Hán Việt để đoán</strong>; tất nhiên dùng <strong class="text-gray-900">âm Hán Việt</strong> thì bạn cần phải hiểu <strong class="text-gray-900">nguyên tắc đoán</strong> là gì. Nếu có điều kiện nên học <strong class="text-gray-900">lớp âm Hán Việt trong tiếng Hàn</strong>.</span>
               </li>
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-green-700">✓</span>
-                <span><strong>Đoán ý nghĩa và đừng quá bận tâm vào từ vựng.</strong></span>
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-green-700 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Đoán ý nghĩa và đừng quá bận tâm vào từ vựng.</strong></span>
               </li>
             </ul>
           </div>
@@ -1017,27 +1034,27 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
             <ul class="space-y-5 text-gray-700">
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-yellow-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-yellow-900">Bạn cần có khối lượng từ vựng thật tốt</strong>, từ vựng sẽ giải quyết mọi vấn đề, ít nhất giúp bạn hiểu bài văn nói gì.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Bạn cần có khối lượng từ vựng thật tốt</strong>, <strong class="text-gray-900">từ vựng sẽ giải quyết mọi vấn đề</strong>, ít nhất giúp bạn hiểu bài văn nói gì.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-yellow-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-yellow-900">Nên tổ chức ôn thi sớm</strong>, thay vì đến khi thi mới học ôn thi. Ôn thi sớm giúp bạn tiếp thu kiến thức tốt, thay vì tập trung ôn thi một lần sẽ khiến cho bạn không thể tiếp thu, thậm chí gây rối.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Nên tổ chức ôn thi sớm</strong>, thay vì đến khi thi mới học ôn thi. <strong class="text-gray-900">Ôn thi sớm</strong> giúp bạn tiếp thu kiến thức tốt, thay vì <strong class="text-gray-900">tập trung ôn thi một lần</strong> sẽ khiến cho bạn không thể tiếp thu, thậm chí gây rối.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-yellow-700 font-bold mt-0.5">✓</span>
-                <span><strong>Bạn có thể thi nhiều lần thay vì thi một lần</strong>, thông thường thì nếu bạn thiếu một vài điểm cho một mục tiêu nào đó có nghĩa là bạn sẽ đậu trong lần thi tiếp theo.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Bạn có thể thi nhiều lần thay vì thi một lần</strong>, thông thường thì nếu bạn thiếu một vài điểm cho một mục tiêu nào đó có nghĩa là bạn sẽ <strong class="text-gray-900">đậu trong lần thi tiếp theo</strong>.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-yellow-700 font-bold mt-0.5">✓</span>
-                <span class="flex-1 leading-relaxed"><strong class="text-yellow-900">Nên tạo áp lực bằng cách làm bài thi thường xuyên</strong>, nhưng theo đúng thời gian của một bài thi thật, không nên nhượng bộ về mặt thời gian vì điều đó làm thành thói quen không tốt khi đi thi, sẽ luôn khiến bạn không đủ thời gian.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Nên tạo áp lực bằng cách làm bài thi thường xuyên</strong>, nhưng theo đúng <strong class="text-gray-900">thời gian của một bài thi thật</strong>, không nên nhượng bộ về mặt thời gian vì điều đó làm thành <strong class="text-gray-900">thói quen không tốt</strong> khi đi thi, sẽ luôn khiến bạn không đủ thời gian.</span>
               </li>
               <li class="flex items-start gap-4">
                 <span class="text-2xl text-yellow-700 font-bold mt-0.5">✓</span>
-                <span><strong>Bạn làm đề thi không nên theo phương thức Đọc-dịch-hiểu</strong> làm bài thi vì đây là phương pháp tốn rất nhiều thời gian.</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Bạn làm đề thi không nên theo phương thức Đọc-dịch-hiểu</strong> làm bài thi vì đây là phương pháp <strong class="text-gray-900">tốn rất nhiều thời gian</strong>.</span>
               </li>
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-yellow-700">✓</span>
-                <span><strong>Sau khi làm đề thi thử, nên xem mình sai ở đâu</strong>, triệt để khắc phục lỗi sai đó thì kết quả sẽ tăng dần theo thời gian.</span>
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-yellow-700 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed text-gray-800"><strong class="text-gray-900">Sau khi làm đề thi thử, nên xem mình sai ở đâu</strong>, <strong class="text-gray-900">triệt để khắc phục lỗi sai</strong> đó thì kết quả sẽ <strong class="text-gray-900">tăng dần theo thời gian</strong>.</span>
               </li>
             </ul>
           </div>
@@ -1046,27 +1063,27 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
         <!-- Lên kế hoạch học thi TOPIK -->
         <div class="mb-6">
           <h3 class="text-2xl font-bold text-gray-900 mb-4">5. 📋 Phải lên kế hoạch học ra sao để thi TOPIK?</h3>
-          <div class="bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-xl">
-            <ul class="space-y-4 text-gray-700">
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-indigo-700">✓</span>
-                <span><strong>Chọn giáo trình, nên lấy những đề thi thử gần đây</strong> để làm đề thi học và ôn tập.</span>
+          <div class="bg-indigo-50 border-l-4 border-indigo-500 p-6 md:p-8 rounded-xl shadow-md">
+            <ul class="space-y-5 text-gray-800">
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-indigo-600 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Chọn giáo trình, nên lấy những đề thi thử gần đây</strong> để làm đề thi học và ôn tập.</span>
               </li>
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-indigo-700">✓</span>
-                <span><strong>Tập hợp lại cấu trúc ngữ pháp đã học</strong> và những cấu trúc ngữ pháp đã xuất hiện trong những đề thi gần đây. Chỉ cần hiểu cấu trúc ngữ pháp đó là gì, không cần phải quá đi sâu học chi tiết.</span>
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-indigo-600 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Tập hợp lại cấu trúc ngữ pháp đã học</strong> và những cấu trúc ngữ pháp đã xuất hiện trong những <strong class="text-gray-900">đề thi gần đây</strong>. Chỉ cần <strong class="text-gray-900">hiểu cấu trúc ngữ pháp đó là gì</strong>, không cần phải quá đi sâu học chi tiết.</span>
               </li>
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-indigo-700">✓</span>
-                <span><strong>Học kỹ năng làm bài cho từng thể loại câu hỏi:</strong> Câu hỏi trọng tâm thì làm thế nào? Câu hỏi chọn chủ đề chính thì cách làm thế nào? Câu hỏi chọn đáp án đúng thì làm thế nào?</span>
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-indigo-600 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Học kỹ năng làm bài cho từng thể loại câu hỏi:</strong> <strong class="text-gray-900">Câu hỏi trọng tâm</strong> thì làm thế nào? <strong class="text-gray-900">Câu hỏi chọn chủ đề chính</strong> thì cách làm thế nào? <strong class="text-gray-900">Câu hỏi chọn đáp án đúng</strong> thì làm thế nào?</span>
               </li>
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-indigo-700">✓</span>
-                <span><strong>Làm bài thi thường xuyên theo như một kỳ thi thực</strong>, bạn có thể lấy những đề cũ đã thi để làm, làm xong có thể tự chấm điểm để biết mình sai chỗ nào, thiếu chỗ nào.</span>
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-indigo-600 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Làm bài thi thường xuyên theo như một kỳ thi thực</strong>, bạn có thể lấy những <strong class="text-gray-900">đề cũ đã thi</strong> để làm, làm xong có thể <strong class="text-gray-900">tự chấm điểm</strong> để biết mình sai chỗ nào, thiếu chỗ nào.</span>
               </li>
-              <li class="flex items-start gap-3">
-                <span class="font-bold text-indigo-700">✓</span>
-                <span><strong>Học cần phải cố định về mặt thời gian và có thời gian đầu tư</strong>, hình thành thói quen thì mới có thể ghi nhớ.</span>
+              <li class="flex items-start gap-4">
+                <span class="text-2xl text-indigo-600 font-bold mt-0.5">✓</span>
+                <span class="flex-1 leading-relaxed"><strong class="text-gray-900">Học cần phải cố định về mặt thời gian và có thời gian đầu tư</strong>, <strong class="text-gray-900">hình thành thói quen</strong> thì mới có thể <strong class="text-gray-900">ghi nhớ</strong>.</span>
               </li>
             </ul>
           </div>
@@ -1090,7 +1107,7 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
         </div>
         
         <div class="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-xl p-8 shadow-lg">
-          <div class="mb-6">
+          <div class="mb-6 text-center">
             <p class="text-xl text-gray-800 mb-2">
               Chứng chỉ TOPIK có giá trị trong vòng
             </p>
@@ -1168,3 +1185,31 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
     margin-top: 0.5rem;
   }
 </style>
+
+<script>
+  // TOC Collapse functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toc-toggle');
+    const tocContent = document.getElementById('toc-content');
+    const tocIcon = document.getElementById('toc-icon');
+    
+    if (toggleButton && tocContent && tocIcon) {
+      let isCollapsed = false;
+      
+      toggleButton.addEventListener('click', function() {
+        isCollapsed = !isCollapsed;
+        
+        if (isCollapsed) {
+          tocContent.style.maxHeight = '0';
+          tocContent.style.overflow = 'hidden';
+          tocContent.style.opacity = '0';
+          tocIcon.style.transform = 'rotate(-90deg)';
+        } else {
+          tocContent.style.maxHeight = tocContent.scrollHeight + 'px';
+          tocContent.style.opacity = '1';
+          tocIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+    }
+  });
+</script>
