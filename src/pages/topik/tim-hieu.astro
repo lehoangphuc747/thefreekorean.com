@@ -24,7 +24,7 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
         <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Tìm hiểu về TOPIK</span>
       </h1>
       
-      <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+      <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed whitespace-nowrap">
         Tài liệu hướng dẫn toàn diện về kỳ thi TOPIK - Test of Proficiency in Korean
       </p>
     </div>
@@ -501,39 +501,39 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Tiêu chí đánh giá môn Nghe</h2>
         </div>
         
-        <p class="text-lg text-gray-700 mb-8">
+        <p class="text-lg text-gray-800 mb-8 leading-relaxed">
           Dưới đây là tiêu chí đánh giá chi tiết cho phần thi Nghe của từng cấp độ TOPIK:
         </p>
 
-        <div class="overflow-x-auto mb-6">
+        <div class="overflow-x-auto mb-6 shadow-lg rounded-lg">
           <table class="w-full border-collapse border border-gray-300">
             <thead>
               <tr class="bg-gradient-to-r from-red-500 to-pink-600 text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">TOPIK</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Cấp</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Số câu</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Thời gian</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Tiêu chí đánh giá</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">TOPIK</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Cấp</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Số câu</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Thời gian</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">Tiêu chí đánh giá</th>
               </tr>
             </thead>
             <tbody class="bg-white">
               <!-- TOPIK I - Cấp 1 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="2" class="border border-gray-300 px-4 py-3 font-bold text-green-700 align-middle text-center whitespace-nowrap">TOPIK I</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 1</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">30 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">40 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="2" class="border border-gray-300 px-5 py-4 font-bold text-green-700 align-middle text-center whitespace-nowrap bg-green-50">TOPIK I</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 1</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">30 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">40 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
                   Đánh giá mức độ <strong class="text-gray-900">nghe, hiểu, có thể suy luận</strong> được nội dung hội thoại cá nhân liên quan đến <strong class="text-gray-900">cuộc sống hàng ngày</strong>.
                 </td>
               </tr>
               <!-- TOPIK I - Cấp 2 -->
-              <tr class="hover:bg-gray-50 bg-green-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 2</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">30 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">40 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
+              <tr class="hover:bg-green-50 bg-green-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 2</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">30 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">40 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
                     <li>Nội dung <strong class="text-gray-900">hội thoại cá nhân</strong> liên quan đến cuộc sống hàng ngày</li>
                     <li>Nội dung hội thoại được xây dựng dựa trên <strong class="text-gray-900">đề tài xã hội</strong></li>
                     <li>Những câu văn được sử dụng <strong class="text-gray-900">thực tế đơn giản</strong></li>
@@ -541,25 +541,25 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 3 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="4" class="border border-gray-300 px-4 py-3 font-bold text-blue-700 align-middle text-center whitespace-nowrap">TOPIK II</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 3</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="4" class="border border-gray-300 px-5 py-4 font-bold text-blue-700 align-middle text-center whitespace-nowrap bg-blue-50">TOPIK II</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 3</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">60 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
                     <li>Hội thoại cá nhân thân thuộc được xây dựng dựa trên <strong class="text-gray-900">đề tài xã hội đơn giản</strong></li>
-                    <li>Hội thoại <strong class="text-gray-900">thực dụng</strong> như quảng cáo, phỏng vấn, dự báo thời tiết...</li>
+                    <li>Hội thoại <strong class="text-gray-900">thực dụng</strong> như <strong class="text-gray-900">quảng cáo, phỏng vấn, dự báo thời tiết</strong>...</li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 4 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 4</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 4</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">60 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
                     <li>Hội thoại có đề tài thân thuộc cần thiết trong việc <strong class="text-gray-900">duy trì các quan hệ xã hội</strong></li>
                     <li>Hội thoại có đề tài mang tính <strong class="text-gray-900">xã hội - trừu tượng</strong> thông thường</li>
                     <li><strong class="text-gray-900">Tin tức hoặc thảo luận</strong> có nội dung tương đối dễ</li>
@@ -567,30 +567,30 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 5 -->
-              <tr class="hover:bg-gray-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 5</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <strong class="text-gray-900 text-base">Đánh giá mức độ nghe, nắm rõ nội dung, suy luận, mức độ hiểu mang tính phê phán:</strong>
-                  <ul class="space-y-1 list-disc list-inside mt-2">
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 5</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">60 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <strong class="text-gray-900 text-base font-bold">Đánh giá mức độ nghe, nắm rõ nội dung, suy luận, mức độ hiểu mang tính phê phán:</strong>
+                  <ul class="space-y-2 list-disc list-inside mt-3">
                     <li>Hội thoại trong lĩnh vực <strong class="text-gray-900">thực hiện các nghiệp vụ thông thường</strong></li>
-                    <li>Hội thoại thông thường có liên quan đến những <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> như kinh tế, xã hội, văn hoá...</li>
+                    <li>Hội thoại thông thường có liên quan đến những <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> như <strong class="text-gray-900">kinh tế, xã hội, văn hoá</strong>...</li>
                     <li>Hội thoại hoặc <strong class="text-gray-900">bài diễn văn</strong> có đề tài thân thuộc</li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 6 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 6</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <strong>Đánh giá mức độ nghe, nắm rõ nội dung, suy luận, mức độ hiểu mang tính phê phán:</strong>
-                  <ul class="space-y-1 list-disc list-inside mt-2">
-                    <li>Hội thoại trong lĩnh vực thực hiện các nghiệp vụ thông thường</li>
-                    <li>Hội thoại đi sâu vào nội dung có liên quan đến lĩnh vực chuyên ngành như chính trị, kinh tế, xã hội, văn hoá, giáo dục...</li>
-                    <li>Hội thoại, bài diễn văn hoặc diễn thuyết phức tạp</li>
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 6</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">60 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <strong class="text-gray-900 text-base font-bold">Đánh giá mức độ nghe, nắm rõ nội dung, suy luận, mức độ hiểu mang tính phê phán:</strong>
+                  <ul class="space-y-2 list-disc list-inside mt-3">
+                    <li>Hội thoại trong lĩnh vực <strong class="text-gray-900">thực hiện các nghiệp vụ thông thường</strong></li>
+                    <li>Hội thoại đi sâu vào nội dung có liên quan đến lĩnh vực chuyên ngành như <strong class="text-gray-900">chính trị, kinh tế, xã hội, văn hoá, giáo dục</strong>...</li>
+                    <li>Hội thoại, <strong class="text-gray-900">bài diễn văn hoặc diễn thuyết phức tạp</strong></li>
                   </ul>
                 </td>
               </tr>
@@ -615,93 +615,93 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Tiêu chí đánh giá môn Đọc</h2>
         </div>
         
-        <p class="text-lg text-gray-700 mb-8">
+        <p class="text-lg text-gray-800 mb-8 leading-relaxed">
           Dưới đây là tiêu chí đánh giá chi tiết cho phần thi Đọc của từng cấp độ TOPIK:
         </p>
 
-        <div class="overflow-x-auto mb-6">
+        <div class="overflow-x-auto mb-6 shadow-lg rounded-lg">
           <table class="w-full border-collapse border border-gray-300">
             <thead>
               <tr class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">TOPIK</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Cấp</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Số câu</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Thời gian</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Tiêu chí đánh giá</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">TOPIK</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Cấp</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Số câu</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Thời gian</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">Tiêu chí đánh giá</th>
               </tr>
             </thead>
             <tbody class="bg-white">
               <!-- TOPIK I - Cấp 1 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="2" class="border border-gray-300 px-4 py-3 font-bold text-green-700 align-middle text-center whitespace-nowrap">TOPIK I</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 1</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">40 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  Đánh giá mức độ đọc hiểu, nắm rõ thông tin, hiểu được ý nghĩa của câu từ, câu văn, đoạn văn ngắn được sử dụng thành thục ở nơi công cộng thường ngày trong cuộc sống sinh hoạt hàng ngày.
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="2" class="border border-gray-300 px-5 py-4 font-bold text-green-700 align-middle text-center whitespace-nowrap bg-green-50">TOPIK I</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 1</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">40 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">60 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  Đánh giá mức độ <strong class="text-gray-900">đọc hiểu, nắm rõ thông tin</strong>, hiểu được ý nghĩa của <strong class="text-gray-900">câu từ, câu văn, đoạn văn ngắn</strong> được sử dụng thành thục ở <strong class="text-gray-900">nơi công cộng thường ngày</strong> trong cuộc sống sinh hoạt hàng ngày.
                 </td>
               </tr>
               <!-- TOPIK I - Cấp 2 -->
-              <tr class="hover:bg-gray-50 bg-green-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 2</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">40 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">60 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
-                    <li>Những bài viết về những câu chuyện sinh hoạt hàng ngày hay những bài văn giải thích</li>
-                    <li>Loại văn quảng cáo hay loại văn bản hướng dẫn đơn giản có thể thường xuyên sử dụng trong sinh hoạt thực tế</li>
+              <tr class="hover:bg-green-50 bg-green-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 2</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">40 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">60 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
+                    <li>Những bài viết về những <strong class="text-gray-900">câu chuyện sinh hoạt hàng ngày</strong> hay những <strong class="text-gray-900">bài văn giải thích</strong></li>
+                    <li>Loại văn <strong class="text-gray-900">quảng cáo</strong> hay loại văn bản <strong class="text-gray-900">hướng dẫn đơn giản</strong> có thể thường xuyên sử dụng trong sinh hoạt thực tế</li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 3 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="4" class="border border-gray-300 px-4 py-3 font-bold text-blue-700 align-middle text-center whitespace-nowrap">TOPIK II</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 3</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">70 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
-                    <li>Những bài viết cần thiết trong việc duy trì sinh hoạt xã hội cơ bản hay những bài viết đơn giản lấy đề tài như xã hội – văn hoá thân thuộc</li>
-                    <li>Loại văn thực dụng như loại văn quảng cáo đơn giản, loại văn hướng dẫn... và mức độ suy luận nội dung chính hoặc nội dung chi tiết của bài viết</li>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="4" class="border border-gray-300 px-5 py-4 font-bold text-blue-700 align-middle text-center whitespace-nowrap bg-blue-50">TOPIK II</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 3</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">70 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
+                    <li>Những bài viết cần thiết trong việc <strong class="text-gray-900">duy trì sinh hoạt xã hội cơ bản</strong> hay những bài viết đơn giản lấy đề tài như <strong class="text-gray-900">xã hội – văn hoá thân thuộc</strong></li>
+                    <li>Loại văn <strong class="text-gray-900">thực dụng</strong> như loại văn <strong class="text-gray-900">quảng cáo đơn giản, loại văn hướng dẫn</strong>... và mức độ <strong class="text-gray-900">suy luận nội dung chính hoặc nội dung chi tiết</strong> của bài viết</li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 4 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 4</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">70 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
-                    <li>Bài viết cần thiết trong sinh hoạt xã hội, hay bài viết có đề tài liên quan đến lĩnh vực kinh tế, xã hội, văn hoá</li>
-                    <li>Loại văn cảm tưởng, loại văn hướng dẫn cách sử dụng, loại văn hướng dẫn, bài báo, bài tiểu luận...</li>
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 4</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">70 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
+                    <li>Bài viết cần thiết trong <strong class="text-gray-900">sinh hoạt xã hội</strong>, hay bài viết có đề tài liên quan đến lĩnh vực <strong class="text-gray-900">kinh tế, xã hội, văn hoá</strong></li>
+                    <li>Loại văn <strong class="text-gray-900">cảm tưởng, loại văn hướng dẫn cách sử dụng, loại văn hướng dẫn, bài báo, bài tiểu luận</strong>...</li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 5 -->
-              <tr class="hover:bg-gray-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 5</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">70 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <strong>Đánh giá mức độ đọc hiểu, suy luận, có thể phân tích phê phán nội dung của:</strong>
-                  <ul class="space-y-1 list-disc list-inside mt-2">
-                    <li>Những bài viết cần thiết trong việc thực hiện thành thục sinh hoạt xã hội, hay những bài viết liên quan đến việc thực hiện những nghiệp vụ thông thường</li>
-                    <li>Loại văn giải thích, kí sự, văn kiến nghị có đề tài đa dạng như chính trị, kinh tế, xã hội, văn hoá, khoa học</li>
-                    <li>Tiểu thuyết, thơ và nắm bắt được thái độ của tác giả</li>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 5</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">70 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <strong class="text-gray-900 text-base font-bold">Đánh giá mức độ đọc hiểu, suy luận, có thể phân tích phê phán nội dung của:</strong>
+                  <ul class="space-y-2 list-disc list-inside mt-3">
+                    <li>Những bài viết cần thiết trong việc <strong class="text-gray-900">thực hiện thành thục sinh hoạt xã hội</strong>, hay những bài viết liên quan đến việc thực hiện những <strong class="text-gray-900">nghiệp vụ thông thường</strong></li>
+                    <li>Loại văn <strong class="text-gray-900">giải thích, kí sự, văn kiến nghị</strong> có đề tài đa dạng như <strong class="text-gray-900">chính trị, kinh tế, xã hội, văn hoá, khoa học</strong></li>
+                    <li><strong class="text-gray-900">Tiểu thuyết, thơ</strong> và nắm bắt được <strong class="text-gray-900">thái độ của tác giả</strong></li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 6 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 6</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">70 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <strong>Đánh giá mức độ đọc hiểu nội dung, suy luận, phân tích phê phán:</strong>
-                  <ul class="space-y-1 list-disc list-inside mt-2">
-                    <li>Những bài viết liên quan đến các lĩnh vực chuyên môn, những bài viết liên quan đến việc thực hành hầu hết các nghiệp vụ</li>
-                    <li>Tiểu thuyết, kịch, bình luận... và khả năng nắm bắt được ý đồ, tâm lý của tác giả</li>
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 6</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">70 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <strong class="text-gray-900 text-base font-bold">Đánh giá mức độ đọc hiểu nội dung, suy luận, phân tích phê phán:</strong>
+                  <ul class="space-y-2 list-disc list-inside mt-3">
+                    <li>Những bài viết liên quan đến các <strong class="text-gray-900">lĩnh vực chuyên môn</strong>, những bài viết liên quan đến việc <strong class="text-gray-900">thực hành hầu hết các nghiệp vụ</strong></li>
+                    <li><strong class="text-gray-900">Tiểu thuyết, kịch, bình luận</strong>... và khả năng nắm bắt được <strong class="text-gray-900">ý đồ, tâm lý của tác giả</strong></li>
                   </ul>
                 </td>
               </tr>
@@ -732,60 +732,60 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           </p>
         </div>
 
-        <p class="text-lg text-gray-700 mb-8">
+        <p class="text-lg text-gray-800 mb-8 leading-relaxed">
           Dưới đây là tiêu chí đánh giá chi tiết cho phần thi Viết của từng cấp độ TOPIK II:
         </p>
 
-        <div class="overflow-x-auto mb-6">
+        <div class="overflow-x-auto mb-6 shadow-lg rounded-lg">
           <table class="w-full border-collapse border border-gray-300">
             <thead>
               <tr class="bg-gradient-to-r from-orange-500 to-amber-600 text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">TOPIK</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Cấp</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Số câu</th>
-                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Thời gian</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Tiêu chí đánh giá</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">TOPIK</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Cấp</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Số câu</th>
+                <th class="border border-gray-300 px-5 py-4 text-center font-bold text-base">Thời gian</th>
+                <th class="border border-gray-300 px-5 py-4 text-left font-bold text-base">Tiêu chí đánh giá</th>
               </tr>
             </thead>
             <tbody class="bg-white">
               <!-- TOPIK II - Cấp 3 -->
-              <tr class="hover:bg-gray-50">
-                <td rowspan="4" class="border border-gray-300 px-4 py-3 font-bold text-blue-700 align-middle text-center whitespace-nowrap">TOPIK II</td>
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 3</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">4 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  <ul class="space-y-1 list-disc list-inside">
-                    <li>Đoạn văn giải thích hoặc đoạn văn cảm tưởng về các đề tài xã hội thân thuộc với độ chính xác và phù hợp tương đối</li>
-                    <li>Bài văn thực dụng theo đúng định dạng về các đề tài cá nhân liên quan đến các bối cảnh thông thường</li>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td rowspan="4" class="border border-gray-300 px-5 py-4 font-bold text-blue-700 align-middle text-center whitespace-nowrap bg-blue-50">TOPIK II</td>
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 3</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">4 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  <ul class="space-y-2 list-disc list-inside">
+                    <li>Đoạn văn <strong class="text-gray-900">giải thích hoặc đoạn văn cảm tưởng</strong> về các đề tài <strong class="text-gray-900">xã hội thân thuộc</strong> với độ <strong class="text-gray-900">chính xác và phù hợp tương đối</strong></li>
+                    <li>Bài văn <strong class="text-gray-900">thực dụng</strong> theo đúng <strong class="text-gray-900">định dạng</strong> về các đề tài cá nhân liên quan đến các <strong class="text-gray-900">bối cảnh thông thường</strong></li>
                   </ul>
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 4 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 4</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">4 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  Đánh giá khả năng viết đoạn văn giải thích hoặc đoạn văn cảm tưởng một cách chính xác và phù hợp về các đề tài xã hội thân thuộc hoặc các đề tài xã hội thông thường liên quan đến bối cảnh xã hội.
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 4</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">4 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  Đánh giá khả năng viết đoạn văn <strong class="text-gray-900">giải thích hoặc đoạn văn cảm tưởng</strong> một cách <strong class="text-gray-900">chính xác và phù hợp</strong> về các đề tài <strong class="text-gray-900">xã hội thân thuộc</strong> hoặc các đề tài <strong class="text-gray-900">xã hội thông thường</strong> liên quan đến <strong class="text-gray-900">bối cảnh xã hội</strong>.
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 5 -->
-              <tr class="hover:bg-gray-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 5</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">4 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  Đánh giá khả năng viết các bài luận về các đề tài xã hội hoặc đề tài chuyên môn trừu tượng hoặc các cuộc thảo luận liên quan đến các lĩnh vực chuyên ngành với độ chính xác và phù hợp tương đối.
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 5</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">4 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  Đánh giá khả năng viết các <strong class="text-gray-900">bài luận</strong> về các đề tài <strong class="text-gray-900">xã hội hoặc đề tài chuyên môn trừu tượng</strong> hoặc các cuộc thảo luận liên quan đến các <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> với độ <strong class="text-gray-900">chính xác và phù hợp tương đối</strong>.
                 </td>
               </tr>
               <!-- TOPIK II - Cấp 6 -->
-              <tr class="hover:bg-gray-50 bg-blue-50">
-                <td class="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900 whitespace-nowrap">Cấp 6</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">4 câu</td>
-                <td class="border border-gray-300 px-4 py-3 text-center text-gray-900 whitespace-nowrap">50 phút</td>
-                <td class="border border-gray-300 px-4 py-3 text-gray-700">
-                  Đánh giá khả năng viết các bài luận về các đề tài xã hội hoặc đề tài chuyên môn trừu tượng hoặc các cuộc thảo luận liên quan đến các lĩnh vực chuyên ngành một cách chính xác và phù hợp.
+              <tr class="hover:bg-blue-50 bg-blue-50 transition-colors">
+                <td class="border border-gray-300 px-5 py-4 text-center font-bold text-gray-900 whitespace-nowrap text-lg">Cấp 6</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">4 câu</td>
+                <td class="border border-gray-300 px-5 py-4 text-center text-gray-900 whitespace-nowrap font-semibold">50 phút</td>
+                <td class="border border-gray-300 px-5 py-4 text-gray-800 leading-relaxed">
+                  Đánh giá khả năng viết các <strong class="text-gray-900">bài luận</strong> về các đề tài <strong class="text-gray-900">xã hội hoặc đề tài chuyên môn trừu tượng</strong> hoặc các cuộc thảo luận liên quan đến các <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> một cách <strong class="text-gray-900">chính xác và phù hợp</strong>.
                 </td>
               </tr>
             </tbody>
