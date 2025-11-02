@@ -959,7 +959,97 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           Dưới đây là tiêu chí đánh giá chi tiết cho phần thi Đọc của từng cấp độ TOPIK:
         </p>
 
-        <div class="overflow-x-auto mb-6 shadow-lg rounded-lg">
+        <!-- Mobile Card Layout -->
+        <div class="md:hidden space-y-4 mb-6">
+          <!-- TOPIK I Group -->
+          <div>
+            <div class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-bold text-lg px-4 py-3 rounded-t-xl">
+              🟢 TOPIK I - 40 câu | 60 phút
+            </div>
+            <!-- Cấp 1 -->
+            <div class="bg-white border-l-4 border-r-4 border-b-4 border-teal-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-teal-200">
+                <span class="font-bold text-xl text-gray-900">Cấp 1</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <p>Đánh giá mức độ <strong class="text-gray-900">đọc hiểu, nắm rõ thông tin</strong>, hiểu được ý nghĩa của <strong class="text-gray-900">câu từ, câu văn, đoạn văn ngắn</strong> được sử dụng thành thục ở <strong class="text-gray-900">nơi công cộng thường ngày</strong> trong cuộc sống sinh hoạt hàng ngày.</p>
+              </div>
+            </div>
+            <!-- Cấp 2 -->
+            <div class="bg-green-50 border-l-4 border-r-4 border-b-4 border-teal-500 rounded-b-xl p-5 shadow-lg">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-teal-300">
+                <span class="font-bold text-xl text-gray-900">Cấp 2</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <ul class="space-y-2 list-disc list-inside">
+                  <li>Những bài viết về những <strong class="text-gray-900">câu chuyện sinh hoạt hàng ngày</strong> hay những <strong class="text-gray-900">bài văn giải thích</strong></li>
+                  <li>Loại văn <strong class="text-gray-900">quảng cáo</strong> hay loại văn bản <strong class="text-gray-900">hướng dẫn đơn giản</strong> có thể thường xuyên sử dụng trong sinh hoạt thực tế</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- TOPIK II Group -->
+          <div>
+            <div class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-bold text-lg px-4 py-3 rounded-t-xl">
+              🔵 TOPIK II - 50 câu | 70 phút
+            </div>
+            <!-- Cấp 3 -->
+            <div class="bg-white border-l-4 border-r-4 border-b-4 border-teal-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-teal-200">
+                <span class="font-bold text-xl text-gray-900">Cấp 3</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <ul class="space-y-2 list-disc list-inside">
+                  <li>Những bài viết cần thiết trong việc <strong class="text-gray-900">duy trì sinh hoạt xã hội cơ bản</strong> hay những bài viết đơn giản lấy đề tài như <strong class="text-gray-900">xã hội – văn hoá thân thuộc</strong></li>
+                  <li>Loại văn <strong class="text-gray-900">thực dụng</strong> như loại văn <strong class="text-gray-900">quảng cáo đơn giản, loại văn hướng dẫn</strong>... và mức độ <strong class="text-gray-900">suy luận nội dung chính hoặc nội dung chi tiết</strong> của bài viết</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Cấp 4 -->
+            <div class="bg-blue-50 border-l-4 border-r-4 border-b-4 border-teal-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-teal-300">
+                <span class="font-bold text-xl text-gray-900">Cấp 4</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <ul class="space-y-2 list-disc list-inside">
+                  <li>Bài viết cần thiết trong <strong class="text-gray-900">sinh hoạt xã hội</strong>, hay bài viết có đề tài liên quan đến lĩnh vực <strong class="text-gray-900">kinh tế, xã hội, văn hoá</strong></li>
+                  <li>Loại văn <strong class="text-gray-900">cảm tưởng, loại văn hướng dẫn cách sử dụng, loại văn hướng dẫn, bài báo, bài tiểu luận</strong>...</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Cấp 5 -->
+            <div class="bg-white border-l-4 border-r-4 border-b-4 border-teal-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-teal-200">
+                <span class="font-bold text-xl text-gray-900">Cấp 5</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <p class="font-bold text-base mb-3"><strong class="text-gray-900">Đánh giá mức độ đọc hiểu, suy luận, có thể phân tích phê phán nội dung của:</strong></p>
+                <ul class="space-y-2 list-disc list-inside">
+                  <li>Những bài viết cần thiết trong việc <strong class="text-gray-900">thực hiện thành thục sinh hoạt xã hội</strong>, hay những bài viết liên quan đến việc thực hiện những <strong class="text-gray-900">nghiệp vụ thông thường</strong></li>
+                  <li>Loại văn <strong class="text-gray-900">giải thích, kí sự, văn kiến nghị</strong> có đề tài đa dạng như <strong class="text-gray-900">chính trị, kinh tế, xã hội, văn hoá, khoa học</strong></li>
+                  <li><strong class="text-gray-900">Tiểu thuyết, thơ</strong> và nắm bắt được <strong class="text-gray-900">thái độ của tác giả</strong></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Cấp 6 -->
+            <div class="bg-blue-50 border-l-4 border-r-4 border-b-4 border-teal-500 rounded-b-xl p-5 shadow-lg">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-teal-300">
+                <span class="font-bold text-xl text-gray-900">Cấp 6</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <p class="font-bold text-base mb-3"><strong class="text-gray-900">Đánh giá mức độ đọc hiểu nội dung, suy luận, phân tích phê phán:</strong></p>
+                <ul class="space-y-2 list-disc list-inside">
+                  <li>Những bài viết liên quan đến các <strong class="text-gray-900">lĩnh vực chuyên môn</strong>, những bài viết liên quan đến việc <strong class="text-gray-900">thực hành hầu hết các nghiệp vụ</strong></li>
+                  <li><strong class="text-gray-900">Tiểu thuyết, kịch, bình luận</strong>... và khả năng nắm bắt được <strong class="text-gray-900">ý đồ, tâm lý của tác giả</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Table -->
+        <div class="hidden md:block overflow-x-auto mb-6 shadow-lg rounded-lg">
           <table class="w-full border-collapse border border-gray-300">
             <thead>
               <tr class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
@@ -1076,7 +1166,57 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           Dưới đây là tiêu chí đánh giá chi tiết cho phần thi Viết của từng cấp độ TOPIK II:
         </p>
 
-        <div class="overflow-x-auto mb-6 shadow-lg rounded-lg">
+        <!-- Mobile Card Layout -->
+        <div class="md:hidden space-y-4 mb-6">
+          <!-- TOPIK II Group -->
+          <div>
+            <div class="bg-gradient-to-r from-orange-500 to-amber-600 text-white font-bold text-lg px-4 py-3 rounded-t-xl">
+              🔵 TOPIK II - 4 câu | 50 phút
+            </div>
+            <!-- Cấp 3 -->
+            <div class="bg-white border-l-4 border-r-4 border-b-4 border-orange-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-orange-200">
+                <span class="font-bold text-xl text-gray-900">Cấp 3</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <ul class="space-y-2 list-disc list-inside">
+                  <li>Đoạn văn <strong class="text-gray-900">giải thích hoặc đoạn văn cảm tưởng</strong> về các đề tài <strong class="text-gray-900">xã hội thân thuộc</strong> với độ <strong class="text-gray-900">chính xác và phù hợp tương đối</strong></li>
+                  <li>Bài văn <strong class="text-gray-900">thực dụng</strong> theo đúng <strong class="text-gray-900">định dạng</strong> về các đề tài cá nhân liên quan đến các <strong class="text-gray-900">bối cảnh thông thường</strong></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Cấp 4 -->
+            <div class="bg-blue-50 border-l-4 border-r-4 border-b-4 border-orange-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-orange-300">
+                <span class="font-bold text-xl text-gray-900">Cấp 4</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <p>Đánh giá khả năng viết đoạn văn <strong class="text-gray-900">giải thích hoặc đoạn văn cảm tưởng</strong> một cách <strong class="text-gray-900">chính xác và phù hợp</strong> về các đề tài <strong class="text-gray-900">xã hội thân thuộc</strong> hoặc các đề tài <strong class="text-gray-900">xã hội thông thường</strong> liên quan đến <strong class="text-gray-900">bối cảnh xã hội</strong>.</p>
+              </div>
+            </div>
+            <!-- Cấp 5 -->
+            <div class="bg-white border-l-4 border-r-4 border-b-4 border-orange-500 rounded-b-xl p-5 shadow-lg mb-3">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-orange-200">
+                <span class="font-bold text-xl text-gray-900">Cấp 5</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <p>Đánh giá khả năng viết các <strong class="text-gray-900">bài luận</strong> về các đề tài <strong class="text-gray-900">xã hội hoặc đề tài chuyên môn trừu tượng</strong> hoặc các cuộc thảo luận liên quan đến các <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> với độ <strong class="text-gray-900">chính xác và phù hợp tương đối</strong>.</p>
+              </div>
+            </div>
+            <!-- Cấp 6 -->
+            <div class="bg-blue-50 border-l-4 border-r-4 border-b-4 border-orange-500 rounded-b-xl p-5 shadow-lg">
+              <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-orange-300">
+                <span class="font-bold text-xl text-gray-900">Cấp 6</span>
+              </div>
+              <div class="text-gray-800 leading-relaxed">
+                <p>Đánh giá khả năng viết các <strong class="text-gray-900">bài luận</strong> về các đề tài <strong class="text-gray-900">xã hội hoặc đề tài chuyên môn trừu tượng</strong> hoặc các cuộc thảo luận liên quan đến các <strong class="text-gray-900">lĩnh vực chuyên ngành</strong> một cách <strong class="text-gray-900">chính xác và phù hợp</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Table -->
+        <div class="hidden md:block overflow-x-auto mb-6 shadow-lg rounded-lg">
           <table class="w-full border-collapse border border-gray-300">
             <thead>
               <tr class="bg-gradient-to-r from-orange-500 to-amber-600 text-white">
