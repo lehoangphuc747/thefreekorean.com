@@ -36,20 +36,22 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
       
       <!-- Table of Contents -->
       <div class="mb-16 bg-gradient-to-br from-purple-50 via-indigo-50 to-pink-50 border-2 border-purple-300 rounded-2xl p-6 md:p-8 shadow-lg">
-        <div class="flex items-center justify-between mb-6">
+        <div 
+          id="toc-toggle"
+          class="flex items-center justify-between mb-6 p-4 -mx-2 rounded-xl cursor-pointer hover:bg-white/50 transition-all duration-200 group"
+          role="button"
+          tabindex="0"
+          aria-label="Thu gọn/Mở rộng mục lục"
+        >
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
               <span class="text-2xl">📑</span>
             </div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Mục lục</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors">Mục lục</h2>
           </div>
-          <button 
-            id="toc-toggle"
-            class="w-10 h-10 flex items-center justify-center rounded-lg bg-white hover:bg-purple-100 transition-colors shadow-sm"
-            aria-label="Thu gọn/Mở rộng mục lục"
-          >
+          <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-white/80 group-hover:bg-purple-100 transition-colors shadow-sm">
             <span class="text-xl transition-transform duration-300" id="toc-icon">▼</span>
-          </button>
+          </div>
         </div>
         <nav id="toc-content" class="grid md:grid-cols-2 gap-4 transition-all duration-300 ease-in-out" style="max-height: none; opacity: 1;">
           <a href="#topik-la-gi" class="flex items-start gap-4 p-4 bg-white rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300 group shadow-sm hover:shadow-md hover:-translate-y-1">
@@ -1189,14 +1191,14 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
 <script>
   // TOC Collapse functionality
   document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('toc-toggle');
+    const toggleHeader = document.getElementById('toc-toggle');
     const tocContent = document.getElementById('toc-content');
     const tocIcon = document.getElementById('toc-icon');
     
-    if (toggleButton && tocContent && tocIcon) {
+    if (toggleHeader && tocContent && tocIcon) {
       let isCollapsed = false;
       
-      toggleButton.addEventListener('click', function() {
+      function toggleCollapse() {
         isCollapsed = !isCollapsed;
         
         if (isCollapsed) {
@@ -1208,6 +1210,14 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
           tocContent.style.maxHeight = tocContent.scrollHeight + 'px';
           tocContent.style.opacity = '1';
           tocIcon.style.transform = 'rotate(0deg)';
+        }
+      }
+      
+      toggleHeader.addEventListener('click', toggleCollapse);
+      toggleHeader.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCollapse();
         }
       });
     }
