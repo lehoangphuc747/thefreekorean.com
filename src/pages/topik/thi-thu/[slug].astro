@@ -1,11 +1,17 @@
 ---
 import TopikLayout from '../../../layouts/TopikLayout.astro';
 
+export async function getStaticPaths() {
+  // Tạm thời return empty array vì chưa có dữ liệu thi thử
+  // Sau này sẽ thêm logic để đọc các file thi thử
+  return [];
+}
+
 interface Props {
   slug: string;
 }
 
-const { slug } = Astro.props;
+const { slug } = Astro.params;
 ---
 
 <TopikLayout 
