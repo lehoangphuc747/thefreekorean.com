@@ -112,7 +112,8 @@ const { question } = Astro.props;
     
     choiceItems.forEach((item, idx) => {
       const isSelected = selectedIdx === idx;
-      const isAnswer = idx === answerValue;
+      // Sau khi shuffle, cần kiểm tra data-choice-is-correct thay vì so sánh với answerValue
+      const isAnswer = item.getAttribute('data-choice-is-correct') === 'true';
       const isSelectedAndCorrect = isSelected && isAnswer;
       const isSelectedAndWrong = isSelected && !isAnswer;
       const isCorrectAnswerButNotSelected = isAnswer && selectedIdx !== null && !isSelected;
@@ -165,11 +166,11 @@ const { question } = Astro.props;
     // Hiển thị feedback
     feedbackArea.classList.remove('hidden');
     
-    // Tìm đáp án đúng để lấy chữ cái
+    // Tìm đáp án đúng để lấy chữ cái (sau khi shuffle)
     const choiceListContainer = container.querySelector('[data-choice-list-container]');
     const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
-    const correctItem = choiceList?.querySelector(`[data-choice-index="${answerValue}"]`);
-    const correctLetter = correctItem?.getAttribute('data-choice-letter') || String.fromCharCode(65 + answerValue);
+    const correctItem = choiceList?.querySelector('[data-choice-is-correct="true"]');
+    const correctLetter = correctItem?.getAttribute('data-choice-letter') || 'A';
     
     if (isCorrect) {
       // Chọn đúng
@@ -181,16 +182,29 @@ const { question } = Astro.props;
       if (feedbackExplain && explainText) {
         // Chuyển đổi markdown cơ bản thành HTML
         let htmlText = explainText
-          // Xử lý xuống dòng trước (để tránh conflict với markdown syntax)
+          // Xử lý horizontal rules trước
+          .replace(/^---+$/gm, '<hr class="my-3 border-gray-300">') // horizontal rule
+          // Xử lý headings
+          .replace(/^### (.*?)$/gm, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>') // ### heading
+          .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold mt-4 mb-2">$1</h2>') // ## heading
+          .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>') // # heading
+          // Xử lý xuống dòng
           .replace(/\n\n/g, '{{PARAGRAPH_BREAK}}') // double newline = paragraph break
           .replace(/\n/g, '<br>') // single newline = line break
           // Xử lý markdown formatting
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **bold**
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>') // **bold**
           .replace(/\*(.*?)\*/g, '<em>$1</em>') // *italic* (sau khi đã xử lý **)
           .replace(/^\- /gm, '• ') // bullet points ở đầu dòng
           // Chuyển paragraph breaks thành HTML
           .split('{{PARAGRAPH_BREAK}}')
-          .map(para => `<p class="mt-2">${para.trim()}</p>`)
+          .map(para => {
+            const trimmed = para.trim();
+            // Nếu đã là heading hoặc hr thì không wrap trong <p>
+            if (trimmed.startsWith('<h') || trimmed.startsWith('<hr')) {
+              return trimmed;
+            }
+            return trimmed ? `<p class="mt-2">${trimmed}</p>` : '';
+          })
           .join('');
         feedbackExplain.innerHTML = htmlText;
         feedbackExplain.className = 'feedback-explain mt-2 text-sm text-gray-700';
@@ -205,16 +219,29 @@ const { question } = Astro.props;
       if (feedbackExplain && explainText) {
         // Chuyển đổi markdown cơ bản thành HTML
         let htmlText = explainText
-          // Xử lý xuống dòng trước (để tránh conflict với markdown syntax)
+          // Xử lý horizontal rules trước
+          .replace(/^---+$/gm, '<hr class="my-3 border-gray-300">') // horizontal rule
+          // Xử lý headings
+          .replace(/^### (.*?)$/gm, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>') // ### heading
+          .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold mt-4 mb-2">$1</h2>') // ## heading
+          .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>') // # heading
+          // Xử lý xuống dòng
           .replace(/\n\n/g, '{{PARAGRAPH_BREAK}}') // double newline = paragraph break
           .replace(/\n/g, '<br>') // single newline = line break
           // Xử lý markdown formatting
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **bold**
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>') // **bold**
           .replace(/\*(.*?)\*/g, '<em>$1</em>') // *italic* (sau khi đã xử lý **)
           .replace(/^\- /gm, '• ') // bullet points ở đầu dòng
           // Chuyển paragraph breaks thành HTML
           .split('{{PARAGRAPH_BREAK}}')
-          .map(para => `<p class="mt-2">${para.trim()}</p>`)
+          .map(para => {
+            const trimmed = para.trim();
+            // Nếu đã là heading hoặc hr thì không wrap trong <p>
+            if (trimmed.startsWith('<h') || trimmed.startsWith('<hr')) {
+              return trimmed;
+            }
+            return trimmed ? `<p class="mt-2">${trimmed}</p>` : '';
+          })
           .join('');
         feedbackExplain.innerHTML = htmlText;
         feedbackExplain.className = 'feedback-explain mt-2 text-sm text-red-700';
@@ -228,7 +255,6 @@ const { question } = Astro.props;
     if (!container) return;
     
     const questionIdValue = container.getAttribute('data-question-id');
-    const correctAnswer = parseInt(answerValue);
     
     // Toggle button cho dịch tiếng Việt
     const toggleBtn = container.querySelector('.toggle-vietnamese-btn');
@@ -264,9 +290,13 @@ const { question } = Astro.props;
         // Nếu đã chọn rồi thì không làm gì
         if (selectedIndex !== null) return;
         
+        // Kiểm tra xem đáp án đã chọn có đúng không (sau khi shuffle)
+        const clickedItem = choiceList?.querySelector(`[data-choice-index="${clickedIndex}"]`);
+        const isAnswerCorrect = clickedItem?.getAttribute('data-choice-is-correct') === 'true';
+        
         // Cập nhật state
         selectedIndex = clickedIndex;
-        isCorrect = clickedIndex === correctAnswer;
+        isCorrect = isAnswerCorrect;
         
         // Cập nhật màu sắc choices
         updateChoiceList(selectedIndex);
