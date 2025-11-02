@@ -1,0 +1,130 @@
+---
+import TopikLayout from '../../../layouts/TopikLayout.astro';
+import { readdirSync, readFileSync } from 'fs';
+import { join } from 'path';
+
+// Đọc tất cả file JSON trong thư mục dang-de
+const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'dang-de');
+const files = readdirSync(contentDir).filter((file: string) => file.endsWith('.json'));
+
+// Đọc và parse từng file để lấy meta
+const exercises = files
+  .map((file: string) => {
+    try {
+      const filePath = join(contentDir, file);
+      const content = readFileSync(filePath, 'utf-8');
+      const data = JSON.parse(content);
+      const slug = file.replace('.json', '');
+      
+      if (data.meta) {
+        return {
+          slug,
+          title: data.meta.title,
+          range: data.meta.range,
+          level: data.meta.level,
+          type: data.meta.type
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error(`Error reading ${file}:`, error);
+      return null;
+    }
+  })
+  .filter(Boolean);
+
+// Nhóm theo type và level
+const groupedExercises: Record<string, typeof exercises> = {};
+exercises.forEach((exercise: any) => {
+  const key = `${exercise.type} (${exercise.level})`;
+  if (!groupedExercises[key]) {
+    groupedExercises[key] = [];
+  }
+  groupedExercises[key].push(exercise);
+});
+
+// Sắp xếp các nhóm và các exercise trong nhóm
+const sortedGroups = Object.keys(groupedExercises).sort();
+sortedGroups.forEach(key => {
+  groupedExercises[key].sort((a: any, b: any) => {
+    // Lấy số từ slug để sắp xếp (ví dụ: topik2-reading-dang-01 -> 1)
+    const getNumber = (slug: string) => {
+      const match = slug.match(/dang-(\d+)/);
+      if (match) return parseInt(match[1]);
+      // Xử lý trường hợp dang-03-a, dang-03-b
+      const matchAlpha = slug.match(/dang-(\d+)-([a-z])/);
+      if (matchAlpha) return parseFloat(`${matchAlpha[1]}.${matchAlpha[2].charCodeAt(0) - 96}`);
+      return 0;
+    };
+    return getNumber(a.slug) - getNumber(b.slug);
+  });
+});
+---
+
+<TopikLayout 
+  title="Luyện tập TOPIK"
+  description="Luyện tập từng dạng bài thi TOPIK"
+>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Luyện tập TOPIK
+      </h1>
+      <p class="text-xl text-gray-600">
+        Luyện tập từng dạng bài thi TOPIK với các câu hỏi có giải thích chi tiết
+      </p>
+    </div>
+
+    <!-- Danh sách các dạng bài -->
+    <div class="max-w-4xl mx-auto">
+      {sortedGroups.map((groupKey) => (
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 capitalize">
+            {groupKey}
+          </h2>
+          <ul class="space-y-3">
+            {groupedExercises[groupKey].map((exercise: any) => {
+              // Lấy tên dạng từ title (ví dụ: "Reading – Dạng 01" -> "Dạng 01", "Reading – Dạng 03A" -> "Dạng 03A")
+              const formatName = (title: string) => {
+                // Tìm phần sau dấu "–" hoặc "-"
+                const parts = title.split(/[–-]/);
+                if (parts.length > 1) {
+                  const dangPart = parts[parts.length - 1].trim();
+                  // Nếu có "Dạng" thì lấy phần sau "Dạng"
+                  const match = dangPart.match(/Dạng\s+(.+)/i);
+                  if (match) return `Dạng ${match[1].trim()}`;
+                  return dangPart;
+                }
+                return title;
+              };
+              
+              return (
+                <li>
+                  <a 
+                    href={`/topik/luyen-tap/${exercise.slug}`}
+                    class="block p-4 border-2 border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
+                  >
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <span class="text-lg font-semibold text-gray-900">
+                          {formatName(exercise.title)}
+                        </span>
+                        <span class="text-gray-600 ml-3">
+                          ({exercise.range})
+                        </span>
+                      </div>
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</TopikLayout>
+

@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Reading – Dạng 01",
+    "type": "reading",
+    "slug": "topik2-reading-dang-01",
+    "range": "Câu 1–4",
+    "level": "TOPIK II"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "exam": "topik2-91",
+      "group_instruction": "※ [1~2]( )에 들어갈 말로 가장 알맞은 것을 고르십시오. (각 2점)",
+      "group_instruction_vi": "※ Chọn từ thích hợp nhất điền vào ( ) cho [1~2]. (Mỗi câu 2 điểm)",
+      "question_ko": "나는 오래전에 설악산을( ).",
+      "question_vi": "Tôi đã từng leo núi Seoraksan lâu rồi.",
+      "choices": [
+        { "type": "text", "text": "등산하고 싶다" },
+        { "type": "text", "text": "등산해도 된다" },
+        { "type": "text", "text": "등산할 것 같다" },
+        { "type": "text", "text": "등산한 적이 있다" }
+      ],
+      "answer": 3,
+      "explain": "**Đáp án đúng: ④ 등산한 적이 있다**\n\n- '등산한 적이 있다' nghĩa là 'đã từng leo núi' – phù hợp với '오래전에' (lâu rồi) để diễn tả kinh nghiệm trong quá khứ.\n\n**Tại sao các đáp án khác sai:**\n\n- ① 등산하고 싶다 (muốn leo núi): Diễn tả mong muốn ở hiện tại/tương lai, không phù hợp với '오래전에' (lâu rồi) – quá khứ.\n- ② 등산해도 된다 (có thể leo núi): Diễn tả khả năng hoặc sự cho phép, không liên quan đến thời gian quá khứ.\n- ③ 등산할 것 같다 (có vẻ sẽ leo núi): Diễn tả dự đoán về tương lai, hoàn toàn không phù hợp với '오래전에' (quá khứ)."
+    },
+    {
+      "id": 2,
+      "exam": "topik2-91",
+      "question_ko": "새집으로( ) 가구를 새로 샀다.",
+      "question_vi": "Sau khi chuyển đến nhà mới, tôi đã mua đồ nội thất mới.",
+      "choices": [
+        { "type": "text", "text": "이사한 지" },
+        { "type": "text", "text": "이사하거든" },
+        { "type": "text", "text": "이사하려면" },
+        { "type": "text", "text": "이사하고 나서" }
+      ],
+      "answer": 3,
+      "explain": "'이사하고 나서' nghĩa là 'sau khi chuyển nhà' – diễn tả hành động xảy ra sau khi hoàn thành việc chuyển nhà, phù hợp với ngữ cảnh mua đồ nội thất sau khi chuyển."
+    },
+    {
+      "id": 3,
+      "exam": "topik2-91",
+      "question_ko": "빈칸에 들어갈 알맞은 것을 고르십시오.",
+      "question_vi": "Chọn từ thích hợp điền vào chỗ trống.",
+      "choices": [
+        { "type": "text", "text": "그러니까" },
+        { "type": "text", "text": "그런데" },
+        { "type": "text", "text": "그래서" },
+        { "type": "text", "text": "그러면" }
+      ],
+      "answer": 3,
+      "explain": "'그러면' nghĩa là 'vậy thì' – dùng để đưa ra kết luận hoặc đề xuất."
+    },
+    {
+      "id": 4,
+      "exam": "topik2-91",
+      "question_ko": "다음을 읽고 빈칸에 들어갈 말을 고르십시오.",
+      "question_vi": "Đọc và chọn từ thích hợp điền vào chỗ trống.",
+      "choices": [
+        { "type": "text", "text": "그래서" },
+        { "type": "text", "text": "하지만" },
+        { "type": "text", "text": "그러나" },
+        { "type": "text", "text": "그런가" }
+      ],
+      "answer": 1,
+      "explain": "'하지만' nghĩa là 'nhưng' – dùng để biểu thị sự đối lập hoặc tương phản."
+    },
+    {
+      "id": 1,
+      "exam": "topik2-93",
+      "question_ko": "빈칸에 들어갈 알맞은 말을 고르십시오.",
+      "question_vi": "Chọn từ thích hợp điền vào chỗ trống.",
+      "choices": [
+        { "type": "text", "text": "그래서" },
+        { "type": "text", "text": "하지만" },
+        { "type": "text", "text": "그러나" },
+        { "type": "text", "text": "그리고" }
+      ],
+      "answer": 0,
+      "explain": "'그래서' nghĩa là 'vì vậy', 'do đó' – dùng để nối nguyên nhân và kết quả."
+    },
+    {
+      "id": 2,
+      "exam": "topik2-93",
+      "question_ko": "다음 빈칸에 알맞은 것을 고르십시오.",
+      "question_vi": "Chọn từ thích hợp điền vào chỗ trống sau.",
+      "choices": [
+        { "type": "text", "text": "그런데" },
+        { "type": "text", "text": "그래도" },
+        { "type": "text", "text": "그러면" },
+        { "type": "text", "text": "그리고" }
+      ],
+      "answer": 1,
+      "explain": "'그래도' nghĩa là 'dù vậy', 'tuy nhiên' – biểu thị sự nhượng bộ."
+    },
+    {
+      "id": 3,
+      "exam": "topik2-93",
+      "question_ko": "빈칸에 들어갈 알맞은 말을 고르십시오.",
+      "question_vi": "Chọn từ thích hợp điền vào chỗ trống.",
+      "choices": [
+        { "type": "text", "text": "그러니까" },
+        { "type": "text", "text": "그래서" },
+        { "type": "text", "text": "그러면" },
+        { "type": "text", "text": "그런가" }
+      ],
+      "answer": 0,
+      "explain": "'그러니까' nghĩa là 'vì vậy', 'nên là' – dùng để giải thích lý do hoặc kết luận."
+    },
+    {
+      "id": 4,
+      "exam": "topik2-93",
+      "question_ko": "다음을 읽고 빈칸에 들어갈 말을 고르십시오.",
+      "question_vi": "Đọc và chọn từ thích hợp điền vào chỗ trống.",
+      "choices": [
+        { "type": "text", "text": "하지만" },
+        { "type": "text", "text": "그래서" },
+        { "type": "text", "text": "그리고" },
+        { "type": "text", "text": "그러면" }
+      ],
+      "answer": 2,
+      "explain": "'그리고' nghĩa là 'và', 'còn nữa' – dùng để nối các câu có ý nghĩa liên tiếp hoặc bổ sung."
+    }
+  ]
+}

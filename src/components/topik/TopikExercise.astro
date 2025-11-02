@@ -1,0 +1,218 @@
+---
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import ReadingQuestion from './ReadingQuestion.astro';
+
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+// Bước 1: Đọc và kiểm tra JSON
+const jsonPath = join(process.cwd(), 'src', 'content', 'topik', 'dang-de', `${slug}.json`);
+let exerciseData: any = null;
+let isValid = false;
+let errorMessage = '';
+
+try {
+  const fileContent = readFileSync(jsonPath, 'utf-8');
+  exerciseData = JSON.parse(fileContent);
+  
+  // Kiểm tra cấu trúc JSON
+  if (!exerciseData.meta) {
+    errorMessage = 'Thiếu meta trong JSON';
+  } else if (!exerciseData.questions) {
+    errorMessage = 'Thiếu questions trong JSON';
+  } else if (!Array.isArray(exerciseData.questions)) {
+    errorMessage = 'questions phải là mảng';
+  } else {
+    isValid = true;
+  }
+} catch (error: any) {
+  console.error('Error reading exercise file:', error);
+  errorMessage = error.message || 'Không thể đọc file JSON';
+}
+
+const meta = isValid ? exerciseData.meta : null;
+const questions = isValid ? exerciseData.questions : [];
+const exerciseType = meta?.type || '';
+
+// Lấy danh sách các kỳ thi từ questions
+const exams: string[] = isValid 
+  ? [...new Set(questions.map((q: any) => q.exam).filter(Boolean))] as string[]
+  : [];
+
+// Nhóm câu hỏi theo exam và sắp xếp theo id
+const groupedQuestions: Record<string, any[]> = {};
+if (isValid) {
+  questions.forEach((q: any) => {
+    const exam = q.exam || 'default';
+    if (!groupedQuestions[exam]) {
+      groupedQuestions[exam] = [];
+    }
+    groupedQuestions[exam].push(q);
+  });
+  // Sắp xếp mỗi nhóm theo id
+  Object.keys(groupedQuestions).forEach(exam => {
+    groupedQuestions[exam].sort((a: any, b: any) => a.id - b.id);
+  });
+}
+---
+
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+  {isValid ? (
+    <>
+      <!-- Bước 2: Hiển thị Meta Info ở đầu trang -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+          {meta.title}
+        </h1>
+        <div class="flex items-center justify-center gap-4 text-gray-600 flex-wrap">
+          <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+            {meta.level}
+          </span>
+          <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+            {meta.range}
+          </span>
+          {exams.length > 0 && (
+            <>
+              {exams.map((exam: string) => (
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                  {exam.toUpperCase()}
+                </span>
+              ))}
+            </>
+          )}
+        </div>
+      </div>
+
+      <!-- Bước 3 & 4: Hiển thị theo type và lặp qua từng câu hỏi -->
+      {exerciseType === 'reading' ? (
+        <div class="max-w-4xl mx-auto space-y-8">
+          {Object.keys(groupedQuestions).map((exam: string) => {
+            const examQuestions = groupedQuestions[exam];
+            const firstQuestion = examQuestions[0];
+            const hasGroupInstruction = firstQuestion.group_instruction;
+            
+            return (
+              <div class="space-y-6">
+                {/* Hiển thị hướng dẫn chung cho nhóm (nếu có) */}
+                {hasGroupInstruction && (
+                  <div class="group-instruction-card">
+                    <div class="group-instruction-content">
+                      <p class="group-instruction-ko">
+                        {firstQuestion.group_instruction}
+                      </p>
+                      {firstQuestion.group_instruction_vi && (
+                        <p class="group-instruction-vi">
+                          {firstQuestion.group_instruction_vi}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Hiển thị các câu hỏi trong nhóm */}
+                {examQuestions.map((question: any) => (
+                  <ReadingQuestion question={question} />
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ) : exerciseType === 'listening' ? (
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8 text-center">
+            <p class="text-yellow-800">
+              Dạng listening - Đang phát triển
+            </p>
+          </div>
+        </div>
+      ) : exerciseType === 'writing' ? (
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8 text-center">
+            <p class="text-yellow-800">
+              Dạng writing - Đang phát triển
+            </p>
+          </div>
+        </div>
+      ) : null}
+    </>
+  ) : (
+    <!-- Bước 1: Hiển thị lỗi nếu JSON không hợp lệ -->
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-red-50 border-2 border-red-200 rounded-xl p-8 text-center">
+        <p class="text-red-800 text-lg font-medium mb-2">
+          Không tìm thấy dữ liệu cho slug này.
+        </p>
+        <p class="text-red-600 text-sm">
+          Slug: {slug}
+        </p>
+        {errorMessage && (
+          <p class="text-red-600 text-sm mt-2">
+            Lỗi: {errorMessage}
+          </p>
+        )}
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .group-instruction-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #93c5fd;
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    transition: all 0.2s ease;
+  }
+
+  .group-instruction-card:hover {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .group-instruction-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .group-instruction-ko {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e40af;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .group-instruction-vi {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #1e3a8a;
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  @media (max-width: 640px) {
+    .group-instruction-card {
+      padding: 1rem 1.25rem;
+    }
+
+    .group-instruction-ko {
+      font-size: 1rem;
+    }
+
+    .group-instruction-vi {
+      font-size: 0.875rem;
+    }
+  }
+</style>
+

@@ -1,0 +1,36 @@
+---
+import TopikLayout from '../../../layouts/TopikLayout.astro';
+import TopikExercise from '../../../components/topik/TopikExercise.astro';
+import { readdirSync } from 'fs';
+import { join } from 'path';
+
+export async function getStaticPaths() {
+  // Đọc tất cả file JSON trong thư mục dang-de
+  const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'dang-de');
+  const files = readdirSync(contentDir).filter((file: string) => file.endsWith('.json'));
+  
+  // Tạo danh sách các slug từ tên file
+  const paths = files.map((file: string) => {
+    const slug = file.replace('.json', '');
+    return {
+      params: { slug }
+    };
+  });
+  
+  return paths;
+}
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.params;
+---
+
+<TopikLayout 
+  title={`Luyện tập - ${slug}`}
+  description={`Trang luyện tập TOPIK: ${slug}`}
+>
+  <TopikExercise slug={slug} />
+</TopikLayout>
+

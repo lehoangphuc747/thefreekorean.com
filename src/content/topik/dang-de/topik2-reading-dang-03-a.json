@@ -1,0 +1,22 @@
+{
+    "meta": {
+      "title": "Reading – Dạng 03A",
+      "type": "reading",
+      "slug": "topik2-reading-dang-03-a",
+      "range": "Câu 9–10",
+      "level": "TOPIK II"
+    },
+    "questions": [
+      {
+        "id": 9,
+        "exam": "topik2-91",
+        "question_ko": "다음을 읽고 알맞은 것을 고르십시오.",
+        "question_vi": "Đọc đoạn sau và chọn đáp án đúng.",
+        "image": "/assets/topik2-reading-9.png",
+        "choices": ["A", "B", "C", "D"],
+        "answer": 2,
+        "explain": "Câu nói về hành động học tiếng Hàn."
+      }
+    ]
+  }
+  

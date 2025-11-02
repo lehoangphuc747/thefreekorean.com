@@ -1,0 +1,21 @@
+{
+    "meta": {
+      "title": "Reading – Dạng 02",
+      "type": "reading",
+      "slug": "topik2-reading-dang-02",
+      "range": "Câu 5–8",
+      "level": "TOPIK II"
+    },
+    "questions": [
+      {
+        "id": 5,
+        "exam": "topik2-91",
+        "question_ko": "다음 중 내용이 같은 것을 고르십시오.",
+        "question_vi": "Chọn câu có nội dung giống nhất.",
+        "choices": ["A", "B", "C", "D"],
+        "answer": 1,
+        "explain": "B có cùng nghĩa với câu gốc."
+      }
+    ]
+  }
+  

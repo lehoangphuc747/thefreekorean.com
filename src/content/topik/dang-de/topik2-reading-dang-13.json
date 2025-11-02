@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "title": "Reading – Dạng 13",
+    "type": "reading",
+    "slug": "topik2-reading-dang-13",
+    "range": "Câu 39–41",
+    "level": "TOPIK II"
+  },
+  "questions": [
+    {
+      "id": 39,
+      "exam": "topik2-91",
+      "question_ko": "",
+      "question_vi": "",
+      "image": "",
+      "choices": ["", "", "", ""],
+      "answer": "",
+      "explain": ""
+    }
+  ]
+}

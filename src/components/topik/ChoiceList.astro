@@ -1,0 +1,123 @@
+---
+export interface Props {
+  choices: Array<{ type: string; text?: string; src?: string; alt?: string }>;
+  answer: number;
+  selectedIndex: number | null;
+  onSelect: (index: number) => void;
+}
+
+const { choices, answer, selectedIndex, onSelect } = Astro.props;
+---
+
+<div class="space-y-2" data-choice-list>
+  {choices.map((choice, index) => {
+    const choiceLetter = String.fromCharCode(65 + index);
+    const isSelected = selectedIndex === index;
+    const isCorrect = index === answer;
+    const isSelectedAndCorrect = isSelected && isCorrect;
+    const isSelectedAndWrong = isSelected && !isCorrect;
+    const isCorrectAnswerButNotSelected = isCorrect && selectedIndex !== null && !isSelected;
+    
+    // Xác định class màu sắc
+    let choiceClasses = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+    
+    if (selectedIndex === null) {
+      // Chưa chọn - bình thường
+      choiceClasses += " border-gray-200 hover:border-blue-400";
+    } else {
+      // Đã chọn
+      if (isSelectedAndCorrect) {
+        // User chọn đúng - màu xanh
+        choiceClasses += " bg-green-100 border-green-400";
+      } else if (isSelectedAndWrong) {
+        // User chọn sai - màu đỏ
+        choiceClasses += " bg-red-100 border-red-400";
+      } else if (isCorrectAnswerButNotSelected) {
+        // Đáp án đúng nhưng user không chọn (user đã chọn sai) - xanh viền
+        choiceClasses += " bg-green-50 border-green-400 border-2";
+      } else {
+        // Các lựa chọn khác - disabled
+        choiceClasses += " border-gray-200 opacity-60";
+      }
+    }
+    
+    return (
+      <div 
+        class={choiceClasses}
+        data-choice-index={index}
+        data-choice-letter={choiceLetter}
+        data-choice-is-correct={isCorrect}
+      >
+        <span class="font-medium text-gray-700 mr-2">
+          {choiceLetter}.
+        </span>
+        {choice.type === 'text' ? (
+          <span class="text-gray-800">{choice.text}</span>
+        ) : choice.type === 'image' ? (
+          <img 
+            src={choice.src} 
+            alt={choice.alt || `Choice ${choiceLetter}`} 
+            class="rounded-lg max-w-xs mt-2" 
+          />
+        ) : (
+          // Fallback cho format cũ
+          <span class="text-gray-800">
+            {typeof choice === 'string' ? choice : choice.text || ''}
+          </span>
+        )}
+      </div>
+    );
+  })}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Lấy tất cả choice lists (vì có thể có nhiều câu hỏi)
+    const allChoiceLists = document.querySelectorAll('[data-choice-list]');
+    
+    allChoiceLists.forEach((choiceList) => {
+      const choiceItems = choiceList.querySelectorAll('.choice-item');
+      let isDisabled = false;
+      
+      choiceItems.forEach((item) => {
+        item.addEventListener('click', function() {
+          // Kiểm tra xem đã disabled chưa (đã chọn rồi)
+          if (isDisabled) return;
+          if (this.style.pointerEvents === 'none') return;
+          if (this.hasAttribute('data-disabled')) return;
+          
+          const index = parseInt(this.getAttribute('data-choice-index') || '0');
+          
+          // Mark as disabled ngay lập tức để tránh double click
+          isDisabled = true;
+          choiceItems.forEach((choice) => {
+            choice.setAttribute('data-disabled', 'true');
+          });
+          
+          // Emit custom event để component cha nhận
+          const event = new CustomEvent('choice-select', { 
+            detail: { index },
+            bubbles: true,
+            cancelable: true
+          });
+          choiceList.dispatchEvent(event);
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .choice-item {
+    transition: all 0.2s ease;
+  }
+  
+  .choice-item:hover {
+    transform: translateX(4px);
+  }
+  
+  .choice-item[style*="pointer-events: none"] {
+    cursor: not-allowed;
+  }
+</style>
+

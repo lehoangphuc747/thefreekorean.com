@@ -1,0 +1,35 @@
+---
+import TopikLayout from '../../../layouts/TopikLayout.astro';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<TopikLayout 
+  title={`Thi thử - ${slug}`}
+  description={`Đề thi thử TOPIK: ${slug}`}
+>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Đề thi thử: {slug}
+      </h1>
+      <p class="text-xl text-gray-600">
+        Trang đề thi thử TOPIK
+      </p>
+    </div>
+
+    <!-- Content sẽ được thêm vào sau -->
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <p class="text-gray-600">
+          Nội dung đề thi thử sẽ được hiển thị ở đây.
+        </p>
+      </div>
+    </div>
+  </div>
+</TopikLayout>
+
