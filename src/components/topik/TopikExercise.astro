@@ -593,6 +593,25 @@ const timerEnabled = true;
     }
     
     function handleSubmitAll() {
+      // Calculate correct/wrong counts from stored answers
+      state.correctCount = 0;
+      state.wrongCount = 0;
+      state.wrongQuestions.clear();
+      
+      Object.keys(state.correctAnswers).forEach(questionId => {
+        const isCorrect = state.correctAnswers[questionId];
+        if (isCorrect) {
+          state.correctCount++;
+          state.wrongQuestions.delete(questionId);
+        } else {
+          state.wrongCount++;
+          state.wrongQuestions.add(questionId);
+        }
+      });
+      
+      saveToLocalStorage();
+      updateProgressBar(); // Update with correct/wrong counts
+      
       // Dispatch event to all questions to show their feedback
       const event = new CustomEvent('submit-all-answers', {
         bubbles: true
@@ -1052,6 +1071,27 @@ const timerEnabled = true;
         
         saveToLocalStorage();
         updateProgressBar();
+        
+        // If in quiz mode, update navigator
+        if (state.displayMode === 'quiz') {
+          const questions = getFilteredQuestions();
+          renderQuizNavigator(questions);
+        }
+      });
+      
+      // Listen to answer-selected events (in submit mode - before submission)
+      document.addEventListener('answer-selected', (e) => {
+        const { questionId, selectedIndex, isCorrect } = e.detail;
+        
+        // Store answer but don't update correct/wrong counts yet
+        state.userAnswers[questionId] = selectedIndex;
+        state.answeredCount = Object.keys(state.userAnswers).length;
+        
+        // Temporarily store the correctness (will be revealed on submit)
+        state.correctAnswers[questionId] = isCorrect;
+        
+        saveToLocalStorage();
+        updateProgressBar(); // Update only answered count, not correct/wrong
         
         // If in quiz mode, update navigator
         if (state.displayMode === 'quiz') {

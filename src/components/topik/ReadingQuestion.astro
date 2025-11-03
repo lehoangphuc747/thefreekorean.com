@@ -331,7 +331,7 @@ const {
     }
   }
   
-  // Helper function to dispatch answer event
+  // Helper function to dispatch answer event (after submission - with correct/incorrect info)
   function dispatchAnswerEvent() {
     const event = new CustomEvent('answer-submitted', {
       bubbles: true,
@@ -339,6 +339,22 @@ const {
         questionId: uniqueQuestionId,
         selectedIndex,
         isCorrect
+      }
+    });
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (container) {
+      container.dispatchEvent(event);
+    }
+  }
+  
+  // Helper function to dispatch answer selected event (in submit mode - before submission)
+  function dispatchAnswerSelectedEvent() {
+    const event = new CustomEvent('answer-selected', {
+      bubbles: true,
+      detail: {
+        questionId: uniqueQuestionId,
+        selectedIndex,
+        isCorrect // We know it but don't show to user yet
       }
     });
     const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
@@ -434,6 +450,8 @@ const {
         } else {
           // Submit mode: chỉ highlight đã chọn, không hiện đúng/sai, chờ nút nộp bài tổng
           updateChoiceListSubmitMode(selectedIndex);
+          // Dispatch event để update ProgressBar (nhưng chưa xác định đúng/sai)
+          dispatchAnswerSelectedEvent();
         }
       });
     }
