@@ -20,7 +20,7 @@
         { "type": "text", "text": "돕기 무섭게" },
         { "type": "text", "text": "돕는 바람에" }
       ],
-      "answer": 0,
+      "answer": 1,
       "explain": "## ✅ Đáp án đúng\n\n**돕기 위해서** (để giúp đỡ)\n\n- **돕고자** = **돕기 위해서** → diễn tả mục đích: để làm gì đó.\n- Cấu trúc: **V-고자** (formal, văn bản) = **V-기 위해서** (thường dùng hơn).\n- Nghĩa: \"Tôi tham gia hoạt động tình nguyện hàng năm để giúp đỡ những người hàng xóm khó khăn.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **돕는 대신에** ❌ → \"Thay vì giúp đỡ\" → sai nghĩa, không phải mục đích.\n- **돕기 무섭게** ❌ → \"Ngay khi giúp đỡ\" → sai cấu trúc và nghĩa.\n- **돕는 바람에** ❌ → \"Vì giúp đỡ\" → diễn tả nguyên nhân bất ngờ, sai mục đích."
     },
     {
@@ -34,7 +34,7 @@
         { "type": "text", "text": "볼 수밖에 없었다" },
         { "type": "text", "text": "본 거나 마찬가지이다" }
       ],
-      "answer": 3,
+      "answer": 4,
       "explain": "## ✅ Đáp án đúng\n\n**본 거나 마찬가지이다** (giống như đã xem / coi như đã xem)\n\n- **안 본 셈이다** = **본 거나 마찬가지이다** → diễn tả \"coi như\", \"cũng như\".\n- Cấu trúc: **V-ㄴ/은 셈이다** = **V-거나 마찬가지이다** → xem như, coi như.\n- Nghĩa: \"Trong 3 năm qua tôi chỉ xem một bộ phim nên coi như là không xem.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **본 척했다** ❌ → \"Giả vờ đã xem\" → sai nghĩa, không phải \"coi như\".\n- **보기 나름이다** ❌ → \"Tùy cách xem\" → sai nghĩa hoàn toàn.\n- **볼 수밖에 없었다** ❌ → \"Không thể không xem\" → sai cấu trúc và nghĩa."
     },
     {
@@ -48,7 +48,7 @@
         { "type": "text", "text": "먹을 텐데" },
         { "type": "text", "text": "먹고 나서" }
       ],
-      "answer": 2,
+      "answer": 4,
       "explain": "## ✅ Đáp án đúng\n\n**먹고 나서** (sau khi ăn/uống xong)\n\n- Cấu trúc: **V-고 나서** diễn tả hành động xảy ra sau khi hành động trước hoàn thành.\n- Câu có nghĩa: \"Sau khi uống thuốc cảm, cơn sốt đã giảm.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **먹는라고** ❌ → Sai ngữ pháp, không tồn tại dạng này.\n- **먹더라도** ❌ → Dù có uống thì… (mang ý nhượng bộ, không phù hợp vì kết quả là hạ sốt).\n- **먹을 텐데** ❌ → Chắc là sẽ uống… (phỏng đoán, không phù hợp ngữ cảnh)."
     },
     {
@@ -62,7 +62,7 @@
         { "type": "text", "text": "준비하면 된다" },
         { "type": "text", "text": "준비하는 법이다" }
       ],
-      "answer": 0,
+      "answer": 1,
       "explain": "## ✅ Đáp án đúng\n\n**준비해 놓았다** (đã chuẩn bị sẵn)\n\n- Cấu trúc: **V-아/어 놓다** → làm gì đó trước và giữ nguyên trạng thái để sử dụng sau.\n- Nghĩa: \"Đã chuẩn bị sẵn nguyên liệu vì ngày mai định làm kimbap.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **준비하곤 했다** ❌ → Dạng diễn tả thói quen trong quá khứ (\"thường chuẩn bị…\"), không phù hợp vì đây là hành động cụ thể.\n- **준비하면 된다** ❌ → \"Chỉ cần chuẩn bị là được\", mang tính hướng dẫn, không phù hợp ngữ cảnh quá khứ.\n- **준비하는 법이다** ❌ → \"Là cách chuẩn bị\", mang nghĩa định nghĩa, không phù hợp ngữ cảnh."
     }
   ]

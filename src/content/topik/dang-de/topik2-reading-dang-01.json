@@ -20,7 +20,7 @@
         { "type": "text", "text": "읽도록" },
         { "type": "text", "text": "읽든지" }
       ],
-      "answer": 1,
+      "answer": 2,
       "explain": "## ✅ Đáp án đúng\n\n**읽다가** (đang đọc thì...)\n\n- Cấu trúc: **V-다가** diễn tả hành động đang diễn ra thì bị gián đoạn bởi hành động khác.\n- Nghĩa: \"Em tôi đang đọc sách trong phòng khách thì ngủ quên mất.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **읽으러** ❌ → nghĩa là \"để đọc\", chỉ mục đích di chuyển, không phù hợp.\n- **읽도록** ❌ → nghĩa là \"để/cho đến khi đọc\", diễn tả mục tiêu hoặc kết quả mong muốn.\n- **읽든지** ❌ → nghĩa là \"dù đọc hay…\", chỉ sự lựa chọn, không đúng ngữ cảnh."
     },
     {
@@ -34,11 +34,11 @@
         { "type": "text", "text": "끝나곤 했다" },
         { "type": "text", "text": "끝나기 때문이다" }
       ],
-      "answer": 0,
+      "answer": 1,
       "explain": "## ✅ Đáp án đúng\n\n**끝나 버렸다** (đã kết thúc mất rồi)\n\n- Cấu trúc: **V-아/어 버리다** → diễn tả việc gì đó đã hoàn thành, thường mang cảm xúc tiếc nuối hoặc bất ngờ.\n- Nghĩa: \"Phim mới bắt đầu không lâu mà đã kết thúc mất rồi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **끝나면 된다** ❌ → \"Chỉ cần kết thúc là được\", sai ngữ cảnh cảm thán.\n- **끝나곤 했다** ❌ → diễn tả thói quen trong quá khứ, không phù hợp.\n- **끝나기 때문이다** ❌ → diễn tả nguyên nhân, không phù hợp với ngữ điệu cảm thán ở đây."
     },
     {
-      "id": 1,
+      "id": 3,
       "exam": "topik2-91",
       "question_ko": "나는 오래전에 설악산을 (      ).",
       "question_vi": "Tôi đã từng leo núi Seoraksan từ lâu rồi.",
@@ -48,11 +48,11 @@
         { "type": "text", "text": "등산할 것 같다" },
         { "type": "text", "text": "등산한 적이 있다" }
       ],
-      "answer": 3,
+      "answer": 4,
       "explain": "## ✅ Đáp án đúng\n\n**등산한 적이 있다** (đã từng leo núi)\n\n- Cấu trúc: **V-(으)ㄴ 적이 있다** → diễn tả kinh nghiệm đã từng làm gì đó trong quá khứ.\n- Phù hợp với **'오래전에'** (lâu rồi) để diễn tả kinh nghiệm trong quá khứ.\n- Nghĩa: \"Tôi đã từng leo núi Seoraksan từ lâu rồi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **등산하고 싶다** ❌ → \"muốn leo núi\", diễn tả mong muốn, không phải kinh nghiệm đã qua.\n- **등산해도 된다** ❌ → \"có thể/được phép leo núi\", diễn tả sự cho phép, không phù hợp ngữ cảnh.\n- **등산할 것 같다** ❌ → \"có vẻ sẽ leo núi\", diễn tả sự phỏng đoán về tương lai, không phù hợp."
     },
     {
-      "id": 2,
+      "id": 4,
       "exam": "topik2-91",
       "question_ko": "새집으로 (      ) 가구를 새로 샀다.",
       "question_vi": "Sau khi chuyển đến nhà mới, tôi đã mua đồ nội thất mới.",
@@ -62,11 +62,11 @@
         { "type": "text", "text": "이사하려면" },
         { "type": "text", "text": "이사하고 나서" }
       ],
-      "answer": 3,
+      "answer": 4,
       "explain": "## ✅ Đáp án đúng\n\n**이사하고 나서** (sau khi chuyển nhà)\n\n- Cấu trúc: **V-고 나서** → diễn tả hành động thứ hai xảy ra sau khi hành động thứ nhất hoàn thành.\n- Nghĩa: \"Sau khi chuyển đến nhà mới, tôi đã mua đồ nội thất mới.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **이사한 지** ❌ → \"kể từ khi chuyển nhà\", thường dùng để chỉ khoảng thời gian đã trôi qua kể từ một sự kiện.\n- **이사하거든** ❌ → \"nếu chuyển nhà\", diễn tả điều kiện hoặc giả định.\n- **이사하려면** ❌ → \"nếu muốn chuyển nhà\", diễn tả ý định hoặc điều kiện để thực hiện hành động."
     },
     {
-      "id": 1,
+      "id": 5,
       "exam": "topik2-96",
       "question_ko": "감기약을 (      ) 열이 내렸다.",
       "question_vi": "Uống thuốc cảm xong thì hạ sốt.",
@@ -76,11 +76,11 @@
         { "type": "text", "text": "먹을 텐데" },
         { "type": "text", "text": "먹고 나서" }
       ],
-      "answer": 2,
+      "answer": 4,
       "explain": "## ✅ Đáp án đúng\n\n**먹고 나서** (sau khi ăn/uống xong)\n\n- Cấu trúc: **V-고 나서** diễn tả hành động xảy ra sau khi hành động trước hoàn thành.\n- Câu có nghĩa: \"Sau khi uống thuốc cảm, cơn sốt đã giảm.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **먹는라고** ❌ → Sai ngữ pháp, không tồn tại dạng này.\n- **먹더라도** ❌ → Dù có uống thì… (mang ý nhượng bộ, không phù hợp vì kết quả là hạ sốt).\n- **먹을 텐데** ❌ → Chắc là sẽ uống… (phỏng đoán, không phù hợp ngữ cảnh)."
     },
     {
-      "id": 2,
+      "id": 6,
       "exam": "topik2-96",
       "question_ko": "내일 김밥을 만들려고 재료를 미리 (      ).",
       "question_vi": "Vì định làm kimbap ngày mai nên tôi đã chuẩn bị sẵn nguyên liệu trước.",
@@ -90,8 +90,708 @@
         { "type": "text", "text": "준비하면 된다" },
         { "type": "text", "text": "준비하는 법이다" }
       ],
-      "answer": 0,
+      "answer": 1,
       "explain": "## ✅ Đáp án đúng\n\n**준비해 놓았다** (đã chuẩn bị sẵn)\n\n- Cấu trúc: **V-아/어 놓다** → làm gì đó trước và giữ nguyên trạng thái để sử dụng sau.\n- Nghĩa: \"Đã chuẩn bị sẵn nguyên liệu vì ngày mai định làm kimbap.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **준비하곤 했다** ❌ → Dạng diễn tả thói quen trong quá khứ (\"thường chuẩn bị…\"), không phù hợp vì đây là hành động cụ thể.\n- **준비하면 된다** ❌ → \"Chỉ cần chuẩn bị là được\", mang tính hướng dẫn, không phù hợp ngữ cảnh quá khứ.\n- **준비하는 법이다** ❌ → \"Là cách chuẩn bị\", mang nghĩa định nghĩa, không phù hợp ngữ cảnh."
+    },
+    {
+      "id": 7,
+      "exam": "연습",
+      "question_ko": "출퇴근 시간에는 길이 (      ) 조금 일찍 출발합시다.",
+      "question_vi": "Vào giờ đi làm và tan tầm đường sẽ tắc nên chúng ta hãy xuất phát sớm một chút nhé.",
+      "choices": [
+        { "type": "text", "text": "막혀서" },
+        { "type": "text", "text": "막히거나" },
+        { "type": "text", "text": "막히려면" },
+        { "type": "text", "text": "막히니까" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**막히니까** (vì tắc đường)\n\n- Cấu trúc: **V/A-(으)니까** → Dùng để chỉ nguyên nhân, lý do. Thường đi kèm với các câu mệnh lệnh (-으세요), đề nghị (-ㅂ시다) hoặc thể hiện ý chí của người nói. Trong câu này, vế sau là một lời đề nghị \"조금 일찍 출발합시다\" (chúng ta hãy xuất phát sớm một chút).\n- Nghĩa: \"Vì giờ đi làm và tan tầm đường tắc nên chúng ta hãy xuất phát sớm một chút.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **막혀서** ❌ → Cấu trúc `-아/어서` cũng chỉ nguyên nhân nhưng ít khi được dùng với câu mệnh lệnh, đề nghị.\n- **막히거나** ❌ → Cấu trúc `-거나` có nghĩa là \"hoặc\", không phù hợp với ngữ cảnh.\n- **막히려면** ❌ → Cấu trúc `-(으)려면` có nghĩa là \"nếu muốn/nếu định...\", không phù hợp."
+    },
+    {
+      "id": 8,
+      "exam": "연습",
+      "question_ko": "구름이 잔뜩 낀 것을 보니 비가 (       ).",
+      "question_vi": "Nhìn trời đầy mây thế này, chắc là sắp mưa rồi.",
+      "choices": [
+        { "type": "text", "text": "오곤 한다" },
+        { "type": "text", "text": "온다고 한다" },
+        { "type": "text", "text": "오려나 보다" },
+        { "type": "text", "text": "오는 편이다" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**오려나 보다** (có vẻ như sắp mưa)\n\n- Cấu trúc: **V-(으)려나 보다** → Diễn tả sự phỏng đoán của người nói dựa trên một căn cứ nào đó. Căn cứ ở đây là \"구름이 잔뜩 낀 것을 보니\" (nhìn thấy trời đầy mây).\n- Nghĩa: \"Nhìn trời đầy mây, có vẻ như sắp mưa rồi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **오곤 한다** ❌ → Cấu trúc `-곤 하다` diễn tả một hành động thỉnh thoảng được lặp lại, không phải là phỏng đoán.\n- **온다고 한다** ❌ → Cấu trúc `-ㄴ/는다고 하다` là câu trích dẫn gián tiếp, nghĩa là \"nghe nói là trời mưa\", không phải là sự suy đoán trực tiếp của người nói.\n- **오는 편이다** ❌ → Cấu trúc `-(으)ㄴ/는 편이다` có nghĩa là \"thuộc dạng/thiên về\", không phù hợp."
+    },
+    {
+      "id": 9,
+      "exam": "연습",
+      "question_ko": "어제는 너무 피곤해서 침대에 (       ) 잠이 들었다.",
+      "question_vi": "Hôm qua vì quá mệt nên tôi vừa nằm xuống giường là ngủ thiếp đi.",
+      "choices": [
+        { "type": "text", "text": "눕거나" },
+        { "type": "text", "text": "눕는다면" },
+        { "type": "text", "text": "눕자마자" },
+        { "type": "text", "text": "눕더라도" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**눕자마자** (ngay khi vừa nằm xuống)\n\n- Cấu trúc: **V-자마자** → Diễn tả một hành động xảy ra ngay sau khi một hành động khác vừa kết thúc. Ở đây, hành động \"잠이 들었다\" (ngủ thiếp đi) xảy ra ngay sau hành động \"침대에 눕다\" (nằm xuống giường).\n- Nghĩa: \"Hôm qua vì quá mệt nên vừa nằm xuống giường là tôi ngủ thiếp đi ngay.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **눕거나** ❌ → Cấu trúc `-거나` có nghĩa là \"hoặc\", không phù hợp.\n- **눕는다면** ❌ → Cấu trúc `-ㄴ/는다면` là câu giả định \"nếu nằm xuống thì...\", không phù hợp với việc kể lại sự việc đã xảy ra.\n- **눕더라도** ❌ → Cấu trúc `-(으)ㄹ지라도 / -더라도` có nghĩa là \"dù cho...\", không phù hợp."
+    },
+    {
+      "id": 10,
+      "exam": "연습",
+      "question_ko": "어떤 어려움이 (       ) 나는 끝까지 이 일을 해낼 것이다.",
+      "question_vi": "Dù có khó khăn nào đi nữa, tôi cũng sẽ hoàn thành công việc này đến cùng.",
+      "choices": [
+        { "type": "text", "text": "있어도" },
+        { "type": "text", "text": "있지만" },
+        { "type": "text", "text": "있도록" },
+        { "type": "text", "text": "있더니" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**있어도** (dù có)\n\n- Cấu trúc: **V/A-아/어도** → Diễn tả sự nhượng bộ, vế trước là một điều kiện hay tình huống nhưng vế sau vẫn diễn ra không bị ảnh hưởng. Nó nhấn mạnh sự quyết tâm ở vế sau bất chấp hoàn cảnh ở vế trước.\n- Nghĩa: \"Dù có bất kỳ khó khăn nào, tôi cũng sẽ hoàn thành công việc này đến cùng.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **있지만** ❌ → Cấu trúc `-지만` có nghĩa là \"nhưng\", dùng để nối hai sự thật tương phản, không mạnh mẽ bằng `-아/어도` trong việc thể hiện sự nhượng bộ với một điều kiện giả định.\n- **있도록** ❌ → Cấu trúc `-도록` chỉ mục đích \"để mà...\", không phù hợp.\n- **있더니** ❌ → Cấu trúc `-더니` diễn tả sự tương phản hoặc kết quả sau khi quan sát một sự việc trong quá khứ, không phù hợp."
+    },
+    {
+      "id": 11,
+      "exam": "연습",
+      "question_ko": "내일 영화도 보고 쇼핑도 (       ) 해서 명동에 가려고 한다.",
+      "question_vi": "Ngày mai tôi định đến Myeongdong để vừa xem phim vừa mua sắm.",
+      "choices": [
+        { "type": "text", "text": "하고" },
+        { "type": "text", "text": "할 겸" },
+        { "type": "text", "text": "하면서" },
+        { "type": "text", "text": "하니까" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**할 겸** (để vừa... vừa...)\n\n- Cấu trúc: **V-(으)ㄹ 겸** → Dùng khi người nói có ý định thực hiện hai hoặc nhiều hành động hoặc mục đích cùng một lúc. Ở đây, mục đích đến Myeongdong là để \"xem phim\" và \"mua sắm\".\n- Nghĩa: \"Ngày mai tôi định đến Myeongdong để vừa xem phim vừa mua sắm.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **하고** ❌ → Cấu trúc `-고` chỉ liệt kê các hành động theo thứ tự, không thể hiện mục đích.\n- **하면서** ❌ → Cấu trúc `-(으)면서` diễn tả hai hành động xảy ra đồng thời, nhưng không thể vừa xem phim vừa mua sắm cùng một lúc được.\n- **하니까** ❌ → Cấu trúc `-(으)니까` chỉ nguyên nhân, không phù hợp."
+    },
+    {
+      "id": 12,
+      "exam": "연습",
+      "question_ko": "오전에는 비가 많이 (       ) 지금은 날씨가 맑게 개었다.",
+      "question_vi": "Buổi sáng trời đã mưa rất to, (nhưng) bây giờ thì trời đã quang đãng.",
+      "choices": [
+        { "type": "text", "text": "오더니" },
+        { "type": "text", "text": "오더라도" },
+        { "type": "text", "text": "와 가지고" },
+        { "type": "text", "text": "오는 대신에" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**오더니** (đã mưa rồi...)\n\n- Cấu trúc: **V/A-더니** → Dùng khi người nói hồi tưởng lại một sự việc đã quan sát trong quá khứ và sau đó có một sự thay đổi hoặc kết quả tương phản ở hiện tại. Vế trước (sáng mưa to) và vế sau (bây giờ trời quang) là một sự tương phản rõ rệt.\n- Nghĩa: \"Buổi sáng trời mưa to thế mà bây giờ đã quang đãng rồi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **오더라도** ❌ → Cấu trúc `-더라도` là giả định \"dù trời có mưa...\", không phù hợp với việc kể lại sự thật đã xảy ra.\n- **와 가지고** ❌ → Cấu trúc `-아/어 가지고` chỉ nguyên nhân hoặc thứ tự hành động, không thể hiện sự tương phản.\n- **오는 대신에** ❌ → Cấu trúc `-는 대신에` có nghĩa là \"thay vì...\", không phù hợp."
+    },
+    {
+      "id": 13,
+      "exam": "연습",
+      "question_ko": "수민이는 \"너무 피곤하니까 오늘은 일찍 집에 가서 (       )!\" 하고 말했다.",
+      "question_vi": "Sumin nói: \"Vì mệt quá nên hôm nay phải về nhà sớm nghỉ ngơi thôi!\"",
+      "choices": [
+        { "type": "text", "text": "쉴걸" },
+        { "type": "text", "text": "쉬더라" },
+        { "type": "text", "text": "쉬어야지" },
+        { "type": "text", "text": "쉬기도 해" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**쉬어야지** (phải nghỉ ngơi thôi)\n\n- Cấu trúc: **V-아/어야지** → Diễn tả ý chí, quyết tâm hoặc một việc đương nhiên phải làm của người nói. Trong ngữ cảnh này, Sumin cảm thấy mệt và tự nhủ rằng mình phải về nghỉ ngơi.\n- Nghĩa: \"Sumin nói: 'Mệt quá, hôm nay phải về nhà sớm nghỉ thôi!'\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **쉴걸** ❌ → Cấu trúc `-(으)ㄹ걸` thể hiện sự hối tiếc về một việc đã không làm trong quá khứ, \"lẽ ra nên nghỉ\".\n- **쉬더라** ❌ → Cấu trúc `-더라` dùng để hồi tưởng và kể lại một sự việc mình đã chứng kiến, không dùng để nói về ý chí của bản thân.\n- **쉬기도 해** ❌ → Cấu trúc `-기도 하다` có nghĩa là \"cũng có lúc.../thỉnh thoảng...\", không phù hợp."
+    },
+    {
+      "id": 14,
+      "exam": "연습",
+      "question_ko": "비장애인도 쉽지 (     ) 불편한 몸으로 높은 산에 오르다니 정말 대단한 사람이다.",
+      "question_vi": "Đến người không khuyết tật còn thấy không dễ dàng, vậy mà (anh ấy/cô ấy) với cơ thể không lành lặn lại leo lên ngọn núi cao như vậy, thật là một người phi thường.",
+      "choices": [
+        { "type": "text", "text": "않을 텐데" },
+        { "type": "text", "text": "않을까 봐" },
+        { "type": "text", "text": "않을 테니까" },
+        { "type": "text", "text": "않은 데다가" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**않을 텐데** (chắc là sẽ không... vậy mà)\n\n- Cấu trúc: **V/A-(으)ㄹ 텐데** → Diễn tả một sự suy đoán chắc chắn về một tình huống, và vế sau thường là một sự việc trái ngược với suy đoán đó. Người nói suy đoán rằng việc leo núi \"chắc là không dễ\" (ngay cả với người bình thường), và ngạc nhiên trước việc một người có cơ thể không lành lặn lại làm được điều đó.\n- Nghĩa: \"Đến người bình thường chắc cũng không dễ dàng gì, vậy mà...\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **않을까 봐** ❌ → Cấu trúc `-(으)ㄹ까 봐` diễn tả sự lo lắng \"sợ rằng sẽ không...\", không phù hợp.\n- **않을 테니까** ❌ → Cấu trúc `-(으)ㄹ 테니까` chỉ lý do dựa trên suy đoán chắc chắn, thường dùng để đưa ra đề nghị hoặc mệnh lệnh, không phù hợp.\n- **않은 데다가** ❌ → Cấu trúc `-ㄴ/은 데다가` có nghĩa là \"thêm vào đó/hơn nữa\", dùng để bổ sung thông tin, không phù hợp."
+    },
+    {
+      "id": 15,
+      "exam": "연습",
+      "question_ko": "앞으로 날씨가 따뜻해지면서 산이 점점 푸르게 (        ).",
+      "question_vi": "Trong tương lai, khi thời tiết trở nên ấm hơn, núi non sẽ dần dần trở nên xanh tươi.",
+      "choices": [
+        { "type": "text", "text": "변해 갈 것이다" },
+        { "type": "text", "text": "변해 올 것이다" },
+        { "type": "text", "text": "변해 볼 것이다" },
+        { "type": "text", "text": "변해 댈 것이다" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**변해 갈 것이다** (sẽ dần dần thay đổi/biến đổi)\n\n- Cấu trúc: **V-아/어 가다** + **(으)ㄹ 것이다** → `-아/어 가다` diễn tả một quá trình thay đổi đang diễn ra và tiếp tục hướng về tương lai. Kết hợp với `-(으)ㄹ 것이다` (sẽ) để chỉ sự dự đoán về tương lai. Cụm từ \"앞으로\" (về sau này) và \"점점\" (dần dần) cho thấy đây là một quá trình thay đổi liên tục trong tương lai.\n- Nghĩa: \"...núi non sẽ dần dần trở nên xanh tươi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **변해 올 것이다** ❌ → Cấu trúc `-아/어 오다` diễn tả một quá trình đã diễn ra từ quá khứ đến hiện tại, không phù hợp với bối cảnh tương lai \"앞으로\".\n- **변해 볼 것이다** ❌ → Cấu trúc `-아/어 보다` có nghĩa là \"thử làm gì đó\", không phù hợp với chủ thể là \"산\" (núi).\n- **변해 댈 것이다** ❌ → Cấu trúc `-아/어 대다` diễn tả sự lặp đi lặp lại của một hành động một cách quá mức, thường mang nghĩa tiêu cực, không phù hợp."
+    },
+    {
+      "id": 16,
+      "exam": "연습",
+      "question_ko": "올해는 과일 생산량이 (       ) 대체적으로 과일 가격이 내렸다.",
+      "question_vi": "Năm nay, có lẽ vì sản lượng trái cây tăng nên nhìn chung giá trái cây đã giảm.",
+      "choices": [
+        { "type": "text", "text": "는다면" },
+        { "type": "text", "text": "늘어야" },
+        { "type": "text", "text": "는다거나" },
+        { "type": "text", "text": "늘어서인지" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**늘어서인지** (có lẽ là vì đã tăng)\n\n- Cấu trúc: **V/A-아/어서인지** → Diễn tả một nguyên nhân mà người nói không chắc chắn, mang tính phỏng đoán. \"có lẽ là vì...\"\n- Nghĩa: Người nói phỏng đoán rằng lý do giá trái cây giảm là vì sản lượng đã tăng. Cấu trúc này thể hiện sự suy đoán về nguyên nhân một cách hoàn hảo.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **는다면** ❌ → \"nếu tăng thì\", diễn tả một điều kiện giả định, không phù hợp.\n- **늘어야** ❌ → \"phải tăng\", diễn tả sự cần thiết, không phù hợp.\n- **는다거나** ❌ → \"hoặc là tăng\", dùng để liệt kê các khả năng, không phù hợp."
+    },
+    {
+      "id": 17,
+      "exam": "연습",
+      "question_ko": "의사는 위염 환자에게 식사량을 (       ).",
+      "question_vi": "Bác sĩ đã yêu cầu bệnh nhân viêm dạ dày điều chỉnh khẩu phần ăn.",
+      "choices": [
+        { "type": "text", "text": "조절하게 했다" },
+        { "type": "text", "text": "조절한다고 한다" },
+        { "type": "text", "text": "조절하려고 했다" },
+        { "type": "text", "text": "조절하게 되었다" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**조절하게 했다** (đã yêu cầu/khiến cho phải điều chỉnh)\n\n- Cấu trúc: **V-게 하다** → Dạng câu sai khiến, nghĩa là \"bắt/khiến/cho phép ai đó làm gì\".\n- Nghĩa: Bác sĩ (chủ thể) đã yêu cầu/chỉ thị cho bệnh nhân (đối tượng) phải điều chỉnh khẩu phần ăn. Đây là cấu trúc sai khiến phù hợp nhất.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **조절한다고 한다** ❌ → \"nghe nói là điều chỉnh\", là câu trích dẫn gián tiếp, sai nghĩa.\n- **조절하려고 했다** ❌ → \"đã định điều chỉnh\", diễn tả ý định của chủ ngữ (bác sĩ), không phù hợp.\n- **조절하게 되었다** ❌ → \"đã trở nên phải điều chỉnh\", diễn tả sự thay đổi của hoàn cảnh một cách tự nhiên, không phải do tác động của bác sĩ."
+    },
+    {
+      "id": 18,
+      "exam": "연습",
+      "question_ko": "그의 행동을 보면 그는 (       ) 믿을 수가 없는 사람이다.",
+      "question_vi": "Nhìn hành động của anh ta thì thấy anh ta là người dù có muốn tin cũng không thể nào tin được.",
+      "choices": [
+        { "type": "text", "text": "믿어도" },
+        { "type": "text", "text": "믿으려야" },
+        { "type": "text", "text": "믿더라도" },
+        { "type": "text", "text": "믿는 통에" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**믿으려야** (dù có muốn tin)\n\n- Cấu trúc: **V-(으)려야 V-(으)ㄹ 수가 없다** → Là một cấu trúc cố định, nhấn mạnh rằng dù có ý định hoặc cố gắng làm gì thì cũng không thể. \"dù có muốn... cũng không thể...\"\n- Nghĩa: \"Dù có muốn tin anh ta đến mấy cũng không thể tin được.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **믿어도** ❌ → \"dù tin thì...\", không kết hợp tự nhiên với `믿을 수가 없다` để tạo thành cấu trúc nhấn mạnh này.\n- **믿더라도** ❌ → Tương tự như `믿어도`, \"dù có tin đi nữa thì...\", không tạo thành cấu trúc cố định.\n- **믿는 통에** ❌ → \"vì tin nên...\", chỉ nguyên nhân dẫn đến kết quả tiêu cực, sai nghĩa."
+    },
+    {
+      "id": 19,
+      "exam": "연습",
+      "question_ko": "나를 간호해 주시는 어머니의 손에서 사랑이 (       ).",
+      "question_vi": "Tôi cảm nhận được tình yêu thương từ đôi bàn tay của mẹ đang chăm sóc cho tôi.",
+      "choices": [
+        { "type": "text", "text": "느껴졌다" },
+        { "type": "text", "text": "느껴 봤다" },
+        { "type": "text", "text": "느끼는 듯했다" },
+        { "type": "text", "text": "느낄 정도였다" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**느껴졌다** (được cảm nhận)\n\n- Cấu trúc: **V-아/어지다** → Dạng bị động của động từ. `느끼다` (cảm nhận) → `느껴지다` (được cảm nhận, cảm thấy).\n- Nghĩa: Tình yêu thương (chủ thể) được tôi cảm nhận một cách tự nhiên từ đôi tay mẹ. Đây là cách diễn đạt tự nhiên nhất.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **느껴 봤다** ❌ → \"đã thử cảm nhận\", không phù hợp.\n- **느끼는 듯했다** ❌ → \"dường như là cảm nhận\", diễn tả sự phỏng đoán không chắc chắn, không mạnh mẽ bằng `느껴졌다`.\n- **느낄 정도였다** ❌ → \"đến mức có thể cảm nhận\", diễn tả mức độ, không tự nhiên bằng dạng bị động."
+    },
+    {
+      "id": 20,
+      "exam": "연습",
+      "question_ko": "노인 취업에 대한 설문 조사에서 건강이 ( ) 계속 일하고 싶다는 응답이 과반수를 넘었다.",
+      "question_vi": "Trong một cuộc khảo sát về việc làm cho người cao tuổi, câu trả lời rằng họ muốn tiếp tục làm việc miễn là sức khỏe cho phép đã chiếm hơn một nửa.",
+      "choices": [
+        { "type": "text", "text": "허락하길래" },
+        { "type": "text", "text": "허락하길래" },
+        { "type": "text", "text": "허락하는 한" },
+        { "type": "text", "text": "허락한다고 해도" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**허락하는 한** (miễn là/chừng nào mà cho phép)\n\n- Cấu trúc: **V-는 한** → Diễn tả điều kiện, có nghĩa là \"miễn là/chừng nào mà vế 1 còn tồn tại thì vế 2 sẽ xảy ra\".\n- Nghĩa: \"Miễn là sức khỏe còn cho phép, họ muốn tiếp tục làm việc.\" Đây là cấu trúc phù hợp nhất về mặt ngữ pháp và ngữ nghĩa.\n\n---\n\n## ⚠️ Lưu ý\n\nĐáp án trong hình ảnh là 2 (허락하길래), tuy nhiên cấu trúc này (-길래: vì thấy...) không phù hợp về mặt ngữ pháp trong câu này. Đáp án 3 (허락하는 한) là lựa chọn chính xác và tự nhiên nhất. Có thể đã có lỗi trong đề bài hoặc đáp án gốc."
+    },
+    {
+      "id": 21,
+      "exam": "연습",
+      "question_ko": "선영이는 미아에게 “미아 씨, 왜 이렇게 늦었어요? 제가 미아 씨한테 1시에 시작한다고 (      ).” 하고 화를 냈다.",
+      "question_vi": "Seonyeong đã tức giận với Mia và nói: \"Mia, sao bạn đến muộn vậy? Tôi đã nói với bạn là bắt đầu lúc 1 giờ rồi mà.\"",
+      "choices": [
+        { "type": "text", "text": "했거든요" },
+        { "type": "text", "text": "했다니요" },
+        { "type": "text", "text": "했더군요" },
+        { "type": "text", "text": "했잖아요" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**했잖아요** (đã nói rồi mà)\n\n- Cấu trúc: **V/A-잖아요** → Dùng để nhắc lại một sự thật mà cả người nói và người nghe đều đã biết, thường mang một chút ý trách móc hoặc khẳng định lại. \"...còn gì nữa / ...mà\".\n- Nghĩa: Seonyeong đang trách Mia vì đến muộn, nhắc lại một thông tin mà cô ấy tin rằng Mia đã biết: \"Tôi đã nói với bạn là bắt đầu lúc 1 giờ rồi mà, sao bạn lại quên?\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **했거든요** ❌ → \"(là vì) tôi đã nói\", dùng để giải thích lý do, không phù hợp với ngữ cảnh trách móc.\n- **했다니요** ❌ → \"bạn nói là đã nói á?\", dùng để hỏi lại với vẻ ngạc nhiên, không phù hợp.\n- **했더군요** ❌ → \"(tôi nhớ lại là) đã nói\", dùng để hồi tưởng, không phù hợp."
+    },
+    {
+      "id": 22,
+      "exam": "연습",
+      "question_ko": "아기를 힘들게 재웠는데 전화벨이 (      ) 아기가 깨서 울었다.",
+      "question_vi": "Tôi đã vất vả lắm mới dỗ em bé ngủ được, thế mà vì chuông điện thoại reo nên em bé đã tỉnh giấc và khóc.",
+      "choices": [
+        { "type": "text", "text": "울리고서야" },
+        { "type": "text", "text": "울리는 김에" },
+        { "type": "text", "text": "울리는 탓에" },
+        { "type": "text", "text": "울릴 테니까" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**울리는 탓에** (do/vì reo)\n\n- Cấu trúc: **V/A-(으)ㄴ/는 탓에** → Dùng để chỉ nguyên nhân của một kết quả tiêu cực. \"tại vì/do...\"\n- Nghĩa: Việc chuông điện thoại reo (nguyên nhân) đã dẫn đến kết quả tiêu cực là em bé tỉnh giấc và khóc. Cấu trúc này diễn tả chính xác mối quan hệ đó.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **울리고서야** ❌ → \"phải sau khi reo thì mới...\", diễn tả điều kiện cần, không phù hợp.\n- **울리는 김에** ❌ → \"nhân tiện reo thì...\", diễn tả việc tận dụng cơ hội làm việc khác, sai nghĩa.\n- **울릴 테니까** ❌ → \"vì chắc là sẽ reo nên...\", chỉ lý do dựa trên phỏng đoán về tương lai, không phù hợp."
+    },
+    {
+      "id": 23,
+      "exam": "연습",
+      "question_ko": "유나는 “열심히 노력해서 이번에는 꼭 (       )!” 하고 다짐했다.",
+      "question_vi": "Yuna đã tự hứa với lòng mình: \"Lần này mình nhất định phải đỗ bằng được!\"",
+      "choices": [
+        { "type": "text", "text": "합격하거든" },
+        { "type": "text", "text": "합격하다니" },
+        { "type": "text", "text": "합격해야지" },
+        { "type": "text", "text": "합격하는구나" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**합격해야지** (phải đỗ thôi!)\n\n- Cấu trúc: **V-아/어야지** → Diễn tả ý chí mạnh mẽ, sự quyết tâm hoặc một việc đương nhiên phải làm của người nói. Thường dùng khi tự nhủ với bản thân.\n- Nghĩa: Yuna đang thể hiện sự quyết tâm mạnh mẽ của mình là \"nhất định phải đỗ\".\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **합격하거든** ❌ → \"nếu đỗ thì...\", là câu điều kiện.\n- **합격하다니** ❌ → \"thật không thể tin là đỗ\", diễn tả sự ngạc nhiên.\n- **합격하는구나** ❌ → \"à, thì ra là đỗ\", diễn tả sự nhận ra một điều gì đó."
+    },
+    {
+      "id": 24,
+      "exam": "연습",
+      "question_ko": "사랑하지 않는 사람과 (       ) 차라리 평생 혼자 살겠다.",
+      "question_vi": "Thà sống một mình cả đời còn hơn là kết hôn với người mình không yêu.",
+      "choices": [
+        { "type": "text", "text": "결혼하느니" },
+        { "type": "text", "text": "결혼하더니" },
+        { "type": "text", "text": "결혼하도록" },
+        { "type": "text", "text": "결혼한다고 해도" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**결혼하느니** (thà... còn hơn là kết hôn)\n\n- Cấu trúc: **V-느니 차라리** → Dùng để so sánh hai lựa chọn và thể hiện rằng người nói thà chọn vế sau còn hơn là chọn vế trước (vì vế trước không tốt).\n- Nghĩa: \"Thà sống một mình cả đời còn hơn là kết hôn với người mình không yêu.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **결혼하더니** ❌ → \"đã kết hôn và rồi...\", diễn tả sự thay đổi sau một hành động.\n- **결혼하도록** ❌ → \"để mà kết hôn\", chỉ mục đích.\n- **결혼한다고 해도** ❌ → \"dù cho có nói là kết hôn\", diễn tả sự nhượng bộ."
+    },
+    {
+      "id": 25,
+      "exam": "연습",
+      "question_ko": "길가에 핀 꽃이 너무 (       ) 차를 세우고 사진을 찍었다.",
+      "question_vi": "Hoa nở ven đường đẹp quá nên tôi đã dừng xe lại và chụp ảnh.",
+      "choices": [
+        { "type": "text", "text": "예쁜 듯" },
+        { "type": "text", "text": "예쁘기에" },
+        { "type": "text", "text": "예쁘고도" },
+        { "type": "text", "text": "예쁠 정도로" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**예쁘기에** (vì đẹp)\n\n- Cấu trúc: **V/A-기에** → Dùng để chỉ nguyên nhân, lý do cho một hành động. Thường được sử dụng trong văn viết hoặc trong các tình huống trang trọng hơn `-아/어서`.\n- Nghĩa: \"Vì hoa nở ven đường quá đẹp, nên tôi đã dừng xe lại chụp ảnh.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **예쁜 듯** ❌ → \"dường như đẹp\", diễn tả sự phỏng đoán.\n- **예쁘고도** ❌ → \"vừa đẹp và...\", dùng để bổ sung thông tin.\n- **예쁠 정도로** ❌ → \"đến mức đẹp\", diễn tả mức độ, không phải nguyên nhân trực tiếp."
+    },
+    {
+      "id": 26,
+      "exam": "연습",
+      "question_ko": "정말 최선을 다 (       ) 더 이상 아쉬움은 없다.",
+      "question_vi": "Tôi đã thực sự cố gắng hết sức mình, vậy mà/nên giờ không còn gì hối tiếc nữa.",
+      "choices": [
+        { "type": "text", "text": "했다가" },
+        { "type": "text", "text": "했건만" },
+        { "type": "text", "text": "했으므로" },
+        { "type": "text", "text": "했거니와" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**했으므로** (bởi vì đã làm)\n\n- Cấu trúc: **V/A-(으)므로** → Dùng để chỉ nguyên nhân, lý do một cách trang trọng, thường dùng trong văn viết. Tương đương với `-기 때문에`.\n- Nghĩa: \"Bởi vì tôi đã thực sự cố gắng hết sức, nên không còn gì hối tiếc nữa.\" Mối quan hệ nhân-quả ở đây rất rõ ràng.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **했다가** ❌ → \"đã làm rồi sau đó...\", diễn tả sự chuyển đổi hành động, thường là với kết quả không mong muốn.\n- **했건만** ❌ → \"đã làm... thế mà\", diễn tả sự tương phản, đối lập với kết quả mong đợi. Nếu dùng cấu trúc này, vế sau phải là một kết quả tiêu cực (ví dụ: `했건만 실패했다` - đã cố hết sức mà vẫn thất bại).\n- **했거니와** ❌ → \"vừa làm... vừa...\", dùng để bổ sung thêm thông tin."
+    },
+    {
+      "id": 27,
+      "exam": "연습",
+      "question_ko": "아무리 (       ) 건강을 위해서 아침을 꼭 먹는 것이 좋다.",
+      "question_vi": "Dù bận rộn đến đâu đi nữa, vì sức khỏe thì cũng nên nhất định phải ăn sáng.",
+      "choices": [
+        { "type": "text", "text": "바빠도" },
+        { "type": "text", "text": "바쁘나" },
+        { "type": "text", "text": "바쁘던데" },
+        { "type": "text", "text": "바쁘거든" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**바빠도** (dù bận)\n\n- Cấu trúc: **아무리 V/A-아/어도** → Cấu trúc cố định mang nghĩa nhượng bộ, \"dù... đến đâu đi nữa thì...\". Nhấn mạnh rằng vế sau vẫn đúng bất chấp điều kiện ở vế trước.\n- Nghĩa: \"Dù có bận rộn đến đâu, bạn cũng nên ăn sáng vì sức khỏe.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **바쁘나** ❌ → \"bận nhưng\", không kết hợp với `아무리`.\n- **바쁘던데** ❌ → \"tôi thấy bận đấy\", diễn tả sự hồi tưởng, không phù hợp.\n- **바쁘거든** ❌ → \"nếu bận thì...\", là câu điều kiện."
+    },
+    {
+      "id": 28,
+      "exam": "연습",
+      "question_ko": "그는 가정 형편이 어려워 (       ) 고등학교도 못 갔다.",
+      "question_vi": "Anh ấy vì hoàn cảnh gia đình khó khăn nên nói gì đến đại học, ngay cả cấp 3 cũng không đi học được.",
+      "choices": [
+        { "type": "text", "text": "대학교조차" },
+        { "type": "text", "text": "대학교마저" },
+        { "type": "text", "text": "대학교는커녕" },
+        { "type": "text", "text": "대학교야말로" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**대학교는커녕** (nói gì đến đại học)\n\n- Cấu trúc: **N은/는커녕** → Diễn tả ý \"đừng nói đến N, ngay cả một điều cơ bản/dễ dàng hơn cũng không thể\".\n- Nghĩa: Việc đi học đại học là điều cao hơn, trong khi việc đi học cấp 3 là điều cơ bản hơn. Câu này có nghĩa là \"Nói gì đến chuyện đi học đại học, ngay cả cấp 3 anh ấy cũng không đi được.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **대학교조차** ❌ → \"ngay cả đại học\", thường đi với câu phủ định nhưng không thể hiện sự so sánh cấp độ như `는커녕`.\n- **대학교마저** ❌ → \"đến cả đại học (cái cuối cùng)\", không phù hợp.\n- **대학교야말로** ❌ → \"chính là đại học\", dùng để nhấn mạnh, sai nghĩa."
+    },
+    {
+      "id": 29,
+      "exam": "연습",
+      "question_ko": "술을 한잔하면서 친구에게 속마음을 털어 ( ) 마음이 가벼워졌다.",
+      "question_vi": "Vừa uống rượu vừa trút bầu tâm sự với bạn xong thì tôi thấy lòng nhẹ nhõm hơn.",
+      "choices": [
+        { "type": "text", "text": "놓던데" },
+        { "type": "text", "text": "놓았더니" },
+        { "type": "text", "text": "놓기에는" },
+        { "type": "text", "text": "놓는데도" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**놓았더니** (sau khi đã trút bỏ thì...)\n\n- Cấu trúc: **V-았/었더니** → Diễn tả việc người nói sau khi thực hiện một hành động ở vế trước thì phát hiện ra hoặc trải qua một kết quả/tình huống mới ở vế sau.\n- Nghĩa: \"Sau khi tôi trút bầu tâm sự với bạn, tôi nhận thấy/cảm thấy lòng mình nhẹ nhõm hơn.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **놓던데** ❌ → \"tôi thấy đã trút bỏ đấy\", diễn tả sự hồi tưởng về một hành động đang diễn ra hoặc chưa hoàn tất, không phù hợp.\n- **놓기에는** ❌ → \"để mà trút bỏ thì...\", đánh giá về một hành động, không phù hợp.\n- **놓는데도** ❌ → \"dù trút bỏ...\", diễn tả sự nhượng bộ, sai nghĩa."
+    },
+    {
+      "id": 30,
+      "exam": "연습",
+      "question_ko": "우리는 ( ) 자기가 할 일을 남에게 미루지 말고 스스로 해야 한다.",
+      "question_vi": "Chúng ta dù có mệt mỏi đi chăng nữa cũng không được đùn đẩy việc của mình cho người khác mà phải tự mình làm.",
+      "choices": [
+        { "type": "text", "text": "피곤하고도" },
+        { "type": "text", "text": "피곤한 탓에" },
+        { "type": "text", "text": "피곤하더라도" },
+        { "type": "text", "text": "피곤한 대신에" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**피곤하더라도** (dù có mệt mỏi)\n\n- Cấu trúc: **V/A-더라도** → Diễn tả sự nhượng bộ, giả định một tình huống và khẳng định vế sau vẫn đúng bất chấp tình huống đó. \"dù... đi chăng nữa\".\n- Nghĩa: \"Dù cho có mệt mỏi, chúng ta vẫn phải tự làm việc của mình.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **피곤하고도** ❌ → \"vừa mệt và...\", bổ sung thông tin, không phù hợp.\n- **피곤한 탓에** ❌ → \"tại vì mệt\", chỉ nguyên nhân của kết quả tiêu cực, sai nghĩa.\n- **피곤한 대신에** ❌ → \"thay vì mệt\", diễn tả sự thay thế, không phù hợp."
+    },
+    {
+      "id": 31,
+      "exam": "연습",
+      "question_ko": "수학 문제가 너무 어려웠지만 포기하지 않고 끝까지 ( ).",
+      "question_vi": "Bài toán rất khó nhưng tôi đã không bỏ cuộc và đã đào sâu suy nghĩ đến cùng.",
+      "choices": [
+        { "type": "text", "text": "파 놓았다" },
+        { "type": "text", "text": "파고들었다" },
+        { "type": "text", "text": "파나 싶었다" },
+        { "type": "text", "text": "파는 셈 쳤다" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**파고들었다** (đã đào sâu/nghiên cứu kỹ)\n\n- Cụm từ: **파고들다** → Là một động từ ghép có nghĩa là đào sâu, đi sâu vào một vấn đề, nghiên cứu kỹ lưỡng.\n- Nghĩa: \"Dù bài toán khó, tôi đã không bỏ cuộc và nghiên cứu/suy nghĩ sâu về nó đến cùng.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **파 놓았다** ❌ → \"đã đào sẵn\", thường dùng với nghĩa đen (đào hố), không phù hợp.\n- **파나 싶었다** ❌ → \"đã tự hỏi liệu có nên đào không\", diễn tả sự phân vân.\n- **파는 셈 쳤다** ❌ → \"đã coi như là đào\", diễn tả việc giả vờ hoặc coi như đã làm gì đó."
+    },
+    {
+      "id": 32,
+      "exam": "연습",
+      "question_ko": "가 : 오늘 왜 이렇게 늦었어요?\n나 : 버스를 타고 ( ) 깜빡 잠이 들어서 정류장을 지나쳤어요.",
+      "question_vi": "A: Sao hôm nay bạn đến muộn vậy?\nB: Vì đang đi xe buýt thì tôi lỡ ngủ quên nên đã đi qua mất bến đỗ.",
+      "choices": [
+        { "type": "text", "text": "오던데" },
+        { "type": "text", "text": "오기로" },
+        { "type": "text", "text": "오다가" },
+        { "type": "text", "text": "오려면" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**오다가** (đang trên đường đến thì...)\n\n- Cấu trúc: **V-다가** → Diễn tả một hành động đang diễn ra thì bị một hành động khác xen vào hoặc chuyển sang một hành động khác.\n- Nghĩa: Hành động \"đi xe buýt đến\" (버스를 타고 오다) đang diễn ra thì hành động \"ngủ quên\" (깜빡 잠이 들다) xen vào.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **오던데** ❌ → \"tôi thấy đang đến đấy\", hồi tưởng lại điều đã quan sát.\n- **오기로** ❌ → \"đã quyết định đến\", diễn tả quyết định, lời hứa.\n- **오려면** ❌ → \"nếu muốn đến thì...\", diễn tả điều kiện."
+    },
+    {
+      "id": 33,
+      "exam": "연습",
+      "question_ko": "가 : 옷에 뭐가 묻었네요.\n나 : 옆 사람이 팔을 ( ) 커피를 쏟았거든요.",
+      "question_vi": "A: Có gì dính trên áo bạn kìa.\nB: À, là do người bên cạnh huých tay vào nên làm đổ cà phê.",
+      "choices": [
+        { "type": "text", "text": "칠 텐데" },
+        { "type": "text", "text": "치는 대로" },
+        { "type": "text", "text": "치는 데다가" },
+        { "type": "text", "text": "치는 바람에" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**치는 바람에** (do huých vào nên...)\n\n- Cấu trúc: **V-는 바람에** → Diễn tả nguyên nhân của một kết quả tiêu cực, bất ngờ. Hành động ở vế trước là nguyên nhân trực tiếp gây ra hậu quả không mong muốn ở vế sau.\n- Nghĩa: \"Do người bên cạnh bất ngờ huých tay vào, nên cà phê đã bị đổ.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **칠 텐데** ❌ → \"chắc là sẽ huých\", diễn tả sự phỏng đoán.\n- **치는 대로** ❌ → \"ngay khi huých\", diễn tả sự nối tiếp ngay lập tức.\n- **치는 데다가** ❌ → \"thêm vào việc huých\", bổ sung thông tin."
+    },
+    {
+      "id": 34,
+      "exam": "연습",
+      "question_ko": "가 : 이번 시험에서 민수 씨가 1등을 했대요.\n나 : 설마요. 그렇게 공부도 안 하는데 1등을 ( ).",
+      "question_vi": "A: Nghe nói Minsu được hạng nhất trong kỳ thi lần này đấy.\nB: Không đời nào. Cậu ấy có học hành gì đâu mà làm sao hạng nhất được chứ.",
+      "choices": [
+        { "type": "text", "text": "했을지도 몰라요" },
+        { "type": "text", "text": "하기 마련이에요" },
+        { "type": "text", "text": "했을 리가 없어요" },
+        { "type": "text", "text": "하는 수밖에 없어요" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**했을 리가 없어요** (làm sao mà đã... được chứ)\n\n- Cấu trúc: **V-(으)ㄹ 리가 없다** → Diễn tả sự phủ định mạnh mẽ, sự hoài nghi của người nói. \"không có lý nào... / làm sao mà... được\".\n- Nghĩa: Người nói B không tin Minsu được hạng nhất vì Minsu không học hành chăm chỉ. \"Làm sao có chuyện cậu ấy được hạng nhất được chứ.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **했을지도 몰라요** ❌ → \"biết đâu đã...\", diễn tả khả năng, trái ngược với ý của người nói.\n- **하기 마련이에요** ❌ → \"đương nhiên là...\", diễn tả một quy luật tự nhiên, trái nghĩa.\n- **하는 수밖에 없어요** ❌ → \"không còn cách nào khác ngoài việc...\", diễn tả sự thiếu lựa chọn."
+    },
+    {
+      "id": 35,
+      "exam": "연습",
+      "question_ko": "가 : 해외 출장은 잘 갔다 왔어요?\n나 : 그곳 날씨가 너무 더워서 숨 ( ) 쉬기 힘들었어요.",
+      "question_vi": "A: Chuyến công tác nước ngoài của bạn tốt đẹp chứ?\nB: Thời tiết ở đó nóng đến mức ngay cả thở cũng thấy khó khăn.",
+      "choices": [
+        { "type": "text", "text": "만큼" },
+        { "type": "text", "text": "조차" },
+        { "type": "text", "text": "은커녕" },
+        { "type": "text", "text": "이라도" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**조차** (ngay cả)\n\n- Cấu trúc: **N조차** → Gắn sau danh từ để nhấn mạnh, thường dùng trong tình huống tiêu cực, có nghĩa là \"ngay cả/đến cả (một điều cơ bản nhất cũng không thể)\".\n- Nghĩa: Việc thở (숨 쉬기) là điều cơ bản nhất, nhưng thời tiết nóng đến mức \"ngay cả thở cũng khó khăn\".\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **만큼** ❌ → \"bằng/như\", dùng để so sánh.\n- **은커녕** ❌ → \"nói gì đến...\", cần một sự so sánh cấp độ khác.\n- **이라도** ❌ → \"dù chỉ là/hay là...\", dùng để đưa ra một lựa chọn thay thế."
+    },
+    {
+      "id": 36,
+      "exam": "연습",
+      "question_ko": "가: 내일 지방으로 단풍 구경을 가려는데 차가 막힐까 봐 걱정이에요.\n나: 멀리 갈 필요 있어요? 서울 근교에도 단풍을 ( ) 곳이 많아요.",
+      "question_vi": "A: Ngày mai tôi định về quê ngắm lá phong nhưng lo là sẽ kẹt xe.\nB: Cần gì phải đi xa? Ở ngoại ô Seoul cũng có nhiều nơi đáng để ngắm lá phong lắm.",
+      "choices": [
+        { "type": "text", "text": "구경해 본" },
+        { "type": "text", "text": "구경하고 난" },
+        { "type": "text", "text": "구경할 만한" },
+        { "type": "text", "text": "구경하기로 한" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**구경할 만한** (đáng để ngắm)\n\n- Cấu trúc: **V-(으)ㄹ 만하다** → Diễn tả một hành động nào đó đáng để làm, có giá trị để thực hiện.\n- Nghĩa: Người nói B gợi ý rằng có nhiều nơi ở ngoại ô Seoul \"đáng để đi ngắm\" lá phong.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **구경해 본** ❌ → \"(nơi) đã từng ngắm\", diễn tả kinh nghiệm.\n- **구경하고 난** ❌ → \"(nơi) sau khi đã ngắm\", diễn tả thứ tự.\n- **구경하기로 한** ❌ → \"(nơi) đã quyết định sẽ ngắm\", diễn tả quyết định."
+    },
+    {
+      "id": 37,
+      "exam": "연습",
+      "question_ko": "가: 민호는 대학 졸업 후에 뭐 한대요?\n나: 대학원 입학 서류를 준비하는 걸 봤어요. 대학원에 ( ).",
+      "question_vi": "A: Minho định làm gì sau khi tốt nghiệp đại học vậy?\nB: Tôi thấy cậu ấy đang chuẩn bị hồ sơ nhập học cao học. Chắc là cậu ấy định học lên cao học.",
+      "choices": [
+        { "type": "text", "text": "가면 돼요" },
+        { "type": "text", "text": "가게 됐어요" },
+        { "type": "text", "text": "갈 모양이에요" },
+        { "type": "text", "text": "갈걸 그랬어요" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**갈 모양이에요** (có vẻ là sẽ đi/học)\n\n- Cấu trúc: **V-(으)ㄹ 모양이다** → Diễn tả sự phỏng đoán của người nói dựa trên một bằng chứng hoặc tình huống quan sát được. \"có vẻ/trông như là sẽ...\"\n- Nghĩa: Người nói B dựa vào việc thấy Minho chuẩn bị hồ sơ (bằng chứng) để phỏng đoán rằng \"có vẻ như cậu ấy sẽ học lên cao học\".\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **가면 돼요** ❌ → \"chỉ cần đi là được\", không phải phỏng đoán.\n- **가게 됐어요** ❌ → \"đã trở nên phải đi\", diễn tả sự thay đổi hoàn cảnh.\n- **갈걸 그랬어요** ❌ → \"lẽ ra nên đi\", diễn tả sự hối tiếc."
+    },
+    {
+      "id": 38,
+      "exam": "연습",
+      "question_ko": "가: 저 할머니께서 평생 모은 돈을 대학에 기부하셨대.\n나 : 대단하시다. 요즘( ) 자신의 이익만 생각하는 시대에 말이야.",
+      "question_vi": "A: Nghe nói bà cụ kia đã quyên góp toàn bộ số tiền tiết kiệm cả đời cho trường đại học.\nB: Thật đáng ngưỡng mộ. Trong thời đại mà mọi người chỉ nghĩ đến lợi ích của bản thân như bây giờ.",
+      "choices": [
+        { "type": "text", "text": "부터" },
+        { "type": "text", "text": "까지" },
+        { "type": "text", "text": "이나" },
+        { "type": "text", "text": "처럼" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**처럼** (giống như/như)\n\n- Cấu trúc: **N처럼** → Gắn sau danh từ để chỉ sự so sánh, tương đồng. \"giống như N, như N\".\n- Nghĩa: \"Trong thời đại mà (mọi người) chỉ nghĩ đến lợi ích bản thân **giống như** dạo gần đây.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **부터** ❌ → \"từ\", chỉ điểm bắt đầu.\n- **까지** ❌ → \"đến\", chỉ điểm kết thúc.\n- **이나** ❌ → \"hoặc là/những\", chỉ sự lựa chọn hoặc nhấn mạnh số lượng."
+    },
+    {
+      "id": 39,
+      "exam": "연습",
+      "question_ko": "가: 아까 계단에서 뛰어 내려오다가 ( ).\n나: 계단에서 뛰면 위험해요. 크게 다칠 수 있잖아요.",
+      "question_vi": "A: Lúc nãy khi đang chạy xuống cầu thang, tôi suýt nữa thì bị ngã.\nB: Chạy trên cầu thang nguy hiểm lắm. Có thể bị thương nặng đó.",
+      "choices": [
+        { "type": "text", "text": "넘어지곤 했어요" },
+        { "type": "text", "text": "넘어질 뻔했어요" },
+        { "type": "text", "text": "넘어질지도 몰라요" },
+        { "type": "text", "text": "넘어질 리가 없어요" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**넘어질 뻔했어요** (suýt nữa thì ngã)\n\n- Cấu trúc: **V-(으)ㄹ 뻔했다** → Diễn tả một việc suýt nữa đã xảy ra nhưng cuối cùng lại không xảy ra.\n- Nghĩa: Người nói A suýt bị ngã khi chạy xuống cầu thang, nhưng thực tế là đã không ngã.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **넘어지곤 했어요** ❌ → \"thỉnh thoảng đã ngã\", diễn tả thói quen trong quá khứ.\n- **넘어질지도 몰라요** ❌ → \"biết đâu sẽ ngã\", phỏng đoán về tương lai.\n- **넘어질 리가 없어요** ❌ → \"không có lý nào lại ngã\", phủ định mạnh mẽ."
+    },
+    {
+      "id": 40,
+      "exam": "연습",
+      "question_ko": "가: 그 작가가 쓴 책이 곧 나온대요.\n나: 네, 저도 들었어요. 책이 ( ) 꼭 사 볼 거예요.",
+      "question_vi": "A: Nghe nói cuốn sách mà tác giả đó viết sắp ra mắt rồi.\nB: Vâng, tôi cũng nghe rồi. Ngay khi sách ra là tôi sẽ mua đọc thử.",
+      "choices": [
+        { "type": "text", "text": "나오는 길에" },
+        { "type": "text", "text": "나오는 대로" },
+        { "type": "text", "text": "나오는 데다가" },
+        { "type": "text", "text": "나오는 대신에" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**나오는 대로** (ngay khi ra mắt)\n\n- Cấu trúc: **V-는 대로** → Diễn tả một hành động được thực hiện ngay sau khi một hành động khác kết thúc. \"ngay khi...\"\n- Nghĩa: \"Ngay khi sách được xuất bản, tôi sẽ mua ngay.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **나오는 길에** ❌ → \"trên đường ra\", không phù hợp.\n- **나오는 데다가** ❌ → \"thêm vào việc ra mắt\", bổ sung thông tin.\n- **나오는 대신에** ❌ → \"thay vì ra mắt\", diễn tả sự thay thế."
+    },
+    {
+      "id": 41,
+      "exam": "연습",
+      "question_ko": "가: 이거 못 보던 시계인데 새로 샀어요?\n나: 아니요. 고장 나서 ( ) 시곗줄을 바꾼 거예요.",
+      "question_vi": "A: Cái đồng hồ này lạ quá, bạn mới mua à?\nB: Không. Nó bị hỏng nên nhân tiện đi sửa tôi đã thay dây luôn.",
+      "choices": [
+        { "type": "text", "text": "수리하자마자" },
+        { "type": "text", "text": "수리하다시피" },
+        { "type": "text", "text": "수리하는 김에" },
+        { "type": "text", "text": "수리한 나머지" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**수리하는 김에** (nhân tiện sửa)\n\n- Cấu trúc: **V-는 김에** → Diễn tả việc nhân tiện làm một việc gì đó (vế trước) thì làm luôn một việc khác có liên quan (vế sau).\n- Nghĩa: \"Nhân tiện đi sửa đồng hồ (vì nó bị hỏng), tôi đã thay dây luôn.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **수리하자마자** ❌ → \"ngay sau khi sửa\", diễn tả sự nối tiếp tức thì.\n- **수리하다시피** ❌ → \"gần như là sửa\", không phù hợp.\n- **수리한 나머지** ❌ → \"vì sửa quá nhiều nên...\", chỉ nguyên nhân của kết quả tiêu cực."
+    },
+    {
+      "id": 42,
+      "exam": "연습",
+      "question_ko": "가: 지금 축구 결승전 중계하는데 텔레비전 안 보고 뭐 해요?\n나: 그렇지 않아도 막 ( ).",
+      "question_vi": "A: Đang truyền hình trực tiếp trận chung kết bóng đá mà sao anh không xem TV, làm gì vậy?\nB: Tôi cũng đang định xem đây, vừa đúng lúc định bật lên.",
+      "choices": [
+        { "type": "text", "text": "보곤 했어요" },
+        { "type": "text", "text": "보고 말았어요" },
+        { "type": "text", "text": "볼 모양이었어요" },
+        { "type": "text", "text": "보려던 참이었어요" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**보려던 참이었어요** (vừa mới định xem)\n\n- Cấu trúc: **V-(으)려던 참이다** → Diễn tả ý định vừa mới sắp sửa thực hiện một hành động nào đó. \"đúng lúc đang định...\"\n- Nghĩa: Người nói B trả lời rằng mình cũng vừa đúng lúc đang định bật TV lên xem.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **보곤 했어요** ❌ → \"thỉnh thoảng đã xem\", diễn tả thói quen.\n- **보고 말았어요** ❌ → \"cuối cùng đã xem mất rồi\", diễn tả kết quả không mong muốn.\n- **볼 모양이었어요** ❌ → \"có vẻ như đã định xem\", phỏng đoán về ý định trong quá khứ."
+    },
+    {
+      "id": 43,
+      "exam": "연습",
+      "question_ko": "가 : 이번 휴가에는 뭐 할 거예요?\n나 : 저는 친구들하고 제주도에 놀러 ( ).",
+      "question_vi": "A: Kỳ nghỉ lần này bạn sẽ làm gì?\nB: Tôi đã quyết định/hẹn sẽ đi chơi đảo Jeju cùng với bạn bè.",
+      "choices": [
+        { "type": "text", "text": "가는군요" },
+        { "type": "text", "text": "가나 봐요" },
+        { "type": "text", "text": "갈 만해요" },
+        { "type": "text", "text": "가기로 했어요" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**가기로 했어요** (đã quyết định/hẹn sẽ đi)\n\n- Cấu trúc: **V-기로 하다** → Diễn tả một quyết định, kế hoạch hoặc lời hứa đã được đưa ra.\n- Nghĩa: Người nói B thông báo về kế hoạch đã được quyết định của mình là sẽ đi đảo Jeju.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **가는군요** ❌ → \"à, thì ra là đi\", thể hiện sự nhận ra.\n- **가나 봐요** ❌ → \"có vẻ là đi\", diễn tả sự phỏng đoán.\n- **갈 만해요** ❌ → \"đáng để đi\", đưa ra lời khuyên hoặc đánh giá."
+    },
+    {
+      "id": 44,
+      "exam": "연습",
+      "question_ko": "가 : 피아노를 정말 잘 치시네요.\n나 : 잘 ( ). 어렸을 때 아주 잠깐 배운 거예요.",
+      "question_vi": "A: Bạn chơi piano giỏi thật đấy.\nB: Giỏi gì đâu ạ. Tôi chỉ học một chút xíu hồi nhỏ thôi.",
+      "choices": [
+        { "type": "text", "text": "치기는요" },
+        { "type": "text", "text": "치거든요" },
+        { "type": "text", "text": "치는데요" },
+        { "type": "text", "text": "쳐야지요" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**치기는요** (giỏi gì đâu ạ)\n\n- Cấu trúc: **V/A-기는요** → Dùng để phủ nhận một cách khiêm tốn hoặc nhẹ nhàng lời khen của người khác. \"...gì đâu mà...\"\n- Nghĩa: Người nói B đang khiêm tốn phủ nhận lời khen \"chơi giỏi\" của người A.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **치거든요** ❌ → \"(là vì) tôi chơi...\", giải thích lý do.\n- **치는데요** ❌ → \"tôi chơi mà...\", đưa ra thông tin nền tảng hoặc thể hiện sự ngạc nhiên nhẹ.\n- **쳐야지요** ❌ → \"phải chơi chứ\", thể hiện ý chí hoặc sự đương nhiên."
+    },
+    {
+      "id": 45,
+      "exam": "연습",
+      "question_ko": "가 : 항상 아이들의 건강을 먼저 생각하시는 것 같아요.\n나 : 아이들이 건강하게 ( ) 잘 보살피는 게 부모의 일이잖아요.",
+      "question_vi": "A: Dường như chị lúc nào cũng nghĩ đến sức khỏe của các con trước tiên.\nB: Chăm sóc các con thật tốt để chúng lớn lên khỏe mạnh là việc của cha mẹ mà.",
+      "choices": [
+        { "type": "text", "text": "자라던데" },
+        { "type": "text", "text": "자라든지" },
+        { "type": "text", "text": "자란다면" },
+        { "type": "text", "text": "자라도록" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**자라도록** (để mà lớn lên)\n\n- Cấu trúc: **V-도록** → Diễn tả mục đích hoặc kết quả mong muốn của hành động ở vế sau. \"để mà...\"\n- Nghĩa: Mục đích của việc \"chăm sóc tốt\" (잘 보살피는 것) là \"để bọn trẻ lớn lên khỏe mạnh\" (아이들이 건강하게 자라다).\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **자라던데** ❌ → \"tôi thấy đã lớn lên đấy\", hồi tưởng.\n- **자라든지** ❌ → \"dù lớn lên hay...\", liệt kê sự lựa chọn.\n- **자란다면** ❌ → \"nếu lớn lên thì...\", giả định."
+    },
+    {
+      "id": 46,
+      "exam": "연습",
+      "question_ko": "가 : 연수 신청서를 내일까지 제출해야 하는데 알고 있어요?\n나 : 그럼요. 날짜를 ( ) 달력에 표시해 두었어요.",
+      "question_vi": "A: Bạn có biết là phải nộp đơn đăng ký khóa đào tạo trước ngày mai không?\nB: Tất nhiên rồi. Tôi đã đánh dấu vào lịch vì sợ quên mất ngày.",
+      "choices": [
+        { "type": "text", "text": "넘길까 봐" },
+        { "type": "text", "text": "넘길지 말지" },
+        { "type": "text", "text": "넘길 뿐더러" },
+        { "type": "text", "text": "넘기기만 해도" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**넘길까 봐** (vì sợ sẽ lỡ/qua mất)\n\n- Cấu trúc: **V-(으)ㄹ까 봐** → Diễn tả sự lo lắng về một khả năng tiêu cực có thể xảy ra, và vì lo lắng đó nên đã thực hiện một hành động phòng ngừa.\n- Nghĩa: \"Vì lo sợ sẽ lỡ mất ngày (hạn chót), nên tôi đã đánh dấu vào lịch.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **넘길지 말지** ❌ → \"lỡ hay không lỡ\", diễn tả sự phân vân.\n- **넘길 뿐더러** ❌ → \"không những lỡ mà còn...\", bổ sung thông tin.\n- **넘기기만 해도** ❌ → \"chỉ cần lỡ thôi là...\", diễn tả điều kiện."
+    },
+    {
+      "id": 47,
+      "exam": "연습",
+      "question_ko": "가 : 어제 동창회에 왜 안 나왔어? 얼마 전에 귀국한 영호도 왔었는데.\n나 : 영호가 나왔어? 그럴 줄 알았으면 나도 ( ).",
+      "question_vi": "A: Sao hôm qua không đến buổi họp lớp? Yeongho mới về nước cũng đến đấy.\nB: Yeongho đến á? Biết thế thì mình cũng đã đi rồi.",
+      "choices": [
+        { "type": "text", "text": "나갈까 해" },
+        { "type": "text", "text": "나가고 말았어" },
+        { "type": "text", "text": "나갈걸 그랬네" },
+        { "type": "text", "text": "나갈 수밖에 없네" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**나갈걸 그랬네** (lẽ ra mình nên đi)\n\n- Cấu trúc: **V-(으)ㄹ걸 그랬다** → Diễn tả sự hối tiếc về một việc đã không làm trong quá khứ. \"biết thế đã... / lẽ ra nên...\"\n- Nghĩa: Người nói B cảm thấy hối tiếc vì đã không đi họp lớp sau khi biết tin Yeongho có mặt.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **나갈까 해** ❌ → \"đang định đi\", nói về ý định tương lai.\n- **나가고 말았어** ❌ → \"cuối cùng đã đi mất rồi\", thực tế là người nói đã không đi.\n- **나갈 수밖에 없네** ❌ → \"không còn cách nào khác ngoài việc phải đi\", diễn tả sự bắt buộc."
+    },
+    {
+      "id": 48,
+      "exam": "연습",
+      "question_ko": "가 : 내일 공항에는 뭘 타고 갈 거예요?\n나 : 버스를 타고 갈 거예요. 버스 정류장이 저희 집에서 ( ).",
+      "question_vi": "A: Ngày mai bạn đi gì ra sân bay?\nB: Tôi sẽ đi xe buýt. (Là vì) bến xe buýt gần nhà tôi lắm.",
+      "choices": [
+        { "type": "text", "text": "가깝군요" },
+        { "type": "text", "text": "가깝다니요" },
+        { "type": "text", "text": "가까운데요" },
+        { "type": "text", "text": "가깝거든요" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**가깝거든요** ((là vì) gần)\n\n- Cấu trúc: **V/A-거든요** → Dùng để giải thích lý do, nguyên nhân cho một câu nói hoặc hành động đã được đề cập trước đó. Người nghe thường chưa biết lý do này.\n- Nghĩa: Người nói B giải thích lý do tại sao mình chọn đi xe buýt là: \"(Bởi vì) bến xe buýt gần nhà tôi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **가깝군요** ❌ → \"à, thì ra là gần\", thể hiện sự nhận ra.\n- **가깝다니요** ❌ → \"bạn nói là gần á?\", hỏi lại với vẻ ngạc nhiên.\n- **가까운데요** ❌ → \"gần mà...\", đưa ra thông tin nền tảng hoặc thể hiện sự tương phản nhẹ."
+    },
+    {
+      "id": 49,
+      "exam": "연습",
+      "question_ko": "가 : 이 꽃을 잘 ( ) 어떻게 해야 해요?\n나 : 햇볕이 잘 드는 곳에 놓고, 물은 이틀에 한 번씩 주세요.",
+      "question_vi": "A: Để trồng hoa này cho tốt thì phải làm thế nào ạ?\nB: Bạn hãy đặt nó ở nơi có nhiều nắng và hai ngày tưới nước một lần.",
+      "choices": [
+        { "type": "text", "text": "키우도록" },
+        { "type": "text", "text": "키우려면" },
+        { "type": "text", "text": "키우기에" },
+        { "type": "text", "text": "키울수록" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**키우려면** (nếu muốn trồng)\n\n- Cấu trúc: **V-(으)려면** → Diễn tả ý định hoặc mong muốn làm gì đó ở vế trước, và vế sau là điều kiện hoặc phương pháp cần thiết để thực hiện ý định đó. \"nếu muốn/định... thì...\"\n- Nghĩa: \"Nếu muốn trồng hoa này cho tốt thì phải làm thế nào?\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **키우도록** ❌ → \"để mà trồng\", chỉ mục đích, không dùng trong câu hỏi về phương pháp.\n- **키우기에** ❌ → \"vì trồng\", chỉ nguyên nhân.\n- **키울수록** ❌ → \"càng trồng thì càng...\", diễn tả sự tăng tiến."
+    },
+    {
+      "id": 50,
+      "exam": "연습",
+      "question_ko": "가 : 전시회를 준비하느라고 고생이 많았겠군요.\n나 : 동료와 후배들이 많이 도와주어서 생각( ) 힘들지는 않았어요.",
+      "question_vi": "A: Chắc anh đã vất vả nhiều để chuẩn bị cho buổi triển lãm nhỉ.\nB: Vì được đồng nghiệp và hậu bối giúp đỡ nhiều nên cũng không vất vả như tôi nghĩ.",
+      "choices": [
+        { "type": "text", "text": "이나" },
+        { "type": "text", "text": "만큼" },
+        { "type": "text", "text": "까지" },
+        { "type": "text", "text": "마저" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**만큼** (bằng/như)\n\n- Cấu trúc: **N만큼** → Diễn tả sự so sánh về mức độ, tương đương. Cụm từ **생각만큼** có nghĩa là \"như (tôi) đã nghĩ\".\n- Nghĩa: \"...không vất vả như tôi đã nghĩ.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **이나** ❌ → \"hay là/những\", chỉ sự lựa chọn hoặc nhấn mạnh số lượng.\n- **까지** ❌ → \"đến/cả\", chỉ phạm vi.\n- **마저** ❌ → \"đến cả (cái cuối cùng)\", thường mang nghĩa tiêu cực."
+    },
+    {
+      "id": 51,
+      "exam": "연습",
+      "question_ko": "가 : 전화로 예약을 하고 식당에 갔는데 예약이 안 되어 있더라고요.\n나 : 그랬어요? 전화로 예약하면 가끔 ( ).",
+      "question_vi": "A: Tôi đã đặt bàn qua điện thoại rồi đến nhà hàng, thế mà họ bảo là chưa được đặt.\nB: Vậy à? Đặt bàn qua điện thoại thỉnh thoảng cũng có trường hợp bị nhầm lẫn như vậy đấy.",
+      "choices": [
+        { "type": "text", "text": "잘못된 줄 몰랐어요" },
+        { "type": "text", "text": "잘못될 리가 없어요" },
+        { "type": "text", "text": "잘못될 수밖에 없어요" },
+        { "type": "text", "text": "잘못되는 수가 있어요" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**잘못되는 수가 있어요** (cũng có trường hợp bị sai sót)\n\n- Cấu trúc: **V-는 수가 있다** → Diễn tả rằng một việc gì đó thỉnh thoảng, đôi khi cũng có thể xảy ra. \"cũng có trường hợp... / đôi khi cũng...\"\n- Nghĩa: Người nói B giải thích rằng việc đặt bàn qua điện thoại \"thỉnh thoảng cũng có trường hợp bị sai sót\".\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **잘못된 줄 몰랐어요** ❌ → \"tôi đã không biết là nó sai\".\n- **잘못될 리가 없어요** ❌ → \"không có lý nào lại sai được\".\n- **잘못될 수밖에 없어요** ❌ → \"không còn cách nào khác ngoài việc bị sai\"."
+    },
+    {
+      "id": 52,
+      "exam": "연습",
+      "question_ko": "가 : 오랜만에 야외에 나오니까 기분이 아주 상쾌하군요.\n나 : 네. 시내를 조금( ) 공기가 정말 다르네요.",
+      "question_vi": "A: Lâu rồi mới ra ngoài trời nên tâm trạng thật sảng khoái.\nB: Vâng. Chỉ cần ra khỏi trung tâm thành phố một chút thôi là không khí đã khác hẳn rồi.",
+      "choices": [
+        { "type": "text", "text": "벗어나듯이" },
+        { "type": "text", "text": "벗어나나 마나" },
+        { "type": "text", "text": "벗어나기만 해도" },
+        { "type": "text", "text": "벗어났을 정도로" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**벗어나기만 해도** (chỉ cần ra khỏi thôi là...)\n\n- Cấu trúc: **V-기만 해도** → Diễn tả rằng chỉ cần thực hiện hành động ở vế trước thôi là kết quả ở vế sau đã xảy ra. Nhấn mạnh sự dễ dàng hoặc mức độ ảnh hưởng lớn của một hành động nhỏ.\n- Nghĩa: \"Chỉ cần ra khỏi trung tâm thành phố một chút thôi là không khí đã thực sự khác biệt rồi.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **벗어나듯이** ❌ → \"cứ như thể là ra khỏi\", so sánh.\n- **벗어나나 마나** ❌ → \"dù có ra khỏi hay không thì cũng vậy\", không phù hợp.\n- **벗어났을 정도로** ❌ → \"đến mức đã ra khỏi\", diễn tả mức độ."
+    },
+    {
+      "id": 53,
+      "exam": "연습",
+      "question_ko": "가 : 지금쯤이면 공항에 도착했을까요?\n나 : 아마( ). 출발한 지 벌써 두 시간이나 지났잖아요.",
+      "question_vi": "A: Giờ này chắc họ đến sân bay chưa nhỉ?\nB: Chắc là đến rồi đấy ạ. Đã xuất phát được hai tiếng rồi còn gì.",
+      "choices": [
+        { "type": "text", "text": "도착했군요" },
+        { "type": "text", "text": "도착했는데요" },
+        { "type": "text", "text": "도착했을걸요" },
+        { "type": "text", "text": "도착했으니까요" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**도착했을걸요** (chắc là đã đến rồi đấy)\n\n- Cấu trúc: **V-았/었을걸요** → Diễn tả sự phỏng đoán của người nói về một sự việc trong quá khứ mà người nghe không biết. Thường mang sắc thái nhẹ nhàng, thân mật.\n- Nghĩa: Người nói B phỏng đoán rằng họ \"chắc là đã đến sân bay rồi\" dựa trên thông tin đã xuất phát được 2 tiếng.\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **도착했군요** ❌ → \"à, thì ra là đã đến\", thể hiện sự nhận ra, không phải phỏng đoán.\n- **도착했는데요** ❌ → \"đã đến mà...\", cung cấp thông tin nền tảng.\n- **도착했으니까요** ❌ → \"vì đã đến\", chỉ lý do, không phù hợp."
+    },
+    {
+      "id": 54,
+      "exam": "연습",
+      "question_ko": "가 : 혹시 이 대리 봤어요? 급히 의논할 사항이 있는데 자리에 없네요.\n나 : 아까 1층에서 손님을 ( ).",
+      "question_vi": "A: Anh có thấy Trợ lý Lee đâu không? Tôi có việc cần bàn gấp mà anh ấy không có ở chỗ.\nB: Lúc nãy tôi thấy anh ấy đang gặp khách ở tầng 1 đấy.",
+      "choices": [
+        { "type": "text", "text": "만나던데요" },
+        { "type": "text", "text": "만나야지요" },
+        { "type": "text", "text": "만나려고요" },
+        { "type": "text", "text": "만나고말고요" }
+      ],
+      "answer": 1,
+      "explain": "## ✅ Đáp án đúng\n\n**만나던데요** (tôi thấy đang gặp đấy)\n\n- Cấu trúc: **V-던데요** → Dùng để hồi tưởng và kể lại một sự việc mà người nói đã trực tiếp chứng kiến trong quá khứ. Thường dùng để cung cấp thông tin cho người nghe.\n- Nghĩa: Người nói B kể lại điều mình đã thấy: \"Lúc nãy tôi thấy anh ấy đang gặp khách ở tầng 1.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **만나야지요** ❌ → \"phải gặp chứ\", thể hiện ý chí, sự đương nhiên.\n- **만나려고요** ❌ → \"(vì) định gặp\", chỉ ý định.\n- **만나고말고요** ❌ → \"tất nhiên là gặp rồi\", khẳng định mạnh mẽ."
+    },
+    {
+      "id": 55,
+      "exam": "연습",
+      "question_ko": "가 : 어떤 장갑으로 사다 줄까요? 원하는 것이 있어요?\n나 : 특별히 원하는 것은 없어요. 그냥 ( ).",
+      "question_vi": "A: Tôi mua cho bạn loại găng tay nào đây? Có loại nào bạn muốn không?\nB: Tôi không có yêu cầu gì đặc biệt đâu. Chỉ cần nó ấm là được.",
+      "choices": [
+        { "type": "text", "text": "따뜻할 텐데요" },
+        { "type": "text", "text": "따뜻할 뿐이에요" },
+        { "type": "text", "text": "따뜻할 리가 없어요" },
+        { "type": "text", "text": "따뜻하기만 하면 돼요" }
+      ],
+      "answer": 4,
+      "explain": "## ✅ Đáp án đúng\n\n**따뜻하기만 하면 돼요** (chỉ cần ấm là được)\n\n- Cấu trúc: **V/A-기만 하면 되다** → Diễn tả điều kiện tối thiểu cần thiết. \"chỉ cần... là được/là đủ\".\n- Nghĩa: Người nói B cho biết điều kiện duy nhất và tối thiểu cho đôi găng tay là \"chỉ cần nó ấm là được\".\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **따뜻할 텐데요** ❌ → \"chắc là sẽ ấm đấy\", phỏng đoán.\n- **따뜻할 뿐이에요** ❌ → \"chỉ là ấm thôi\", không phù hợp.\n- **따뜻할 리가 없어요** ❌ → \"không có lý nào lại ấm\", phủ định mạnh mẽ."
+    },
+    {
+      "id": 56,
+      "exam": "연습",
+      "question_ko": "가 : 형한테도 내일 같이 놀러 가자고 할까?\n나 :( ) 안 갈 거야. 내일 시험이 있다고 했거든.",
+      "question_vi": "A: Hay là mình rủ anh trai mai đi chơi cùng nhé?\nB: Hỏi cũng như không thôi, anh ấy sẽ không đi đâu. Anh ấy bảo mai có bài thi mà.",
+      "choices": [
+        { "type": "text", "text": "물어보다시피" },
+        { "type": "text", "text": "물어보느라고" },
+        { "type": "text", "text": "물어보나 마나" },
+        { "type": "text", "text": "물어볼 뿐만 아니라" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**물어보나 마나** (hỏi hay không cũng vậy thôi)\n\n- Cấu trúc: **V-(으)나 마나** → Diễn tả một hành động dù có làm hay không thì kết quả cũng không thay đổi, vì vậy làm việc đó là vô ích. \"dù có... hay không thì cũng vậy\".\n- Nghĩa: \"Dù có hỏi anh ấy hay không thì kết quả cũng vậy thôi, anh ấy sẽ không đi đâu.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **물어보다시피** ❌ → \"như bạn đã hỏi\", không phù hợp.\n- **물어보느라고** ❌ → \"vì mải hỏi nên...\", chỉ lý do.\n- **물어볼 뿐만 아니라** ❌ → \"không những hỏi mà còn...\", bổ sung thông tin."
     }
-  ]
+]
 }

@@ -239,7 +239,7 @@ const totalQuestionsCount = questions.length;
                   
                   {/* Hiển thị các câu hỏi trong nhóm */}
                   <div class="questions-list" data-exam={exam}>
-                    {examQuestions.map((question: any) => (
+                    {examQuestions.map((question: any, index: number) => (
                       <div class="question-wrapper" data-question-order={question.id}>
                         <ReadingQuestion 
                           question={question}
@@ -264,6 +264,41 @@ const totalQuestionsCount = questions.length;
             >
               🎯 Nộp bài và xem kết quả
             </button>
+          </div>
+          
+          {/* Results Summary (shown after submit) */}
+          <div class="max-w-4xl mx-auto mt-8 hidden" id="results-summary">
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl p-6 border-2 border-blue-200">
+              <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">📊 Kết quả làm bài</h2>
+              
+              {/* Stats Grid */}
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div class="text-3xl font-bold text-green-600 mb-1" id="result-correct-count">0</div>
+                  <div class="text-sm text-gray-600">Câu đúng</div>
+                </div>
+                <div class="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div class="text-3xl font-bold text-red-600 mb-1" id="result-wrong-count">0</div>
+                  <div class="text-sm text-gray-600">Câu sai</div>
+                </div>
+                <div class="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div class="text-3xl font-bold text-blue-600 mb-1" id="result-answered-count">0</div>
+                  <div class="text-sm text-gray-600">Đã chọn</div>
+                </div>
+                <div class="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div class="text-3xl font-bold text-gray-600 mb-1" id="result-unanswered-count">0</div>
+                  <div class="text-sm text-gray-600">Chưa chọn</div>
+                </div>
+              </div>
+              
+              {/* Percentage */}
+              <div class="text-center">
+                <div class="inline-block bg-white rounded-xl p-4 shadow-md">
+                  <div class="text-4xl font-bold text-indigo-600 mb-1" id="result-percentage">0%</div>
+                  <div class="text-sm text-gray-600">Tỷ lệ làm đúng</div>
+                </div>
+              </div>
+            </div>
           </div>
         </>
       ) : exerciseType === 'listening' ? (
@@ -529,34 +564,44 @@ const totalQuestionsCount = questions.length;
       const container = document.getElementById('questions-container');
       if (!container) return;
       
-      const examGroups = container.querySelectorAll('[data-exam-group]');
-      
-      examGroups.forEach(group => {
-        const questionsList = group.querySelector('.questions-list');
-        if (!questionsList) return;
+      if (mode === 'random') {
+        // Collect ALL question wrappers from ALL exam groups
+        const allWrappers = Array.from(container.querySelectorAll('.question-wrapper'));
         
-        const questionWrappers = Array.from(questionsList.querySelectorAll('.question-wrapper'));
+        // Shuffle ALL questions together
+        const shuffled = shuffleArray(allWrappers);
         
-        if (mode === 'order') {
+        // Detach all from DOM
+        allWrappers.forEach(wrapper => wrapper.remove());
+        
+        // Find the questions-container and append all shuffled questions
+        shuffled.forEach(wrapper => {
+          container.appendChild(wrapper);
+        });
+      } else {
+        // 'order' mode - keep original structure by exam groups
+        const examGroups = container.querySelectorAll('[data-exam-group]');
+        
+        examGroups.forEach(group => {
+          const questionsList = group.querySelector('.questions-list');
+          if (!questionsList) return;
+          
+          const questionWrappers = Array.from(questionsList.querySelectorAll('.question-wrapper'));
+          
           // Sort by original order
           questionWrappers.sort((a, b) => {
             const orderA = parseInt(a.getAttribute('data-question-order') || '0');
             const orderB = parseInt(b.getAttribute('data-question-order') || '0');
             return orderA - orderB;
           });
-        } else {
-          // Shuffle randomly
-          const shuffled = shuffleArray(questionWrappers);
-          questionWrappers.length = 0;
-          questionWrappers.push(...shuffled);
-        }
-        
-        // Re-append in new order
-        questionsList.innerHTML = '';
-        questionWrappers.forEach(wrapper => {
-          questionsList.appendChild(wrapper);
+          
+          // Re-append in order
+          questionWrappers.forEach(wrapper => wrapper.remove());
+          questionWrappers.forEach(wrapper => {
+            questionsList.appendChild(wrapper);
+          });
         });
-      });
+      }
     }
     
     // ============================================================================
@@ -606,20 +651,30 @@ const totalQuestionsCount = questions.length;
     
     function handleSubmitAll() {
       // Calculate correct/wrong counts from stored answers
+      // Only count questions that user has actually answered in this session
       state.correctCount = 0;
       state.wrongCount = 0;
       state.wrongQuestions.clear();
       
-      Object.keys(state.correctAnswers).forEach(questionId => {
+      console.log('handleSubmitAll - userAnswers keys:', Object.keys(state.userAnswers));
+      console.log('handleSubmitAll - correctAnswers:', state.correctAnswers);
+      
+      // Only count answers that exist in userAnswers (avoid counting old data)
+      Object.keys(state.userAnswers).forEach(questionId => {
         const isCorrect = state.correctAnswers[questionId];
-        if (isCorrect) {
+        console.log(`Question ${questionId}: isCorrect = ${isCorrect}`);
+        if (isCorrect === true) {
           state.correctCount++;
           state.wrongQuestions.delete(questionId);
-        } else {
+        } else if (isCorrect === false) {
           state.wrongCount++;
           state.wrongQuestions.add(questionId);
+        } else {
+          console.warn(`Question ${questionId}: isCorrect is undefined or null`);
         }
       });
+      
+      console.log(`Final counts: correct=${state.correctCount}, wrong=${state.wrongCount}, answered=${Object.keys(state.userAnswers).length}`);
       
       saveToLocalStorage();
       updateProgressBar(); // Update with correct/wrong counts
@@ -638,6 +693,40 @@ const totalQuestionsCount = questions.length;
         submitBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
         submitBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
       }
+      
+      // Show results summary
+      showResultsSummary();
+    }
+    
+    function showResultsSummary() {
+      const resultsSummary = document.getElementById('results-summary');
+      if (!resultsSummary) return;
+      
+      const total = totalQuestions;
+      const answered = state.answeredCount;
+      const correct = state.correctCount;
+      const wrong = state.wrongCount;
+      const unanswered = total - answered;
+      const percentage = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+      
+      // Update the summary
+      const correctEl = document.getElementById('result-correct-count');
+      const wrongEl = document.getElementById('result-wrong-count');
+      const answeredEl = document.getElementById('result-answered-count');
+      const unansweredEl = document.getElementById('result-unanswered-count');
+      const percentageEl = document.getElementById('result-percentage');
+      
+      if (correctEl) correctEl.textContent = correct;
+      if (wrongEl) wrongEl.textContent = wrong;
+      if (answeredEl) answeredEl.textContent = answered;
+      if (unansweredEl) unansweredEl.textContent = unanswered;
+      if (percentageEl) percentageEl.textContent = `${percentage}%`;
+      
+      // Show the summary
+      resultsSummary.classList.remove('hidden');
+      
+      // Scroll to results
+      resultsSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
     // Update ProgressBar stats
@@ -932,15 +1021,21 @@ const totalQuestionsCount = questions.length;
       document.addEventListener('answer-submitted', (e) => {
         const { questionId, selectedIndex, isCorrect } = e.detail;
         
+        // Only update if not already processed (avoid double counting)
+        const wasAlreadyProcessed = state.userAnswers[questionId] !== undefined;
+        
         state.userAnswers[questionId] = selectedIndex;
         state.correctAnswers[questionId] = isCorrect;
         
-        if (isCorrect) {
-          state.correctCount++;
-          state.wrongQuestions.delete(questionId);
-        } else {
-          state.wrongCount++;
-          state.wrongQuestions.add(questionId);
+        // Only increment if this is a new answer
+        if (!wasAlreadyProcessed) {
+          if (isCorrect) {
+            state.correctCount++;
+            state.wrongQuestions.delete(questionId);
+          } else {
+            state.wrongCount++;
+            state.wrongQuestions.add(questionId);
+          }
         }
         
         state.answeredCount = Object.keys(state.userAnswers).length;

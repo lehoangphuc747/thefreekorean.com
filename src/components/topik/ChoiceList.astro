@@ -10,8 +10,8 @@ const { choices, answer, selectedIndex, onSelect } = Astro.props;
 
 // Xáo trộn thứ tự các đáp án
 function shuffleArray<T>(array: T[]): { shuffled: T[]; mapping: number[] } {
-  // Tạo mảng indices gốc và copy của array
-  const indices = array.map((_, i) => i);
+  // Tạo mảng indices gốc (1-based: 1,2,3,4...) và copy của array
+  const indices = array.map((_, i) => i + 1);
   const shuffled = [...array];
   
   // Fisher-Yates shuffle algorithm - shuffle cả array và indices cùng nhau
@@ -21,7 +21,7 @@ function shuffleArray<T>(array: T[]): { shuffled: T[]; mapping: number[] } {
     [indices[i], indices[j]] = [indices[j], indices[i]];
   }
   
-  // mapping[i] = originalIndex của phần tử ở vị trí i sau shuffle
+  // mapping[i] = originalIndex của phần tử ở vị trí i sau shuffle (1-based)
   return { shuffled, mapping: indices };
 }
 
@@ -103,6 +103,16 @@ const shuffledAnswerIndex = mapping.findIndex((originalIndex) => originalIndex =
     
     const choiceItems = choiceList.querySelectorAll('.choice-item');
     let isDisabled = false;
+    
+    // Listen for reset events to re-enable choices
+    choiceList.addEventListener('reset-question', () => {
+      isDisabled = false;
+    });
+    
+    // Listen for re-enable event (for submit mode)
+    choiceList.addEventListener('re-enable-choices', () => {
+      isDisabled = false;
+    });
     
     choiceItems.forEach((item) => {
       item.addEventListener('click', function(e) {

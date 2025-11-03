@@ -245,14 +245,53 @@ const {
     choiceItems.forEach((item, idx) => {
       const isSelected = selectedIdx === idx;
       
-      // Reset classes
+      // Reset classes and remove disabled state
       item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+      item.removeAttribute('data-disabled');
+      item.style.pointerEvents = '';
       
       if (isSelected) {
         // Highlight selected (blue, not green/red)
         item.classList.add('bg-blue-100', 'border-blue-400');
       } else {
         item.classList.add('border-gray-200', 'hover:border-blue-400');
+      }
+    });
+    
+    // Also need to reset the isDisabled flag in the ChoiceList closure
+    // Dispatch a custom event to ChoiceList to re-enable
+    if (choiceList) {
+      choiceList.dispatchEvent(new CustomEvent('re-enable-choices'));
+    }
+  }
+  
+  // Update choice list for unanswered questions (show correct answer in yellow)
+  function updateChoiceListUnanswered() {
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (!container) return;
+    
+    const choiceListContainer = container.querySelector('[data-choice-list-container]');
+    const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+    const choiceItems = choiceList?.querySelectorAll('.choice-item');
+    
+    if (!choiceItems) return;
+    
+    choiceItems.forEach((item) => {
+      // Check if this is the correct answer
+      const isAnswer = (item.getAttribute('data-original-index') === String(answerValue));
+      
+      // Reset classes
+      item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+      item.style.pointerEvents = 'none';
+      item.setAttribute('data-disabled', 'true');
+      
+      if (isAnswer) {
+        // Correct answer - yellow background
+        item.classList.add('bg-yellow-100', 'border-yellow-400');
+      } else {
+        // Other choices - gray disabled
+        item.classList.add('border-gray-200');
+        item.style.opacity = '0.6';
       }
     });
   }
@@ -527,6 +566,7 @@ const {
           item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
           item.classList.add('border-gray-200', 'hover:border-blue-400');
           item.style.opacity = '1';
+          item.removeAttribute('data-disabled');
         });
       }
       
@@ -543,16 +583,21 @@ const {
     
     // Listen to submit-all event (from global submit button in submit mode)
     document.addEventListener('submit-all-answers', () => {
-      // Only process if in submit mode and has selected answer
-      if (getCurrentCheckMode() === 'submit' && selectedIndex !== null && !isSubmitted) {
-        isSubmitted = true;
-        
-        // Show feedback
-        showFeedback();
-        updateChoiceList(selectedIndex);
-        
-        // Dispatch answer event
-        dispatchAnswerEvent();
+      if (getCurrentCheckMode() === 'submit') {
+        if (selectedIndex !== null && !isSubmitted) {
+          // Has selected answer - show feedback and mark as submitted
+          isSubmitted = true;
+          
+          // Show feedback
+          showFeedback();
+          updateChoiceList(selectedIndex);
+          
+          // Dispatch answer event
+          dispatchAnswerEvent();
+        } else if (selectedIndex === null) {
+          // No answer selected - show correct answer in yellow
+          updateChoiceListUnanswered();
+        }
       }
     });
     
