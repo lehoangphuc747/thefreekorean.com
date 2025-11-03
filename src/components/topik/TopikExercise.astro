@@ -12,6 +12,19 @@
  * - Render danh sách câu hỏi thông qua component ReadingQuestion
  * - Xử lý và hiển thị lỗi nếu file JSON không tồn tại hoặc không hợp lệ
  * 
+ * State Management (NEW):
+ * - displayMode: 'all' | 'quiz' - Hiển thị tất cả câu hoặc từng câu một
+ * - questionOrder: 'order' | 'random' - Thứ tự câu hỏi
+ * - checkMode: 'immediate' | 'submit' - Kiểm tra ngay hoặc sau khi nộp
+ * - selectedExam: string - Kỳ thi đang được chọn
+ * - showVietnamese: boolean - Hiện/ẩn bản dịch mặc định
+ * - fontSize: 'small' | 'medium' | 'large' - Cỡ chữ
+ * - currentQuestionIndex: number - Câu hiện tại (quiz mode)
+ * - userAnswers: Record<string, number> - Đáp án người dùng đã chọn
+ * - correctAnswers: Record<string, boolean> - Đáp án đúng/sai
+ * - bookmarkedQuestions: Set<string> - Câu đã bookmark
+ * - wrongQuestions: Set<string> - Câu trả lời sai
+ * 
  * Props:
  * - slug: Tên file JSON (không bao gồm .json extension)
  * 
@@ -43,6 +56,8 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import ReadingQuestion from './ReadingQuestion.astro';
+import SettingsPanel from './SettingsPanel.astro';
+import QuizNavigator from './QuizNavigator.astro';
 
 export interface Props {
   slug: string;
@@ -99,6 +114,39 @@ if (isValid) {
     groupedQuestions[exam].sort((a: any, b: any) => a.id - b.id);
   });
 }
+
+// ============================================================================
+// STATE MANAGEMENT - Khởi tạo các state mặc định
+// ============================================================================
+
+// Display & Interaction Settings
+const initialDisplayMode: 'all' | 'quiz' = 'all';
+const initialQuestionOrder: 'order' | 'random' = 'order';
+const initialCheckMode: 'immediate' | 'submit' = 'immediate';
+const initialShowVietnamese = false;
+const initialFontSize: 'small' | 'medium' | 'large' = 'medium';
+
+// Exam & Navigation
+const initialSelectedExam = 'all';
+const initialCurrentQuestionIndex = 0;
+
+// Progress Tracking (sẽ được quản lý trong client-side script)
+// userAnswers: Record<questionId, selectedChoiceIndex>
+// correctAnswers: Record<questionId, isCorrect>
+// bookmarkedQuestions: Set<questionId> - lưu trong localStorage
+// wrongQuestions: Set<questionId> - lưu trong localStorage
+
+// Prepare data for SettingsPanel
+const examsList = exams.map(exam => {
+  const count = groupedQuestions[exam]?.length || 0;
+  return { name: exam, count };
+});
+
+const totalQuestionsCount = questions.length;
+
+// Tính timer duration dựa vào meta (nếu có)
+const timerMinutes = meta?.duration || 15; // Default 15 phút
+const timerEnabled = true;
 ---
 
 
@@ -129,52 +177,23 @@ if (isValid) {
         </div>
       </div>
 
-      <!-- Settings Panel - Cài đặt học tập -->
-      <div class="max-w-4xl mx-auto mb-8">
-        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl shadow-md p-6 border border-indigo-100">
-          <div class="flex items-center justify-between flex-wrap gap-4">
-            <div class="flex items-center gap-3">
-              <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-              <h2 class="text-lg font-semibold text-gray-800">Cài đặt luyện tập</h2>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <label class="text-sm font-medium text-gray-700">Thứ tự câu hỏi:</label>
-              <div class="inline-flex rounded-lg border border-indigo-200 bg-white shadow-sm" role="group">
-                <button
-                  type="button"
-                  id="order-mode-btn"
-                  class="mode-btn px-4 py-2 text-sm font-medium rounded-l-lg transition-all duration-200 bg-indigo-600 text-white"
-                  data-mode="order"
-                >
-                  <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path>
-                    </svg>
-                    Theo thứ tự
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  id="random-mode-btn"
-                  class="mode-btn px-4 py-2 text-sm font-medium rounded-r-lg transition-all duration-200 bg-white text-gray-700 hover:bg-gray-50"
-                  data-mode="random"
-                >
-                  <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
-                    </svg>
-                    Ngẫu nhiên
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Settings Panel - Component mới -->
+      <SettingsPanel
+        totalQuestions={totalQuestionsCount}
+        answeredQuestions={0}
+        correctAnswers={0}
+        wrongAnswers={0}
+        bookmarkedCount={0}
+        exams={examsList}
+        selectedExam={initialSelectedExam}
+        timerMinutes={timerMinutes}
+        timerEnabled={timerEnabled}
+        displayMode={initialDisplayMode}
+        questionOrder={initialQuestionOrder}
+        checkMode={initialCheckMode}
+        showVietnamese={initialShowVietnamese}
+        fontSize={initialFontSize}
+      />
 
       <!-- Bước 3 & 4: Hiển thị theo type và lặp qua từng câu hỏi -->
       {exerciseType === 'reading' ? (
@@ -317,21 +336,119 @@ if (isValid) {
     flex-direction: column;
     gap: 2rem;
   }
+
+  /* Font size classes */
+  #questions-container.font-small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  #questions-container.font-medium {
+    font-size: 1rem;
+    line-height: 1.625;
+  }
+
+  #questions-container.font-large {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+
+  #questions-container.font-small .text-xl {
+    font-size: 1.125rem;
+  }
+
+  #questions-container.font-large .text-xl {
+    font-size: 1.5rem;
+  }
 </style>
 
-<script>
-  // Script xử lý chuyển đổi giữa chế độ theo thứ tự và ngẫu nhiên
-  document.addEventListener('DOMContentLoaded', () => {
-    const orderBtn = document.getElementById('order-mode-btn');
-    const randomBtn = document.getElementById('random-mode-btn');
-    const questionsContainer = document.getElementById('questions-container');
+<script define:vars={{ slug, totalQuestions: totalQuestionsCount }}>
+  /**
+   * TopikExercise Client-Side Logic
+   * Quản lý state và xử lý events từ SettingsPanel
+   */
+  
+  (function() {
+    // ============================================================================
+    // STATE MANAGEMENT
+    // ============================================================================
     
-    if (!orderBtn || !randomBtn || !questionsContainer) return;
+    let state = {
+      // Display & Interaction
+      displayMode: 'all',
+      questionOrder: 'order',
+      checkMode: 'immediate',
+      showVietnamese: false,
+      fontSize: 'medium',
+      
+      // Navigation
+      selectedExam: 'all',
+      currentQuestionIndex: 0,
+      
+      // Progress tracking
+      userAnswers: {}, // { questionId: choiceIndex }
+      correctAnswers: {}, // { questionId: isCorrect }
+      bookmarkedQuestions: new Set(), // Set of questionIds
+      wrongQuestions: new Set(), // Set of questionIds
+      
+      // Stats
+      answeredCount: 0,
+      correctCount: 0,
+      wrongCount: 0
+    };
     
-    let currentMode = 'order'; // Mặc định là theo thứ tự
+    // ============================================================================
+    // LOCALSTORAGE HELPERS
+    // ============================================================================
     
-    // Hàm shuffle mảng (Fisher-Yates algorithm)
-    function shuffleArray<T>(array: T[]): T[] {
+    function loadFromLocalStorage() {
+      try {
+        // Load bookmarks
+        const bookmarks = localStorage.getItem(`topik-bookmarks-${slug}`);
+        if (bookmarks) {
+          state.bookmarkedQuestions = new Set(JSON.parse(bookmarks));
+        }
+        
+        // Load wrong answers
+        const wrong = localStorage.getItem(`topik-wrong-${slug}`);
+        if (wrong) {
+          state.wrongQuestions = new Set(JSON.parse(wrong));
+        }
+        
+        // Load font size preference
+        const fontSize = localStorage.getItem('topik-font-size');
+        if (fontSize && ['small', 'medium', 'large'].includes(fontSize)) {
+          state.fontSize = fontSize;
+          applyFontSize(fontSize);
+        }
+      } catch (e) {
+        console.error('Error loading from localStorage:', e);
+      }
+    }
+    
+    function saveToLocalStorage() {
+      try {
+        // Save bookmarks
+        localStorage.setItem(`topik-bookmarks-${slug}`, 
+          JSON.stringify([...state.bookmarkedQuestions]));
+        
+        // Save wrong answers
+        localStorage.setItem(`topik-wrong-${slug}`, 
+          JSON.stringify([...state.wrongQuestions]));
+        
+        // Save font size
+        localStorage.setItem('topik-font-size', state.fontSize);
+      } catch (e) {
+        console.error('Error saving to localStorage:', e);
+      }
+    }
+    
+    // ============================================================================
+    // UTILITY FUNCTIONS
+    // ============================================================================
+    
+    // Fisher-Yates shuffle
+    function shuffleArray(array) {
       const shuffled = [...array];
       for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -340,20 +457,21 @@ if (isValid) {
       return shuffled;
     }
     
-    // Hàm cập nhật UI của buttons
-    function updateButtonsUI(mode: string) {
-      if (mode === 'order') {
-        orderBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-l-lg transition-all duration-200 bg-indigo-600 text-white';
-        randomBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-r-lg transition-all duration-200 bg-white text-gray-700 hover:bg-gray-50';
-      } else {
-        orderBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-l-lg transition-all duration-200 bg-white text-gray-700 hover:bg-gray-50';
-        randomBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-r-lg transition-all duration-200 bg-indigo-600 text-white';
-      }
+    // Apply font size to questions
+    function applyFontSize(size) {
+      const container = document.getElementById('questions-container');
+      if (!container) return;
+      
+      container.classList.remove('font-small', 'font-medium', 'font-large');
+      container.classList.add(`font-${size}`);
     }
     
-    // Hàm sắp xếp lại câu hỏi
-    function reorderQuestions(mode: string) {
-      const examGroups = questionsContainer!.querySelectorAll('[data-exam-group]');
+    // Reorder questions
+    function reorderQuestions(mode) {
+      const container = document.getElementById('questions-container');
+      if (!container) return;
+      
+      const examGroups = container.querySelectorAll('[data-exam-group]');
       
       examGroups.forEach(group => {
         const questionsList = group.querySelector('.questions-list');
@@ -362,20 +480,20 @@ if (isValid) {
         const questionWrappers = Array.from(questionsList.querySelectorAll('.question-wrapper'));
         
         if (mode === 'order') {
-          // Sắp xếp theo thứ tự gốc (dựa vào data-question-order)
+          // Sort by original order
           questionWrappers.sort((a, b) => {
             const orderA = parseInt(a.getAttribute('data-question-order') || '0');
             const orderB = parseInt(b.getAttribute('data-question-order') || '0');
             return orderA - orderB;
           });
         } else {
-          // Shuffle ngẫu nhiên
+          // Shuffle randomly
           const shuffled = shuffleArray(questionWrappers);
           questionWrappers.length = 0;
           questionWrappers.push(...shuffled);
         }
         
-        // Xóa và thêm lại theo thứ tự mới
+        // Re-append in new order
         questionsList.innerHTML = '';
         questionWrappers.forEach(wrapper => {
           questionsList.appendChild(wrapper);
@@ -383,20 +501,122 @@ if (isValid) {
       });
     }
     
-    // Event listeners cho buttons
-    orderBtn.addEventListener('click', () => {
-      if (currentMode === 'order') return;
-      currentMode = 'order';
-      updateButtonsUI('order');
-      reorderQuestions('order');
-    });
+    // Update ProgressBar stats
+    function updateProgressBar() {
+      // This will be handled by re-rendering ProgressBar component
+      // or by dispatching custom event
+      const event = new CustomEvent('progress-update', {
+        detail: {
+          answeredCount: state.answeredCount,
+          correctCount: state.correctCount,
+          wrongCount: state.wrongCount,
+          bookmarkedCount: state.bookmarkedQuestions.size
+        }
+      });
+      document.dispatchEvent(event);
+    }
     
-    randomBtn.addEventListener('click', () => {
-      if (currentMode === 'random') return;
-      currentMode = 'random';
-      updateButtonsUI('random');
-      reorderQuestions('random');
+    // ============================================================================
+    // EVENT HANDLERS
+    // ============================================================================
+    
+    // Handle settings change from SettingsPanel
+    function handleSettingsChange(event) {
+      const { setting, value } = event.detail;
+      
+      console.log('Setting changed:', setting, value);
+      
+      switch (setting) {
+        case 'displayMode':
+          state.displayMode = value;
+          // TODO: Implement display mode switch
+          break;
+          
+        case 'questionOrder':
+          state.questionOrder = value;
+          reorderQuestions(value);
+          break;
+          
+        case 'checkMode':
+          state.checkMode = value;
+          // TODO: Update ReadingQuestion components
+          break;
+          
+        case 'showVietnamese':
+          state.showVietnamese = value;
+          // TODO: Show/hide Vietnamese translations
+          break;
+          
+        case 'fontSize':
+          state.fontSize = value;
+          applyFontSize(value);
+          saveToLocalStorage();
+          break;
+      }
+    }
+    
+    // Handle reset exercise
+    function handleReset() {
+      console.log('Resetting exercise...');
+      
+      // Clear answers
+      state.userAnswers = {};
+      state.correctAnswers = {};
+      state.wrongQuestions.clear();
+      state.answeredCount = 0;
+      state.correctCount = 0;
+      state.wrongCount = 0;
+      
+      // Keep bookmarks (intentionally)
+      saveToLocalStorage();
+      
+      // Reset UI
+      const container = document.getElementById('questions-container');
+      if (container) {
+        // Remove all answered states
+        const questions = container.querySelectorAll('[data-unique-question-id]');
+        questions.forEach(q => {
+          // Reset question state (this will need to be implemented in ReadingQuestion)
+          const resetEvent = new CustomEvent('reset-question', { bubbles: true });
+          q.dispatchEvent(resetEvent);
+        });
+      }
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Reload page to reset everything
+      setTimeout(() => {
+        location.reload();
+      }, 500);
+    }
+    
+    // ============================================================================
+    // INITIALIZATION
+    // ============================================================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('TopikExercise initialized');
+      
+      // Load saved data
+      loadFromLocalStorage();
+      
+      // Listen to SettingsPanel events
+      document.addEventListener('settings-change', handleSettingsChange);
+      document.addEventListener('reset-exercise', handleReset);
+      
+      // Listen to other events (exam-change, timer, etc.)
+      document.addEventListener('exam-change', (e) => {
+        state.selectedExam = e.detail.exam;
+        console.log('Exam changed:', e.detail.exam);
+        // TODO: Filter questions by exam
+      });
+      
+      document.addEventListener('time-up', () => {
+        console.log('Time is up!');
+        // TODO: Auto-submit if in submit mode
+      });
     });
-  });
+  })();
 </script>
 
