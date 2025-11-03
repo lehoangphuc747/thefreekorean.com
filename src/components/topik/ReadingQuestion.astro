@@ -11,6 +11,8 @@
  * - Hiển thị giải thích (explain) với markdown formatting (bold, italic, headings, bullet points)
  * - Sử dụng unique ID (exam-id) để tránh conflict khi có nhiều câu hỏi cùng số thứ tự
  * - State management riêng biệt cho mỗi câu hỏi thông qua IIFE closure
+ * - Hỗ trợ 2 check mode: immediate (feedback ngay) và submit (feedback sau khi nộp)
+ * - Bookmark functionality với star icon
  * 
  * Props:
  * - question.id: Số thứ tự câu hỏi
@@ -21,6 +23,10 @@
  * - question.choices: Mảng các lựa chọn
  * - question.answer: Index đáp án đúng
  * - question.explain: Giải thích đáp án (optional, hỗ trợ markdown)
+ * - checkMode: 'immediate' | 'submit' (default: 'immediate')
+ * - isBookmarked: boolean (default: false)
+ * - fontSize: 'small' | 'medium' | 'large' (default: 'medium')
+ * - showVietnameseDefault: boolean (default: false)
  */
 import ChoiceList from './ChoiceList.astro';
 
@@ -206,10 +212,34 @@ const {
       }
     });
   }
-  })();
-</script>
-
-<style>
+  
+  // Update choice list for submit mode (only show selection, not correctness)
+  function updateChoiceListSubmitMode(selectedIdx) {
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (!container) return;
+    
+    const choiceListContainer = container.querySelector('[data-choice-list-container]');
+    const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+    const choiceItems = choiceList?.querySelectorAll('.choice-item');
+    
+    if (!choiceItems) return;
+    
+    choiceItems.forEach((item, idx) => {
+      const isSelected = selectedIdx === idx;
+      
+      // Reset classes
+      item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+      
+      if (isSelected) {
+        // Highlight selected (blue, not green/red)
+        item.classList.add('bg-blue-100', 'border-blue-400');
+      } else {
+        item.classList.add('border-gray-200', 'hover:border-blue-400');
+      }
+    });
+  }
+  
+  function showFeedback() {
     // Sử dụng unique ID để tránh conflict
     const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
     if (!container) return;
@@ -306,9 +336,25 @@ const {
     }
   }
   
-    document.addEventListener('DOMContentLoaded', () => {
-      // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
-      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+  // Helper function to dispatch answer event
+  function dispatchAnswerEvent() {
+    const event = new CustomEvent('answer-submitted', {
+      bubbles: true,
+      detail: {
+        questionId: uniqueQuestionId,
+        selectedIndex,
+        isCorrect
+      }
+    });
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (container) {
+      container.dispatchEvent(event);
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
     if (!container) return;
     
     const questionIdValue = container.getAttribute('data-question-id');
@@ -369,6 +415,7 @@ const {
         
         // Show feedback
         showFeedback();
+        updateChoiceList(selectedIndex);
         
         // Dispatch answer event
         dispatchAnswerEvent();
@@ -462,71 +509,6 @@ const {
         location.reload();
       }
     });
-    });
-    
-    // Helper function to dispatch answer event
-    function dispatchAnswerEvent() {
-      const event = new CustomEvent('answer-submitted', {
-        bubbles: true,
-        detail: {
-          questionId: uniqueQuestionId,
-          selectedIndex,
-          isCorrect
-        }
-      });
-      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
-      if (container) {
-        container.dispatchEvent(event);
-      }
-    }
-    
-    // Update choice list for submit mode (only show selection, not correctness)
-    function updateChoiceListSubmitMode(selectedIdx) {
-      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
-      if (!container) return;
-      
-      const choiceListContainer = container.querySelector('[data-choice-list-container]');
-      const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
-      const choiceItems = choiceList?.querySelectorAll('.choice-item');
-      
-      if (!choiceItems) return;
-      
-      choiceItems.forEach((item, idx) => {
-        const isSelected = selectedIdx === idx;
-        
-        // Reset classes
-        item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
-        
-        if (isSelected) {
-          // Highlight selected (blue, not green/red)
-          item.classList.add('bg-blue-100', 'border-blue-400');
-        } else {
-          item.classList.add('border-gray-200', 'hover:border-blue-400');
-        }
-      });
-    }
-  
-  function updateChoiceList(selectedIdx) {
-    transition: all 0.2s ease;
-  }
-  
-  .choice-item:hover {
-    transform: translateX(4px);
-  }
-  
-  .feedback-area {
-    animation: fadeIn 0.3s ease;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
-
+  });
+  })();
+</script>

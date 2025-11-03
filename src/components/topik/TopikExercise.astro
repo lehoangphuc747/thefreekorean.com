@@ -58,6 +58,7 @@ import { join } from 'path';
 import ReadingQuestion from './ReadingQuestion.astro';
 import SettingsPanel from './SettingsPanel.astro';
 import QuizNavigator from './QuizNavigator.astro';
+import ProgressBar from './ProgressBar.astro';
 
 export interface Props {
   slug: string;
@@ -154,7 +155,7 @@ const timerEnabled = true;
   {isValid ? (
     <>
       <!-- Bước 2: Hiển thị Meta Info ở đầu trang -->
-      <div class="text-center mb-12">
+      <div class="text-center mb-8">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">
           {meta.title}
         </h1>
@@ -177,7 +178,20 @@ const timerEnabled = true;
         </div>
       </div>
 
-      <!-- Settings Panel - Component mới -->
+      <!-- Progress Bar - Sticky below navbar -->
+      <div class="sticky top-0 z-40 bg-white shadow-md mb-6" id="progress-bar-wrapper">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+          <ProgressBar
+            totalQuestions={totalQuestionsCount}
+            answeredQuestions={0}
+            correctAnswers={0}
+            wrongAnswers={0}
+            bookmarkedCount={0}
+          />
+        </div>
+      </div>
+
+      <!-- Settings Panel - Component mới (KHÔNG có ProgressBar nữa) -->
       <SettingsPanel
         totalQuestions={totalQuestionsCount}
         answeredQuestions={0}
@@ -193,6 +207,7 @@ const timerEnabled = true;
         checkMode={initialCheckMode}
         showVietnamese={initialShowVietnamese}
         fontSize={initialFontSize}
+        showProgressBar={false}
       />
 
       <!-- Bước 3 & 4: Hiển thị theo type và lặp qua từng câu hỏi -->

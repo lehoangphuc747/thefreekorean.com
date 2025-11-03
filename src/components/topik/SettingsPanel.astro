@@ -48,6 +48,9 @@ export interface Props {
   checkMode?: 'immediate' | 'submit';
   showVietnamese?: boolean;
   fontSize?: 'small' | 'medium' | 'large';
+  
+  // Control visibility
+  showProgressBar?: boolean;
 }
 
 const {
@@ -64,7 +67,8 @@ const {
   questionOrder = 'order',
   checkMode = 'immediate',
   showVietnamese = false,
-  fontSize = 'medium'
+  fontSize = 'medium',
+  showProgressBar = true
 } = Astro.props;
 ---
 
@@ -102,15 +106,17 @@ const {
         </div>
       )}
       
-      <div class="setting-group flex-grow">
-        <ProgressBar 
-          totalQuestions={totalQuestions}
-          answeredQuestions={answeredQuestions}
-          correctAnswers={correctAnswers}
-          wrongAnswers={wrongAnswers}
-          bookmarkedCount={bookmarkedCount}
-        />
-      </div>
+      {showProgressBar && (
+        <div class="setting-group flex-grow">
+          <ProgressBar 
+            totalQuestions={totalQuestions}
+            answeredQuestions={answeredQuestions}
+            correctAnswers={correctAnswers}
+            wrongAnswers={wrongAnswers}
+            bookmarkedCount={bookmarkedCount}
+          />
+        </div>
+      )}
     </div>
     
     <!-- Row 2: Exam Filter (if multiple exams) -->
