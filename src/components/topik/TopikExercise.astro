@@ -451,6 +451,12 @@ const timerEnabled = true;
           state.fontSize = fontSize;
           applyFontSize(fontSize);
         }
+        
+        // Load check mode preference
+        const checkMode = localStorage.getItem('topik-check-mode');
+        if (checkMode && ['immediate', 'submit'].includes(checkMode)) {
+          state.checkMode = checkMode;
+        }
       } catch (e) {
         console.error('Error loading from localStorage:', e);
       }
@@ -528,6 +534,40 @@ const timerEnabled = true;
         questionWrappers.forEach(wrapper => {
           questionsList.appendChild(wrapper);
         });
+      });
+    }
+    
+    // ============================================================================
+    // CHECK MODE HELPERS
+    // ============================================================================
+    
+    function updateAllQuestionsCheckMode(checkMode) {
+      // Update data-check-mode attribute for all question containers
+      const questions = document.querySelectorAll('[data-unique-question-id]');
+      questions.forEach(q => {
+        q.setAttribute('data-check-mode', checkMode);
+      });
+      
+      // Dispatch event to notify questions
+      const event = new CustomEvent('settings-change', {
+        detail: { setting: 'checkMode', value: checkMode }
+      });
+      document.dispatchEvent(event);
+    }
+    
+    function updateSettingsPanelCheckMode(checkMode) {
+      // Update active state of checkMode buttons
+      const panel = document.querySelector('[data-settings-panel]');
+      if (!panel) return;
+      
+      const buttons = panel.querySelectorAll('[data-setting="checkMode"]');
+      buttons.forEach(btn => {
+        const btnValue = btn.getAttribute('data-value');
+        if (btnValue === checkMode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
       });
     }
     
@@ -849,6 +889,8 @@ const timerEnabled = true;
           
         case 'checkMode':
           state.checkMode = value;
+          // Save to localStorage before reload
+          localStorage.setItem('topik-check-mode', value);
           // Reload to apply check mode
           location.reload();
           break;
@@ -911,6 +953,14 @@ const timerEnabled = true;
       
       // Load saved data
       loadFromLocalStorage();
+      
+      // Apply loaded checkMode to all questions
+      if (state.checkMode !== 'immediate') {
+        updateAllQuestionsCheckMode(state.checkMode);
+      }
+      
+      // Update SettingsPanel checkMode buttons
+      updateSettingsPanelCheckMode(state.checkMode);
       
       // Listen to SettingsPanel events
       document.addEventListener('settings-change', handleSettingsChange);

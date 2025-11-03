@@ -159,6 +159,12 @@ const {
     let isCorrect = null;
     let showVietnamese = showVietnameseDefaultValue;
     let isSubmitted = false; // For submit mode
+    
+    // Helper to get current checkMode from container (can be updated dynamically)
+    function getCurrentCheckMode() {
+      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+      return container?.getAttribute('data-check-mode') || checkModeValue;
+    }
   
   function updateChoiceList(selectedIdx) {
     // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
@@ -405,7 +411,7 @@ const {
     const submitWrapper = container.querySelector('[data-submit-wrapper]');
     const submitBtn = container.querySelector('[data-submit-btn]');
     
-    if (submitBtn && checkModeValue === 'submit') {
+    if (submitBtn && getCurrentCheckMode() === 'submit') {
       submitBtn.addEventListener('click', () => {
         if (selectedIndex === null) return;
         
@@ -436,11 +442,13 @@ const {
         }
         const clickedIndex = event.detail.index ?? 0;
         
+        const currentCheckMode = getCurrentCheckMode();
+        
         // Nếu đã submit trong submit mode thì không cho chọn nữa
-        if (checkModeValue === 'submit' && isSubmitted) return;
+        if (currentCheckMode === 'submit' && isSubmitted) return;
         
         // Nếu đã chọn rồi thì không làm gì (trong immediate mode)
-        if (checkModeValue === 'immediate' && selectedIndex !== null) return;
+        if (currentCheckMode === 'immediate' && selectedIndex !== null) return;
         
         // Kiểm tra xem đáp án đã chọn có đúng không (sau khi shuffle)
         const clickedItem = choiceList?.querySelector(`[data-choice-index="${clickedIndex}"]`);
@@ -451,7 +459,7 @@ const {
         isCorrect = isAnswerCorrect;
         
         // Cập nhật màu sắc choices (chỉ trong immediate mode)
-        if (checkModeValue === 'immediate') {
+        if (currentCheckMode === 'immediate') {
           updateChoiceList(selectedIndex);
           showFeedback();
           dispatchAnswerEvent();
@@ -504,9 +512,13 @@ const {
         }
       }
       
-      if (setting === 'checkMode') {
-        // Reload page when check mode changes
-        location.reload();
+      if (setting === 'checkMode' && container) {
+        // Update checkMode from container attribute
+        const newCheckMode = container.getAttribute('data-check-mode');
+        if (newCheckMode && newCheckMode !== checkModeValue) {
+          // Don't reload - checkModeValue will be read from attribute on next interaction
+          console.log(`CheckMode updated from ${checkModeValue} to ${newCheckMode}`);
+        }
       }
     });
   });
