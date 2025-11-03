@@ -1,0 +1,201 @@
+---
+/**
+ * FloatingTimer - Đồng hồ đếm ngược floating bên phải màn hình
+ * Chỉ hiển thị time, không có controls
+ */
+export interface Props {
+  initialMinutes?: number;
+  enabled?: boolean;
+}
+
+const { initialMinutes = 50, enabled = false } = Astro.props;
+const initialSeconds = initialMinutes * 60;
+---
+
+{enabled && (
+  <div class="floating-timer" id="floating-timer">
+    <div class="timer-display" data-timer-display>
+      {String(Math.floor(initialMinutes)).padStart(2, '0')}:00
+    </div>
+  </div>
+)}
+
+<script define:vars={{ initialSeconds }}>
+  (function() {
+    let remainingSeconds = initialSeconds;
+    let timerInterval = null;
+    let isPaused = false;
+    
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      
+      if (hours > 0) {
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      } else {
+        return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+    }
+    
+    function updateDisplay() {
+      const display = document.querySelector('[data-timer-display]');
+      if (display) {
+        display.textContent = formatTime(remainingSeconds);
+        
+        // Change color based on time remaining
+        const floatingTimer = document.getElementById('floating-timer');
+        if (floatingTimer) {
+          if (remainingSeconds <= 300) { // Last 5 minutes
+            floatingTimer.classList.add('timer-warning');
+          } else if (remainingSeconds <= 600) { // Last 10 minutes
+            floatingTimer.classList.add('timer-alert');
+          } else {
+            floatingTimer.classList.remove('timer-warning', 'timer-alert');
+          }
+        }
+      }
+    }
+    
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      
+      timerInterval = setInterval(() => {
+        if (!isPaused && remainingSeconds > 0) {
+          remainingSeconds--;
+          updateDisplay();
+          
+          if (remainingSeconds === 0) {
+            clearInterval(timerInterval);
+            // Dispatch time-up event
+            const event = new CustomEvent('time-up', { bubbles: true });
+            document.dispatchEvent(event);
+          }
+        }
+      }, 1000);
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const floatingTimer = document.getElementById('floating-timer');
+      if (!floatingTimer) return;
+      
+      updateDisplay();
+      startTimer();
+      
+      // Listen to timer control events
+      document.addEventListener('timer-control', (e) => {
+        const { action, value } = e.detail;
+        
+        switch (action) {
+          case 'pause':
+            isPaused = true;
+            break;
+            
+          case 'resume':
+            isPaused = false;
+            break;
+            
+          case 'reset':
+            remainingSeconds = value || initialSeconds;
+            isPaused = false;
+            updateDisplay();
+            break;
+            
+          case 'set-time':
+            remainingSeconds = value;
+            updateDisplay();
+            break;
+            
+          case 'toggle':
+            if (floatingTimer) {
+              if (value) {
+                floatingTimer.classList.remove('hidden');
+                startTimer();
+              } else {
+                floatingTimer.classList.add('hidden');
+                if (timerInterval) clearInterval(timerInterval);
+              }
+            }
+            break;
+        }
+      });
+    });
+  })();
+</script>
+
+<style>
+  .floating-timer {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+    
+    transition: all 0.3s ease;
+  }
+  
+  .floating-timer:hover {
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+  }
+  
+  .floating-timer.timer-alert {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+  }
+  
+  .floating-timer.timer-warning {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: translateY(-50%) scale(1);
+    }
+    50% {
+      transform: translateY(-50%) scale(1.08);
+    }
+  }
+  
+  .timer-display {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05em;
+    text-align: center;
+    min-width: 120px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .floating-timer {
+      right: 1rem;
+      padding: 1rem 1.25rem;
+    }
+    
+    .timer-display {
+      font-size: 1.5rem;
+      min-width: 90px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .floating-timer {
+      right: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+    
+    .timer-display {
+      font-size: 1.25rem;
+      min-width: 80px;
+    }
+  }
+</style>

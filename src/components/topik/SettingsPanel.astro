@@ -47,6 +47,7 @@ export interface Props {
   questionOrder?: 'order' | 'random';
   checkMode?: 'immediate' | 'submit';
   showVietnamese?: boolean;
+  showExplain?: boolean;
   fontSize?: 'small' | 'medium' | 'large';
   
   // Control visibility
@@ -67,6 +68,7 @@ const {
   questionOrder = 'order',
   checkMode = 'immediate',
   showVietnamese = false,
+  showExplain = true,
   fontSize = 'medium',
   showProgressBar = true
 } = Astro.props;
@@ -98,25 +100,63 @@ const {
   
   <!-- Panel content (có thể collapse trên mobile) -->
   <div class="panel-content" data-panel-content>
-    <!-- Row 1: Timer & Progress -->
+    <!-- Row 1: Timer Controls -->
     <div class="settings-row">
-      {timerEnabled && (
-        <div class="setting-group">
-          <TimerCountdown initialMinutes={timerMinutes} />
+      <div class="setting-group full-width">
+        <label class="setting-label">⏱️ Đồng hồ đếm ngược:</label>
+        <div class="timer-controls">
+          <div class="timer-toggle-group">
+            <button
+              type="button"
+              class="toggle-btn"
+              data-timer-toggle="off"
+            >
+              <span>Tắt</span>
+            </button>
+            <button
+              type="button"
+              class="toggle-btn active"
+              data-timer-toggle="on"
+            >
+              <span>Bật</span>
+            </button>
+          </div>
+          
+          <div class="timer-time-controls">
+            <button type="button" class="timer-btn" data-timer-action="minus-10">
+              <span>-10 phút</span>
+            </button>
+            <input 
+              type="number" 
+              class="timer-input" 
+              data-timer-input
+              value="50"
+              min="1"
+              max="300"
+              placeholder="50"
+            />
+            <span class="timer-unit">phút</span>
+            <button type="button" class="timer-btn" data-timer-action="plus-10">
+              <span>+10 phút</span>
+            </button>
+          </div>
+          
+          <div class="timer-action-group">
+            <button type="button" class="timer-btn-action" data-timer-action="reset">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span>Reset</span>
+            </button>
+            <button type="button" class="timer-btn-action" data-timer-action="pause">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6"></path>
+              </svg>
+              <span>Tạm dừng</span>
+            </button>
+          </div>
         </div>
-      )}
-      
-      {showProgressBar && (
-        <div class="setting-group flex-grow">
-          <ProgressBar 
-            totalQuestions={totalQuestions}
-            answeredQuestions={answeredQuestions}
-            correctAnswers={correctAnswers}
-            wrongAnswers={wrongAnswers}
-            bookmarkedCount={bookmarkedCount}
-          />
-        </div>
-      )}
+      </div>
     </div>
     
     <!-- Row 2: Exam Filter (if multiple exams) -->
@@ -193,7 +233,7 @@ const {
     <div class="settings-row">
       <!-- Check Mode -->
       <div class="setting-group">
-        <label class="setting-label">Kiểm tra:</label>
+        <label class="setting-label">Kiểm tra đáp án:</label>
         <div class="toggle-group" role="group">
           <button
             type="button"
@@ -222,7 +262,7 @@ const {
       
       <!-- Vietnamese Translation -->
       <div class="setting-group">
-        <label class="setting-label">Bản dịch:</label>
+        <label class="setting-label">Dịch câu hỏi:</label>
         <div class="toggle-group" role="group">
           <button
             type="button"
@@ -244,8 +284,31 @@ const {
       </div>
     </div>
     
-    <!-- Row 5: Font Size & Reset -->
+    <!-- Row 5: Explain & Font Size -->
     <div class="settings-row">
+      <!-- Show Explain -->
+      <div class="setting-group">
+        <label class="setting-label">Giải thích:</label>
+        <div class="toggle-group" role="group">
+          <button
+            type="button"
+            class={`toggle-btn ${!showExplain ? 'active' : ''}`}
+            data-setting="showExplain"
+            data-value="false"
+          >
+            <span>Ẩn</span>
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn ${showExplain ? 'active' : ''}`}
+            data-setting="showExplain"
+            data-value="true"
+          >
+            <span>Hiện</span>
+          </button>
+        </div>
+      </div>
+      
       <!-- Font Size -->
       <div class="setting-group">
         <label class="setting-label">Cỡ chữ:</label>
@@ -279,20 +342,20 @@ const {
           </button>
         </div>
       </div>
-      
-      <!-- Reset Button -->
-      <div class="setting-group">
-        <button
-          type="button"
-          class="reset-btn"
-          data-reset-btn
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span>Làm lại</span>
-        </button>
-      </div>
+    </div>
+    
+    <!-- Reset Button - Full Width at Bottom -->
+    <div class="mt-6 pt-4 border-t-2 border-gray-200">
+      <button
+        type="button"
+        class="reset-btn-new"
+        data-reset-btn
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <span>Làm lại bài tập</span>
+      </button>
     </div>
   </div>
 </div>
@@ -463,6 +526,133 @@ const {
   .reset-btn:active {
     transform: translateY(0);
   }
+  
+  /* New Reset Button - Full Width */
+  .reset-btn-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  }
+
+  .reset-btn-new:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  }
+
+  .reset-btn-new:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  }
+  
+  /* Timer Controls */
+  .timer-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .timer-toggle-group {
+    display: inline-flex;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .timer-time-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .timer-input {
+    width: 80px;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+  
+  .timer-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+  
+  .timer-unit {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+  }
+  
+  .timer-btn {
+    padding: 0.5rem 0.875rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .timer-btn:hover {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+  }
+  
+  .timer-action-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .timer-btn-action {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.625rem 1rem;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+  }
+  
+  .timer-btn-action:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+  }
+  
+  .timer-btn-action.paused {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  }
+  
+  .timer-btn-action.paused:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  }
 
   /* Responsive */
   @media (max-width: 1024px) {
@@ -578,5 +768,108 @@ const {
         }
       });
     }
+    
+    // Timer controls
+    let timerMinutes = 50;
+    let isPaused = false;
+    let timerEnabled = false;
+    
+    const timerInput = panel.querySelector('[data-timer-input]') as HTMLInputElement;
+    const timerToggleBtns = panel.querySelectorAll('[data-timer-toggle]');
+    const pauseBtn = panel.querySelector('[data-timer-action="pause"]');
+    
+    // Timer toggle (on/off)
+    timerToggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const value = btn.getAttribute('data-timer-toggle');
+        timerEnabled = value === 'on';
+        
+        // Update active state
+        timerToggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Dispatch event to FloatingTimer
+        const event = new CustomEvent('timer-control', {
+          detail: { action: 'toggle', value: timerEnabled },
+          bubbles: true
+        });
+        document.dispatchEvent(event);
+      });
+    });
+    
+    // Timer action buttons
+    const timerActionBtns = panel.querySelectorAll('[data-timer-action]');
+    timerActionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.getAttribute('data-timer-action');
+        
+        switch (action) {
+          case 'minus-10':
+            timerMinutes = Math.max(1, timerMinutes - 10);
+            if (timerInput) timerInput.value = String(timerMinutes);
+            dispatchTimerControl('set-time', timerMinutes * 60);
+            break;
+            
+          case 'plus-10':
+            timerMinutes = Math.min(300, timerMinutes + 10);
+            if (timerInput) timerInput.value = String(timerMinutes);
+            dispatchTimerControl('set-time', timerMinutes * 60);
+            break;
+            
+          case 'reset':
+            const currentTime = timerInput ? parseInt(timerInput.value) : 50;
+            dispatchTimerControl('reset', currentTime * 60);
+            isPaused = false;
+            updatePauseButton();
+            break;
+            
+          case 'pause':
+            isPaused = !isPaused;
+            dispatchTimerControl(isPaused ? 'pause' : 'resume', undefined);
+            updatePauseButton();
+            break;
+        }
+      });
+    });
+    
+    // Timer input change
+    if (timerInput) {
+      timerInput.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const value = parseInt(target.value);
+        if (value >= 1 && value <= 300) {
+          timerMinutes = value;
+          dispatchTimerControl('set-time', value * 60);
+        } else {
+          target.value = String(timerMinutes);
+        }
+      });
+    }
+    
+    function dispatchTimerControl(action: string, value?: number) {
+      const event = new CustomEvent('timer-control', {
+        detail: { action, value },
+        bubbles: true
+      });
+      document.dispatchEvent(event);
+    }
+    
+    function updatePauseButton() {
+      if (pauseBtn) {
+        const spanEl = pauseBtn.querySelector('span');
+        const svgPath = pauseBtn.querySelector('svg path');
+        
+        if (isPaused) {
+          pauseBtn.classList.add('paused');
+          if (spanEl) spanEl.textContent = 'Tiếp tục';
+          if (svgPath) svgPath.setAttribute('d', 'M5 3l14 9-14 9V3z'); // Play icon
+        } else {
+          pauseBtn.classList.remove('paused');
+          if (spanEl) spanEl.textContent = 'Tạm dừng';
+          if (svgPath) svgPath.setAttribute('d', 'M10 9v6m4-6v6'); // Pause icon
+        }
+      }
+    }
   });
 </script>
+

@@ -148,6 +148,7 @@ const {
     let isCorrect = null;
     let showVietnamese = showVietnameseDefaultValue;
     let isSubmitted = false; // For submit mode
+    let showExplain = true; // Default show explain
     
     // Helper to get current checkMode from container (can be updated dynamically)
     function getCurrentCheckMode() {
@@ -290,6 +291,11 @@ const {
           .join('');
         feedbackExplain.innerHTML = htmlText;
         feedbackExplain.className = 'feedback-explain mt-2 text-sm text-gray-700';
+        
+        // Hide explain if showExplain is false
+        if (!showExplain) {
+          feedbackExplain.classList.add('hidden');
+        }
       }
     } else {
       // Chọn sai
@@ -327,6 +333,11 @@ const {
           .join('');
         feedbackExplain.innerHTML = htmlText;
         feedbackExplain.className = 'feedback-explain mt-2 text-sm text-red-700';
+        
+        // Hide explain if showExplain is false
+        if (!showExplain) {
+          feedbackExplain.classList.add('hidden');
+        }
       }
     }
   }
@@ -458,15 +469,33 @@ const {
     
     // Listen to reset event
     container.addEventListener('reset-question', () => {
+      // Reset state
       selectedIndex = null;
       isCorrect = null;
       isSubmitted = false;
       
-      updateChoiceList(null);
+      // Reset choice list visual - remove all colors and selection
+      const choiceListContainer = container.querySelector('[data-choice-list-container]');
+      const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+      const choiceItems = choiceList?.querySelectorAll('.choice-item');
       
+      if (choiceItems) {
+        choiceItems.forEach(item => {
+          // Reset to default state
+          item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+          item.classList.add('border-gray-200', 'hover:border-blue-400');
+          item.style.opacity = '1';
+        });
+      }
+      
+      // Hide feedback area
       const feedbackArea = container.querySelector('[data-feedback-area]');
       if (feedbackArea) {
         feedbackArea.classList.add('hidden');
+        const feedbackMessage = feedbackArea.querySelector('.feedback-message');
+        const feedbackExplain = feedbackArea.querySelector('.feedback-explain');
+        if (feedbackMessage) feedbackMessage.textContent = '';
+        if (feedbackExplain) feedbackExplain.innerHTML = '';
       }
     });
     
@@ -497,6 +526,18 @@ const {
         } else {
           vietnameseDiv.classList.add('hidden');
           toggleBtn.textContent = 'Hiện dịch';
+        }
+      }
+      
+      if (setting === 'showExplain') {
+        showExplain = value;
+        const feedbackExplain = container.querySelector('.feedback-explain');
+        if (feedbackExplain) {
+          if (value) {
+            feedbackExplain.classList.remove('hidden');
+          } else {
+            feedbackExplain.classList.add('hidden');
+          }
         }
       }
       

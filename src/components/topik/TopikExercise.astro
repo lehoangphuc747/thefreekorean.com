@@ -59,6 +59,7 @@ import ReadingQuestion from './ReadingQuestion.astro';
 import SettingsPanel from './SettingsPanel.astro';
 import QuizNavigator from './QuizNavigator.astro';
 import ProgressBar from './ProgressBar.astro';
+import FloatingTimer from './FloatingTimer.astro';
 
 export interface Props {
   slug: string;
@@ -146,8 +147,8 @@ const examsList = exams.map(exam => {
 const totalQuestionsCount = questions.length;
 
 // Tính timer duration dựa vào meta (nếu có)
-const timerMinutes = meta?.duration || 15; // Default 15 phút
-const timerEnabled = true;
+const timerMinutes = meta?.duration || 50; // Default 50 phút (TOPIK standard)
+const timerEnabled = false; // Default off
 ---
 
 <!-- Progress Bar - Fixed ở đầu page, ngay dưới navbar -->
@@ -160,6 +161,12 @@ const timerEnabled = true;
     bookmarkedCount={0}
   />
 </div>
+
+<!-- Floating Timer - Fixed bên phải màn hình -->
+<FloatingTimer 
+  initialMinutes={timerMinutes}
+  enabled={timerEnabled}
+/>
 
 <div class="max-w-7xl mx-auto px-4 py-12" style="margin-top: 2rem;">
   {isValid ? (
@@ -419,6 +426,7 @@ const timerEnabled = true;
       questionOrder: 'order',
       checkMode: 'immediate',
       showVietnamese: false,
+      showExplain: true,
       fontSize: 'medium',
       
       // Navigation
@@ -923,6 +931,14 @@ const timerEnabled = true;
       document.dispatchEvent(event);
     }
     
+    function toggleExplainGlobal(show) {
+      // Dispatch event to all questions
+      const event = new CustomEvent('settings-change', {
+        detail: { setting: 'showExplain', value: show }
+      });
+      document.dispatchEvent(event);
+    }
+    
     // ============================================================================
     // EVENT HANDLERS
     // ============================================================================
@@ -959,6 +975,11 @@ const timerEnabled = true;
           toggleVietnameseGlobal(value);
           break;
           
+        case 'showExplain':
+          state.showExplain = value;
+          toggleExplainGlobal(value);
+          break;
+          
         case 'fontSize':
           state.fontSize = value;
           applyFontSize(value);
@@ -971,7 +992,7 @@ const timerEnabled = true;
     function handleReset() {
       console.log('Resetting exercise...');
       
-      // Clear answers
+      // Clear answers and stats
       state.userAnswers = {};
       state.correctAnswers = {};
       state.wrongQuestions.clear();
@@ -980,27 +1001,39 @@ const timerEnabled = true;
       state.wrongCount = 0;
       
       // Keep bookmarks (intentionally)
-      saveToLocalStorage();
+      // But clear answers from localStorage
+      try {
+        localStorage.removeItem(`topik-wrong-${slug}`);
+        localStorage.setItem(`topik-bookmarks-${slug}`, 
+          JSON.stringify([...state.bookmarkedQuestions]));
+      } catch (e) {
+        console.error('Error clearing localStorage:', e);
+      }
       
-      // Reset UI
+      // Update ProgressBar immediately
+      updateProgressBar();
+      
+      // Reset UI - dispatch reset event to all questions
       const container = document.getElementById('questions-container');
       if (container) {
-        // Remove all answered states
         const questions = container.querySelectorAll('[data-unique-question-id]');
         questions.forEach(q => {
-          // Reset question state (this will need to be implemented in ReadingQuestion)
           const resetEvent = new CustomEvent('reset-question', { bubbles: true });
           q.dispatchEvent(resetEvent);
         });
       }
       
+      // Reset submit button if in submit mode
+      const submitBtn = document.getElementById('submit-all-btn');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🎯 Nộp bài và xem kết quả';
+        submitBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        submitBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+      }
+      
       // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      
-      // Reload page to reset everything
-      setTimeout(() => {
-        location.reload();
-      }, 500);
     }
     
     // ============================================================================

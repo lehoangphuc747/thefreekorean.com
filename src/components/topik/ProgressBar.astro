@@ -37,8 +37,13 @@ const {
 const unanswered = totalQuestions - answeredQuestions;
 const answeredPercent = totalQuestions > 0 ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
 const correctPercent = answeredQuestions > 0 ? Math.round((correctAnswers / answeredQuestions) * 100) : 0;
+
+// Segments for progress bar
 const correctBarWidth = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0;
 const wrongBarWidth = totalQuestions > 0 ? (wrongAnswers / totalQuestions) * 100 : 0;
+// Selected but not yet graded (answered - correct - wrong) = blue segment
+const selectedNotGraded = answeredQuestions - correctAnswers - wrongAnswers;
+const selectedBarWidth = totalQuestions > 0 ? (selectedNotGraded / totalQuestions) * 100 : 0;
 const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 100 : 0;
 ---
 
@@ -58,6 +63,14 @@ const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 
       style={`width: ${wrongBarWidth}%; left: ${correctBarWidth}%`}
       title={`${wrongAnswers} câu sai`}
       data-wrong-segment
+    ></div>
+    
+    <!-- Selected but not graded segment (blue) - for submit mode -->
+    <div 
+      class="progress-segment progress-selected" 
+      style={`width: ${selectedBarWidth}%; left: ${correctBarWidth + wrongBarWidth}%`}
+      title={`${selectedNotGraded} câu đã chọn`}
+      data-selected-segment
     ></div>
   </div>
   
@@ -79,14 +92,17 @@ const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 
     
     const correctSegment = wrapper.querySelector('[data-correct-segment]') as HTMLElement;
     const wrongSegment = wrapper.querySelector('[data-wrong-segment]') as HTMLElement;
+    const selectedSegment = wrapper.querySelector('[data-selected-segment]') as HTMLElement;
     const countEl = wrapper.querySelector('[data-progress-count]');
     const percentEl = wrapper.querySelector('[data-progress-percent]');
     
-    if (!correctSegment || !wrongSegment || !countEl || !percentEl) return;
+    if (!correctSegment || !wrongSegment || !selectedSegment || !countEl || !percentEl) return;
     
     // Calculate percentages
     const correctWidth = total > 0 ? (correctCount / total) * 100 : 0;
     const wrongWidth = total > 0 ? (wrongCount / total) * 100 : 0;
+    const selectedNotGraded = answeredCount - correctCount - wrongCount;
+    const selectedWidth = total > 0 ? (selectedNotGraded / total) * 100 : 0;
     const answeredPercent = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
     
     // Update segments
@@ -96,6 +112,10 @@ const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 
     wrongSegment.style.width = `${wrongWidth}%`;
     wrongSegment.style.left = `${correctWidth}%`;
     wrongSegment.title = `${wrongCount} câu sai`;
+    
+    selectedSegment.style.width = `${selectedWidth}%`;
+    selectedSegment.style.left = `${correctWidth + wrongWidth}%`;
+    selectedSegment.title = `${selectedNotGraded} câu đã chọn`;
     
     // Update text
     countEl.textContent = `${answeredCount}/${total}`;
@@ -132,6 +152,10 @@ const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 
 
   .progress-wrong {
     background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+  }
+  
+  .progress-selected {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
   }
 
   /* Progress text overlay */
