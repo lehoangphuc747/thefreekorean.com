@@ -1,19 +1,20 @@
 ---
 /**
- * Component ExamFilter - Lọc câu hỏi theo kỳ thi
+ * Component ExamFilter - Lọc câu hỏi theo kỳ thi (Standalone)
  * 
  * Chức năng:
- * - Dropdown hoặc button group để chọn kỳ thi
- * - Option "Tất cả kỳ thi" + các kỳ thi riêng lẻ
- * - Hiển thị số lượng câu hỏi cho mỗi kỳ thi
- * - Active state cho lựa chọn hiện tại
+ * - Search box để tìm kiếm kỳ thi
+ * - Chọn nhiều kỳ thi cùng lúc (multiple selection)
+ * - Hiển thị kỳ thi đã chọn dưới dạng tag pills
+ * - Click X để xóa kỳ thi khỏi filter
+ * - Tự động filter danh sách khi search
  * 
  * Props:
  * - exams: Array<{ name: string, count: number }> - Danh sách kỳ thi và số câu
- * - selectedExam: string - Kỳ thi đang chọn ('all' hoặc tên kỳ thi)
+ * - selectedExams: string[] - Danh sách kỳ thi đang chọn
  * 
  * Events:
- * - exam-change: { exam: string } - Khi chọn kỳ thi mới
+ * - exam-change: { exams: string[] } - Khi danh sách kỳ thi thay đổi
  */
 
 export interface ExamInfo {
@@ -23,188 +24,559 @@ export interface ExamInfo {
 
 export interface Props {
   exams: ExamInfo[];
-  selectedExam?: string;
+  selectedExams?: string[];
 }
 
-const { exams, selectedExam = 'all' } = Astro.props;
+const { exams, selectedExams = [] } = Astro.props;
 
 const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
-const hasMultipleExams = exams.length > 1;
 ---
 
-{hasMultipleExams && (
-  <div class="exam-filter">
-    <div class="filter-header">
+<div class="exam-filter-container">
+  <div class="exam-filter-header">
+    <div class="filter-header-left">
       <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
       </svg>
-      <span class="filter-label">Lọc theo kỳ thi:</span>
+      <h3 class="filter-title">Lọc theo kỳ thi</h3>
     </div>
     
-    <div class="filter-options" role="group">
-      <!-- All exams option -->
-      <button
-        type="button"
-        class={`filter-btn ${selectedExam === 'all' ? 'active' : ''}`}
-        data-exam="all"
-      >
-        <span class="filter-text">Tất cả</span>
-        <span class="filter-count">{totalCount}</span>
-      </button>
-      
-      <!-- Individual exam options -->
-      {exams.map((exam) => (
-        <button
-          type="button"
-          class={`filter-btn ${selectedExam === exam.name ? 'active' : ''}`}
-          data-exam={exam.name}
-        >
-          <span class="filter-text">{exam.name.toUpperCase()}</span>
-          <span class="filter-count">{exam.count}</span>
-        </button>
-      ))}
-    </div>
+    <!-- Collapse toggle button -->
+    <button 
+      type="button" 
+      class="exam-filter-collapse-btn"
+      data-exam-filter-collapse-toggle
+      aria-label="Toggle exam filter"
+    >
+      <svg class="exam-filter-collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
   </div>
-)}
+  
+  <!-- Filter Content (collapsible) -->
+  <div class="exam-filter-content" data-exam-filter-content>
+  <!-- Search Box -->
+  <div class="search-box">
+    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+    <input 
+      type="text" 
+      class="search-input" 
+      placeholder="Tìm kiếm kỳ thi..."
+      data-search-input
+    />
+  </div>
+  
+  <!-- Selected Tags -->
+  <div class="selected-tags" data-selected-tags>
+    {selectedExams.length > 0 && selectedExams.map((exam) => {
+      const examInfo = exams.find(e => e.name === exam);
+      return (
+        <div class="tag-pill" data-exam-tag={exam}>
+          <span class="tag-text">{exam.toUpperCase()}</span>
+          <span class="tag-count">{examInfo?.count || 0}</span>
+          <button class="tag-remove" data-remove-exam={exam} aria-label={`Xóa ${exam}`}>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      );
+    })}
+  </div>
+  
+  <!-- Exam List -->
+  <div class="exam-list" data-exam-list>
+    <div class="exam-item" data-exam-item="all">
+      <label class="exam-label">
+        <input 
+          type="checkbox" 
+          class="exam-checkbox"
+          data-exam-checkbox="all"
+          checked={selectedExams.length === 0}
+        />
+        <span class="exam-name">Tất cả kỳ thi</span>
+        <span class="exam-count">{totalCount} câu</span>
+      </label>
+    </div>
+    
+    {exams.map((exam) => (
+      <div class="exam-item" data-exam-item={exam.name}>
+        <label class="exam-label">
+          <input 
+            type="checkbox" 
+            class="exam-checkbox"
+            data-exam-checkbox={exam.name}
+            checked={selectedExams.includes(exam.name)}
+          />
+          <span class="exam-name">{exam.name.toUpperCase()}</span>
+          <span class="exam-count">{exam.count} câu</span>
+        </label>
+      </div>
+    ))}
+  </div>
+  </div>
+</div>
 
 <style>
-  .exam-filter {
+  .exam-filter-container {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    transition: padding 0.3s ease;
+  }
+  
+  /* Compact padding when collapsed */
+  .exam-filter-container.collapsed {
+    padding: 1rem 1.5rem;
+  }
+
+  .exam-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    transition: margin-bottom 0.3s ease;
+  }
+  
+  /* Remove margin when collapsed */
+  .exam-filter-container.collapsed .exam-filter-header {
+    margin-bottom: 0;
+  }
+  
+  .filter-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .filter-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .exam-filter-collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
     background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  }
-
-  .filter-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .filter-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #374151;
-  }
-
-  .filter-options {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    background: #f9fafb;
-    border: 2px solid #e5e7eb;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
   }
-
-  .filter-btn:hover {
-    background: #f3f4f6;
-    border-color: #d1d5db;
-    transform: translateY(-2px);
+  
+  .exam-filter-collapse-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+  
+  .exam-filter-collapse-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #64748b;
+    transition: transform 0.3s ease;
+  }
+  
+  .exam-filter-collapse-btn.collapsed .exam-filter-collapse-icon {
+    transform: rotate(-180deg);
+  }
+  
+  .exam-filter-content {
+    transition: all 0.3s ease;
+  }
+  
+  .exam-filter-content.collapsed {
+    display: none;
   }
 
-  .filter-btn.active {
+  /* Search Box */
+  .search-box {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #94a3b8;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    background: white;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  /* Selected Tags */
+  .selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    min-height: 2rem;
+  }
+
+  .selected-tags:empty {
+    display: none;
+  }
+
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
     background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    border-color: #3b82f6;
+    border: 2px solid #3b82f6;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
     color: #1e40af;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.15);
   }
 
-  .filter-btn.active:hover {
-    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
-    border-color: #2563eb;
-  }
-
-  .filter-text {
+  .tag-text {
     font-size: 0.875rem;
   }
 
-  .filter-count {
+  .tag-count {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-width: 1.5rem;
-    padding: 0.125rem 0.5rem;
-    background: #e5e7eb;
+    padding: 0.125rem 0.375rem;
+    background: #3b82f6;
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 700;
-    color: #6b7280;
+    color: white;
   }
 
-  .filter-btn.active .filter-count {
-    background: #3b82f6;
+  .tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: #1e40af;
+    border: none;
+    border-radius: 9999px;
     color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tag-remove:hover {
+    background: #1e3a8a;
+    transform: scale(1.1);
+  }
+
+  /* Exam List */
+  .exam-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 10px;
+  }
+
+  .exam-item {
+    transition: all 0.2s ease;
+  }
+
+  .exam-item.hidden {
+    display: none;
+  }
+
+  .exam-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .exam-label:hover {
+    background: #f8fafc;
+  }
+
+  .exam-checkbox {
+    width: 1.125rem;
+    height: 1.125rem;
+    cursor: pointer;
+    accent-color: #6366f1;
+  }
+
+  .exam-name {
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .exam-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
   }
 
   /* Responsive */
   @media (max-width: 640px) {
-    .exam-filter {
-      padding: 0.875rem 1rem;
+    .exam-filter-container {
+      padding: 1rem;
     }
 
-    .filter-header {
-      margin-bottom: 0.625rem;
+    .filter-title {
+      font-size: 0.9375rem;
     }
 
-    .filter-label {
-      font-size: 0.8125rem;
-    }
-
-    .filter-btn {
-      padding: 0.5rem 0.75rem;
-      gap: 0.375rem;
-    }
-
-    .filter-text {
-      font-size: 0.8125rem;
-    }
-
-    .filter-count {
-      min-width: 1.25rem;
-      padding: 0.125rem 0.375rem;
-      font-size: 0.6875rem;
+    .exam-list {
+      max-height: 250px;
     }
   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const filter = document.querySelector('.exam-filter');
-    if (!filter) return;
-    
-    const buttons = filter.querySelectorAll('[data-exam]');
-    
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const exam = btn.getAttribute('data-exam');
-        if (!exam) return;
-        
-        // Remove active class from all buttons
-        buttons.forEach(b => b.classList.remove('active'));
-        
-        // Add active class to clicked button
-        btn.classList.add('active');
-        
-        // Emit event
-        const event = new CustomEvent('exam-change', {
-          detail: { exam },
-          bubbles: true
-        });
-        filter.dispatchEvent(event);
+  interface ExamChangeEvent extends CustomEvent {
+    detail: {
+      exams: string[];
+    };
+  }
+
+  class ExamFilterManager {
+    private container: HTMLElement;
+    private searchInput: HTMLInputElement;
+    private selectedTagsContainer: HTMLElement;
+    private allCheckbox: HTMLInputElement;
+    private examCheckboxes: NodeListOf<HTMLInputElement>;
+    private examItems: NodeListOf<HTMLElement>;
+    private selectedExams: Set<string>;
+    private allExams: Map<string, number>; // name -> count
+
+    constructor(container: HTMLElement) {
+      this.container = container;
+      this.searchInput = container.querySelector('[data-search-input]')!;
+      this.selectedTagsContainer = container.querySelector('[data-selected-tags]')!;
+      this.allCheckbox = container.querySelector('[data-exam-checkbox="all"]')!;
+      this.examCheckboxes = container.querySelectorAll('[data-exam-checkbox]:not([data-exam-checkbox="all"])');
+      this.examItems = container.querySelectorAll('.exam-item');
+      
+      // Initialize selected exams from props
+      this.selectedExams = new Set();
+      const initialTags = container.querySelectorAll('[data-exam-tag]');
+      initialTags.forEach(tag => {
+        const examName = tag.getAttribute('data-exam-tag');
+        if (examName) this.selectedExams.add(examName);
       });
-    });
+
+      // Build exam map
+      this.allExams = new Map();
+      this.examCheckboxes.forEach(checkbox => {
+        const name = checkbox.getAttribute('data-exam-checkbox')!;
+        const item = checkbox.closest('.exam-item');
+        const countEl = item?.querySelector('.exam-count');
+        const count = countEl ? parseInt(countEl.textContent || '0') : 0;
+        this.allExams.set(name, count);
+      });
+
+      this.init();
+    }
+
+    private init() {
+      // Search functionality
+      this.searchInput.addEventListener('input', () => this.handleSearch());
+
+      // All checkbox
+      this.allCheckbox.addEventListener('change', () => this.handleAllCheckbox());
+
+      // Individual checkboxes
+      this.examCheckboxes.forEach(checkbox => {
+        const examName = checkbox.getAttribute('data-exam-checkbox')!;
+        
+        // Set initial checked state
+        checkbox.checked = this.selectedExams.has(examName);
+        
+        checkbox.addEventListener('change', () => this.handleCheckboxChange(examName, checkbox.checked));
+      });
+
+      // Remove tag buttons
+      this.updateTagButtons();
+
+      // Update all checkbox state
+      this.updateAllCheckboxState();
+    }
+
+    private handleSearch() {
+      const query = this.searchInput.value.toLowerCase().trim();
+      
+      this.examItems.forEach(item => {
+        const checkbox = item.querySelector('[data-exam-checkbox]') as HTMLInputElement;
+        if (!checkbox || checkbox.getAttribute('data-exam-checkbox') === 'all') return;
+        
+        const examName = checkbox.getAttribute('data-exam-checkbox')!.toLowerCase();
+        const matches = examName.includes(query);
+        
+        item.classList.toggle('hidden', !matches);
+      });
+    }
+
+    private handleAllCheckbox() {
+      if (this.allCheckbox.checked) {
+        // Deselect all
+        this.selectedExams.clear();
+        this.examCheckboxes.forEach(cb => cb.checked = false);
+        this.allCheckbox.checked = true;
+      }
+      
+      this.updateTags();
+      this.dispatchChangeEvent();
+    }
+
+    private handleCheckboxChange(examName: string, checked: boolean) {
+      if (checked) {
+        this.selectedExams.add(examName);
+        // Uncheck "all" if it was checked
+        this.allCheckbox.checked = false;
+      } else {
+        this.selectedExams.delete(examName);
+      }
+
+      this.updateAllCheckboxState();
+      this.updateTags();
+      this.dispatchChangeEvent();
+    }
+
+    private updateAllCheckboxState() {
+      // "All" should be checked only if no exams are selected
+      if (this.selectedExams.size === 0) {
+        this.allCheckbox.checked = true;
+      }
+    }
+
+    private handleRemoveTag(examName: string) {
+      this.selectedExams.delete(examName);
+      
+      // Uncheck the checkbox
+      const checkbox = this.container.querySelector(`[data-exam-checkbox="${examName}"]`) as HTMLInputElement;
+      if (checkbox) checkbox.checked = false;
+
+      this.updateAllCheckboxState();
+      this.updateTags();
+      this.dispatchChangeEvent();
+    }
+
+    private updateTags() {
+      // Clear existing tags
+      this.selectedTagsContainer.innerHTML = '';
+
+      // Create tag pills for selected exams
+      this.selectedExams.forEach(examName => {
+        const count = this.allExams.get(examName) || 0;
+        
+        const pill = document.createElement('div');
+        pill.className = 'tag-pill';
+        pill.setAttribute('data-exam-tag', examName);
+        
+        pill.innerHTML = `
+          <span class="tag-text">${examName}</span>
+          <span class="tag-count">${count}</span>
+          <button class="tag-remove" data-remove-exam="${examName}" type="button" aria-label="Remove ${examName}">×</button>
+        `;
+        
+        this.selectedTagsContainer.appendChild(pill);
+      });
+
+      // Update remove button listeners
+      this.updateTagButtons();
+    }
+
+    private updateTagButtons() {
+      const removeButtons = this.selectedTagsContainer.querySelectorAll('[data-remove-exam]');
+      removeButtons.forEach(btn => {
+        const examName = btn.getAttribute('data-remove-exam')!;
+        btn.addEventListener('click', () => this.handleRemoveTag(examName));
+      });
+    }
+
+    private dispatchChangeEvent() {
+      const exams = this.selectedExams.size > 0 ? Array.from(this.selectedExams) : [];
+      
+      const event: ExamChangeEvent = new CustomEvent('exam-change', {
+        detail: { exams },
+        bubbles: true,
+      });
+      
+      this.container.dispatchEvent(event);
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.exam-filter-container') as HTMLElement;
+    if (container) {
+      new ExamFilterManager(container);
+      
+      // Handle exam filter collapse toggle
+      const collapseToggle = container.querySelector('[data-exam-filter-collapse-toggle]');
+      const filterContent = container.querySelector('[data-exam-filter-content]');
+      
+      if (collapseToggle && filterContent) {
+        collapseToggle.addEventListener('click', () => {
+          collapseToggle.classList.toggle('collapsed');
+          filterContent.classList.toggle('collapsed');
+          container.classList.toggle('collapsed');
+        });
+      }
+    }
+  });
+
+  // Re-initialize after navigation (for Astro view transitions)
+  document.addEventListener('astro:page-load', () => {
+    const container = document.querySelector('.exam-filter-container') as HTMLElement;
+    if (container) {
+      new ExamFilterManager(container);
+      
+      // Handle exam filter collapse toggle
+      const collapseToggle = container.querySelector('[data-exam-filter-collapse-toggle]');
+      const filterContent = container.querySelector('[data-exam-filter-content]');
+      
+      if (collapseToggle && filterContent) {
+        collapseToggle.addEventListener('click', () => {
+          collapseToggle.classList.toggle('collapsed');
+          filterContent.classList.toggle('collapsed');
+          container.classList.toggle('collapsed');
+        });
+      }
+    }
   });
 </script>

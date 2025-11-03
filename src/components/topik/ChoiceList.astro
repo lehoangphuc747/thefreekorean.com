@@ -99,40 +99,81 @@ const shuffledAnswerIndex = originalIndices.findIndex((origIdx) => origIdx === a
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Lấy tất cả choice lists (vì có thể có nhiều câu hỏi)
-    const allChoiceLists = document.querySelectorAll('[data-choice-list]');
+  // Hàm khởi tạo choice list
+  function initializeChoiceList(choiceList) {
+    if (!choiceList || choiceList.hasAttribute('data-initialized')) return;
     
-    allChoiceLists.forEach((choiceList) => {
-      const choiceItems = choiceList.querySelectorAll('.choice-item');
-      let isDisabled = false;
-      
-      choiceItems.forEach((item) => {
-        item.addEventListener('click', function() {
-          // Kiểm tra xem đã disabled chưa (đã chọn rồi)
-          if (isDisabled) return;
-          if (this.style.pointerEvents === 'none') return;
-          if (this.hasAttribute('data-disabled')) return;
-          
-          const index = parseInt(this.getAttribute('data-choice-index') || '0');
-          
-          // Mark as disabled ngay lập tức để tránh double click
-          isDisabled = true;
-          choiceItems.forEach((choice) => {
-            choice.setAttribute('data-disabled', 'true');
-          });
-          
-          // Emit custom event để component cha nhận
-          const event = new CustomEvent('choice-select', { 
-            detail: { index },
-            bubbles: true,
-            cancelable: true
-          });
-          choiceList.dispatchEvent(event);
+    choiceList.setAttribute('data-initialized', 'true');
+    
+    const choiceItems = choiceList.querySelectorAll('.choice-item');
+    let isDisabled = false;
+    
+    choiceItems.forEach((item) => {
+      item.addEventListener('click', function(e) {
+        // Kiểm tra xem đã disabled chưa (đã chọn rồi)
+        if (isDisabled) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        if (this.style.pointerEvents === 'none') {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        if (this.hasAttribute('data-disabled')) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        
+        const index = parseInt(this.getAttribute('data-choice-index') || '0');
+        
+        console.log('Choice clicked:', index);
+        
+        // Mark as disabled ngay lập tức để tránh double click
+        isDisabled = true;
+        choiceItems.forEach((choice) => {
+          choice.setAttribute('data-disabled', 'true');
         });
+        
+        // Emit custom event để component cha nhận
+        const event = new CustomEvent('choice-select', { 
+          detail: { index },
+          bubbles: true,
+          cancelable: true
+        });
+        choiceList.dispatchEvent(event);
       });
     });
+  }
+  
+  // Initialize on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const allChoiceLists = document.querySelectorAll('[data-choice-list]');
+    allChoiceLists.forEach((choiceList) => {
+      initializeChoiceList(choiceList);
+    });
   });
+  
+  // Re-initialize for Astro view transitions
+  document.addEventListener('astro:page-load', () => {
+    const allChoiceLists = document.querySelectorAll('[data-choice-list]');
+    allChoiceLists.forEach((choiceList) => {
+      initializeChoiceList(choiceList);
+    });
+  });
+  
+  // Initialize immediately for any existing elements (fallback)
+  if (document.readyState === 'loading') {
+    // Wait for DOMContentLoaded
+  } else {
+    // DOM is already ready
+    const allChoiceLists = document.querySelectorAll('[data-choice-list]');
+    allChoiceLists.forEach((choiceList) => {
+      initializeChoiceList(choiceList);
+    });
+  }
 </script>
 
 <style>

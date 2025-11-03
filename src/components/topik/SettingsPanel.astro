@@ -3,28 +3,26 @@
  * Component SettingsPanel - Panel tổng hợp tất cả cài đặt cho bài luyện tập TOPIK
  * 
  * Chức năng:
- * - Tích hợp các component con: TimerCountdown, ProgressBar, ExamFilter
+ * - Tích hợp các component con: ProgressBar
  * - Các toggle buttons cho settings:
- *   + Display mode: All questions vs Quiz mode (từng câu)
  *   + Question order: Sequential vs Random
  *   + Check mode: Immediate vs Submit
  *   + Vietnamese translation: Show/Hide by default
+ *   + Explain: Show/Hide explanation
  *   + Font size: Small/Medium/Large
  * - Reset button với confirm dialog
  * - Collapsible trên mobile để tiết kiệm không gian
  * - Emit events cho parent component xử lý
  * 
  * Props:
- * - Từ parent component để hiển thị stats và timer
+ * - Từ parent component để hiển thị stats
  * 
  * Events:
  * - settings-change: { setting, value } - Khi thay đổi bất kỳ setting nào
  * - reset-exercise: Khi click nút reset
  */
 
-import TimerCountdown from './TimerCountdown.astro';
 import ProgressBar from './ProgressBar.astro';
-import ExamFilter from './ExamFilter.astro';
 
 export interface Props {
   // Progress stats
@@ -34,16 +32,7 @@ export interface Props {
   wrongAnswers: number;
   bookmarkedCount?: number;
   
-  // Exam filter
-  exams: Array<{ name: string; count: number }>;
-  selectedExam?: string;
-  
-  // Timer
-  timerMinutes?: number;
-  timerEnabled?: boolean;
-  
   // Current settings (để hiển thị active state)
-  displayMode?: 'all' | 'quiz';
   questionOrder?: 'order' | 'random';
   checkMode?: 'immediate' | 'submit';
   showVietnamese?: boolean;
@@ -60,11 +49,6 @@ const {
   correctAnswers,
   wrongAnswers,
   bookmarkedCount = 0,
-  exams,
-  selectedExam = 'all',
-  timerMinutes = 15,
-  timerEnabled = true,
-  displayMode = 'all',
   questionOrder = 'order',
   checkMode = 'immediate',
   showVietnamese = false,
@@ -75,7 +59,7 @@ const {
 ---
 
 <div class="settings-panel" data-settings-panel>
-  <!-- Header với toggle collapse (mobile) -->
+  <!-- Header với toggle collapse -->
   <div class="panel-header">
     <div class="header-title">
       <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,11 +69,11 @@ const {
       <h2 class="text-xl font-bold text-gray-900">Cài đặt luyện tập</h2>
     </div>
     
-    <!-- Collapse toggle (chỉ hiện trên mobile) -->
+    <!-- Collapse toggle button -->
     <button 
       type="button" 
       class="collapse-btn"
-      data-collapse-toggle
+      data-settings-collapse-toggle
       aria-label="Toggle settings"
     >
       <svg class="collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,107 +82,10 @@ const {
     </button>
   </div>
   
-  <!-- Panel content (có thể collapse trên mobile) -->
-  <div class="panel-content" data-panel-content>
-    <!-- Row 1: Timer Controls -->
+  <!-- Panel content (có thể collapse) -->
+  <div class="panel-content" data-settings-panel-content>
+    <!-- Row 1: Question Order & Check Mode -->
     <div class="settings-row">
-      <div class="setting-group full-width">
-        <label class="setting-label">⏱️ Đồng hồ đếm ngược:</label>
-        <div class="timer-controls">
-          <div class="timer-toggle-group">
-            <button
-              type="button"
-              class="toggle-btn"
-              data-timer-toggle="off"
-            >
-              <span>Tắt</span>
-            </button>
-            <button
-              type="button"
-              class="toggle-btn active"
-              data-timer-toggle="on"
-            >
-              <span>Bật</span>
-            </button>
-          </div>
-          
-          <div class="timer-time-controls">
-            <button type="button" class="timer-btn" data-timer-action="minus-10">
-              <span>-10 phút</span>
-            </button>
-            <input 
-              type="number" 
-              class="timer-input" 
-              data-timer-input
-              value="50"
-              min="1"
-              max="300"
-              placeholder="50"
-            />
-            <span class="timer-unit">phút</span>
-            <button type="button" class="timer-btn" data-timer-action="plus-10">
-              <span>+10 phút</span>
-            </button>
-          </div>
-          
-          <div class="timer-action-group">
-            <button type="button" class="timer-btn-action" data-timer-action="reset">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-              </svg>
-              <span>Reset</span>
-            </button>
-            <button type="button" class="timer-btn-action" data-timer-action="pause">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6"></path>
-              </svg>
-              <span>Tạm dừng</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Row 2: Exam Filter (if multiple exams) -->
-    {exams.length > 1 && (
-      <div class="settings-row">
-        <div class="setting-group full-width">
-          <ExamFilter exams={exams} selectedExam={selectedExam} />
-        </div>
-      </div>
-    )}
-    
-    <!-- Row 3: Display & Order Settings -->
-    <div class="settings-row">
-      <!-- Display Mode -->
-      <div class="setting-group">
-        <label class="setting-label">Hiển thị:</label>
-        <div class="toggle-group" role="group">
-          <button
-            type="button"
-            class={`toggle-btn ${displayMode === 'all' ? 'active' : ''}`}
-            data-setting="displayMode"
-            data-value="all"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-            </svg>
-            <span>Tất cả</span>
-          </button>
-          <button
-            type="button"
-            class={`toggle-btn ${displayMode === 'quiz' ? 'active' : ''}`}
-            data-setting="displayMode"
-            data-value="quiz"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-            <span>Từng câu</span>
-          </button>
-        </div>
-      </div>
-      
       <!-- Question Order -->
       <div class="setting-group">
         <label class="setting-label">Thứ tự:</label>
@@ -384,7 +271,9 @@ const {
   }
 
   .collapse-btn {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.5rem;
     background: white;
     border: 1px solid #e2e8f0;
@@ -413,8 +302,9 @@ const {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    transition: all 0.3s ease;
   }
-
+  
   .panel-content.collapsed {
     display: none;
   }
@@ -535,123 +425,27 @@ const {
     gap: 0.625rem;
     width: 100%;
     padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    border: none;
+    background: #FFA4A4;
+    border: 2px solid #FCF9EA;
     border-radius: 12px;
     font-size: 1rem;
     font-weight: 700;
-    color: white;
+    color: #b91c1c;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 164, 164, 0.3);
   }
 
   .reset-btn-new:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    background: #FCF9EA;
+    border-color: #FFA4A4;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    box-shadow: 0 6px 16px rgba(255, 164, 164, 0.4);
   }
 
   .reset-btn-new:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-  }
-  
-  /* Timer Controls */
-  .timer-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .timer-toggle-group {
-    display: inline-flex;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .timer-time-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  .timer-input {
-    width: 80px;
-    padding: 0.5rem 0.75rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.2s ease;
-  }
-  
-  .timer-input:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-  }
-  
-  .timer-unit {
-    font-size: 0.875rem;
-    color: #64748b;
-    font-weight: 500;
-  }
-  
-  .timer-btn {
-    padding: 0.5rem 0.875rem;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .timer-btn:hover {
-    background: #e2e8f0;
-    border-color: #cbd5e1;
-  }
-  
-  .timer-action-group {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .timer-btn-action {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.625rem 1rem;
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-    border: none;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex: 1;
-  }
-  
-  .timer-btn-action:hover {
-    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
-  }
-  
-  .timer-btn-action.paused {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  }
-  
-  .timer-btn-action.paused:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 2px 8px rgba(255, 164, 164, 0.3);
   }
 
   /* Responsive */
@@ -680,10 +474,6 @@ const {
 
     .header-title h2 {
       font-size: 1.125rem;
-    }
-
-    .collapse-btn {
-      display: flex;
     }
 
     .toggle-btn {
@@ -715,14 +505,14 @@ const {
     const panel = document.querySelector('[data-settings-panel]');
     if (!panel) return;
     
-    const collapseToggle = panel.querySelector('[data-collapse-toggle]');
-    const panelContent = panel.querySelector('[data-panel-content]');
+    const settingsCollapseToggle = panel.querySelector('[data-settings-collapse-toggle]');
+    const settingsPanelContent = panel.querySelector('[data-settings-panel-content]');
     
-    // Collapse toggle (mobile)
-    if (collapseToggle && panelContent) {
-      collapseToggle.addEventListener('click', () => {
-        collapseToggle.classList.toggle('collapsed');
-        panelContent.classList.toggle('collapsed');
+    // Settings panel collapse toggle
+    if (settingsCollapseToggle && settingsPanelContent) {
+      settingsCollapseToggle.addEventListener('click', () => {
+        settingsCollapseToggle.classList.toggle('collapsed');
+        settingsPanelContent.classList.toggle('collapsed');
       });
     }
     
@@ -768,108 +558,7 @@ const {
         }
       });
     }
-    
-    // Timer controls
-    let timerMinutes = 50;
-    let isPaused = false;
-    let timerEnabled = false;
-    
-    const timerInput = panel.querySelector('[data-timer-input]') as HTMLInputElement;
-    const timerToggleBtns = panel.querySelectorAll('[data-timer-toggle]');
-    const pauseBtn = panel.querySelector('[data-timer-action="pause"]');
-    
-    // Timer toggle (on/off)
-    timerToggleBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const value = btn.getAttribute('data-timer-toggle');
-        timerEnabled = value === 'on';
-        
-        // Update active state
-        timerToggleBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // Dispatch event to FloatingTimer
-        const event = new CustomEvent('timer-control', {
-          detail: { action: 'toggle', value: timerEnabled },
-          bubbles: true
-        });
-        document.dispatchEvent(event);
-      });
-    });
-    
-    // Timer action buttons
-    const timerActionBtns = panel.querySelectorAll('[data-timer-action]');
-    timerActionBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const action = btn.getAttribute('data-timer-action');
-        
-        switch (action) {
-          case 'minus-10':
-            timerMinutes = Math.max(1, timerMinutes - 10);
-            if (timerInput) timerInput.value = String(timerMinutes);
-            dispatchTimerControl('set-time', timerMinutes * 60);
-            break;
-            
-          case 'plus-10':
-            timerMinutes = Math.min(300, timerMinutes + 10);
-            if (timerInput) timerInput.value = String(timerMinutes);
-            dispatchTimerControl('set-time', timerMinutes * 60);
-            break;
-            
-          case 'reset':
-            const currentTime = timerInput ? parseInt(timerInput.value) : 50;
-            dispatchTimerControl('reset', currentTime * 60);
-            isPaused = false;
-            updatePauseButton();
-            break;
-            
-          case 'pause':
-            isPaused = !isPaused;
-            dispatchTimerControl(isPaused ? 'pause' : 'resume', undefined);
-            updatePauseButton();
-            break;
-        }
-      });
-    });
-    
-    // Timer input change
-    if (timerInput) {
-      timerInput.addEventListener('change', (e) => {
-        const target = e.target as HTMLInputElement;
-        const value = parseInt(target.value);
-        if (value >= 1 && value <= 300) {
-          timerMinutes = value;
-          dispatchTimerControl('set-time', value * 60);
-        } else {
-          target.value = String(timerMinutes);
-        }
-      });
-    }
-    
-    function dispatchTimerControl(action: string, value?: number) {
-      const event = new CustomEvent('timer-control', {
-        detail: { action, value },
-        bubbles: true
-      });
-      document.dispatchEvent(event);
-    }
-    
-    function updatePauseButton() {
-      if (pauseBtn) {
-        const spanEl = pauseBtn.querySelector('span');
-        const svgPath = pauseBtn.querySelector('svg path');
-        
-        if (isPaused) {
-          pauseBtn.classList.add('paused');
-          if (spanEl) spanEl.textContent = 'Tiếp tục';
-          if (svgPath) svgPath.setAttribute('d', 'M5 3l14 9-14 9V3z'); // Play icon
-        } else {
-          pauseBtn.classList.remove('paused');
-          if (spanEl) spanEl.textContent = 'Tạm dừng';
-          if (svgPath) svgPath.setAttribute('d', 'M10 9v6m4-6v6'); // Pause icon
-        }
-      }
-    }
   });
 </script>
+
 
