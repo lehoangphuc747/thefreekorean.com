@@ -58,6 +58,7 @@ import { join } from 'path';
 import ReadingQuestion from './ReadingQuestion.astro';
 import SettingsPanel from './SettingsPanel.astro';
 import QuizNavigator from './QuizNavigator.astro';
+import ProgressBar from './ProgressBar.astro';
 
 export interface Props {
   slug: string;
@@ -149,6 +150,16 @@ const timerMinutes = meta?.duration || 15; // Default 15 phút
 const timerEnabled = true;
 ---
 
+<!-- Progress Bar - Sticky ở đầu page, ngay dưới navbar -->
+<div class="sticky top-0 z-50 bg-white shadow-sm" id="topik-progress-bar">
+  <ProgressBar
+    totalQuestions={totalQuestionsCount}
+    answeredQuestions={0}
+    correctAnswers={0}
+    wrongAnswers={0}
+    bookmarkedCount={0}
+  />
+</div>
 
 <div class="max-w-7xl mx-auto px-4 py-12">
   {isValid ? (
