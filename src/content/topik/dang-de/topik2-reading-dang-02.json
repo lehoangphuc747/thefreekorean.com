@@ -1,21 +1,69 @@
 {
-    "meta": {
-      "title": "Reading – Dạng 02",
-      "type": "reading",
-      "slug": "topik2-reading-dang-02",
-      "range": "Câu 5–8",
-      "level": "TOPIK II"
+  "meta": {
+    "title": "Reading – Dạng 02",
+    "type": "reading",
+    "slug": "topik2-reading-dang-02",
+    "range": "Câu 3–4",
+    "level": "TOPIK II"
+  },
+  "questions": [
+    {
+      "id": 3,
+      "exam": "topik2-91",
+      "group_instruction": "※ [3~4] 밑줄 친 부분과 의미가 가장 비슷한 것을 고르십시오. (각 2점)",
+      "group_instruction_vi": "※ [3~4] Chọn phần có ý nghĩa giống nhất với phần được gạch chân. (Mỗi câu 2 điểm)",
+      "question_ko": "어려운 이웃을 <u>돕고자</u> 매년 봉사 활동에 참여하고 있다.",
+      "question_vi": "Tôi tham gia hoạt động tình nguyện hàng năm để giúp đỡ những người hàng xóm khó khăn.",
+      "choices": [
+        { "type": "text", "text": "돕기 위해서" },
+        { "type": "text", "text": "돕는 대신에" },
+        { "type": "text", "text": "돕기 무섭게" },
+        { "type": "text", "text": "돕는 바람에" }
+      ],
+      "answer": 0,
+      "explain": "## ✅ Đáp án đúng\n\n**돕기 위해서** (để giúp đỡ)\n\n- **돕고자** = **돕기 위해서** → diễn tả mục đích: để làm gì đó.\n- Cấu trúc: **V-고자** (formal, văn bản) = **V-기 위해서** (thường dùng hơn).\n- Nghĩa: \"Tôi tham gia hoạt động tình nguyện hàng năm để giúp đỡ những người hàng xóm khó khăn.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **돕는 대신에** ❌ → \"Thay vì giúp đỡ\" → sai nghĩa, không phải mục đích.\n- **돕기 무섭게** ❌ → \"Ngay khi giúp đỡ\" → sai cấu trúc và nghĩa.\n- **돕는 바람에** ❌ → \"Vì giúp đỡ\" → diễn tả nguyên nhân bất ngờ, sai mục đích."
     },
-    "questions": [
-      {
-        "id": 5,
-        "exam": "topik2-91",
-        "question_ko": "다음 중 내용이 같은 것을 고르십시오.",
-        "question_vi": "Chọn câu có nội dung giống nhất.",
-        "choices": ["A", "B", "C", "D"],
-        "answer": 1,
-        "explain": "B có cùng nghĩa với câu gốc."
-      }
-    ]
-  }
-  
+    {
+      "id": 4,
+      "exam": "topik2-91",
+      "question_ko": "지난 3년 동안 영화를 한 편 봤으니 거의 <u>안 본 셈이다</u>.",
+      "question_vi": "Trong 3 năm qua tôi chỉ xem một bộ phim nên coi như là không xem.",
+      "choices": [
+        { "type": "text", "text": "본 척했다" },
+        { "type": "text", "text": "보기 나름이다" },
+        { "type": "text", "text": "볼 수밖에 없었다" },
+        { "type": "text", "text": "본 거나 마찬가지이다" }
+      ],
+      "answer": 3,
+      "explain": "## ✅ Đáp án đúng\n\n**본 거나 마찬가지이다** (giống như đã xem / coi như đã xem)\n\n- **안 본 셈이다** = **본 거나 마찬가지이다** → diễn tả \"coi như\", \"cũng như\".\n- Cấu trúc: **V-ㄴ/은 셈이다** = **V-거나 마찬가지이다** → xem như, coi như.\n- Nghĩa: \"Trong 3 năm qua tôi chỉ xem một bộ phim nên coi như là không xem.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **본 척했다** ❌ → \"Giả vờ đã xem\" → sai nghĩa, không phải \"coi như\".\n- **보기 나름이다** ❌ → \"Tùy cách xem\" → sai nghĩa hoàn toàn.\n- **볼 수밖에 없었다** ❌ → \"Không thể không xem\" → sai cấu trúc và nghĩa."
+    },
+    {
+      "id": 3,
+      "exam": "topik2-96",
+      "question_ko": "감기약을 (      ) 열이 내렸다.",
+      "question_vi": "Uống thuốc cảm xong thì hạ sốt.",
+      "choices": [
+        { "type": "text", "text": "먹는라고" },
+        { "type": "text", "text": "먹더라도" },
+        { "type": "text", "text": "먹을 텐데" },
+        { "type": "text", "text": "먹고 나서" }
+      ],
+      "answer": 2,
+      "explain": "## ✅ Đáp án đúng\n\n**먹고 나서** (sau khi ăn/uống xong)\n\n- Cấu trúc: **V-고 나서** diễn tả hành động xảy ra sau khi hành động trước hoàn thành.\n- Câu có nghĩa: \"Sau khi uống thuốc cảm, cơn sốt đã giảm.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **먹는라고** ❌ → Sai ngữ pháp, không tồn tại dạng này.\n- **먹더라도** ❌ → Dù có uống thì… (mang ý nhượng bộ, không phù hợp vì kết quả là hạ sốt).\n- **먹을 텐데** ❌ → Chắc là sẽ uống… (phỏng đoán, không phù hợp ngữ cảnh)."
+    },
+    {
+      "id": 4,
+      "exam": "topik2-96",
+      "question_ko": "내일 김밥을 만들려고 재료를 미리 (      ).",
+      "question_vi": "Vì định làm kimbap ngày mai nên tôi đã chuẩn bị sẵn nguyên liệu trước.",
+      "choices": [
+        { "type": "text", "text": "준비해 놓았다" },
+        { "type": "text", "text": "준비하곤 했다" },
+        { "type": "text", "text": "준비하면 된다" },
+        { "type": "text", "text": "준비하는 법이다" }
+      ],
+      "answer": 0,
+      "explain": "## ✅ Đáp án đúng\n\n**준비해 놓았다** (đã chuẩn bị sẵn)\n\n- Cấu trúc: **V-아/어 놓다** → làm gì đó trước và giữ nguyên trạng thái để sử dụng sau.\n- Nghĩa: \"Đã chuẩn bị sẵn nguyên liệu vì ngày mai định làm kimbap.\"\n\n---\n\n## ❌ Giải thích các đáp án sai\n\n- **준비하곤 했다** ❌ → Dạng diễn tả thói quen trong quá khứ (\"thường chuẩn bị…\"), không phù hợp vì đây là hành động cụ thể.\n- **준비하면 된다** ❌ → \"Chỉ cần chuẩn bị là được\", mang tính hướng dẫn, không phù hợp ngữ cảnh quá khứ.\n- **준비하는 법이다** ❌ → \"Là cách chuẩn bị\", mang nghĩa định nghĩa, không phù hợp ngữ cảnh."
+    }
+  ]
+}

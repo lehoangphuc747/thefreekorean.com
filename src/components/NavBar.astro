@@ -43,6 +43,7 @@ import '../styles/navbar.css';
   padding: 0.5rem 1.5rem;
   position: relative;
   z-index: 3100; /* cao hơn các phần tử con khác */
+  flex-wrap: nowrap; /* tránh menu xuống dòng */
 }
 .navbar-logo {
   display: flex;
@@ -54,6 +55,7 @@ import '../styles/navbar.css';
   text-decoration: none;
   letter-spacing: 1px;
   transition: color 0.2s;
+  white-space: nowrap; /* giữ logo trên một dòng */
 }
 .logo-icon {
   font-size: 1.6rem;
@@ -112,14 +114,11 @@ import '../styles/navbar.css';
   .navbar-container {
     padding: 0.5rem 1rem;
   }
-  .navbar-menu {
-    gap: 1.2rem;
-  }
-}
-@media (max-width: 700px) {
+  /* Hiển thị toggle sớm hơn cho tablet dọc */
   .navbar-toggle {
     display: block;
   }
+  /* Chuyển menu sang dạng dropdown dưới navbar */
   .navbar-menu {
     position: absolute;
     top: 100%;
@@ -151,16 +150,35 @@ import '../styles/navbar.css';
 document.addEventListener('DOMContentLoaded', function() {
   const toggle = document.getElementById('navbar-toggle');
   const menu = document.getElementById('navbar-menu');
-  // Toggle menu on mobile
-  if (toggle && menu) {
-    toggle.addEventListener('click', function() {
-      menu.classList.toggle('open');
-    });
+
+  function setOpen(isOpen) {
+    if (!menu || !toggle) return;
+    menu.classList.toggle('open', isOpen);
+    toggle.classList.toggle('open', isOpen);
+    document.body.classList.toggle('menu-open', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   }
-  // Đóng menu khi click ngoài
+
+  // Robust toggle: support clicks on child SVG and touchstart on mobile
+  function handleToggle(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const isOpen = menu?.classList.contains('open');
+    setOpen(!isOpen);
+  }
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', handleToggle, { passive: false });
+    toggle.addEventListener('touchstart', handleToggle, { passive: false });
+  }
+
+  // Close when clicking outside
   document.addEventListener('click', function(e) {
-    if (menu && menu.classList.contains('open') && !menu.contains(e.target as Node) && e.target !== toggle) {
-      menu.classList.remove('open');
+    if (!menu || !toggle) return;
+    const clickedToggle = e.target && e.target.closest ? e.target.closest('#navbar-toggle') : null;
+    if (clickedToggle) return; // handled above
+    if (menu.classList.contains('open') && !menu.contains(e.target)) {
+      setOpen(false);
     }
   });
   // Highlight active link

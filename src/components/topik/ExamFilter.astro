@@ -31,29 +31,27 @@ const { exams, selectedExams = [] } = Astro.props;
 
 const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
 ---
-
-<div class="exam-filter-container">
-  <div class="exam-filter-header">
+<!-- Header ở ngoài container để khi collapse chỉ còn nút -->
+<div class="exam-filter-header-outside">
+  <button 
+    type="button" 
+    class="exam-filter-collapse-btn exam-filter-header-btn"
+    data-exam-filter-collapse-toggle
+    aria-label="Toggle exam filter"
+  >
     <div class="filter-header-left">
       <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
       </svg>
       <h3 class="filter-title">Lọc theo kỳ thi</h3>
     </div>
-    
-    <!-- Collapse toggle button -->
-    <button 
-      type="button" 
-      class="exam-filter-collapse-btn"
-      data-exam-filter-collapse-toggle
-      aria-label="Toggle exam filter"
-    >
-      <svg class="exam-filter-collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-      </svg>
-    </button>
-  </div>
-  
+    <svg class="exam-filter-collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+</div>
+
+<div class="exam-filter-container">
   <!-- Filter Content (collapsible) -->
   <div class="exam-filter-content" data-exam-filter-content>
   <!-- Search Box -->
@@ -131,22 +129,14 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
     transition: padding 0.3s ease;
   }
   
-  /* Compact padding when collapsed */
+  /* Ẩn toàn bộ container khi collapsed - chỉ còn nút bên ngoài */
   .exam-filter-container.collapsed {
-    padding: 1rem 1.5rem;
+    display: none;
   }
 
-  .exam-filter-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    transition: margin-bottom 0.3s ease;
-  }
-  
-  /* Remove margin when collapsed */
-  .exam-filter-container.collapsed .exam-filter-header {
-    margin-bottom: 0;
+  .exam-filter-header-outside {
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
   }
   
   .filter-header-left {
@@ -171,6 +161,15 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
+  }
+
+  .exam-filter-header-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem;
   }
   
   .exam-filter-collapse-btn:hover {
@@ -222,6 +221,12 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
     font-size: 0.875rem;
     transition: all 0.2s ease;
     background: white;
+    color: #0f172a;
+    caret-color: #0f172a;
+  }
+
+  .search-input::placeholder {
+    color: #64748b;
   }
 
   .search-input:focus {
@@ -385,9 +390,9 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
 
     constructor(container: HTMLElement) {
       this.container = container;
-      this.searchInput = container.querySelector('[data-search-input]')!;
-      this.selectedTagsContainer = container.querySelector('[data-selected-tags]')!;
-      this.allCheckbox = container.querySelector('[data-exam-checkbox="all"]')!;
+      this.searchInput = container.querySelector('[data-search-input]');
+      this.selectedTagsContainer = container.querySelector('[data-selected-tags]');
+      this.allCheckbox = container.querySelector('[data-exam-checkbox="all"]');
       this.examCheckboxes = container.querySelectorAll('[data-exam-checkbox]:not([data-exam-checkbox="all"])');
       this.examItems = container.querySelectorAll('.exam-item');
       
@@ -417,7 +422,7 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
       this.searchInput.addEventListener('input', () => this.handleSearch());
 
       // All checkbox
-      this.allCheckbox.addEventListener('change', () => this.handleAllCheckbox());
+      this.allCheckbox && this.allCheckbox.addEventListener('change', () => this.handleAllCheckbox());
 
       // Individual checkboxes
       this.examCheckboxes.forEach(checkbox => {
@@ -440,7 +445,7 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
       const query = this.searchInput.value.toLowerCase().trim();
       
       this.examItems.forEach(item => {
-        const checkbox = item.querySelector('[data-exam-checkbox]') as HTMLInputElement;
+        const checkbox = item.querySelector('[data-exam-checkbox]');
         if (!checkbox || checkbox.getAttribute('data-exam-checkbox') === 'all') return;
         
         const examName = checkbox.getAttribute('data-exam-checkbox')!.toLowerCase();
@@ -487,7 +492,7 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
       this.selectedExams.delete(examName);
       
       // Uncheck the checkbox
-      const checkbox = this.container.querySelector(`[data-exam-checkbox="${examName}"]`) as HTMLInputElement;
+      const checkbox = this.container.querySelector(`[data-exam-checkbox="${examName}"]`);
       if (checkbox) checkbox.checked = false;
 
       this.updateAllCheckboxState();
@@ -542,15 +547,20 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
 
   // Initialize on page load
   document.addEventListener('DOMContentLoaded', () => {
-    const container = document.querySelector('.exam-filter-container') as HTMLElement;
+    const container = document.querySelector('.exam-filter-container');
+    const collapseToggle = document.querySelector('[data-exam-filter-collapse-toggle]');
     if (container) {
       new ExamFilterManager(container);
       
-      // Handle exam filter collapse toggle
-      const collapseToggle = container.querySelector('[data-exam-filter-collapse-toggle]');
+      // Handle exam filter collapse toggle (nút nằm ngoài container)
       const filterContent = container.querySelector('[data-exam-filter-content]');
       
       if (collapseToggle && filterContent) {
+        // Default collapsed
+        container.classList.add('collapsed');
+        filterContent.classList.add('collapsed');
+        collapseToggle.classList.add('collapsed');
+
         collapseToggle.addEventListener('click', () => {
           collapseToggle.classList.toggle('collapsed');
           filterContent.classList.toggle('collapsed');
@@ -562,15 +572,20 @@ const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
 
   // Re-initialize after navigation (for Astro view transitions)
   document.addEventListener('astro:page-load', () => {
-    const container = document.querySelector('.exam-filter-container') as HTMLElement;
+    const container = document.querySelector('.exam-filter-container');
+    const collapseToggle = document.querySelector('[data-exam-filter-collapse-toggle]');
     if (container) {
       new ExamFilterManager(container);
       
-      // Handle exam filter collapse toggle
-      const collapseToggle = container.querySelector('[data-exam-filter-collapse-toggle]');
+      // Handle exam filter collapse toggle (nút nằm ngoài container)
       const filterContent = container.querySelector('[data-exam-filter-content]');
       
       if (collapseToggle && filterContent) {
+        // Default collapsed on navigation
+        container.classList.add('collapsed');
+        filterContent.classList.add('collapsed');
+        collapseToggle.classList.add('collapsed');
+
         collapseToggle.addEventListener('click', () => {
           collapseToggle.classList.toggle('collapsed');
           filterContent.classList.toggle('collapsed');

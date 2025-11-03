@@ -68,6 +68,20 @@ const {
           {question.exam.toUpperCase()}
         </span>
       )}
+      {question.question_vi && (
+        <button 
+          class="toggle-vietnamese-btn px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors whitespace-nowrap"
+          data-question-id={question.id}
+        >
+          Hiện dịch
+        </button>
+      )}
+      <button 
+        class="toggle-explain-btn px-3 py-1 text-xs font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors whitespace-nowrap"
+        type="button"
+      >
+        Hiện giải thích
+      </button>
       {/* Bookmark Star Icon */}
       <button 
         class="bookmark-btn ml-auto text-xl transition-transform hover:scale-110"
@@ -79,17 +93,9 @@ const {
       </button>
     </div>
     <div class="flex items-start justify-between gap-4">
-      <h3 class="text-xl font-bold text-gray-900 mt-2 mb-2 flex-1">
-        {question.question_ko}
+      <h3 class="text-xl font-bold text-gray-900 mt-2 mb-2 flex-1 question-ko" set:html={question.question_ko}>
       </h3>
-      {question.question_vi && (
-        <button 
-          class="toggle-vietnamese-btn px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors whitespace-nowrap"
-          data-question-id={question.id}
-        >
-          Hiện dịch
-        </button>
-      )}
+      
     </div>
     {question.question_vi && (
       <div 
@@ -138,7 +144,23 @@ const {
       
     </>
   )}
-</div>
+ </div>
+
+<style>
+  .question-ko {
+    white-space: pre-wrap;
+  }
+  
+  /* Style cho phần gạch chân trong câu hỏi */
+  .question-ko u {
+    background-color: #fee2e2;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    border-bottom: 3px solid #ef4444;
+    padding-bottom: 4px;
+  }
+</style>
 
 <script define:vars={{ questionId: question.id, uniqueQuestionId: `${question.exam}-${question.id}`, answerValue: question.answer, explainText: question.explain || '', checkModeValue: checkMode, showVietnameseDefaultValue: showVietnameseDefault }}>
   // Sử dụng IIFE để tạo closure riêng cho mỗi câu hỏi, tránh conflict state
@@ -169,8 +191,8 @@ const {
     
     choiceItems.forEach((item, idx) => {
       const isSelected = selectedIdx === idx;
-      // Sau khi shuffle, cần kiểm tra data-choice-is-correct thay vì so sánh với answerValue
-      const isAnswer = item.getAttribute('data-choice-is-correct') === 'true';
+      // So sánh index gốc với answerValue để xác định đúng/sai (ổn định sau shuffle)
+      const isAnswer = (item.getAttribute('data-original-index') === String(answerValue));
       const isSelectedAndCorrect = isSelected && isAnswer;
       const isSelectedAndWrong = isSelected && !isAnswer;
       const isCorrectAnswerButNotSelected = isAnswer && selectedIdx !== null && !isSelected;
@@ -375,6 +397,7 @@ const {
   }
   
   document.addEventListener('DOMContentLoaded', () => {
+    // (Removed) Exam filter jump button
     // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
     const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
     if (!container) return;
@@ -422,6 +445,25 @@ const {
         }
       });
     }
+
+    // Toggle giải thích (ẩn/hiện)
+    const toggleExplainBtn = container.querySelector('.toggle-explain-btn');
+    if (toggleExplainBtn) {
+      // Cập nhật nhãn theo state hiện tại
+      function updateExplainBtnLabel() {
+        toggleExplainBtn.textContent = showExplain ? 'Ẩn giải thích' : 'Hiện giải thích';
+      }
+      updateExplainBtnLabel();
+      toggleExplainBtn.addEventListener('click', () => {
+        showExplain = !showExplain;
+        updateExplainBtnLabel();
+        const feedbackExplain = container.querySelector('.feedback-explain');
+        if (feedbackExplain) {
+          if (showExplain) feedbackExplain.classList.remove('hidden');
+          else feedbackExplain.classList.add('hidden');
+        }
+      });
+    }
     
     // Lắng nghe event từ ChoiceList
     const choiceListContainer = container.querySelector('[data-choice-list-container]');
@@ -447,7 +489,7 @@ const {
         
         // Kiểm tra xem đáp án đã chọn có đúng không (sau khi shuffle)
         const clickedItem = choiceList?.querySelector(`[data-choice-index="${clickedIndex}"]`);
-        const isAnswerCorrect = clickedItem?.getAttribute('data-choice-is-correct') === 'true';
+        const isAnswerCorrect = (clickedItem?.getAttribute('data-original-index') === String(answerValue));
         
         // Cập nhật state
         selectedIndex = clickedIndex;

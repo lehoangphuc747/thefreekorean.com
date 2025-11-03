@@ -204,8 +204,8 @@ const progressId = `reading-progress-${Math.random().toString(36).substr(2, 9)}`
     const progressBars = document.querySelectorAll('.reading-progress');
     
     progressBars.forEach(progressContainer => {
-      const progressBar = progressContainer.querySelector('.progress-bar') as HTMLElement;
-      const percentageText = progressContainer.querySelector('.percentage-text') as HTMLElement;
+      const progressBar = progressContainer.querySelector('.progress-bar');
+      const percentageText = progressContainer.querySelector('.percentage-text');
       const targetSelector = progressContainer.getAttribute('data-target') || '.prose, .document-content, #doc-content, main';
       const showPercentage = progressContainer.getAttribute('data-show-percentage') === 'true';
       

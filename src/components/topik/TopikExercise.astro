@@ -144,7 +144,7 @@ const totalQuestionsCount = questions.length;
 ---
 
 <!-- Progress Bar - Fixed ở đầu page, ngay dưới navbar -->
-<div class="fixed top-[70px] left-0 right-0 z-50 bg-white shadow-sm" id="topik-progress-bar">
+<div class="fixed top-[70px] left-0 right-0 z-50" id="topik-progress-bar">
   <ProgressBar
     totalQuestions={totalQuestionsCount}
     answeredQuestions={0}
@@ -157,6 +157,13 @@ const totalQuestionsCount = questions.length;
 <div class="max-w-7xl mx-auto px-4 py-12" style="margin-top: 2rem;">
   {isValid ? (
     <>
+      <!-- Back to luyện tập -->
+      <div class="mb-4">
+        <a href="/topik/luyen-tap" class="back-link">
+          <span class="back-icon">←</span>
+          Quay lại Luyện tập
+        </a>
+      </div>
       <!-- Bước 2: Hiển thị Meta Info ở đầu trang -->
       <div class="text-center mb-8">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">
@@ -298,6 +305,26 @@ const totalQuestionsCount = questions.length;
 </div>
 
 <style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  }
+  .back-link:hover {
+    background: #e2e8f0;
+    color: #111827;
+  }
+  .back-icon {
+    font-size: 1rem;
+  }
   .group-instruction-card {
     background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
     border: 1px solid #fcd34d;
@@ -783,12 +810,12 @@ const totalQuestionsCount = questions.length;
           
         case 'checkMode':
           state.checkMode = value;
-          // Save to localStorage before reload
+          // Save to localStorage and apply immediately
           localStorage.setItem('topik-check-mode', value);
+          // Update all question containers' mode immediately
+          updateAllQuestionsCheckMode(value);
           // Toggle submit all button visibility
           toggleSubmitAllButton(value);
-          // Reload to apply check mode
-          location.reload();
           break;
           
         case 'showVietnamese':
@@ -867,10 +894,8 @@ const totalQuestionsCount = questions.length;
       // Load saved data
       loadFromLocalStorage();
       
-      // Apply loaded checkMode to all questions
-      if (state.checkMode !== 'immediate') {
-        updateAllQuestionsCheckMode(state.checkMode);
-      }
+      // Luôn set checkMode cho toàn bộ câu hỏi để đồng bộ thuộc tính
+      updateAllQuestionsCheckMode(state.checkMode);
       
       // Update SettingsPanel checkMode buttons
       updateSettingsPanelCheckMode(state.checkMode);

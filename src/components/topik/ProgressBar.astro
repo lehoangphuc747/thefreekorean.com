@@ -83,16 +83,16 @@ const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 
 
 <script>
   // Listen to progress-update events from TopikExercise
-  document.addEventListener('progress-update', (e: Event) => {
-    const event = e as CustomEvent;
-    const { answeredCount, correctCount, wrongCount, total } = event.detail;
+  document.addEventListener('progress-update', (e) => {
+    const detail = e && e.detail ? e.detail : {};
+    const { answeredCount, correctCount, wrongCount, total } = detail;
     
     const wrapper = document.querySelector('[data-progress-wrapper]');
     if (!wrapper) return;
     
-    const correctSegment = wrapper.querySelector('[data-correct-segment]') as HTMLElement;
-    const wrongSegment = wrapper.querySelector('[data-wrong-segment]') as HTMLElement;
-    const selectedSegment = wrapper.querySelector('[data-selected-segment]') as HTMLElement;
+    const correctSegment = wrapper.querySelector('[data-correct-segment]');
+    const wrongSegment = wrapper.querySelector('[data-wrong-segment]');
+    const selectedSegment = wrapper.querySelector('[data-selected-segment]');
     const countEl = wrapper.querySelector('[data-progress-count]');
     const percentEl = wrapper.querySelector('[data-progress-percent]');
     

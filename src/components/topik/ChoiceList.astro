@@ -10,35 +10,31 @@ const { choices, answer, selectedIndex, onSelect } = Astro.props;
 
 // Xáo trộn thứ tự các đáp án
 function shuffleArray<T>(array: T[]): { shuffled: T[]; mapping: number[] } {
-  // Tạo mảng indices và copy của array
+  // Tạo mảng indices gốc và copy của array
   const indices = array.map((_, i) => i);
   const shuffled = [...array];
   
-  // Fisher-Yates shuffle algorithm
+  // Fisher-Yates shuffle algorithm - shuffle cả array và indices cùng nhau
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     [indices[i], indices[j]] = [indices[j], indices[i]];
   }
   
-  // Tạo mapping từ index mới -> index gốc
-  const mapping = new Array(shuffled.length);
-  indices.forEach((originalIndex, newIndex) => {
-    mapping[newIndex] = originalIndex;
-  });
-  
-  return { shuffled, mapping };
+  // mapping[i] = originalIndex của phần tử ở vị trí i sau shuffle
+  return { shuffled, mapping: indices };
 }
 
-const { shuffled: shuffledChoices, mapping: originalIndices } = shuffleArray(choices);
+const { shuffled: shuffledChoices, mapping } = shuffleArray(choices);
 // Tìm vị trí mới của đáp án đúng
-const shuffledAnswerIndex = originalIndices.findIndex((origIdx) => origIdx === answer);
+// mapping[i] chứa originalIndex, tìm xem i nào có originalIndex == answer
+const shuffledAnswerIndex = mapping.findIndex((originalIndex) => originalIndex === answer);
 ---
 
 <div class="space-y-2" data-choice-list data-original-answer={answer}>
   {shuffledChoices.map((choice, index) => {
     const choiceLetter = String.fromCharCode(65 + index);
-    const originalIndex = originalIndices[index];
+    const originalIndex = mapping[index];
     const isSelected = selectedIndex === index;
     const isCorrect = index === shuffledAnswerIndex;
     const isSelectedAndCorrect = isSelected && isCorrect;
@@ -74,7 +70,7 @@ const shuffledAnswerIndex = originalIndices.findIndex((origIdx) => origIdx === a
         data-choice-index={index}
         data-original-index={originalIndex}
         data-choice-letter={choiceLetter}
-        data-choice-is-correct={isCorrect}
+        data-choice-is-correct={isCorrect ? 'true' : 'false'}
       >
         <span class="font-medium text-gray-700 mr-2">
           {choiceLetter}.
@@ -128,8 +124,6 @@ const shuffledAnswerIndex = originalIndices.findIndex((origIdx) => origIdx === a
         }
         
         const index = parseInt(this.getAttribute('data-choice-index') || '0');
-        
-        console.log('Choice clicked:', index);
         
         // Mark as disabled ngay lập tức để tránh double click
         isDisabled = true;
