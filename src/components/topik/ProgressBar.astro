@@ -42,33 +42,66 @@ const wrongBarWidth = totalQuestions > 0 ? (wrongAnswers / totalQuestions) * 100
 const unansweredBarWidth = totalQuestions > 0 ? (unanswered / totalQuestions) * 100 : 0;
 ---
 
-<div class="progress-bar-wrapper">
+<div class="progress-bar-wrapper" data-progress-wrapper>
   <div class="progress-bar-bg">
     <!-- Correct segment (green) -->
-    {correctBarWidth > 0 && (
-      <div 
-        class="progress-segment progress-correct" 
-        style={`width: ${correctBarWidth}%`}
-        title={`${correctAnswers} câu đúng`}
-      ></div>
-    )}
+    <div 
+      class="progress-segment progress-correct" 
+      style={`width: ${correctBarWidth}%`}
+      title={`${correctAnswers} câu đúng`}
+      data-correct-segment
+    ></div>
     
     <!-- Wrong segment (red) -->
-    {wrongBarWidth > 0 && (
-      <div 
-        class="progress-segment progress-wrong" 
-        style={`width: ${wrongBarWidth}%; left: ${correctBarWidth}%`}
-        title={`${wrongAnswers} câu sai`}
-      ></div>
-    )}
+    <div 
+      class="progress-segment progress-wrong" 
+      style={`width: ${wrongBarWidth}%; left: ${correctBarWidth}%`}
+      title={`${wrongAnswers} câu sai`}
+      data-wrong-segment
+    ></div>
   </div>
   
   <!-- Progress text overlay -->
   <div class="progress-text-overlay">
-    <span class="progress-count">{answeredQuestions}/{totalQuestions}</span>
-    <span class="progress-percent">{answeredPercent}%</span>
+    <span class="progress-count" data-progress-count>{answeredQuestions}/{totalQuestions}</span>
+    <span class="progress-percent" data-progress-percent>{answeredPercent}%</span>
   </div>
 </div>
+
+<script>
+  // Listen to progress-update events from TopikExercise
+  document.addEventListener('progress-update', (e: Event) => {
+    const event = e as CustomEvent;
+    const { answeredCount, correctCount, wrongCount, total } = event.detail;
+    
+    const wrapper = document.querySelector('[data-progress-wrapper]');
+    if (!wrapper) return;
+    
+    const correctSegment = wrapper.querySelector('[data-correct-segment]') as HTMLElement;
+    const wrongSegment = wrapper.querySelector('[data-wrong-segment]') as HTMLElement;
+    const countEl = wrapper.querySelector('[data-progress-count]');
+    const percentEl = wrapper.querySelector('[data-progress-percent]');
+    
+    if (!correctSegment || !wrongSegment || !countEl || !percentEl) return;
+    
+    // Calculate percentages
+    const correctWidth = total > 0 ? (correctCount / total) * 100 : 0;
+    const wrongWidth = total > 0 ? (wrongCount / total) * 100 : 0;
+    const answeredPercent = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
+    
+    // Update segments
+    correctSegment.style.width = `${correctWidth}%`;
+    correctSegment.title = `${correctCount} câu đúng`;
+    
+    wrongSegment.style.width = `${wrongWidth}%`;
+    wrongSegment.style.left = `${correctWidth}%`;
+    wrongSegment.title = `${wrongCount} câu sai`;
+    
+    // Update text
+    countEl.textContent = `${answeredCount}/${total}`;
+    percentEl.textContent = `${answeredPercent}%`;
+  });
+</script>
 
 <style>
   .progress-bar-wrapper {

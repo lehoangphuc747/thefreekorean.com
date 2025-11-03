@@ -150,8 +150,8 @@ const timerMinutes = meta?.duration || 15; // Default 15 phút
 const timerEnabled = true;
 ---
 
-<!-- Progress Bar - Sticky ở đầu page, ngay dưới navbar -->
-<div class="sticky top-0 z-50 bg-white shadow-sm" id="topik-progress-bar">
+<!-- Progress Bar - Fixed ở đầu page, ngay dưới navbar -->
+<div class="fixed top-[70px] left-0 right-0 z-50 bg-white shadow-sm" id="topik-progress-bar">
   <ProgressBar
     totalQuestions={totalQuestionsCount}
     answeredQuestions={0}
@@ -161,7 +161,7 @@ const timerEnabled = true;
   />
 </div>
 
-<div class="max-w-7xl mx-auto px-4 py-12">
+<div class="max-w-7xl mx-auto px-4 py-12" style="margin-top: 2rem;">
   {isValid ? (
     <>
       <!-- Bước 2: Hiển thị Meta Info ở đầu trang -->
@@ -533,14 +533,14 @@ const timerEnabled = true;
     
     // Update ProgressBar stats
     function updateProgressBar() {
-      // This will be handled by re-rendering ProgressBar component
-      // or by dispatching custom event
+      // Dispatch custom event to update ProgressBar component
       const event = new CustomEvent('progress-update', {
         detail: {
           answeredCount: state.answeredCount,
           correctCount: state.correctCount,
           wrongCount: state.wrongCount,
-          bookmarkedCount: state.bookmarkedQuestions.size
+          bookmarkedCount: state.bookmarkedQuestions.size,
+          total: totalQuestions
         }
       });
       document.dispatchEvent(event);
