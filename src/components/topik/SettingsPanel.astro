@@ -1,0 +1,576 @@
+---
+/**
+ * Component SettingsPanel - Panel tổng hợp tất cả cài đặt cho bài luyện tập TOPIK
+ * 
+ * Chức năng:
+ * - Tích hợp các component con: TimerCountdown, ProgressBar, ExamFilter
+ * - Các toggle buttons cho settings:
+ *   + Display mode: All questions vs Quiz mode (từng câu)
+ *   + Question order: Sequential vs Random
+ *   + Check mode: Immediate vs Submit
+ *   + Vietnamese translation: Show/Hide by default
+ *   + Font size: Small/Medium/Large
+ * - Reset button với confirm dialog
+ * - Collapsible trên mobile để tiết kiệm không gian
+ * - Emit events cho parent component xử lý
+ * 
+ * Props:
+ * - Từ parent component để hiển thị stats và timer
+ * 
+ * Events:
+ * - settings-change: { setting, value } - Khi thay đổi bất kỳ setting nào
+ * - reset-exercise: Khi click nút reset
+ */
+
+import TimerCountdown from './TimerCountdown.astro';
+import ProgressBar from './ProgressBar.astro';
+import ExamFilter from './ExamFilter.astro';
+
+export interface Props {
+  // Progress stats
+  totalQuestions: number;
+  answeredQuestions: number;
+  correctAnswers: number;
+  wrongAnswers: number;
+  bookmarkedCount?: number;
+  
+  // Exam filter
+  exams: Array<{ name: string; count: number }>;
+  selectedExam?: string;
+  
+  // Timer
+  timerMinutes?: number;
+  timerEnabled?: boolean;
+  
+  // Current settings (để hiển thị active state)
+  displayMode?: 'all' | 'quiz';
+  questionOrder?: 'order' | 'random';
+  checkMode?: 'immediate' | 'submit';
+  showVietnamese?: boolean;
+  fontSize?: 'small' | 'medium' | 'large';
+}
+
+const {
+  totalQuestions,
+  answeredQuestions,
+  correctAnswers,
+  wrongAnswers,
+  bookmarkedCount = 0,
+  exams,
+  selectedExam = 'all',
+  timerMinutes = 15,
+  timerEnabled = true,
+  displayMode = 'all',
+  questionOrder = 'order',
+  checkMode = 'immediate',
+  showVietnamese = false,
+  fontSize = 'medium'
+} = Astro.props;
+---
+
+<div class="settings-panel" data-settings-panel>
+  <!-- Header với toggle collapse (mobile) -->
+  <div class="panel-header">
+    <div class="header-title">
+      <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+      </svg>
+      <h2 class="text-xl font-bold text-gray-900">Cài đặt luyện tập</h2>
+    </div>
+    
+    <!-- Collapse toggle (chỉ hiện trên mobile) -->
+    <button 
+      type="button" 
+      class="collapse-btn"
+      data-collapse-toggle
+      aria-label="Toggle settings"
+    >
+      <svg class="collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Panel content (có thể collapse trên mobile) -->
+  <div class="panel-content" data-panel-content>
+    <!-- Row 1: Timer & Progress -->
+    <div class="settings-row">
+      {timerEnabled && (
+        <div class="setting-group">
+          <TimerCountdown initialMinutes={timerMinutes} />
+        </div>
+      )}
+      
+      <div class="setting-group flex-grow">
+        <ProgressBar 
+          totalQuestions={totalQuestions}
+          answeredQuestions={answeredQuestions}
+          correctAnswers={correctAnswers}
+          wrongAnswers={wrongAnswers}
+          bookmarkedCount={bookmarkedCount}
+        />
+      </div>
+    </div>
+    
+    <!-- Row 2: Exam Filter (if multiple exams) -->
+    {exams.length > 1 && (
+      <div class="settings-row">
+        <div class="setting-group full-width">
+          <ExamFilter exams={exams} selectedExam={selectedExam} />
+        </div>
+      </div>
+    )}
+    
+    <!-- Row 3: Display & Order Settings -->
+    <div class="settings-row">
+      <!-- Display Mode -->
+      <div class="setting-group">
+        <label class="setting-label">Hiển thị:</label>
+        <div class="toggle-group" role="group">
+          <button
+            type="button"
+            class={`toggle-btn ${displayMode === 'all' ? 'active' : ''}`}
+            data-setting="displayMode"
+            data-value="all"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+            </svg>
+            <span>Tất cả</span>
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn ${displayMode === 'quiz' ? 'active' : ''}`}
+            data-setting="displayMode"
+            data-value="quiz"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span>Từng câu</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Question Order -->
+      <div class="setting-group">
+        <label class="setting-label">Thứ tự:</label>
+        <div class="toggle-group" role="group">
+          <button
+            type="button"
+            class={`toggle-btn ${questionOrder === 'order' ? 'active' : ''}`}
+            data-setting="questionOrder"
+            data-value="order"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path>
+            </svg>
+            <span>Tuần tự</span>
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn ${questionOrder === 'random' ? 'active' : ''}`}
+            data-setting="questionOrder"
+            data-value="random"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+            </svg>
+            <span>Ngẫu nhiên</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Row 4: Check Mode & Vietnamese -->
+    <div class="settings-row">
+      <!-- Check Mode -->
+      <div class="setting-group">
+        <label class="setting-label">Kiểm tra:</label>
+        <div class="toggle-group" role="group">
+          <button
+            type="button"
+            class={`toggle-btn ${checkMode === 'immediate' ? 'active' : ''}`}
+            data-setting="checkMode"
+            data-value="immediate"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span>Ngay lập tức</span>
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn ${checkMode === 'submit' ? 'active' : ''}`}
+            data-setting="checkMode"
+            data-value="submit"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Sau khi nộp</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Vietnamese Translation -->
+      <div class="setting-group">
+        <label class="setting-label">Bản dịch:</label>
+        <div class="toggle-group" role="group">
+          <button
+            type="button"
+            class={`toggle-btn ${!showVietnamese ? 'active' : ''}`}
+            data-setting="showVietnamese"
+            data-value="false"
+          >
+            <span>Ẩn</span>
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn ${showVietnamese ? 'active' : ''}`}
+            data-setting="showVietnamese"
+            data-value="true"
+          >
+            <span>Hiện</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Row 5: Font Size & Reset -->
+    <div class="settings-row">
+      <!-- Font Size -->
+      <div class="setting-group">
+        <label class="setting-label">Cỡ chữ:</label>
+        <div class="toggle-group font-size-group" role="group">
+          <button
+            type="button"
+            class={`toggle-btn font-btn ${fontSize === 'small' ? 'active' : ''}`}
+            data-setting="fontSize"
+            data-value="small"
+            title="Chữ nhỏ"
+          >
+            A-
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn font-btn ${fontSize === 'medium' ? 'active' : ''}`}
+            data-setting="fontSize"
+            data-value="medium"
+            title="Chữ vừa"
+          >
+            A
+          </button>
+          <button
+            type="button"
+            class={`toggle-btn font-btn ${fontSize === 'large' ? 'active' : ''}`}
+            data-setting="fontSize"
+            data-value="large"
+            title="Chữ lớn"
+          >
+            A+
+          </button>
+        </div>
+      </div>
+      
+      <!-- Reset Button -->
+      <div class="setting-group">
+        <button
+          type="button"
+          class="reset-btn"
+          data-reset-btn
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span>Làm lại</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .settings-panel {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .collapse-btn {
+    display: none;
+    padding: 0.5rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .collapse-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+
+  .collapse-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #64748b;
+    transition: transform 0.3s ease;
+  }
+
+  .collapse-btn.collapsed .collapse-icon {
+    transform: rotate(-180deg);
+  }
+
+  .panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .panel-content.collapsed {
+    display: none;
+  }
+
+  .settings-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .setting-group.flex-grow {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .setting-group.full-width {
+    width: 100%;
+  }
+
+  .setting-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .toggle-group {
+    display: inline-flex;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.625rem 1rem;
+    background: white;
+    border: none;
+    border-right: 1px solid #e2e8f0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .toggle-btn:last-child {
+    border-right: none;
+  }
+
+  .toggle-btn:hover:not(.active) {
+    background: #f8fafc;
+    color: #475569;
+  }
+
+  .toggle-btn.active {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .toggle-btn.active svg {
+    color: white;
+  }
+
+  .font-size-group {
+    min-width: auto;
+  }
+
+  .font-btn {
+    padding: 0.625rem 0.875rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  }
+
+  .reset-btn:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  }
+
+  .reset-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .settings-row {
+      flex-direction: column;
+    }
+
+    .setting-group {
+      width: 100%;
+    }
+
+    .setting-group.flex-grow {
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .settings-panel {
+      padding: 1rem;
+    }
+
+    .panel-header {
+      margin-bottom: 1rem;
+    }
+
+    .header-title h2 {
+      font-size: 1.125rem;
+    }
+
+    .collapse-btn {
+      display: flex;
+    }
+
+    .toggle-btn {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+    }
+
+    .toggle-btn span {
+      display: none;
+    }
+
+    .toggle-btn svg {
+      margin: 0;
+    }
+
+    .font-btn {
+      padding: 0.5rem 0.625rem;
+    }
+
+    .reset-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const panel = document.querySelector('[data-settings-panel]');
+    if (!panel) return;
+    
+    const collapseToggle = panel.querySelector('[data-collapse-toggle]');
+    const panelContent = panel.querySelector('[data-panel-content]');
+    
+    // Collapse toggle (mobile)
+    if (collapseToggle && panelContent) {
+      collapseToggle.addEventListener('click', () => {
+        collapseToggle.classList.toggle('collapsed');
+        panelContent.classList.toggle('collapsed');
+      });
+    }
+    
+    // Setting buttons
+    const settingBtns = panel.querySelectorAll('[data-setting]');
+    settingBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const setting = btn.getAttribute('data-setting');
+        const value = btn.getAttribute('data-value');
+        
+        if (!setting || !value) return;
+        
+        // Update active state for this setting group
+        const group = btn.closest('.toggle-group');
+        if (group) {
+          group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+        
+        // Parse value (handle boolean strings)
+        let parsedValue: any = value;
+        if (value === 'true') parsedValue = true;
+        else if (value === 'false') parsedValue = false;
+        
+        // Emit event
+        const event = new CustomEvent('settings-change', {
+          detail: { setting, value: parsedValue },
+          bubbles: true
+        });
+        panel.dispatchEvent(event);
+      });
+    });
+    
+    // Reset button
+    const resetBtn = panel.querySelector('[data-reset-btn]');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Bạn chắc chắn muốn làm lại bài tập?\n\nTất cả đáp án sẽ bị xóa, nhưng các câu đã đánh dấu sẽ được giữ lại.')) {
+          const event = new CustomEvent('reset-exercise', {
+            bubbles: true
+          });
+          panel.dispatchEvent(event);
+        }
+      });
+    }
+  });
+</script>
