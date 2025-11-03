@@ -1,4 +1,45 @@
 ---
+/**
+ * Component TopikExercise - Container chính hiển thị bài luyện tập TOPIK
+ * 
+ * Chức năng chính:
+ * - Đọc và parse file JSON từ thư mục 'src/content/topik/dang-de/' dựa trên slug
+ * - Validate cấu trúc JSON (kiểm tra meta, questions array)
+ * - Hiển thị thông tin meta: title, level, range, và danh sách các kỳ thi
+ * - Nhóm câu hỏi theo exam và sắp xếp theo id
+ * - Xử lý các loại bài tập khác nhau (reading, listening, writing)
+ * - Hiển thị hướng dẫn chung cho nhóm câu hỏi (group_instruction) nếu có
+ * - Render danh sách câu hỏi thông qua component ReadingQuestion
+ * - Xử lý và hiển thị lỗi nếu file JSON không tồn tại hoặc không hợp lệ
+ * 
+ * Props:
+ * - slug: Tên file JSON (không bao gồm .json extension)
+ * 
+ * Cấu trúc JSON mong đợi:
+ * {
+ *   "meta": {
+ *     "title": "Tiêu đề bài tập",
+ *     "level": "TOPIK II",
+ *     "range": "Câu 1-2",
+ *     "type": "reading" | "listening" | "writing"
+ *   },
+ *   "questions": [
+ *     {
+ *       "id": 1,
+ *       "exam": "91st",
+ *       "group_instruction": "Hướng dẫn chung (optional)",
+ *       "group_instruction_vi": "Bản dịch hướng dẫn (optional)",
+ *       "question_ko": "Câu hỏi tiếng Hàn",
+ *       ...
+ *     }
+ *   ]
+ * }
+ * 
+ * Hiện tại hỗ trợ:
+ * - Reading: Đầy đủ chức năng
+ * - Listening: Đang phát triển
+ * - Writing: Đang phát triển
+ */
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import ReadingQuestion from './ReadingQuestion.astro';
@@ -88,16 +129,63 @@ if (isValid) {
         </div>
       </div>
 
+      <!-- Settings Panel - Cài đặt học tập -->
+      <div class="max-w-4xl mx-auto mb-8">
+        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl shadow-md p-6 border border-indigo-100">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+              <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <h2 class="text-lg font-semibold text-gray-800">Cài đặt luyện tập</h2>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <label class="text-sm font-medium text-gray-700">Thứ tự câu hỏi:</label>
+              <div class="inline-flex rounded-lg border border-indigo-200 bg-white shadow-sm" role="group">
+                <button
+                  type="button"
+                  id="order-mode-btn"
+                  class="mode-btn px-4 py-2 text-sm font-medium rounded-l-lg transition-all duration-200 bg-indigo-600 text-white"
+                  data-mode="order"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path>
+                    </svg>
+                    Theo thứ tự
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  id="random-mode-btn"
+                  class="mode-btn px-4 py-2 text-sm font-medium rounded-r-lg transition-all duration-200 bg-white text-gray-700 hover:bg-gray-50"
+                  data-mode="random"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                    </svg>
+                    Ngẫu nhiên
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Bước 3 & 4: Hiển thị theo type và lặp qua từng câu hỏi -->
       {exerciseType === 'reading' ? (
-        <div class="max-w-4xl mx-auto space-y-8">
+        <div class="max-w-4xl mx-auto space-y-8" id="questions-container">
           {Object.keys(groupedQuestions).map((exam: string) => {
             const examQuestions = groupedQuestions[exam];
             const firstQuestion = examQuestions[0];
             const hasGroupInstruction = firstQuestion.group_instruction;
             
             return (
-              <div class="space-y-6">
+              <div class="space-y-6" data-exam-group={exam}>
                 {/* Hiển thị hướng dẫn chung cho nhóm (nếu có) */}
                 {hasGroupInstruction && (
                   <div class="group-instruction-card">
@@ -115,9 +203,13 @@ if (isValid) {
                 )}
                 
                 {/* Hiển thị các câu hỏi trong nhóm */}
-                {examQuestions.map((question: any) => (
-                  <ReadingQuestion question={question} />
-                ))}
+                <div class="questions-list" data-exam={exam}>
+                  {examQuestions.map((question: any) => (
+                    <div class="question-wrapper" data-question-order={question.id}>
+                      <ReadingQuestion question={question} />
+                    </div>
+                  ))}
+                </div>
               </div>
             );
           })}
@@ -214,5 +306,97 @@ if (isValid) {
       font-size: 0.875rem;
     }
   }
+
+  /* Questions wrapper styling */
+  .question-wrapper {
+    margin-bottom: 2rem;
+  }
+
+  .questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
 </style>
+
+<script>
+  // Script xử lý chuyển đổi giữa chế độ theo thứ tự và ngẫu nhiên
+  document.addEventListener('DOMContentLoaded', () => {
+    const orderBtn = document.getElementById('order-mode-btn');
+    const randomBtn = document.getElementById('random-mode-btn');
+    const questionsContainer = document.getElementById('questions-container');
+    
+    if (!orderBtn || !randomBtn || !questionsContainer) return;
+    
+    let currentMode = 'order'; // Mặc định là theo thứ tự
+    
+    // Hàm shuffle mảng (Fisher-Yates algorithm)
+    function shuffleArray<T>(array: T[]): T[] {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+    
+    // Hàm cập nhật UI của buttons
+    function updateButtonsUI(mode: string) {
+      if (mode === 'order') {
+        orderBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-l-lg transition-all duration-200 bg-indigo-600 text-white';
+        randomBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-r-lg transition-all duration-200 bg-white text-gray-700 hover:bg-gray-50';
+      } else {
+        orderBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-l-lg transition-all duration-200 bg-white text-gray-700 hover:bg-gray-50';
+        randomBtn!.className = 'mode-btn px-4 py-2 text-sm font-medium rounded-r-lg transition-all duration-200 bg-indigo-600 text-white';
+      }
+    }
+    
+    // Hàm sắp xếp lại câu hỏi
+    function reorderQuestions(mode: string) {
+      const examGroups = questionsContainer!.querySelectorAll('[data-exam-group]');
+      
+      examGroups.forEach(group => {
+        const questionsList = group.querySelector('.questions-list');
+        if (!questionsList) return;
+        
+        const questionWrappers = Array.from(questionsList.querySelectorAll('.question-wrapper'));
+        
+        if (mode === 'order') {
+          // Sắp xếp theo thứ tự gốc (dựa vào data-question-order)
+          questionWrappers.sort((a, b) => {
+            const orderA = parseInt(a.getAttribute('data-question-order') || '0');
+            const orderB = parseInt(b.getAttribute('data-question-order') || '0');
+            return orderA - orderB;
+          });
+        } else {
+          // Shuffle ngẫu nhiên
+          const shuffled = shuffleArray(questionWrappers);
+          questionWrappers.length = 0;
+          questionWrappers.push(...shuffled);
+        }
+        
+        // Xóa và thêm lại theo thứ tự mới
+        questionsList.innerHTML = '';
+        questionWrappers.forEach(wrapper => {
+          questionsList.appendChild(wrapper);
+        });
+      });
+    }
+    
+    // Event listeners cho buttons
+    orderBtn.addEventListener('click', () => {
+      if (currentMode === 'order') return;
+      currentMode = 'order';
+      updateButtonsUI('order');
+      reorderQuestions('order');
+    });
+    
+    randomBtn.addEventListener('click', () => {
+      if (currentMode === 'random') return;
+      currentMode = 'random';
+      updateButtonsUI('random');
+      reorderQuestions('random');
+    });
+  });
+</script>
 

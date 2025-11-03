@@ -1,4 +1,27 @@
 ---
+/**
+ * Component ReadingQuestion - Hiển thị một câu hỏi đọc hiểu TOPIK
+ * 
+ * Chức năng chính:
+ * - Hiển thị câu hỏi bằng tiếng Hàn (question_ko) và có thể toggle hiện/ẩn bản dịch tiếng Việt (question_vi)
+ * - Hiển thị hình ảnh đính kèm câu hỏi (nếu có)
+ * - Render danh sách các lựa chọn trả lời thông qua component ChoiceList
+ * - Xử lý logic chọn đáp án: kiểm tra đúng/sai, vô hiệu hóa sau khi chọn
+ * - Hiển thị feedback (đúng/sai) với màu sắc tương ứng (xanh/đỏ)
+ * - Hiển thị giải thích (explain) với markdown formatting (bold, italic, headings, bullet points)
+ * - Sử dụng unique ID (exam-id) để tránh conflict khi có nhiều câu hỏi cùng số thứ tự
+ * - State management riêng biệt cho mỗi câu hỏi thông qua IIFE closure
+ * 
+ * Props:
+ * - question.id: Số thứ tự câu hỏi
+ * - question.exam: Mã đề thi (vd: "91st", "topik2-dang-01")
+ * - question.question_ko: Câu hỏi tiếng Hàn
+ * - question.question_vi: Bản dịch tiếng Việt (optional)
+ * - question.image: Đường dẫn hình ảnh (optional)
+ * - question.choices: Mảng các lựa chọn
+ * - question.answer: Index đáp án đúng
+ * - question.explain: Giải thích đáp án (optional, hỗ trợ markdown)
+ */
 import ChoiceList from './ChoiceList.astro';
 
 export interface Props {
