@@ -136,15 +136,6 @@ const {
         )}
       </div>
       
-      <!-- Submit button (luôn render nhưng chỉ hiện trong submit mode khi đã chọn đáp án) -->
-      <div class="submit-button-wrapper mt-4 hidden" data-submit-wrapper>
-        <button 
-          class="submit-answer-btn w-full py-3 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-          data-submit-btn
-        >
-          Nộp bài
-        </button>
-      </div>
     </>
   )}
 </div>
@@ -405,27 +396,6 @@ const {
       });
     }
     
-    // Submit button (for submit mode)
-    const submitWrapper = container.querySelector('[data-submit-wrapper]');
-    const submitBtn = container.querySelector('[data-submit-btn]');
-    
-    if (submitBtn && getCurrentCheckMode() === 'submit') {
-      submitBtn.addEventListener('click', () => {
-        if (selectedIndex === null) return;
-        
-        isSubmitted = true;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Đã nộp';
-        
-        // Show feedback
-        showFeedback();
-        updateChoiceList(selectedIndex);
-        
-        // Dispatch answer event
-        dispatchAnswerEvent();
-      });
-    }
-    
     // Lắng nghe event từ ChoiceList
     const choiceListContainer = container.querySelector('[data-choice-list-container]');
     const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
@@ -462,12 +432,8 @@ const {
           showFeedback();
           dispatchAnswerEvent();
         } else {
-          // Submit mode: chỉ highlight đã chọn, không hiện đúng/sai
+          // Submit mode: chỉ highlight đã chọn, không hiện đúng/sai, chờ nút nộp bài tổng
           updateChoiceListSubmitMode(selectedIndex);
-          // Show submit button
-          if (submitWrapper) {
-            submitWrapper.classList.remove('hidden');
-          }
         }
       });
     }
@@ -484,14 +450,20 @@ const {
       if (feedbackArea) {
         feedbackArea.classList.add('hidden');
       }
-      
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Nộp bài';
-      }
-      
-      if (submitWrapper) {
-        submitWrapper.classList.add('hidden');
+    });
+    
+    // Listen to submit-all event (from global submit button in submit mode)
+    document.addEventListener('submit-all-answers', () => {
+      // Only process if in submit mode and has selected answer
+      if (getCurrentCheckMode() === 'submit' && selectedIndex !== null && !isSubmitted) {
+        isSubmitted = true;
+        
+        // Show feedback
+        showFeedback();
+        updateChoiceList(selectedIndex);
+        
+        // Dispatch answer event
+        dispatchAnswerEvent();
       }
     });
     

@@ -262,6 +262,16 @@ const timerEnabled = true;
             {/* Single question will be rendered here */}
             <div id="quiz-question-wrapper"></div>
           </div>
+          
+          {/* Submit All Button (only visible in submit mode) */}
+          <div class="max-w-4xl mx-auto mt-8 hidden" id="submit-all-wrapper">
+            <button 
+              id="submit-all-btn"
+              class="w-full py-4 px-6 bg-green-600 text-white text-lg font-bold rounded-xl hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl"
+            >
+              🎯 Nộp bài và xem kết quả
+            </button>
+          </div>
         </>
       ) : exerciseType === 'listening' ? (
         <div class="max-w-4xl mx-auto">
@@ -569,6 +579,34 @@ const timerEnabled = true;
           btn.classList.remove('active');
         }
       });
+    }
+    
+    function toggleSubmitAllButton(checkMode) {
+      const submitAllWrapper = document.getElementById('submit-all-wrapper');
+      if (!submitAllWrapper) return;
+      
+      if (checkMode === 'submit') {
+        submitAllWrapper.classList.remove('hidden');
+      } else {
+        submitAllWrapper.classList.add('hidden');
+      }
+    }
+    
+    function handleSubmitAll() {
+      // Dispatch event to all questions to show their feedback
+      const event = new CustomEvent('submit-all-answers', {
+        bubbles: true
+      });
+      document.dispatchEvent(event);
+      
+      // Disable submit button
+      const submitBtn = document.getElementById('submit-all-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '✅ Đã nộp bài';
+        submitBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+        submitBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+      }
     }
     
     // Update ProgressBar stats
@@ -891,6 +929,8 @@ const timerEnabled = true;
           state.checkMode = value;
           // Save to localStorage before reload
           localStorage.setItem('topik-check-mode', value);
+          // Toggle submit all button visibility
+          toggleSubmitAllButton(value);
           // Reload to apply check mode
           location.reload();
           break;
@@ -962,9 +1002,18 @@ const timerEnabled = true;
       // Update SettingsPanel checkMode buttons
       updateSettingsPanelCheckMode(state.checkMode);
       
+      // Show/hide submit all button based on checkMode
+      toggleSubmitAllButton(state.checkMode);
+      
       // Listen to SettingsPanel events
       document.addEventListener('settings-change', handleSettingsChange);
       document.addEventListener('reset-exercise', handleReset);
+      
+      // Listen to submit all button
+      const submitAllBtn = document.getElementById('submit-all-btn');
+      if (submitAllBtn) {
+        submitAllBtn.addEventListener('click', handleSubmitAll);
+      }
       
       // Listen to other events (exam-change, timer, etc.)
       document.addEventListener('exam-change', (e) => {
