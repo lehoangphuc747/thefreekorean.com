@@ -35,12 +35,22 @@ export interface Props {
     answer: number;
     explain?: string;
   };
+  checkMode?: 'immediate' | 'submit';
+  isBookmarked?: boolean;
+  fontSize?: 'small' | 'medium' | 'large';
+  showVietnameseDefault?: boolean;
 }
 
-const { question } = Astro.props;
+const { 
+  question, 
+  checkMode = 'immediate',
+  isBookmarked = false,
+  fontSize = 'medium',
+  showVietnameseDefault = false
+} = Astro.props;
 ---
 
-<div class="bg-white rounded-xl shadow-lg p-8" data-question-id={question.id} data-question-exam={question.exam} data-unique-question-id={`${question.exam}-${question.id}`} data-question-answer={question.answer} data-question-explain={question.explain || ''}>
+<div class="bg-white rounded-xl shadow-lg p-8" data-question-id={question.id} data-question-exam={question.exam} data-unique-question-id={`${question.exam}-${question.id}`} data-question-answer={question.answer} data-question-explain={question.explain || ''} data-check-mode={checkMode}>
   <!-- Số câu và câu hỏi tiếng Hàn -->
   <div class="mb-4">
     <div class="flex items-center gap-2 mb-2">
@@ -52,6 +62,15 @@ const { question } = Astro.props;
           {question.exam.toUpperCase()}
         </span>
       )}
+      {/* Bookmark Star Icon */}
+      <button 
+        class="bookmark-btn ml-auto text-xl transition-transform hover:scale-110"
+        data-question-id={`${question.exam}-${question.id}`}
+        data-is-bookmarked={isBookmarked}
+        aria-label="Bookmark this question"
+      >
+        {isBookmarked ? '⭐' : '☆'}
+      </button>
     </div>
     <div class="flex items-start justify-between gap-4">
       <h3 class="text-xl font-bold text-gray-900 mt-2 mb-2 flex-1">
@@ -100,7 +119,7 @@ const { question } = Astro.props;
         />
       </div>
       
-      <!-- Feedback area (ẩn ban đầu) -->
+      <!-- Feedback area (ẩn ban đầu, chỉ hiện trong immediate mode hoặc sau khi submit) -->
       <div 
         class="feedback-area hidden mb-4 p-4 rounded-lg"
         data-feedback-area
@@ -110,17 +129,30 @@ const { question } = Astro.props;
           <p class="feedback-explain mt-2 text-sm text-gray-700"></p>
         )}
       </div>
+      
+      <!-- Submit button (chỉ hiện trong submit mode) -->
+      {checkMode === 'submit' && (
+        <div class="submit-button-wrapper mt-4 hidden" data-submit-wrapper>
+          <button 
+            class="submit-answer-btn w-full py-3 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+            data-submit-btn
+          >
+            Nộp bài
+          </button>
+        </div>
+      )}
     </>
   )}
 </div>
 
-<script define:vars={{ questionId: question.id, uniqueQuestionId: `${question.exam}-${question.id}`, answerValue: question.answer, explainText: question.explain || '' }}>
+<script define:vars={{ questionId: question.id, uniqueQuestionId: `${question.exam}-${question.id}`, answerValue: question.answer, explainText: question.explain || '', checkModeValue: checkMode, showVietnameseDefaultValue: showVietnameseDefault }}>
   // Sử dụng IIFE để tạo closure riêng cho mỗi câu hỏi, tránh conflict state
   (function() {
     // State riêng cho câu hỏi này (isolated trong closure)
     let selectedIndex = null;
     let isCorrect = null;
-    let showVietnamese = false;
+    let showVietnamese = showVietnameseDefaultValue;
+    let isSubmitted = false; // For submit mode
   
   function updateChoiceList(selectedIdx) {
     // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
@@ -174,8 +206,10 @@ const { question } = Astro.props;
       }
     });
   }
-  
-  function showFeedback() {
+  })();
+</script>
+
+<style>
     // Sử dụng unique ID để tránh conflict
     const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
     if (!container) return;
@@ -279,11 +313,36 @@ const { question } = Astro.props;
     
     const questionIdValue = container.getAttribute('data-question-id');
     
+    // Bookmark functionality
+    const bookmarkBtn = container.querySelector('.bookmark-btn');
+    if (bookmarkBtn) {
+      bookmarkBtn.addEventListener('click', () => {
+        const isCurrentlyBookmarked = bookmarkBtn.getAttribute('data-is-bookmarked') === 'true';
+        const newBookmarkState = !isCurrentlyBookmarked;
+        
+        bookmarkBtn.setAttribute('data-is-bookmarked', newBookmarkState.toString());
+        bookmarkBtn.textContent = newBookmarkState ? '⭐' : '☆';
+        
+        // Dispatch event to parent
+        const event = new CustomEvent('bookmark-toggle', {
+          bubbles: true,
+          detail: { questionId: uniqueQuestionId, isBookmarked: newBookmarkState }
+        });
+        container.dispatchEvent(event);
+      });
+    }
+    
     // Toggle button cho dịch tiếng Việt
     const toggleBtn = container.querySelector('.toggle-vietnamese-btn');
     const vietnameseDiv = container.querySelector(`[data-vietnamese-translation="${questionIdValue}"]`);
     
     if (toggleBtn && vietnameseDiv) {
+      // Initialize Vietnamese visibility based on default
+      if (showVietnamese) {
+        vietnameseDiv.classList.remove('hidden');
+        toggleBtn.textContent = 'Ẩn dịch';
+      }
+      
       toggleBtn.addEventListener('click', () => {
         showVietnamese = !showVietnamese;
         if (showVietnamese) {
@@ -293,6 +352,26 @@ const { question } = Astro.props;
           vietnameseDiv.classList.add('hidden');
           toggleBtn.textContent = 'Hiện dịch';
         }
+      });
+    }
+    
+    // Submit button (for submit mode)
+    const submitWrapper = container.querySelector('[data-submit-wrapper]');
+    const submitBtn = container.querySelector('[data-submit-btn]');
+    
+    if (submitBtn && checkModeValue === 'submit') {
+      submitBtn.addEventListener('click', () => {
+        if (selectedIndex === null) return;
+        
+        isSubmitted = true;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Đã nộp';
+        
+        // Show feedback
+        showFeedback();
+        
+        // Dispatch answer event
+        dispatchAnswerEvent();
       });
     }
     
@@ -310,8 +389,11 @@ const { question } = Astro.props;
         }
         const clickedIndex = event.detail.index ?? 0;
         
-        // Nếu đã chọn rồi thì không làm gì
-        if (selectedIndex !== null) return;
+        // Nếu đã submit trong submit mode thì không cho chọn nữa
+        if (checkModeValue === 'submit' && isSubmitted) return;
+        
+        // Nếu đã chọn rồi thì không làm gì (trong immediate mode)
+        if (checkModeValue === 'immediate' && selectedIndex !== null) return;
         
         // Kiểm tra xem đáp án đã chọn có đúng không (sau khi shuffle)
         const clickedItem = choiceList?.querySelector(`[data-choice-index="${clickedIndex}"]`);
@@ -321,19 +403,110 @@ const { question } = Astro.props;
         selectedIndex = clickedIndex;
         isCorrect = isAnswerCorrect;
         
-        // Cập nhật màu sắc choices
-        updateChoiceList(selectedIndex);
-        
-        // Hiển thị feedback
-        showFeedback();
+        // Cập nhật màu sắc choices (chỉ trong immediate mode)
+        if (checkModeValue === 'immediate') {
+          updateChoiceList(selectedIndex);
+          showFeedback();
+          dispatchAnswerEvent();
+        } else {
+          // Submit mode: chỉ highlight đã chọn, không hiện đúng/sai
+          updateChoiceListSubmitMode(selectedIndex);
+          // Show submit button
+          if (submitWrapper) {
+            submitWrapper.classList.remove('hidden');
+          }
+        }
       });
     }
+    
+    // Listen to reset event
+    container.addEventListener('reset-question', () => {
+      selectedIndex = null;
+      isCorrect = null;
+      isSubmitted = false;
+      
+      updateChoiceList(null);
+      
+      const feedbackArea = container.querySelector('[data-feedback-area]');
+      if (feedbackArea) {
+        feedbackArea.classList.add('hidden');
+      }
+      
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Nộp bài';
+      }
+      
+      if (submitWrapper) {
+        submitWrapper.classList.add('hidden');
+      }
     });
-  })();
-</script>
-
-<style>
-  .choice-item {
+    
+    // Listen to global settings changes
+    document.addEventListener('settings-change', (e) => {
+      const { setting, value } = e.detail;
+      
+      if (setting === 'showVietnamese' && vietnameseDiv && toggleBtn) {
+        showVietnamese = value;
+        if (value) {
+          vietnameseDiv.classList.remove('hidden');
+          toggleBtn.textContent = 'Ẩn dịch';
+        } else {
+          vietnameseDiv.classList.add('hidden');
+          toggleBtn.textContent = 'Hiện dịch';
+        }
+      }
+      
+      if (setting === 'checkMode') {
+        // Reload page when check mode changes
+        location.reload();
+      }
+    });
+    });
+    
+    // Helper function to dispatch answer event
+    function dispatchAnswerEvent() {
+      const event = new CustomEvent('answer-submitted', {
+        bubbles: true,
+        detail: {
+          questionId: uniqueQuestionId,
+          selectedIndex,
+          isCorrect
+        }
+      });
+      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+      if (container) {
+        container.dispatchEvent(event);
+      }
+    }
+    
+    // Update choice list for submit mode (only show selection, not correctness)
+    function updateChoiceListSubmitMode(selectedIdx) {
+      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+      if (!container) return;
+      
+      const choiceListContainer = container.querySelector('[data-choice-list-container]');
+      const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+      const choiceItems = choiceList?.querySelectorAll('.choice-item');
+      
+      if (!choiceItems) return;
+      
+      choiceItems.forEach((item, idx) => {
+        const isSelected = selectedIdx === idx;
+        
+        // Reset classes
+        item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+        
+        if (isSelected) {
+          // Highlight selected (blue, not green/red)
+          item.classList.add('bg-blue-100', 'border-blue-400');
+        } else {
+          item.classList.add('border-gray-200', 'hover:border-blue-400');
+        }
+      });
+    }
+  
+  function updateChoiceList(selectedIdx) {
     transition: all 0.2s ease;
   }
   

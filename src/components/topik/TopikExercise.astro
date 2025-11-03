@@ -197,42 +197,60 @@ const timerEnabled = true;
 
       <!-- Bước 3 & 4: Hiển thị theo type và lặp qua từng câu hỏi -->
       {exerciseType === 'reading' ? (
-        <div class="max-w-4xl mx-auto space-y-8" id="questions-container">
-          {Object.keys(groupedQuestions).map((exam: string) => {
-            const examQuestions = groupedQuestions[exam];
-            const firstQuestion = examQuestions[0];
-            const hasGroupInstruction = firstQuestion.group_instruction;
-            
-            return (
-              <div class="space-y-6" data-exam-group={exam}>
-                {/* Hiển thị hướng dẫn chung cho nhóm (nếu có) */}
-                {hasGroupInstruction && (
-                  <div class="group-instruction-card">
-                    <div class="group-instruction-content">
-                      <p class="group-instruction-ko">
-                        {firstQuestion.group_instruction}
-                      </p>
-                      {firstQuestion.group_instruction_vi && (
-                        <p class="group-instruction-vi">
-                          {firstQuestion.group_instruction_vi}
+        <>
+          {/* All Mode Container */}
+          <div class="max-w-4xl mx-auto space-y-8" id="questions-container" data-display-mode="all">
+            {Object.keys(groupedQuestions).map((exam: string) => {
+              const examQuestions = groupedQuestions[exam];
+              const firstQuestion = examQuestions[0];
+              const hasGroupInstruction = firstQuestion.group_instruction;
+              
+              return (
+                <div class="space-y-6" data-exam-group={exam}>
+                  {/* Hiển thị hướng dẫn chung cho nhóm (nếu có) */}
+                  {hasGroupInstruction && (
+                    <div class="group-instruction-card">
+                      <div class="group-instruction-content">
+                        <p class="group-instruction-ko">
+                          {firstQuestion.group_instruction}
                         </p>
-                      )}
+                        {firstQuestion.group_instruction_vi && (
+                          <p class="group-instruction-vi">
+                            {firstQuestion.group_instruction_vi}
+                          </p>
+                        )}
+                      </div>
                     </div>
+                  )}
+                  
+                  {/* Hiển thị các câu hỏi trong nhóm */}
+                  <div class="questions-list" data-exam={exam}>
+                    {examQuestions.map((question: any) => (
+                      <div class="question-wrapper" data-question-order={question.id}>
+                        <ReadingQuestion 
+                          question={question}
+                          checkMode={initialCheckMode}
+                          isBookmarked={false}
+                          fontSize={initialFontSize}
+                          showVietnameseDefault={initialShowVietnamese}
+                        />
+                      </div>
+                    ))}
                   </div>
-                )}
-                
-                {/* Hiển thị các câu hỏi trong nhóm */}
-                <div class="questions-list" data-exam={exam}>
-                  {examQuestions.map((question: any) => (
-                    <div class="question-wrapper" data-question-order={question.id}>
-                      <ReadingQuestion question={question} />
-                    </div>
-                  ))}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+          
+          {/* Quiz Mode Container (hidden by default) */}
+          <div class="max-w-4xl mx-auto hidden" id="quiz-container" data-display-mode="quiz">
+            {/* QuizNavigator will be shown here */}
+            <div id="quiz-navigator-wrapper" class="mb-6"></div>
+            
+            {/* Single question will be rendered here */}
+            <div id="quiz-question-wrapper"></div>
+          </div>
+        </>
       ) : exerciseType === 'listening' ? (
         <div class="max-w-4xl mx-auto">
           <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8 text-center">
@@ -517,6 +535,286 @@ const timerEnabled = true;
     }
     
     // ============================================================================
+    // DISPLAY MODE FUNCTIONS (Task 9 - Quiz Mode)
+    // ============================================================================
+    
+    function toggleDisplayMode(mode) {
+      const allContainer = document.getElementById('questions-container');
+      const quizContainer = document.getElementById('quiz-container');
+      
+      if (!allContainer || !quizContainer) return;
+      
+      if (mode === 'quiz') {
+        // Switch to quiz mode
+        allContainer.classList.add('hidden');
+        quizContainer.classList.remove('hidden');
+        renderQuizMode();
+        initQuizNavigation();
+      } else {
+        // Switch to all mode
+        quizContainer.classList.add('hidden');
+        allContainer.classList.remove('hidden');
+      }
+    }
+    
+    function renderQuizMode() {
+      // Get all questions from current filtered set
+      const questions = getFilteredQuestions();
+      
+      if (questions.length === 0) return;
+      
+      // Ensure current index is valid
+      if (state.currentQuestionIndex >= questions.length) {
+        state.currentQuestionIndex = 0;
+      }
+      
+      renderQuizNavigator(questions);
+      renderCurrentQuestion(questions);
+    }
+    
+    function renderQuizNavigator(questions) {
+      const navigatorWrapper = document.getElementById('quiz-navigator-wrapper');
+      if (!navigatorWrapper) return;
+      
+      // Get answered/correct/wrong counts for navigator
+      const answeredQuestions = questions.map((_, idx) => {
+        const qId = getQuestionId(questions[idx]);
+        return state.userAnswers[qId] !== undefined;
+      });
+      
+      const correctQuestions = questions.map((_, idx) => {
+        const qId = getQuestionId(questions[idx]);
+        return state.correctAnswers[qId] === true;
+      });
+      
+      const wrongQuestions = questions.map((_, idx) => {
+        const qId = getQuestionId(questions[idx]);
+        return state.correctAnswers[qId] === false;
+      });
+      
+      // Create mini-map HTML
+      const miniMapHTML = questions.map((q, idx) => {
+        const isAnswered = answeredQuestions[idx];
+        const isCorrect = correctQuestions[idx];
+        const isWrong = wrongQuestions[idx];
+        const isCurrent = idx === state.currentQuestionIndex;
+        
+        let classes = 'w-8 h-8 flex items-center justify-center rounded text-xs font-medium cursor-pointer transition-all';
+        
+        if (isCurrent) {
+          classes += ' bg-blue-600 text-white ring-2 ring-blue-300';
+        } else if (isCorrect) {
+          classes += ' bg-green-100 text-green-700 hover:bg-green-200';
+        } else if (isWrong) {
+          classes += ' bg-red-100 text-red-700 hover:bg-red-200';
+        } else if (isAnswered) {
+          classes += ' bg-gray-200 text-gray-700 hover:bg-gray-300';
+        } else {
+          classes += ' bg-white border border-gray-300 text-gray-600 hover:border-blue-400';
+        }
+        
+        return `<button class="${classes}" data-quiz-jump="${idx}">${idx + 1}</button>`;
+      }).join('');
+      
+      navigatorWrapper.innerHTML = `
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-center justify-between mb-4">
+            <button 
+              id="quiz-prev-btn" 
+              class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              ${state.currentQuestionIndex === 0 ? 'disabled' : ''}
+            >
+              ← Câu trước
+            </button>
+            <span class="text-sm font-medium text-gray-600">
+              Câu ${state.currentQuestionIndex + 1} / ${questions.length}
+            </span>
+            <button 
+              id="quiz-next-btn" 
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              ${state.currentQuestionIndex === questions.length - 1 ? 'disabled' : ''}
+            >
+              Câu sau →
+            </button>
+          </div>
+          
+          <div class="grid grid-cols-10 gap-2">
+            ${miniMapHTML}
+          </div>
+        </div>
+      `;
+    }
+    
+    function renderCurrentQuestion(questions) {
+      const questionWrapper = document.getElementById('quiz-question-wrapper');
+      if (!questionWrapper) return;
+      
+      const currentQ = questions[state.currentQuestionIndex];
+      if (!currentQ) return;
+      
+      // Find the actual question element from all mode
+      const qId = getQuestionId(currentQ);
+      const allContainer = document.getElementById('questions-container');
+      const questionElement = allContainer?.querySelector(`[data-unique-question-id="${qId}"]`);
+      
+      if (questionElement) {
+        // Clone and append
+        questionWrapper.innerHTML = '';
+        questionWrapper.appendChild(questionElement.cloneNode(true));
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    
+    function initQuizNavigation() {
+      const questions = getFilteredQuestions();
+      
+      // Previous button
+      const prevBtn = document.getElementById('quiz-prev-btn');
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          if (state.currentQuestionIndex > 0) {
+            state.currentQuestionIndex--;
+            renderQuizMode();
+          }
+        });
+      }
+      
+      // Next button
+      const nextBtn = document.getElementById('quiz-next-btn');
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          if (state.currentQuestionIndex < questions.length - 1) {
+            state.currentQuestionIndex++;
+            renderQuizMode();
+          }
+        });
+      }
+      
+      // Jump buttons
+      const jumpBtns = document.querySelectorAll('[data-quiz-jump]');
+      jumpBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.getAttribute('data-quiz-jump') || '0');
+          state.currentQuestionIndex = index;
+          renderQuizMode();
+        });
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', handleQuizKeyboard);
+    }
+    
+    function handleQuizKeyboard(e) {
+      if (state.displayMode !== 'quiz') return;
+      
+      const questions = getFilteredQuestions();
+      
+      if (e.key === 'ArrowLeft' && state.currentQuestionIndex > 0) {
+        state.currentQuestionIndex--;
+        renderQuizMode();
+      } else if (e.key === 'ArrowRight' && state.currentQuestionIndex < questions.length - 1) {
+        state.currentQuestionIndex++;
+        renderQuizMode();
+      }
+    }
+    
+    // ============================================================================
+    // EXAM FILTER FUNCTIONS (Task 10)
+    // ============================================================================
+    
+    function filterByExam(examName) {
+      const allContainer = document.getElementById('questions-container');
+      if (!allContainer) return;
+      
+      const examGroups = allContainer.querySelectorAll('[data-exam-group]');
+      
+      examGroups.forEach(group => {
+        const groupExam = group.getAttribute('data-exam-group');
+        
+        if (examName === 'all' || groupExam === examName) {
+          group.classList.remove('hidden');
+        } else {
+          group.classList.add('hidden');
+        }
+      });
+      
+      // Update stats
+      updateStatsAfterFilter();
+    }
+    
+    function getFilteredQuestions() {
+      const allContainer = document.getElementById('questions-container');
+      if (!allContainer) return [];
+      
+      const questions = [];
+      const examGroups = allContainer.querySelectorAll('[data-exam-group]');
+      
+      examGroups.forEach(group => {
+        const isHidden = group.classList.contains('hidden');
+        if (isHidden) return;
+        
+        const questionWrappers = group.querySelectorAll('.question-wrapper [data-unique-question-id]');
+        questionWrappers.forEach(q => {
+          questions.push({
+            exam: q.getAttribute('data-question-exam'),
+            id: q.getAttribute('data-question-id')
+          });
+        });
+      });
+      
+      return questions;
+    }
+    
+    function updateStatsAfterFilter() {
+      const filteredQuestions = getFilteredQuestions();
+      const totalFiltered = filteredQuestions.length;
+      
+      // Count answered in filtered set
+      let answeredFiltered = 0;
+      let correctFiltered = 0;
+      let wrongFiltered = 0;
+      
+      filteredQuestions.forEach(q => {
+        const qId = getQuestionId(q);
+        if (state.userAnswers[qId] !== undefined) {
+          answeredFiltered++;
+          if (state.correctAnswers[qId]) correctFiltered++;
+          else wrongFiltered++;
+        }
+      });
+      
+      // Dispatch event to update ProgressBar
+      const event = new CustomEvent('progress-update', {
+        detail: {
+          total: totalFiltered,
+          answeredCount: answeredFiltered,
+          correctCount: correctFiltered,
+          wrongCount: wrongFiltered,
+          bookmarkedCount: state.bookmarkedQuestions.size
+        }
+      });
+      document.dispatchEvent(event);
+    }
+    
+    function getQuestionId(question) {
+      return `${question.exam}-${question.id}`;
+    }
+    
+    // ============================================================================
+    // VIETNAMESE TOGGLE FUNCTION
+    // ============================================================================
+    
+    function toggleVietnameseGlobal(show) {
+      // Dispatch event to all questions
+      const event = new CustomEvent('settings-change', {
+        detail: { setting: 'showVietnamese', value: show }
+      });
+      document.dispatchEvent(event);
+    }
+    
+    // ============================================================================
     // EVENT HANDLERS
     // ============================================================================
     
@@ -529,7 +827,7 @@ const timerEnabled = true;
       switch (setting) {
         case 'displayMode':
           state.displayMode = value;
-          // TODO: Implement display mode switch
+          toggleDisplayMode(value);
           break;
           
         case 'questionOrder':
@@ -539,12 +837,13 @@ const timerEnabled = true;
           
         case 'checkMode':
           state.checkMode = value;
-          // TODO: Update ReadingQuestion components
+          // Reload to apply check mode
+          location.reload();
           break;
           
         case 'showVietnamese':
           state.showVietnamese = value;
-          // TODO: Show/hide Vietnamese translations
+          toggleVietnameseGlobal(value);
           break;
           
         case 'fontSize':
@@ -609,12 +908,59 @@ const timerEnabled = true;
       document.addEventListener('exam-change', (e) => {
         state.selectedExam = e.detail.exam;
         console.log('Exam changed:', e.detail.exam);
-        // TODO: Filter questions by exam
+        filterByExam(e.detail.exam);
+        
+        // If in quiz mode, re-render
+        if (state.displayMode === 'quiz') {
+          state.currentQuestionIndex = 0;
+          renderQuizMode();
+        }
       });
       
       document.addEventListener('time-up', () => {
         console.log('Time is up!');
         // TODO: Auto-submit if in submit mode
+      });
+      
+      // Listen to answer events from questions
+      document.addEventListener('answer-submitted', (e) => {
+        const { questionId, selectedIndex, isCorrect } = e.detail;
+        
+        state.userAnswers[questionId] = selectedIndex;
+        state.correctAnswers[questionId] = isCorrect;
+        
+        if (isCorrect) {
+          state.correctCount++;
+          state.wrongQuestions.delete(questionId);
+        } else {
+          state.wrongCount++;
+          state.wrongQuestions.add(questionId);
+        }
+        
+        state.answeredCount = Object.keys(state.userAnswers).length;
+        
+        saveToLocalStorage();
+        updateProgressBar();
+        
+        // If in quiz mode, update navigator
+        if (state.displayMode === 'quiz') {
+          const questions = getFilteredQuestions();
+          renderQuizNavigator(questions);
+        }
+      });
+      
+      // Listen to bookmark events
+      document.addEventListener('bookmark-toggle', (e) => {
+        const { questionId, isBookmarked } = e.detail;
+        
+        if (isBookmarked) {
+          state.bookmarkedQuestions.add(questionId);
+        } else {
+          state.bookmarkedQuestions.delete(questionId);
+        }
+        
+        saveToLocalStorage();
+        updateProgressBar();
       });
     });
   })();
