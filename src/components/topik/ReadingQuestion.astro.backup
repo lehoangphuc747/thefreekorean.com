@@ -1,0 +1,359 @@
+---
+/**
+ * Component ReadingQuestion - Hiển thị một câu hỏi đọc hiểu TOPIK
+ * 
+ * Chức năng chính:
+ * - Hiển thị câu hỏi bằng tiếng Hàn (question_ko) và có thể toggle hiện/ẩn bản dịch tiếng Việt (question_vi)
+ * - Hiển thị hình ảnh đính kèm câu hỏi (nếu có)
+ * - Render danh sách các lựa chọn trả lời thông qua component ChoiceList
+ * - Xử lý logic chọn đáp án: kiểm tra đúng/sai, vô hiệu hóa sau khi chọn
+ * - Hiển thị feedback (đúng/sai) với màu sắc tương ứng (xanh/đỏ)
+ * - Hiển thị giải thích (explain) với markdown formatting (bold, italic, headings, bullet points)
+ * - Sử dụng unique ID (exam-id) để tránh conflict khi có nhiều câu hỏi cùng số thứ tự
+ * - State management riêng biệt cho mỗi câu hỏi thông qua IIFE closure
+ * 
+ * Props:
+ * - question.id: Số thứ tự câu hỏi
+ * - question.exam: Mã đề thi (vd: "91st", "topik2-dang-01")
+ * - question.question_ko: Câu hỏi tiếng Hàn
+ * - question.question_vi: Bản dịch tiếng Việt (optional)
+ * - question.image: Đường dẫn hình ảnh (optional)
+ * - question.choices: Mảng các lựa chọn
+ * - question.answer: Index đáp án đúng
+ * - question.explain: Giải thích đáp án (optional, hỗ trợ markdown)
+ */
+import ChoiceList from './ChoiceList.astro';
+
+export interface Props {
+  question: {
+    id: number;
+    exam: string;
+    question_ko: string;
+    question_vi?: string;
+    image?: string;
+    choices: Array<{ type: string; text?: string; src?: string; alt?: string }>;
+    answer: number;
+    explain?: string;
+  };
+}
+
+const { question } = Astro.props;
+---
+
+<div class="bg-white rounded-xl shadow-lg p-8" data-question-id={question.id} data-question-exam={question.exam} data-unique-question-id={`${question.exam}-${question.id}`} data-question-answer={question.answer} data-question-explain={question.explain || ''}>
+  <!-- Số câu và câu hỏi tiếng Hàn -->
+  <div class="mb-4">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-sm font-medium text-gray-500">
+        Câu {question.id}
+      </span>
+      {question.exam && (
+        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+          {question.exam.toUpperCase()}
+        </span>
+      )}
+    </div>
+    <div class="flex items-start justify-between gap-4">
+      <h3 class="text-xl font-bold text-gray-900 mt-2 mb-2 flex-1">
+        {question.question_ko}
+      </h3>
+      {question.question_vi && (
+        <button 
+          class="toggle-vietnamese-btn px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors whitespace-nowrap"
+          data-question-id={question.id}
+        >
+          Hiện dịch
+        </button>
+      )}
+    </div>
+    {question.question_vi && (
+      <div 
+        class="vietnamese-translation hidden text-sm text-gray-600 mb-4 mt-2"
+        data-vietnamese-translation={question.id}
+      >
+        {question.question_vi}
+      </div>
+    )}
+  </div>
+
+  <!-- Hình ảnh (nếu có) -->
+  {question.image && (
+    <div class="mb-4">
+      <img src={question.image} alt="Question image" class="rounded-lg max-w-full" />
+    </div>
+  )}
+
+  <!-- Danh sách lựa chọn -->
+  {question.choices && question.choices.length > 0 && (
+    <>
+      <div 
+        class="mb-4"
+        data-choice-list-container
+        data-question-id={question.id}
+        data-answer={question.answer}
+      >
+        <ChoiceList 
+          choices={question.choices}
+          answer={question.answer}
+          selectedIndex={null}
+          onSelect={(index) => {}}
+        />
+      </div>
+      
+      <!-- Feedback area (ẩn ban đầu) -->
+      <div 
+        class="feedback-area hidden mb-4 p-4 rounded-lg"
+        data-feedback-area
+      >
+        <p class="feedback-message text-base font-medium"></p>
+        {question.explain && (
+          <p class="feedback-explain mt-2 text-sm text-gray-700"></p>
+        )}
+      </div>
+    </>
+  )}
+</div>
+
+<script define:vars={{ questionId: question.id, uniqueQuestionId: `${question.exam}-${question.id}`, answerValue: question.answer, explainText: question.explain || '' }}>
+  // Sử dụng IIFE để tạo closure riêng cho mỗi câu hỏi, tránh conflict state
+  (function() {
+    // State riêng cho câu hỏi này (isolated trong closure)
+    let selectedIndex = null;
+    let isCorrect = null;
+    let showVietnamese = false;
+  
+  function updateChoiceList(selectedIdx) {
+    // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (!container) return;
+    
+    const choiceListContainer = container.querySelector('[data-choice-list-container]');
+    const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+    const choiceItems = choiceList?.querySelectorAll('.choice-item');
+    
+    if (!choiceItems) return;
+    
+    choiceItems.forEach((item, idx) => {
+      const isSelected = selectedIdx === idx;
+      // Sau khi shuffle, cần kiểm tra data-choice-is-correct thay vì so sánh với answerValue
+      const isAnswer = item.getAttribute('data-choice-is-correct') === 'true';
+      const isSelectedAndCorrect = isSelected && isAnswer;
+      const isSelectedAndWrong = isSelected && !isAnswer;
+      const isCorrectAnswerButNotSelected = isAnswer && selectedIdx !== null && !isSelected;
+      
+      // Reset classes và styles
+      item.className = "choice-item p-3 border-2 rounded-lg transition-colors cursor-pointer";
+      item.style.opacity = '';
+      
+      if (selectedIdx === null) {
+        // Chưa chọn - bình thường
+        item.classList.add('border-gray-200', 'hover:border-blue-400');
+        item.style.pointerEvents = '';
+        item.removeAttribute('data-disabled');
+      } else {
+        // Vô hiệu hóa tất cả
+        item.style.pointerEvents = 'none';
+        item.setAttribute('data-disabled', 'true');
+        item.classList.remove('hover:border-blue-400');
+        
+        // Đã chọn
+        if (isSelectedAndCorrect) {
+          // User chọn đúng - màu xanh
+          item.classList.add('bg-green-100', 'border-green-400');
+        } else if (isSelectedAndWrong) {
+          // User chọn sai - màu đỏ
+          item.classList.add('bg-red-100', 'border-red-400');
+        } else if (isCorrectAnswerButNotSelected) {
+          // Đáp án đúng nhưng user không chọn - xanh viền
+          item.classList.add('bg-green-50', 'border-green-400');
+        } else {
+          // Các lựa chọn khác - disabled
+          item.classList.add('border-gray-200');
+          item.style.opacity = '0.6';
+        }
+      }
+    });
+  }
+  
+  function showFeedback() {
+    // Sử dụng unique ID để tránh conflict
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (!container) return;
+    
+    const feedbackArea = container.querySelector('[data-feedback-area]');
+    const feedbackMessage = feedbackArea?.querySelector('.feedback-message');
+    const feedbackExplain = feedbackArea?.querySelector('.feedback-explain');
+    
+    if (!feedbackArea || !feedbackMessage) return;
+    
+    // Hiển thị feedback
+    feedbackArea.classList.remove('hidden');
+    
+    // Tìm đáp án đúng để lấy chữ cái (sau khi shuffle)
+    const choiceListContainer = container.querySelector('[data-choice-list-container]');
+    const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+    const correctItem = choiceList?.querySelector('[data-choice-is-correct="true"]');
+    const correctLetter = correctItem?.getAttribute('data-choice-letter') || 'A';
+    
+    if (isCorrect) {
+      // Chọn đúng
+      feedbackArea.className = 'feedback-area mb-4 p-4 rounded-lg bg-green-50 border-2 border-green-200';
+      feedbackMessage.className = 'feedback-message text-base font-medium text-green-800';
+      feedbackMessage.textContent = '✅ Chính xác!';
+      
+      // Hiển thị explain nếu có
+      if (feedbackExplain && explainText) {
+        // Chuyển đổi markdown cơ bản thành HTML
+        let htmlText = explainText
+          // Xử lý horizontal rules trước
+          .replace(/^---+$/gm, '<hr class="my-3 border-gray-300">') // horizontal rule
+          // Xử lý headings
+          .replace(/^### (.*?)$/gm, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>') // ### heading
+          .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold mt-4 mb-2">$1</h2>') // ## heading
+          .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>') // # heading
+          // Xử lý xuống dòng
+          .replace(/\n\n/g, '{{PARAGRAPH_BREAK}}') // double newline = paragraph break
+          .replace(/\n/g, '<br>') // single newline = line break
+          // Xử lý markdown formatting
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>') // **bold**
+          .replace(/\*(.*?)\*/g, '<em>$1</em>') // *italic* (sau khi đã xử lý **)
+          .replace(/^\- /gm, '• ') // bullet points ở đầu dòng
+          // Chuyển paragraph breaks thành HTML
+          .split('{{PARAGRAPH_BREAK}}')
+          .map(para => {
+            const trimmed = para.trim();
+            // Nếu đã là heading hoặc hr thì không wrap trong <p>
+            if (trimmed.startsWith('<h') || trimmed.startsWith('<hr')) {
+              return trimmed;
+            }
+            return trimmed ? `<p class="mt-2">${trimmed}</p>` : '';
+          })
+          .join('');
+        feedbackExplain.innerHTML = htmlText;
+        feedbackExplain.className = 'feedback-explain mt-2 text-sm text-gray-700';
+      }
+    } else {
+      // Chọn sai
+      feedbackArea.className = 'feedback-area mb-4 p-4 rounded-lg bg-red-50 border-2 border-red-200';
+      feedbackMessage.className = 'feedback-message text-base font-medium text-red-800';
+      feedbackMessage.textContent = `❌ Chưa đúng. Đáp án đúng là: ${correctLetter}`;
+      
+      // Hiển thị explain
+      if (feedbackExplain && explainText) {
+        // Chuyển đổi markdown cơ bản thành HTML
+        let htmlText = explainText
+          // Xử lý horizontal rules trước
+          .replace(/^---+$/gm, '<hr class="my-3 border-gray-300">') // horizontal rule
+          // Xử lý headings
+          .replace(/^### (.*?)$/gm, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>') // ### heading
+          .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold mt-4 mb-2">$1</h2>') // ## heading
+          .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>') // # heading
+          // Xử lý xuống dòng
+          .replace(/\n\n/g, '{{PARAGRAPH_BREAK}}') // double newline = paragraph break
+          .replace(/\n/g, '<br>') // single newline = line break
+          // Xử lý markdown formatting
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>') // **bold**
+          .replace(/\*(.*?)\*/g, '<em>$1</em>') // *italic* (sau khi đã xử lý **)
+          .replace(/^\- /gm, '• ') // bullet points ở đầu dòng
+          // Chuyển paragraph breaks thành HTML
+          .split('{{PARAGRAPH_BREAK}}')
+          .map(para => {
+            const trimmed = para.trim();
+            // Nếu đã là heading hoặc hr thì không wrap trong <p>
+            if (trimmed.startsWith('<h') || trimmed.startsWith('<hr')) {
+              return trimmed;
+            }
+            return trimmed ? `<p class="mt-2">${trimmed}</p>` : '';
+          })
+          .join('');
+        feedbackExplain.innerHTML = htmlText;
+        feedbackExplain.className = 'feedback-explain mt-2 text-sm text-red-700';
+      }
+    }
+  }
+  
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sử dụng unique ID để tránh conflict khi có nhiều câu cùng id nhưng khác exam
+      const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (!container) return;
+    
+    const questionIdValue = container.getAttribute('data-question-id');
+    
+    // Toggle button cho dịch tiếng Việt
+    const toggleBtn = container.querySelector('.toggle-vietnamese-btn');
+    const vietnameseDiv = container.querySelector(`[data-vietnamese-translation="${questionIdValue}"]`);
+    
+    if (toggleBtn && vietnameseDiv) {
+      toggleBtn.addEventListener('click', () => {
+        showVietnamese = !showVietnamese;
+        if (showVietnamese) {
+          vietnameseDiv.classList.remove('hidden');
+          toggleBtn.textContent = 'Ẩn dịch';
+        } else {
+          vietnameseDiv.classList.add('hidden');
+          toggleBtn.textContent = 'Hiện dịch';
+        }
+      });
+    }
+    
+    // Lắng nghe event từ ChoiceList
+    const choiceListContainer = container.querySelector('[data-choice-list-container]');
+    const choiceList = choiceListContainer?.querySelector('[data-choice-list]');
+    
+    if (choiceList) {
+      choiceList.addEventListener('choice-select', (e) => {
+        const event = e;
+        // Defensive check: đảm bảo event và detail tồn tại
+        if (!event || !event.detail) {
+          console.warn('Invalid event received:', event);
+          return;
+        }
+        const clickedIndex = event.detail.index ?? 0;
+        
+        // Nếu đã chọn rồi thì không làm gì
+        if (selectedIndex !== null) return;
+        
+        // Kiểm tra xem đáp án đã chọn có đúng không (sau khi shuffle)
+        const clickedItem = choiceList?.querySelector(`[data-choice-index="${clickedIndex}"]`);
+        const isAnswerCorrect = clickedItem?.getAttribute('data-choice-is-correct') === 'true';
+        
+        // Cập nhật state
+        selectedIndex = clickedIndex;
+        isCorrect = isAnswerCorrect;
+        
+        // Cập nhật màu sắc choices
+        updateChoiceList(selectedIndex);
+        
+        // Hiển thị feedback
+        showFeedback();
+      });
+    }
+    });
+  })();
+</script>
+
+<style>
+  .choice-item {
+    transition: all 0.2s ease;
+  }
+  
+  .choice-item:hover {
+    transform: translateX(4px);
+  }
+  
+  .feedback-area {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+

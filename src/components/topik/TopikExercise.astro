@@ -58,7 +58,6 @@ import { join } from 'path';
 import ReadingQuestion from './ReadingQuestion.astro';
 import SettingsPanel from './SettingsPanel.astro';
 import QuizNavigator from './QuizNavigator.astro';
-import ProgressBar from './ProgressBar.astro';
 
 export interface Props {
   slug: string;
@@ -175,19 +174,6 @@ const timerEnabled = true;
               ))}
             </>
           )}
-        </div>
-      </div>
-
-      <!-- Progress Bar - Sticky below navbar -->
-      <div class="sticky top-0 z-40 bg-white shadow-md mb-6" id="progress-bar-wrapper">
-        <div class="max-w-7xl mx-auto px-4 py-4">
-          <ProgressBar
-            totalQuestions={totalQuestionsCount}
-            answeredQuestions={0}
-            correctAnswers={0}
-            wrongAnswers={0}
-            bookmarkedCount={0}
-          />
         </div>
       </div>
 
