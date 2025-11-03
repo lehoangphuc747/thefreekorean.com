@@ -136,17 +136,15 @@ const {
         )}
       </div>
       
-      <!-- Submit button (chỉ hiện trong submit mode) -->
-      {checkMode === 'submit' && (
-        <div class="submit-button-wrapper mt-4 hidden" data-submit-wrapper>
-          <button 
-            class="submit-answer-btn w-full py-3 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-            data-submit-btn
-          >
-            Nộp bài
-          </button>
-        </div>
-      )}
+      <!-- Submit button (luôn render nhưng chỉ hiện trong submit mode khi đã chọn đáp án) -->
+      <div class="submit-button-wrapper mt-4 hidden" data-submit-wrapper>
+        <button 
+          class="submit-answer-btn w-full py-3 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+          data-submit-btn
+        >
+          Nộp bài
+        </button>
+      </div>
     </>
   )}
 </div>
