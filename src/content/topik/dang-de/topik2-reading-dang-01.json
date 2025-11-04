@@ -278,7 +278,7 @@
     {
       "id": 20,
       "exam": "연습",
-      "question_ko": "노인 취업에 대한 설문 조사에서 건강이 ( ) 계속 일하고 싶다는 응답이 과반수를 넘었다.",
+      "question_ko": "노인 취업에 대한 설문 조사에서 건강이 (       ) 계속 일하고 싶다는 응답이 과반수를 넘었다.",
       "question_vi": "Trong một cuộc khảo sát về việc làm cho người cao tuổi, câu trả lời rằng họ muốn tiếp tục làm việc miễn là sức khỏe cho phép đã chiếm hơn một nửa.",
       "choices": [
         { "type": "text", "text": "허락하길래" },
@@ -404,7 +404,7 @@
     {
       "id": 29,
       "exam": "연습",
-      "question_ko": "술을 한잔하면서 친구에게 속마음을 털어 ( ) 마음이 가벼워졌다.",
+      "question_ko": "술을 한잔하면서 친구에게 속마음을 털어 (       ) 마음이 가벼워졌다.",
       "question_vi": "Vừa uống rượu vừa trút bầu tâm sự với bạn xong thì tôi thấy lòng nhẹ nhõm hơn.",
       "choices": [
         { "type": "text", "text": "놓던데" },
@@ -418,7 +418,7 @@
     {
       "id": 30,
       "exam": "연습",
-      "question_ko": "우리는 ( ) 자기가 할 일을 남에게 미루지 말고 스스로 해야 한다.",
+      "question_ko": "우리는 (       ) 자기가 할 일을 남에게 미루지 말고 스스로 해야 한다.",
       "question_vi": "Chúng ta dù có mệt mỏi đi chăng nữa cũng không được đùn đẩy việc của mình cho người khác mà phải tự mình làm.",
       "choices": [
         { "type": "text", "text": "피곤하고도" },
@@ -432,7 +432,7 @@
     {
       "id": 31,
       "exam": "연습",
-      "question_ko": "수학 문제가 너무 어려웠지만 포기하지 않고 끝까지 ( ).",
+      "question_ko": "수학 문제가 너무 어려웠지만 포기하지 않고 끝까지 (       ).",
       "question_vi": "Bài toán rất khó nhưng tôi đã không bỏ cuộc và đã đào sâu suy nghĩ đến cùng.",
       "choices": [
         { "type": "text", "text": "파 놓았다" },
@@ -446,7 +446,7 @@
     {
       "id": 32,
       "exam": "연습",
-      "question_ko": "가 : 오늘 왜 이렇게 늦었어요?\n나 : 버스를 타고 ( ) 깜빡 잠이 들어서 정류장을 지나쳤어요.",
+      "question_ko": "가 : 오늘 왜 이렇게 늦었어요?\n나 : 버스를 타고 (       ) 깜빡 잠이 들어서 정류장을 지나쳤어요.",
       "question_vi": "A: Sao hôm nay bạn đến muộn vậy?\nB: Vì đang đi xe buýt thì tôi lỡ ngủ quên nên đã đi qua mất bến đỗ.",
       "choices": [
         { "type": "text", "text": "오던데" },
@@ -460,7 +460,7 @@
     {
       "id": 33,
       "exam": "연습",
-      "question_ko": "가 : 옷에 뭐가 묻었네요.\n나 : 옆 사람이 팔을 ( ) 커피를 쏟았거든요.",
+      "question_ko": "가 : 옷에 뭐가 묻었네요.\n나 : 옆 사람이 팔을 (       ) 커피를 쏟았거든요.",
       "question_vi": "A: Có gì dính trên áo bạn kìa.\nB: À, là do người bên cạnh huých tay vào nên làm đổ cà phê.",
       "choices": [
         { "type": "text", "text": "칠 텐데" },
@@ -474,7 +474,7 @@
     {
       "id": 34,
       "exam": "연습",
-      "question_ko": "가 : 이번 시험에서 민수 씨가 1등을 했대요.\n나 : 설마요. 그렇게 공부도 안 하는데 1등을 ( ).",
+      "question_ko": "가 : 이번 시험에서 민수 씨가 1등을 했대요.\n나 : 설마요. 그렇게 공부도 안 하는데 1등을 (       ).",
       "question_vi": "A: Nghe nói Minsu được hạng nhất trong kỳ thi lần này đấy.\nB: Không đời nào. Cậu ấy có học hành gì đâu mà làm sao hạng nhất được chứ.",
       "choices": [
         { "type": "text", "text": "했을지도 몰라요" },
@@ -488,7 +488,7 @@
     {
       "id": 35,
       "exam": "연습",
-      "question_ko": "가 : 해외 출장은 잘 갔다 왔어요?\n나 : 그곳 날씨가 너무 더워서 숨 ( ) 쉬기 힘들었어요.",
+      "question_ko": "가 : 해외 출장은 잘 갔다 왔어요?\n나 : 그곳 날씨가 너무 더워서 숨 (       ) 쉬기 힘들었어요.",
       "question_vi": "A: Chuyến công tác nước ngoài của bạn tốt đẹp chứ?\nB: Thời tiết ở đó nóng đến mức ngay cả thở cũng thấy khó khăn.",
       "choices": [
         { "type": "text", "text": "만큼" },
@@ -502,7 +502,7 @@
     {
       "id": 36,
       "exam": "연습",
-      "question_ko": "가: 내일 지방으로 단풍 구경을 가려는데 차가 막힐까 봐 걱정이에요.\n나: 멀리 갈 필요 있어요? 서울 근교에도 단풍을 ( ) 곳이 많아요.",
+      "question_ko": "가: 내일 지방으로 단풍 구경을 가려는데 차가 막힐까 봐 걱정이에요.\n나: 멀리 갈 필요 있어요? 서울 근교에도 단풍을 (       ) 곳이 많아요.",
       "question_vi": "A: Ngày mai tôi định về quê ngắm lá phong nhưng lo là sẽ kẹt xe.\nB: Cần gì phải đi xa? Ở ngoại ô Seoul cũng có nhiều nơi đáng để ngắm lá phong lắm.",
       "choices": [
         { "type": "text", "text": "구경해 본" },
@@ -516,7 +516,7 @@
     {
       "id": 37,
       "exam": "연습",
-      "question_ko": "가: 민호는 대학 졸업 후에 뭐 한대요?\n나: 대학원 입학 서류를 준비하는 걸 봤어요. 대학원에 ( ).",
+      "question_ko": "가: 민호는 대학 졸업 후에 뭐 한대요?\n나: 대학원 입학 서류를 준비하는 걸 봤어요. 대학원에 (       ).",
       "question_vi": "A: Minho định làm gì sau khi tốt nghiệp đại học vậy?\nB: Tôi thấy cậu ấy đang chuẩn bị hồ sơ nhập học cao học. Chắc là cậu ấy định học lên cao học.",
       "choices": [
         { "type": "text", "text": "가면 돼요" },
@@ -530,7 +530,7 @@
     {
       "id": 38,
       "exam": "연습",
-      "question_ko": "가: 저 할머니께서 평생 모은 돈을 대학에 기부하셨대.\n나 : 대단하시다. 요즘( ) 자신의 이익만 생각하는 시대에 말이야.",
+      "question_ko": "가: 저 할머니께서 평생 모은 돈을 대학에 기부하셨대.\n나 : 대단하시다. 요즘(       ) 자신의 이익만 생각하는 시대에 말이야.",
       "question_vi": "A: Nghe nói bà cụ kia đã quyên góp toàn bộ số tiền tiết kiệm cả đời cho trường đại học.\nB: Thật đáng ngưỡng mộ. Trong thời đại mà mọi người chỉ nghĩ đến lợi ích của bản thân như bây giờ.",
       "choices": [
         { "type": "text", "text": "부터" },
@@ -544,7 +544,7 @@
     {
       "id": 39,
       "exam": "연습",
-      "question_ko": "가: 아까 계단에서 뛰어 내려오다가 ( ).\n나: 계단에서 뛰면 위험해요. 크게 다칠 수 있잖아요.",
+      "question_ko": "가: 아까 계단에서 뛰어 내려오다가 (       ).\n나: 계단에서 뛰면 위험해요. 크게 다칠 수 있잖아요.",
       "question_vi": "A: Lúc nãy khi đang chạy xuống cầu thang, tôi suýt nữa thì bị ngã.\nB: Chạy trên cầu thang nguy hiểm lắm. Có thể bị thương nặng đó.",
       "choices": [
         { "type": "text", "text": "넘어지곤 했어요" },
@@ -558,7 +558,7 @@
     {
       "id": 40,
       "exam": "연습",
-      "question_ko": "가: 그 작가가 쓴 책이 곧 나온대요.\n나: 네, 저도 들었어요. 책이 ( ) 꼭 사 볼 거예요.",
+      "question_ko": "가: 그 작가가 쓴 책이 곧 나온대요.\n나: 네, 저도 들었어요. 책이 (       ) 꼭 사 볼 거예요.",
       "question_vi": "A: Nghe nói cuốn sách mà tác giả đó viết sắp ra mắt rồi.\nB: Vâng, tôi cũng nghe rồi. Ngay khi sách ra là tôi sẽ mua đọc thử.",
       "choices": [
         { "type": "text", "text": "나오는 길에" },
@@ -572,7 +572,7 @@
     {
       "id": 41,
       "exam": "연습",
-      "question_ko": "가: 이거 못 보던 시계인데 새로 샀어요?\n나: 아니요. 고장 나서 ( ) 시곗줄을 바꾼 거예요.",
+      "question_ko": "가: 이거 못 보던 시계인데 새로 샀어요?\n나: 아니요. 고장 나서 (       ) 시곗줄을 바꾼 거예요.",
       "question_vi": "A: Cái đồng hồ này lạ quá, bạn mới mua à?\nB: Không. Nó bị hỏng nên nhân tiện đi sửa tôi đã thay dây luôn.",
       "choices": [
         { "type": "text", "text": "수리하자마자" },
@@ -586,7 +586,7 @@
     {
       "id": 42,
       "exam": "연습",
-      "question_ko": "가: 지금 축구 결승전 중계하는데 텔레비전 안 보고 뭐 해요?\n나: 그렇지 않아도 막 ( ).",
+      "question_ko": "가: 지금 축구 결승전 중계하는데 텔레비전 안 보고 뭐 해요?\n나: 그렇지 않아도 막 (       ).",
       "question_vi": "A: Đang truyền hình trực tiếp trận chung kết bóng đá mà sao anh không xem TV, làm gì vậy?\nB: Tôi cũng đang định xem đây, vừa đúng lúc định bật lên.",
       "choices": [
         { "type": "text", "text": "보곤 했어요" },
@@ -600,7 +600,7 @@
     {
       "id": 43,
       "exam": "연습",
-      "question_ko": "가 : 이번 휴가에는 뭐 할 거예요?\n나 : 저는 친구들하고 제주도에 놀러 ( ).",
+      "question_ko": "가 : 이번 휴가에는 뭐 할 거예요?\n나 : 저는 친구들하고 제주도에 놀러 (       ).",
       "question_vi": "A: Kỳ nghỉ lần này bạn sẽ làm gì?\nB: Tôi đã quyết định/hẹn sẽ đi chơi đảo Jeju cùng với bạn bè.",
       "choices": [
         { "type": "text", "text": "가는군요" },
@@ -614,7 +614,7 @@
     {
       "id": 44,
       "exam": "연습",
-      "question_ko": "가 : 피아노를 정말 잘 치시네요.\n나 : 잘 ( ). 어렸을 때 아주 잠깐 배운 거예요.",
+      "question_ko": "가 : 피아노를 정말 잘 치시네요.\n나 : 잘 (       ). 어렸을 때 아주 잠깐 배운 거예요.",
       "question_vi": "A: Bạn chơi piano giỏi thật đấy.\nB: Giỏi gì đâu ạ. Tôi chỉ học một chút xíu hồi nhỏ thôi.",
       "choices": [
         { "type": "text", "text": "치기는요" },
@@ -628,7 +628,7 @@
     {
       "id": 45,
       "exam": "연습",
-      "question_ko": "가 : 항상 아이들의 건강을 먼저 생각하시는 것 같아요.\n나 : 아이들이 건강하게 ( ) 잘 보살피는 게 부모의 일이잖아요.",
+      "question_ko": "가 : 항상 아이들의 건강을 먼저 생각하시는 것 같아요.\n나 : 아이들이 건강하게 (       ) 잘 보살피는 게 부모의 일이잖아요.",
       "question_vi": "A: Dường như chị lúc nào cũng nghĩ đến sức khỏe của các con trước tiên.\nB: Chăm sóc các con thật tốt để chúng lớn lên khỏe mạnh là việc của cha mẹ mà.",
       "choices": [
         { "type": "text", "text": "자라던데" },
@@ -642,7 +642,7 @@
     {
       "id": 46,
       "exam": "연습",
-      "question_ko": "가 : 연수 신청서를 내일까지 제출해야 하는데 알고 있어요?\n나 : 그럼요. 날짜를 ( ) 달력에 표시해 두었어요.",
+      "question_ko": "가 : 연수 신청서를 내일까지 제출해야 하는데 알고 있어요?\n나 : 그럼요. 날짜를 (       ) 달력에 표시해 두었어요.",
       "question_vi": "A: Bạn có biết là phải nộp đơn đăng ký khóa đào tạo trước ngày mai không?\nB: Tất nhiên rồi. Tôi đã đánh dấu vào lịch vì sợ quên mất ngày.",
       "choices": [
         { "type": "text", "text": "넘길까 봐" },
@@ -656,7 +656,7 @@
     {
       "id": 47,
       "exam": "연습",
-      "question_ko": "가 : 어제 동창회에 왜 안 나왔어? 얼마 전에 귀국한 영호도 왔었는데.\n나 : 영호가 나왔어? 그럴 줄 알았으면 나도 ( ).",
+      "question_ko": "가 : 어제 동창회에 왜 안 나왔어? 얼마 전에 귀국한 영호도 왔었는데.\n나 : 영호가 나왔어? 그럴 줄 알았으면 나도 (       ).",
       "question_vi": "A: Sao hôm qua không đến buổi họp lớp? Yeongho mới về nước cũng đến đấy.\nB: Yeongho đến á? Biết thế thì mình cũng đã đi rồi.",
       "choices": [
         { "type": "text", "text": "나갈까 해" },
@@ -670,7 +670,7 @@
     {
       "id": 48,
       "exam": "연습",
-      "question_ko": "가 : 내일 공항에는 뭘 타고 갈 거예요?\n나 : 버스를 타고 갈 거예요. 버스 정류장이 저희 집에서 ( ).",
+      "question_ko": "가 : 내일 공항에는 뭘 타고 갈 거예요?\n나 : 버스를 타고 갈 거예요. 버스 정류장이 저희 집에서 (       ).",
       "question_vi": "A: Ngày mai bạn đi gì ra sân bay?\nB: Tôi sẽ đi xe buýt. (Là vì) bến xe buýt gần nhà tôi lắm.",
       "choices": [
         { "type": "text", "text": "가깝군요" },
@@ -684,7 +684,7 @@
     {
       "id": 49,
       "exam": "연습",
-      "question_ko": "가 : 이 꽃을 잘 ( ) 어떻게 해야 해요?\n나 : 햇볕이 잘 드는 곳에 놓고, 물은 이틀에 한 번씩 주세요.",
+      "question_ko": "가 : 이 꽃을 잘 (       ) 어떻게 해야 해요?\n나 : 햇볕이 잘 드는 곳에 놓고, 물은 이틀에 한 번씩 주세요.",
       "question_vi": "A: Để trồng hoa này cho tốt thì phải làm thế nào ạ?\nB: Bạn hãy đặt nó ở nơi có nhiều nắng và hai ngày tưới nước một lần.",
       "choices": [
         { "type": "text", "text": "키우도록" },
@@ -698,7 +698,7 @@
     {
       "id": 50,
       "exam": "연습",
-      "question_ko": "가 : 전시회를 준비하느라고 고생이 많았겠군요.\n나 : 동료와 후배들이 많이 도와주어서 생각( ) 힘들지는 않았어요.",
+      "question_ko": "가 : 전시회를 준비하느라고 고생이 많았겠군요.\n나 : 동료와 후배들이 많이 도와주어서 생각(       ) 힘들지는 않았어요.",
       "question_vi": "A: Chắc anh đã vất vả nhiều để chuẩn bị cho buổi triển lãm nhỉ.\nB: Vì được đồng nghiệp và hậu bối giúp đỡ nhiều nên cũng không vất vả như tôi nghĩ.",
       "choices": [
         { "type": "text", "text": "이나" },
@@ -712,7 +712,7 @@
     {
       "id": 51,
       "exam": "연습",
-      "question_ko": "가 : 전화로 예약을 하고 식당에 갔는데 예약이 안 되어 있더라고요.\n나 : 그랬어요? 전화로 예약하면 가끔 ( ).",
+      "question_ko": "가 : 전화로 예약을 하고 식당에 갔는데 예약이 안 되어 있더라고요.\n나 : 그랬어요? 전화로 예약하면 가끔 (       ).",
       "question_vi": "A: Tôi đã đặt bàn qua điện thoại rồi đến nhà hàng, thế mà họ bảo là chưa được đặt.\nB: Vậy à? Đặt bàn qua điện thoại thỉnh thoảng cũng có trường hợp bị nhầm lẫn như vậy đấy.",
       "choices": [
         { "type": "text", "text": "잘못된 줄 몰랐어요" },
@@ -726,7 +726,7 @@
     {
       "id": 52,
       "exam": "연습",
-      "question_ko": "가 : 오랜만에 야외에 나오니까 기분이 아주 상쾌하군요.\n나 : 네. 시내를 조금( ) 공기가 정말 다르네요.",
+      "question_ko": "가 : 오랜만에 야외에 나오니까 기분이 아주 상쾌하군요.\n나 : 네. 시내를 조금 (       ) 공기가 정말 다르네요.",
       "question_vi": "A: Lâu rồi mới ra ngoài trời nên tâm trạng thật sảng khoái.\nB: Vâng. Chỉ cần ra khỏi trung tâm thành phố một chút thôi là không khí đã khác hẳn rồi.",
       "choices": [
         { "type": "text", "text": "벗어나듯이" },
@@ -740,7 +740,7 @@
     {
       "id": 53,
       "exam": "연습",
-      "question_ko": "가 : 지금쯤이면 공항에 도착했을까요?\n나 : 아마( ). 출발한 지 벌써 두 시간이나 지났잖아요.",
+      "question_ko": "가 : 지금쯤이면 공항에 도착했을까요?\n나 : 아마 (       ). 출발한 지 벌써 두 시간이나 지났잖아요.",
       "question_vi": "A: Giờ này chắc họ đến sân bay chưa nhỉ?\nB: Chắc là đến rồi đấy ạ. Đã xuất phát được hai tiếng rồi còn gì.",
       "choices": [
         { "type": "text", "text": "도착했군요" },
@@ -754,7 +754,7 @@
     {
       "id": 54,
       "exam": "연습",
-      "question_ko": "가 : 혹시 이 대리 봤어요? 급히 의논할 사항이 있는데 자리에 없네요.\n나 : 아까 1층에서 손님을 ( ).",
+      "question_ko": "가 : 혹시 이 대리 봤어요? 급히 의논할 사항이 있는데 자리에 없네요.\n나 : 아까 1층에서 손님을 (       ).",
       "question_vi": "A: Anh có thấy Trợ lý Lee đâu không? Tôi có việc cần bàn gấp mà anh ấy không có ở chỗ.\nB: Lúc nãy tôi thấy anh ấy đang gặp khách ở tầng 1 đấy.",
       "choices": [
         { "type": "text", "text": "만나던데요" },
@@ -768,7 +768,7 @@
     {
       "id": 55,
       "exam": "연습",
-      "question_ko": "가 : 어떤 장갑으로 사다 줄까요? 원하는 것이 있어요?\n나 : 특별히 원하는 것은 없어요. 그냥 ( ).",
+      "question_ko": "가 : 어떤 장갑으로 사다 줄까요? 원하는 것이 있어요?\n나 : 특별히 원하는 것은 없어요. 그냥 (       ).",
       "question_vi": "A: Tôi mua cho bạn loại găng tay nào đây? Có loại nào bạn muốn không?\nB: Tôi không có yêu cầu gì đặc biệt đâu. Chỉ cần nó ấm là được.",
       "choices": [
         { "type": "text", "text": "따뜻할 텐데요" },
@@ -782,7 +782,7 @@
     {
       "id": 56,
       "exam": "연습",
-      "question_ko": "가 : 형한테도 내일 같이 놀러 가자고 할까?\n나 :( ) 안 갈 거야. 내일 시험이 있다고 했거든.",
+      "question_ko": "가 : 형한테도 내일 같이 놀러 가자고 할까?\n나 : (       ) 안 갈 거야. 내일 시험이 있다고 했거든.",
       "question_vi": "A: Hay là mình rủ anh trai mai đi chơi cùng nhé?\nB: Hỏi cũng như không thôi, anh ấy sẽ không đi đâu. Anh ấy bảo mai có bài thi mà.",
       "choices": [
         { "type": "text", "text": "물어보다시피" },

@@ -294,6 +294,59 @@ const {
         item.style.opacity = '0.6';
       }
     });
+    
+    // Render explain for unanswered questions
+    renderExplainForUnanswered();
+  }
+  
+  // Render explain content for unanswered questions
+  function renderExplainForUnanswered() {
+    const container = document.querySelector(`[data-unique-question-id="${uniqueQuestionId}"]`);
+    if (!container) return;
+    
+    const feedbackArea = container.querySelector('[data-feedback-area]');
+    const feedbackMessage = feedbackArea?.querySelector('.feedback-message');
+    const feedbackExplain = feedbackArea?.querySelector('.feedback-explain');
+    
+    if (!feedbackArea || !feedbackMessage) return;
+    
+    // Set message
+    feedbackMessage.textContent = '❌ Chưa chọn đáp án';
+    feedbackArea.className = 'feedback-area mb-4 p-4 rounded-lg bg-gray-50 border-2 border-gray-200';
+    feedbackMessage.className = 'feedback-message text-base font-medium text-gray-800';
+    
+    // Render explain content if exists
+    if (feedbackExplain && explainText) {
+      let htmlText = explainText
+        .replace(/^---+$/gm, '<hr class="my-3 border-gray-300">')
+        .replace(/^### (.*?)$/gm, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>')
+        .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold mt-4 mb-2">$1</h2>')
+        .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>')
+        .replace(/\n\n/g, '{{PARAGRAPH_BREAK}}')
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/^\- /gm, '• ')
+        .split('{{PARAGRAPH_BREAK}}')
+        .map(para => {
+          const trimmed = para.trim();
+          if (trimmed.startsWith('<h') || trimmed.startsWith('<hr')) {
+            return trimmed;
+          }
+          return trimmed ? `<p class="mt-2">${trimmed}</p>` : '';
+        })
+        .join('');
+      feedbackExplain.innerHTML = htmlText;
+      feedbackExplain.className = 'feedback-explain mt-2 text-sm text-gray-700';
+      
+      // Hide explain if showExplain is false
+      if (!showExplain) {
+        feedbackExplain.classList.add('hidden');
+      }
+    }
+    
+    // Keep feedbackArea hidden initially - user can toggle to show via "Hiện giải thích" button
+    feedbackArea.classList.add('hidden');
   }
   
   function showFeedback() {
@@ -496,10 +549,22 @@ const {
       toggleExplainBtn.addEventListener('click', () => {
         showExplain = !showExplain;
         updateExplainBtnLabel();
+        const feedbackArea = container.querySelector('[data-feedback-area]');
         const feedbackExplain = container.querySelector('.feedback-explain');
-        if (feedbackExplain) {
-          if (showExplain) feedbackExplain.classList.remove('hidden');
-          else feedbackExplain.classList.add('hidden');
+        
+        // If showExplain is true, make sure feedbackArea is visible and feedbackExplain is visible
+        if (showExplain) {
+          if (feedbackArea) {
+            feedbackArea.classList.remove('hidden');
+          }
+          if (feedbackExplain) {
+            feedbackExplain.classList.remove('hidden');
+          }
+        } else {
+          // If hide explain, just hide the explain part, but keep feedbackArea visible if it has content
+          if (feedbackExplain) {
+            feedbackExplain.classList.add('hidden');
+          }
         }
       });
     }
@@ -596,8 +661,11 @@ const {
           dispatchAnswerEvent();
         } else if (selectedIndex === null) {
           // No answer selected - show correct answer in yellow
+          isSubmitted = true; // Mark as submitted
           updateChoiceListUnanswered();
         }
+        
+        // Don't disable explain button - allow user to toggle explain visibility after submit
       }
     });
     
