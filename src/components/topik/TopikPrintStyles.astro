@@ -1,0 +1,336 @@
+---
+/**
+ * Component TopikPrintStyles - Print-friendly CSS cho trang TOPIK
+ * Tối ưu hóa giao diện khi in bài luyện tập TOPIK
+ */
+---
+
+<style is:global>
+  @media print {
+    /* Ẩn các phần không cần thiết khi in */
+    #topik-progress-bar,
+    .back-link,
+    [data-settings-panel],
+    [data-exam-filter],
+    #submit-all-wrapper,
+    #results-summary,
+    button,
+    .toggle-vietnamese-btn,
+    .toggle-explain-btn,
+    .bookmark-btn,
+    nav,
+    footer,
+    .navbar,
+    button[type="button"],
+    .px-3.py-1.text-xs {
+      display: none !important;
+    }
+    
+    /* Đặc biệt ẩn các nút toggle và action buttons */
+    button.toggle-vietnamese-btn,
+    button.toggle-explain-btn,
+    button.bookmark-btn,
+    .flex.gap-2 button,
+    .flex.items-center.gap-2 button {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      width: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+    }
+    
+    /* Ẩn các div chứa buttons */
+    .flex.gap-2:has(button),
+    .flex.items-center.gap-2:has(button) {
+      display: none !important;
+    }
+
+    /* Reset body và container */
+    body {
+      background: white !important;
+      color: black !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    html {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Container tối ưu cho in */
+    .max-w-7xl {
+      max-width: none !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Meta info */
+    .text-center {
+      text-align: left !important;
+      margin-top: 0 !important;
+      margin-bottom: 4pt !important;
+    }
+    
+    /* Giảm margin của meta badges container */
+    .flex.items-center.justify-center.gap-4 {
+      margin-top: 0 !important;
+      margin-bottom: 4pt !important;
+    }
+
+    h1 {
+      font-size: 14pt !important;
+      color: black !important;
+      margin-top: 0 !important;
+      margin-bottom: 4pt !important;
+      page-break-after: avoid !important;
+    }
+
+    /* Badges */
+    .px-3.py-1,
+    span.px-3.py-1 {
+      border: none !important;
+      background: transparent !important;
+      color: black !important;
+      padding: 0 4pt !important;
+      font-size: 9pt !important;
+      display: inline-block !important;
+      margin-right: 4pt !important;
+      margin-bottom: 4pt !important;
+      border-radius: 0 !important;
+    }
+
+    /* Questions container */
+    #questions-container {
+      max-width: none !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      margin-top: 4pt !important;
+    }
+
+    /* Question cards */
+    .question-wrapper {
+      page-break-inside: avoid !important;
+      margin-bottom: 10pt !important;
+      border: none !important;
+      padding: 0 !important;
+      background: transparent !important;
+      break-inside: avoid !important;
+    }
+
+    .bg-white.rounded-xl.shadow-lg {
+      box-shadow: none !important;
+      border: none !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      padding: 8pt !important;
+      background: white !important;
+      border-radius: 0 !important;
+    }
+
+    /* Question text */
+    .question-ko {
+      font-size: 9pt !important;
+      line-height: 1.4 !important;
+      color: black !important;
+      margin-bottom: 4pt !important;
+      page-break-after: avoid !important;
+    }
+
+    /* Vietnamese translation */
+    .vietnamese-translation {
+      font-size: 8pt !important;
+      color: #333 !important;
+      font-style: italic !important;
+      margin-bottom: 3pt !important;
+    }
+
+    .vietnamese-translation.hidden {
+      display: none !important;
+    }
+
+    /* Choices */
+    .choice-item {
+      border: none !important;
+      border-bottom: 1px solid #ddd !important;
+      background: white !important;
+      color: black !important;
+      padding: 3pt 4pt !important;
+      margin-bottom: 2pt !important;
+      page-break-inside: avoid !important;
+      font-size: 8.5pt !important;
+      border-radius: 0 !important;
+    }
+
+    /* Feedback area - hiển thị nếu có nội dung */
+    .feedback-area.hidden {
+      display: none !important;
+    }
+
+    .feedback-area {
+      border: none !important;
+      border-top: 1px solid #ddd !important;
+      background: #f9f9f9 !important;
+      padding: 4pt !important;
+      margin-top: 4pt !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      border-radius: 0 !important;
+    }
+
+    /* Hiển thị explain khi in (chỉ khi feedback area hiển thị) */
+    .feedback-explain.hidden {
+      display: none !important;
+    }
+
+    .feedback-message {
+      font-size: 8pt !important;
+      color: black !important;
+      margin-bottom: 3pt !important;
+      font-weight: bold !important;
+    }
+
+    .feedback-explain {
+      font-size: 7.5pt !important;
+      color: #333 !important;
+      line-height: 1.4 !important;
+    }
+
+    /* Group instruction */
+    .group-instruction-card {
+      border: none !important;
+      border-left: 3px solid #f59e0b !important;
+      background: #fef3c7 !important;
+      padding: 4pt !important;
+      margin-bottom: 6pt !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      border-radius: 0 !important;
+    }
+
+    .group-instruction-ko {
+      font-size: 8pt !important;
+      color: black !important;
+      font-weight: bold !important;
+      margin-bottom: 2pt !important;
+    }
+
+    .group-instruction-vi {
+      font-size: 7.5pt !important;
+      color: #333 !important;
+    }
+
+    /* Images */
+    img {
+      max-width: 100% !important;
+      height: auto !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      margin: 2pt 0 !important;
+    }
+    
+    /* Câu số */
+    .text-sm {
+      font-size: 8pt !important;
+    }
+    
+    /* Giảm spacing giữa các câu hỏi trong danh sách */
+    .questions-list {
+      gap: 8pt !important;
+    }
+
+    /* Remove all shadows and decorative elements */
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+    
+    /* Loại bỏ border thừa và border-radius khi in */
+    .rounded-xl,
+    .rounded-lg,
+    .rounded-md,
+    .rounded {
+      border-radius: 0 !important;
+    }
+    
+    /* Loại bỏ border của tất cả các phần tử không cần thiết */
+    [data-unique-question-id] {
+      border: none !important;
+    }
+
+    /* Page breaks */
+    h1, h2, h3 {
+      page-break-after: avoid !important;
+    }
+
+    /* Tránh ngắt trang ở những chỗ không mong muốn */
+    h1, h2, h3, h4, h5, h6 {
+      break-after: avoid !important;
+    }
+
+    /* Print page setup */
+    @page {
+      margin: 1cm 0.8cm;
+      size: A4;
+    }
+
+    /* Tối ưu cho các phần tử khác */
+    .space-y-6 > * + *,
+    .space-y-8 > * + * {
+      margin-top: 8pt !important;
+    }
+    
+    /* Giảm spacing cho meta info */
+    .mb-8 {
+      margin-bottom: 8pt !important;
+    }
+    
+    .mb-4 {
+      margin-bottom: 4pt !important;
+    }
+    
+    /* Giảm padding container */
+    .px-4 {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    
+    .py-12 {
+      padding-top: 4pt !important;
+      padding-bottom: 4pt !important;
+    }
+    
+    /* Giảm margin top của container chính */
+    .max-w-7xl.mx-auto {
+      margin-top: 0 !important;
+    }
+    
+    /* Giảm margin của các phần tử đầu trang */
+    .mb-4,
+    .mb-8 {
+      margin-bottom: 4pt !important;
+    }
+    
+    /* Giảm margin top của header */
+    div[style*="margin-top"] {
+      margin-top: 0 !important;
+    }
+
+    /* Câu số và exam badge */
+    .text-sm.font-medium {
+      font-size: 9pt !important;
+      color: #666 !important;
+    }
+
+    /* Question ID và exam tags */
+    span[class*="bg-"] {
+      border: none !important;
+      background: transparent !important;
+      color: black !important;
+    }
+  }
+</style>

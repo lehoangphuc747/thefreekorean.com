@@ -58,6 +58,7 @@ import ReadingQuestion from './ReadingQuestion.astro';
 import SettingsPanel from './SettingsPanel.astro';
 import ProgressBar from './ProgressBar.astro';
 import ExamFilter from './ExamFilter.astro';
+import TopikPrintStyles from './TopikPrintStyles.astro';
 
 export interface Props {
   slug: string;
@@ -142,6 +143,9 @@ const examsList = exams.map(exam => {
 
 const totalQuestionsCount = questions.length;
 ---
+
+<!-- Print Styles -->
+<TopikPrintStyles />
 
 <!-- Progress Bar - Fixed ở đầu page, ngay dưới navbar -->
 <div class="fixed top-[70px] left-0 right-0 z-50" id="topik-progress-bar">

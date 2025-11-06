@@ -338,15 +338,28 @@ const {
         .join('');
       feedbackExplain.innerHTML = htmlText;
       feedbackExplain.className = 'feedback-explain mt-2 text-sm text-gray-700';
-      
-      // Hide explain if showExplain is false
-      if (!showExplain) {
-        feedbackExplain.classList.add('hidden');
-      }
     }
     
-    // Keep feedbackArea hidden initially - user can toggle to show via "Hiện giải thích" button
-    feedbackArea.classList.add('hidden');
+    // Sau khi submit, tự động hiển thị giải thích nếu có
+    if (explainText) {
+      // Hiển thị feedbackArea và feedbackExplain
+      feedbackArea.classList.remove('hidden');
+      if (feedbackExplain) {
+        feedbackExplain.classList.remove('hidden');
+      }
+      
+      // Set showExplain = true để nút hiển thị "Ẩn giải thích"
+      showExplain = true;
+      
+      // Cập nhật label của nút
+      const toggleExplainBtn = container.querySelector('.toggle-explain-btn');
+      if (toggleExplainBtn) {
+        toggleExplainBtn.textContent = 'Ẩn giải thích';
+      }
+    } else {
+      // Nếu không có explain, vẫn hiển thị feedbackArea để show message
+      feedbackArea.classList.remove('hidden');
+    }
   }
   
   function showFeedback() {
@@ -538,6 +551,20 @@ const {
       });
     }
 
+    // Helper function để cập nhật visibility của nút "Hiện giải thích"
+    function updateExplainBtnVisibility() {
+      const toggleExplainBtn = container.querySelector('.toggle-explain-btn');
+      if (!toggleExplainBtn) return;
+      
+      const currentCheckMode = getCurrentCheckMode();
+      // Trong chế độ submit, chỉ hiển thị nút sau khi đã submit
+      if (currentCheckMode === 'submit' && !isSubmitted) {
+        toggleExplainBtn.classList.add('hidden');
+      } else {
+        toggleExplainBtn.classList.remove('hidden');
+      }
+    }
+    
     // Toggle giải thích (ẩn/hiện)
     const toggleExplainBtn = container.querySelector('.toggle-explain-btn');
     if (toggleExplainBtn) {
@@ -545,7 +572,11 @@ const {
       function updateExplainBtnLabel() {
         toggleExplainBtn.textContent = showExplain ? 'Ẩn giải thích' : 'Hiện giải thích';
       }
+      
+      // Khởi tạo visibility và label
+      updateExplainBtnVisibility();
       updateExplainBtnLabel();
+      
       toggleExplainBtn.addEventListener('click', () => {
         showExplain = !showExplain;
         updateExplainBtnLabel();
@@ -644,6 +675,9 @@ const {
         if (feedbackMessage) feedbackMessage.textContent = '';
         if (feedbackExplain) feedbackExplain.innerHTML = '';
       }
+      
+      // Cập nhật visibility của nút "Hiện giải thích"
+      updateExplainBtnVisibility();
     });
     
     // Listen to submit-all event (from global submit button in submit mode)
@@ -665,7 +699,31 @@ const {
           updateChoiceListUnanswered();
         }
         
-        // Don't disable explain button - allow user to toggle explain visibility after submit
+        // Sau khi submit, tự động hiển thị giải thích nếu có
+        if (explainText) {
+          const feedbackArea = container.querySelector('[data-feedback-area]');
+          const feedbackExplain = container.querySelector('.feedback-explain');
+          
+          // Đảm bảo feedbackArea và feedbackExplain được hiển thị
+          if (feedbackArea) {
+            feedbackArea.classList.remove('hidden');
+          }
+          if (feedbackExplain) {
+            feedbackExplain.classList.remove('hidden');
+          }
+          
+          // Set showExplain = true để nút hiển thị "Ẩn giải thích"
+          showExplain = true;
+          
+          // Cập nhật label của nút
+          const toggleExplainBtn = container.querySelector('.toggle-explain-btn');
+          if (toggleExplainBtn) {
+            toggleExplainBtn.textContent = 'Ẩn giải thích';
+          }
+        }
+        
+        // Sau khi submit, hiển thị nút "Hiện giải thích"
+        updateExplainBtnVisibility();
       }
     });
     
@@ -703,6 +761,8 @@ const {
           // Don't reload - checkModeValue will be read from attribute on next interaction
           console.log(`CheckMode updated from ${checkModeValue} to ${newCheckMode}`);
         }
+        // Cập nhật visibility của nút "Hiện giải thích" khi checkMode thay đổi
+        updateExplainBtnVisibility();
       }
     });
   });

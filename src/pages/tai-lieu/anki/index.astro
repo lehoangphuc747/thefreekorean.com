@@ -1,10 +1,10 @@
 ---
 // Data tổng quan về Anki
 const stats = {
-  totalBooks: 2,
-  totalLessons: 27,
-  totalCards: 2000,
-  totalDownloads: 15000
+  totalBooks: 12,
+  totalLessons: 50,
+  totalCards: 15000,
+  totalDownloads: 25000
 };
 
 const featuredBooks = [
@@ -15,7 +15,8 @@ const featuredBooks = [
     image: "/images/tieng-han-tong-hop-1.jpg",
     lessons: 15,
     cards: 1200,
-    level: "Sơ cấp"
+    level: "Sơ cấp",
+    language: "Tiếng Hàn"
   },
   {
     id: "seoul-korean-1a",
@@ -24,7 +25,28 @@ const featuredBooks = [
     image: "/images/seoul-korean-1a.jpg",
     lessons: 12,
     cards: 800,
-    level: "Sơ cấp"
+    level: "Sơ cấp",
+    language: "Tiếng Hàn"
+  },
+  {
+    id: "thpt-toan",
+    title: "Toán THPT",
+    description: "Bộ deck Anki đầy đủ cho môn Toán THPT",
+    image: "/images/thpt-toan.jpg",
+    lessons: 20,
+    cards: 2500,
+    level: "THPT",
+    language: "Tiếng Việt"
+  },
+  {
+    id: "thpt-vat-ly",
+    title: "Vật Lý THPT (11-12)",
+    description: "Deck Anki cho môn Vật Lý lớp 11 và 12",
+    image: "/images/thpt-vat-ly.jpg",
+    lessons: 25,
+    cards: 1800,
+    level: "THPT",
+    language: "Tiếng Việt"
   }
 ];
 ---
@@ -35,8 +57,8 @@ const featuredBooks = [
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
-  <title>Anki Decks - The Free Korean</title>
-  <meta name="description" content="Bộ sưu tập deck Anki miễn phí cho việc học tiếng Hàn từ các giáo trình phổ biến" />
+  <title>Anki Decks - The Free Korean & Vietnamese</title>
+  <meta name="description" content="Bộ sưu tập deck Anki miễn phí cho việc học tiếng Hàn và ôn thi THPT Việt Nam" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -70,11 +92,11 @@ const featuredBooks = [
   <section class="py-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <h1 class="text-5xl font-bold text-gray-900 mb-6">
-        Anki Decks Tiếng Hàn
+        Anki Decks Tiếng Hàn & THPT Việt Nam
       </h1>
       <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-        Bộ sưu tập deck Anki miễn phí được tạo từ các giáo trình tiếng Hàn phổ biến. 
-        Tải về và bắt đầu hành trình học tiếng Hàn hiệu quả ngay hôm nay!
+        Bộ sưu tập deck Anki miễn phí cho việc học tiếng Hàn và ôn thi THPT Việt Nam. 
+        Tải về và bắt đầu hành trình học tập hiệu quả ngay hôm nay!
       </p>
       
       <!-- Stats -->
@@ -134,12 +156,15 @@ const featuredBooks = [
                   
                   <div class="flex flex-wrap gap-2 mb-6">
                     <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                      {book.level}
+                      {book.language}
                     </span>
                     <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                      {book.lessons} bài học
+                      {book.level}
                     </span>
                     <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                      {book.lessons} bài học
+                    </span>
+                    <span class="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
                       {book.cards} thẻ
                     </span>
                   </div>
