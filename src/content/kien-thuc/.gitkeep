@@ -1,0 +1,13 @@
+# Thư mục chứa các bài viết kiến thức TOPIK
+# Định dạng: Markdown files với frontmatter YAML
+# 
+# Ví dụ frontmatter:
+# ---
+# title: "Tiêu đề bài viết"
+# description: "Mô tả ngắn"
+# category: "Ngữ pháp"
+# level: "TOPIK II"
+# tags: ["ngữ pháp", "trung cấp"]
+# date: "2024-01-01"
+# ---
+

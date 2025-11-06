@@ -1,0 +1,299 @@
+---
+import TopikLayout from '../../../layouts/TopikLayout.astro';
+import { readdirSync, readFileSync, existsSync } from 'fs';
+import { join } from 'path';
+import { marked } from 'marked';
+
+export async function getStaticPaths() {
+  // Đọc tất cả file markdown trong thư mục topik/kien-thuc
+  const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'kien-thuc');
+  let paths: any[] = [];
+  
+  try {
+    const files = readdirSync(contentDir).filter((file: string) => 
+      file.endsWith('.md') || file.endsWith('.mdx')
+    );
+    
+    paths = files.map((file: string) => {
+      const slug = file.replace(/\.(md|mdx)$/, '');
+      return {
+        params: { slug }
+      };
+    });
+  } catch (error) {
+    console.error('Error reading kien-thuc directory:', error);
+  }
+  
+  return paths;
+}
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.params;
+
+// Hàm parse frontmatter thủ công
+const parseFrontmatter = (content: string) => {
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+  const match = content.match(frontmatterRegex);
+  
+  if (!match) {
+    return { data: {}, content };
+  }
+  
+  const frontmatterText = match[1];
+  const body = match[2];
+  const data: any = {};
+  
+  // Parse YAML đơn giản
+  frontmatterText.split('\n').forEach((line: string) => {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex > 0) {
+      const key = line.substring(0, colonIndex).trim();
+      let value = line.substring(colonIndex + 1).trim();
+      
+      // Xử lý giá trị có dấu ngoặc kép
+      if (value.startsWith('"') && value.endsWith('"')) {
+        value = value.slice(1, -1);
+      } else if (value.startsWith("'") && value.endsWith("'")) {
+        value = value.slice(1, -1);
+      }
+      
+      // Xử lý mảng
+      if (value.startsWith('[') && value.endsWith(']')) {
+        const arrayContent = value.slice(1, -1);
+        data[key] = arrayContent.split(',').map((item: string) => item.trim().replace(/^["']|["']$/g, ''));
+      } else {
+        data[key] = value;
+      }
+    }
+  });
+  
+  return { data, content: body };
+};
+
+// Đọc file markdown
+const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'kien-thuc');
+let frontmatter: any = {};
+let content = '';
+let notFound = false;
+
+// Thử đọc file .md trước, nếu không có thì thử .mdx
+const mdPath = join(contentDir, `${slug}.md`);
+const mdxPath = join(contentDir, `${slug}.mdx`);
+
+let filePath = '';
+if (existsSync(mdPath)) {
+  filePath = mdPath;
+} else if (existsSync(mdxPath)) {
+  filePath = mdxPath;
+} else {
+  notFound = true;
+}
+
+if (!notFound) {
+  try {
+    const fileContent = readFileSync(filePath, 'utf-8');
+    const parsed = parseFrontmatter(fileContent);
+    frontmatter = parsed.data;
+    // Convert markdown to HTML
+    content = marked.parse(parsed.content) as string;
+  } catch (error) {
+    console.error(`Error reading ${filePath}:`, error);
+    notFound = true;
+  }
+}
+
+if (notFound) {
+  return Astro.redirect('/topik/kien-thuc');
+}
+---
+
+<TopikLayout 
+  title={frontmatter.title}
+  description={frontmatter.description || ''}
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Back buttons -->
+    <div class="flex items-center gap-4 mb-6 flex-wrap">
+      <a 
+        href="/topik"
+        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Quay lại trang TOPIK</span>
+      </a>
+      <span class="text-gray-400">|</span>
+      <a 
+        href="/topik/kien-thuc"
+        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Quay lại danh sách</span>
+      </a>
+    </div>
+
+    <!-- Article header -->
+    <article class="bg-white rounded-xl shadow-lg p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+          {frontmatter.title}
+        </h1>
+        
+        {frontmatter.description && (
+          <p class="text-xl text-gray-600 mb-6">
+            {frontmatter.description}
+          </p>
+        )}
+
+        <div class="flex items-center gap-4 flex-wrap text-sm text-gray-600">
+          {frontmatter.category && (
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium">
+              {frontmatter.category}
+            </span>
+          )}
+          {frontmatter.level && (
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">
+              {frontmatter.level}
+            </span>
+          )}
+          {frontmatter.date && (
+            <span class="text-gray-500">
+              📅 {new Date(frontmatter.date).toLocaleDateString('vi-VN')}
+            </span>
+          )}
+        </div>
+
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="flex gap-2 flex-wrap mt-4">
+            {frontmatter.tags.map((tag: string) => (
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Article content -->
+      <div class="prose prose-lg max-w-none">
+        {content && (
+          <div set:html={content} />
+        )}
+      </div>
+    </article>
+  </div>
+</TopikLayout>
+
+<style>
+  .prose {
+    color: #374151;
+    line-height: 1.75;
+  }
+  
+  .prose h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+  
+  .prose h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #111827;
+  }
+  
+  .prose p {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .prose ul, .prose ol {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding-left: 1.625rem;
+  }
+  
+  .prose li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose code {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    color: #dc2626;
+  }
+  
+  .prose pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .prose pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    margin-left: 0;
+    color: #6b7280;
+    font-style: italic;
+  }
+  
+  .prose a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  
+  .prose a:hover {
+    color: #1d4ed8;
+  }
+  
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .prose th,
+  .prose td {
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .prose th {
+    background-color: #f9fafb;
+    font-weight: 600;
+  }
+</style>
+

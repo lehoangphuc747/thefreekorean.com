@@ -108,8 +108,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "772b261196dfe89b",
@@ -187,8 +186,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -201,20 +199,25 @@
   },
   "active": "10fd7dec9b39e2af",
   "lastOpenFiles": [
+    "src/content/topik/kien-thuc/topik2-reading-dang-1.md",
+    "topik_vocabulary.md",
+    "src/content/kien-thuc/topik2-reading-dang-1.md",
+    "ĐỌC DẠNG 1.md",
+    "src/content/kien-thuc",
+    "src/content/topik/kien-thuc",
+    "src/pages/topik/kien-thuc/[slug].astro",
+    "src/pages/topik/kien-thuc/index.astro",
+    "src/pages/topik/kien-thuc",
+    "TOPIK.md",
+    "public/images/image.png",
     "src/content/grammar/ida.md",
     "src/components/topik/TopikExercise.astro",
-    "topik_vocabulary.md",
     "GRAMMAR.md",
     "src/content/grammar/anida.md",
     "dist/_astro/_slug_.Dyosf2au.css",
     "dist/_astro/tai-lieu.DA3380ga.css",
     "dist/_astro/_slug_.CAyGqyAp.css",
     "dist/_astro/purify.es.B6FQ9oRL.js",
-    "dist/_astro/PDFGenerator.astro_astro_type_script_index_0_lang.BgQI0n5x.js",
-    "dist/_astro/index.es.CGdPN6ND.js",
-    "dist/_astro/index.astro_astro_type_script_index_0_lang.DSwwZ_Vl.js",
-    "dist/_astro/index.astro_astro_type_script_index_0_lang.CxO_JRN6.js",
-    "dist/_astro/grammar.CXRrM77I.css",
     "src/content/grammar/n-ibnida.md",
     "src/content/grammar/go-sipda.md",
     "src/content/grammar/eumyeonseo.md",
