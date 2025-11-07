@@ -38,6 +38,7 @@ export interface Props {
   showVietnamese?: boolean;
   showExplain?: boolean;
   fontSize?: 'small' | 'medium' | 'large';
+  questionLimit?: number; // Số câu để học
   
   // Control visibility
   showProgressBar?: boolean;
@@ -54,6 +55,7 @@ const {
   showVietnamese = false,
   showExplain = true,
   fontSize = 'medium',
+  questionLimit = totalQuestions, // Mặc định là tổng số câu
   showProgressBar = true
 } = Astro.props;
 ---
@@ -82,8 +84,37 @@ const {
 <div class="settings-panel" data-settings-panel>
   <!-- Panel content (có thể collapse) -->
   <div class="panel-content" data-settings-panel-content>
-    <!-- Settings Grid: Gộp các nhóm vào một lưới gọn gàng -->
+    <!-- Settings Grid: Gộp các nhóm vào một lưới gọn gàng - 5 cột trên desktop -->
     <div class="settings-grid">
+      <!-- Nhập số câu để học -->
+      <div class="setting-group question-limit-group">
+        <label class="setting-label" for="question-limit-input">Nhập số câu:</label>
+        <div class="question-limit-wrapper">
+          <input
+            type="number"
+            id="question-limit-input"
+            class="question-limit-input"
+            min="1"
+            max={totalQuestions}
+            value={questionLimit}
+            data-setting="questionLimit"
+            placeholder="Nhập số câu"
+          />
+          <span class="question-limit-max">/ {totalQuestions}</span>
+          <button
+            type="button"
+            class="question-limit-confirm-btn"
+            data-question-limit-confirm
+            title="Xác nhận"
+            aria-label="Xác nhận số câu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
       <!-- Question Order -->
       <div class="setting-group">
         <label class="setting-label">Thứ tự:</label>
@@ -113,7 +144,7 @@ const {
         </div>
       </div>
       <!-- Check Mode -->
-      <div class="setting-group col-span-2">
+      <div class="setting-group">
         <label class="setting-label">Kiểm tra đáp án:</label>
         <div class="toggle-group wrap" role="group">
           <button
@@ -188,14 +219,14 @@ const {
     </div>
     
     <!-- Reset Button - Full Width at Bottom -->
-    <div class="mt-6 pt-4 border-t-2 border-gray-200">
+    <div class="reset-section">
       <button
         type="button"
         class="reset-btn-new"
         data-reset-btn
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
         </svg>
         <span>Làm lại bài tập</span>
       </button>
@@ -205,12 +236,12 @@ const {
 
 <style>
   .settings-panel {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: clamp(12px, 1.5vw, 16px);
+    padding: clamp(1rem, 2vw, 1.5rem);
+    margin-bottom: clamp(1rem, 2.5vw, 2rem);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .panel-header {
@@ -270,8 +301,17 @@ const {
   .panel-content {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
     transition: all 0.3s ease;
+  }
+  
+  .reset-section {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .panel-content.collapsed {
@@ -290,23 +330,134 @@ const {
     align-items: flex-start;
   }
 
-  /* New compact grid for settings */
+  /* New compact grid for settings - Flexbox layout */
   .settings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    grid-auto-flow: row dense;
-    gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    align-items: start;
+    justify-content: center;
   }
 
   /* Mặc định: không span 2 ở desktop để tránh khoảng trống thừa */
   .setting-group.col-span-2 {
     grid-column: auto;
   }
+  
+  /* Question Limit Input Group */
+  .question-limit-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .question-limit-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.25rem, 0.5vw, 0.375rem);
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 9999px; /* Pill shape */
+    padding: clamp(0.5rem, 0.75vw, 0.625rem) clamp(0.75rem, 1.25vw, 1rem);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    width: auto;
+    max-width: 100%;
+    min-height: clamp(36px, 4vw, 40px);
+    overflow: hidden;
+  }
+  
+  .question-limit-input {
+    border: none;
+    outline: none;
+    font-size: clamp(0.75rem, 1vw, 0.875rem);
+    font-weight: 500;
+    color: #1e293b;
+    background: transparent;
+    text-align: left;
+    padding: 0;
+    width: clamp(40px, 5vw, 50px);
+    min-width: 35px;
+    max-width: 60px;
+  }
+  
+  /* Ẩn nút tăng giảm (spinners) của input number */
+  .question-limit-input::-webkit-outer-spin-button,
+  .question-limit-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .question-limit-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  
+  .question-limit-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+  }
+  
+  .question-limit-input:focus {
+    color: #6366f1;
+  }
+  
+  .question-limit-max {
+    font-size: clamp(0.625rem, 0.9vw, 0.75rem);
+    color: #64748b;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .question-limit-confirm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.375rem, 0.75vw, 0.5rem);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    flex-shrink: 0;
+    margin-left: clamp(0.25rem, 0.5vw, 0.375rem);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    min-width: clamp(28px, 3.5vw, 32px);
+    min-height: clamp(28px, 3.5vw, 32px);
+  }
+  
+  .question-limit-confirm-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .question-limit-confirm-btn:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 1px 4px rgba(16, 185, 129, 0.3);
+  }
+  
+  .question-limit-confirm-btn svg {
+    width: clamp(0.875rem, 1.2vw, 1rem);
+    height: clamp(0.875rem, 1.2vw, 1rem);
+    stroke-width: 3;
+  }
+  
+  .question-limit-wrapper:focus-within {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  }
+  
+  .question-limit-wrapper:focus-within .question-limit-confirm-btn {
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.4), 0 0 0 2px rgba(16, 185, 129, 0.2);
+  }
 
   .setting-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: clamp(0.375rem, 0.75vw, 0.5rem);
     min-width: 0;
     align-items: flex-start;
   }
@@ -321,25 +472,26 @@ const {
   }
 
   .setting-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #475569;
+    font-size: clamp(0.75rem, 1vw, 0.875rem);
+    font-weight: 500;
+    color: #334155; /* slate-700 */
+    margin-bottom: 0.25rem;
   }
-
+  
   .toggle-group {
     display: inline-flex;
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 9999px; /* Pill shape */
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     white-space: nowrap;
     align-self: flex-start;
     width: -moz-fit-content;
     width: fit-content;
-    min-height: 40px;
+    min-height: clamp(36px, 4vw, 40px);
   }
-
+  
   .toggle-group.wrap {
     white-space: normal;
     flex-wrap: wrap;
@@ -347,18 +499,18 @@ const {
     width: fit-content;
     max-width: 100%;
   }
-
+  
   .toggle-btn {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.625rem 1rem;
+    gap: clamp(0.25rem, 0.5vw, 0.375rem);
+    padding: clamp(0.5rem, 0.75vw, 0.625rem) clamp(0.75rem, 1.25vw, 1rem);
     background: white;
     border: none;
     border-right: 1px solid #e2e8f0;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #64748b;
+    font-size: clamp(0.75rem, 1vw, 0.875rem);
+    font-weight: 500;
+    color: #334155; /* slate-700 */
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -372,8 +524,8 @@ const {
   }
 
   .toggle-btn:hover:not(.active) {
-    background: #f8fafc;
-    color: #475569;
+    background: #f1f5f9; /* slate-100 */
+    color: #1e293b; /* slate-800 */
   }
 
   .toggle-btn.active {
@@ -427,104 +579,68 @@ const {
   
   /* New Reset Button - Full Width */
   .reset-btn-new {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.625rem;
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: #6FA4AF;
-    border: 2px solid #FCF9EA;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #F4E9D7;
+    gap: 0.5rem;
+    width: auto;
+    padding: clamp(0.5rem, 0.75vw, 0.625rem) clamp(1rem, 1.5vw, 1.25rem);
+    background: #4f46e5;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: clamp(0.875rem, 1vw, 0.9375rem);
+    font-weight: 600; /* semibold */
+    color: #ffffff;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(111, 164, 175, 0.3);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
   }
 
   .reset-btn-new:hover {
-    background: #D97D55;
-    border-color: #D97D55;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(217, 125, 85, 0.4);
+    background: #6366f1;
+    border-color: transparent;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
   }
 
   .reset-btn-new:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(217, 125, 85, 0.3);
+    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
+  }
+  
+  .reset-btn-new svg {
+    width: 1rem;
+    height: 1rem;
   }
 
-  /* Responsive */
-  @media (max-width: 1024px) {
+  /* Responsive - Tối ưu không gian linh động */
+  @media (max-width: 1024px) and (min-width: 768px) and (orientation: landscape) {
     .settings-grid {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.75rem;
-    }
-
-    .setting-group.col-span-2 {
-      grid-column: span 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(0.375rem, 0.75vw, 0.5rem);
     }
   }
 
   @media (max-width: 640px) {
-    .settings-panel {
-      padding: 1rem;
+    .settings-grid {
+      flex-direction: column;
+      gap: clamp(0.375rem, 1vw, 0.5rem);
+      align-items: stretch;
     }
-
-    .panel-header {
-      margin-bottom: 1rem;
-    }
-
-    .header-title h2 {
-      font-size: 1.125rem;
-    }
-
-    .toggle-btn {
-      padding: 0.5rem 0.625rem;
-      font-size: 0.8125rem;
-    }
-
-    .toggle-btn span {
-      display: inline;
-    }
-
-    .toggle-btn svg {
-      margin: 0;
-    }
-
     
-
-    .reset-btn {
+    .setting-group {
+      width: 100%;
+    }
+    
+    .question-limit-wrapper {
+      width: 100%;
+      max-width: none;
+    }
+    
+    .toggle-group {
       width: 100%;
       justify-content: center;
-    }
-
-    .settings-grid {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-    }
-
-    .setting-group.col-span-2 {
-      grid-column: auto;
-    }
-
-    /* Căn hàng gọn: nhãn trái, nút phải */
-    .setting-group {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .setting-label {
-      margin: 0;
-      white-space: nowrap;
-    }
-
-    .toggle-group {
-      min-height: 44px;
     }
   }
 </style>
@@ -551,34 +667,139 @@ const {
       });
     }
     
-    // Setting buttons
-    const settingBtns = panel.querySelectorAll('[data-setting]');
-    settingBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const setting = btn.getAttribute('data-setting');
-        const value = btn.getAttribute('data-value');
-        
-        if (!setting || !value) return;
-        
-        // Update active state for this setting group
-        const group = btn.closest('.toggle-group');
-        if (group) {
-          group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-        }
-        
-        // Parse value (handle boolean strings)
-        let parsedValue: any = value;
-        if (value === 'true') parsedValue = true;
-        else if (value === 'false') parsedValue = false;
-        
-        // Emit event
+    // Handle question limit confirm button
+    const questionLimitInput = document.getElementById('question-limit-input') as HTMLInputElement | null;
+    const confirmBtn = panel.querySelector('[data-question-limit-confirm]') as HTMLButtonElement | null;
+    
+    // Function to validate and emit question limit change
+    function confirmQuestionLimit() {
+      if (!questionLimitInput) return;
+      
+      const setting = questionLimitInput.getAttribute('data-setting');
+      if (!setting) return;
+      
+      const min = parseInt(questionLimitInput.getAttribute('min') || '1');
+      const max = parseInt(questionLimitInput.getAttribute('max') || '999');
+      const value = questionLimitInput.value;
+      
+      // Nếu để trống, set về min
+      if (value === '') {
+        questionLimitInput.value = min.toString();
         const event = new CustomEvent('settings-change', {
-          detail: { setting, value: parsedValue },
+          detail: { setting, value: min },
           bubbles: true
         });
         panel.dispatchEvent(event);
+        return;
+      }
+      
+      const numValue = parseInt(value);
+      let finalValue = numValue;
+      
+      // Clamp value to min-max range
+      if (isNaN(numValue) || numValue < min) {
+        finalValue = min;
+        questionLimitInput.value = min.toString();
+      } else if (numValue > max) {
+        finalValue = max;
+        questionLimitInput.value = max.toString();
+      }
+      
+      // Emit event
+      const event = new CustomEvent('settings-change', {
+        detail: { setting, value: finalValue },
+        bubbles: true
       });
+      panel.dispatchEvent(event);
+    }
+    
+    // Listen to Enter key on input
+    if (questionLimitInput) {
+      questionLimitInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          confirmQuestionLimit();
+          questionLimitInput.blur();
+        }
+      });
+      
+      // Validate trong quá trình nhập (chỉ validate, không emit)
+      questionLimitInput.addEventListener('input', () => {
+        const min = parseInt(questionLimitInput.getAttribute('min') || '1');
+        const max = parseInt(questionLimitInput.getAttribute('max') || '999');
+        const value = questionLimitInput.value;
+        
+        // Cho phép xóa trống trong lúc nhập
+        if (value === '') {
+          return;
+        }
+        
+        const numValue = parseInt(value);
+        if (!isNaN(numValue)) {
+          if (numValue > max) {
+            questionLimitInput.value = max.toString();
+          } else if (numValue < min) {
+            questionLimitInput.value = min.toString();
+          }
+        }
+      });
+      
+      // Handle blur - validate nhưng không emit (chỉ restore value)
+      questionLimitInput.addEventListener('blur', () => {
+        const min = parseInt(questionLimitInput.getAttribute('min') || '1');
+        const max = parseInt(questionLimitInput.getAttribute('max') || '999');
+        
+        // Nếu để trống, set về min nhưng không emit
+        if (questionLimitInput.value === '') {
+          questionLimitInput.value = min.toString();
+        } else {
+          const numValue = parseInt(questionLimitInput.value);
+          if (isNaN(numValue) || numValue < min) {
+            questionLimitInput.value = min.toString();
+          } else if (numValue > max) {
+            questionLimitInput.value = max.toString();
+          }
+        }
+      });
+    }
+    
+    // Listen to confirm button click
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', confirmQuestionLimit);
+    }
+    
+    // Setting buttons (không bao gồm question limit input nữa)
+    const settingBtns = panel.querySelectorAll('[data-setting]:not(input)');
+    settingBtns.forEach(btn => {
+      // Handle button elements
+      if (btn instanceof HTMLElement && !(btn instanceof HTMLInputElement)) {
+        // Handle button elements
+        btn.addEventListener('click', () => {
+          const setting = btn.getAttribute('data-setting');
+          const value = btn.getAttribute('data-value');
+          
+          if (!setting || !value) return;
+          
+          // Update active state for this setting group
+          const group = btn.closest('.toggle-group');
+          if (group) {
+            group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+          }
+          
+          // Parse value (handle boolean strings)
+          let parsedValue: any = value;
+          if (value === 'true') parsedValue = true;
+          else if (value === 'false') parsedValue = false;
+          
+          // Emit event
+          const event = new CustomEvent('settings-change', {
+            detail: { setting, value: parsedValue },
+            bubbles: true
+          });
+          panel.dispatchEvent(event);
+        });
+      }
     });
     
     // Reset button

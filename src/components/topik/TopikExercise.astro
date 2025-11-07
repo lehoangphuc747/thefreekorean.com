@@ -202,7 +202,9 @@ const totalQuestionsCount = questions.length;
         questionOrder={initialQuestionOrder}
         checkMode={initialCheckMode}
         showVietnamese={initialShowVietnamese}
+        showExplain={true}
         fontSize={initialFontSize}
+        questionLimit={totalQuestionsCount}
         showProgressBar={false}
       />
 
@@ -491,6 +493,7 @@ const totalQuestionsCount = questions.length;
       showVietnamese: false,
       showExplain: true,
       fontSize: 'medium',
+      questionLimit: totalQuestions, // Số câu để học
       
       // Navigation
       selectedExam: 'all',
@@ -537,6 +540,15 @@ const totalQuestionsCount = questions.length;
         if (checkMode && ['immediate', 'submit'].includes(checkMode)) {
           state.checkMode = checkMode;
         }
+        
+        // Load question limit
+        const questionLimit = localStorage.getItem(`topik-question-limit-${slug}`);
+        if (questionLimit) {
+          const limit = parseInt(questionLimit);
+          if (!isNaN(limit) && limit >= 1 && limit <= totalQuestions) {
+            state.questionLimit = limit;
+          }
+        }
       } catch (e) {
         console.error('Error loading from localStorage:', e);
       }
@@ -554,6 +566,9 @@ const totalQuestionsCount = questions.length;
         
         // Save font size
         localStorage.setItem('topik-font-size', state.fontSize);
+        
+        // Save question limit
+        localStorage.setItem(`topik-question-limit-${slug}`, state.questionLimit.toString());
       } catch (e) {
         console.error('Error saving to localStorage:', e);
       }
@@ -580,6 +595,25 @@ const totalQuestionsCount = questions.length;
       
       container.classList.remove('font-small', 'font-medium', 'font-large');
       container.classList.add(`font-${size}`);
+    }
+    
+    // Apply question limit - Ẩn/hiện câu hỏi dựa trên limit
+    function applyQuestionLimit(limit) {
+      const container = document.getElementById('questions-container');
+      if (!container) return;
+      
+      // Lấy tất cả question wrappers (cả trong exam groups và không)
+      const questionWrappers = Array.from(container.querySelectorAll('.question-wrapper'));
+      let visibleCount = 0;
+      
+      questionWrappers.forEach((wrapper) => {
+        if (visibleCount < limit) {
+          wrapper.style.display = '';
+          visibleCount++;
+        } else {
+          wrapper.style.display = 'none';
+        }
+      });
     }
     
     // Reorder questions
@@ -625,6 +659,9 @@ const totalQuestionsCount = questions.length;
           });
         });
       }
+      
+      // Sau khi reorder, áp dụng question limit
+      applyQuestionLimit(state.questionLimit);
     }
     
     // ============================================================================
@@ -725,7 +762,8 @@ const totalQuestionsCount = questions.length;
       const resultsSummary = document.getElementById('results-summary');
       if (!resultsSummary) return;
       
-      const total = totalQuestions;
+      // Sử dụng questionLimit thay vì totalQuestions để đồng bộ với số câu đã chọn
+      const total = state.questionLimit;
       const answered = state.answeredCount;
       const correct = state.correctCount;
       const wrong = state.wrongCount;
@@ -755,13 +793,14 @@ const totalQuestionsCount = questions.length;
     // Update ProgressBar stats
     function updateProgressBar() {
       // Dispatch custom event to update ProgressBar component
+      // Use questionLimit instead of totalQuestions to sync with user's selection
       const event = new CustomEvent('progress-update', {
         detail: {
           answeredCount: state.answeredCount,
           correctCount: state.correctCount,
           wrongCount: state.wrongCount,
           bookmarkedCount: state.bookmarkedQuestions.size,
-          total: totalQuestions
+          total: state.questionLimit // Đồng bộ với số câu đã chọn
         }
       });
       document.dispatchEvent(event);
@@ -945,6 +984,18 @@ const totalQuestionsCount = questions.length;
           applyFontSize(value);
           saveToLocalStorage();
           break;
+          
+        case 'questionLimit':
+          state.questionLimit = value;
+          applyQuestionLimit(value);
+          // Nếu đang ở chế độ random, reorder lại với số câu mới
+          if (state.questionOrder === 'random') {
+            reorderQuestions('random');
+          }
+          saveToLocalStorage();
+          // Cập nhật progress bar với total mới
+          updateProgressBar();
+          break;
       }
     }
     
@@ -1005,6 +1056,9 @@ const totalQuestionsCount = questions.length;
       
       // Load saved data
       loadFromLocalStorage();
+      
+      // Apply question limit after loading
+      applyQuestionLimit(state.questionLimit);
       
       // Luôn set checkMode cho toàn bộ câu hỏi để đồng bộ thuộc tính
       updateAllQuestionsCheckMode(state.checkMode);
