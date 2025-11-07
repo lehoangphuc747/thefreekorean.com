@@ -71,13 +71,13 @@
       "question_ko": "감기약을 (      ) 열이 내렸다.",
       "question_vi": "Uống thuốc cảm xong thì hạ sốt.",
       "choices": [
-        { "type": "text", "text": "먹는라고" },
+        { "type": "text", "text": "먹느라고" },
         { "type": "text", "text": "먹더라도" },
         { "type": "text", "text": "먹을 텐데" },
         { "type": "text", "text": "먹고 나서" }
       ],
       "answer": 4,
-      "explain": "### ✅ Đáp án đúng\n\n**먹고 나서** — ⏭️ `V-고 나서`: hành động xảy ra sau khi hành động trước hoàn thành\n\n🗣️ **Ví dụ:** 감기약을 **먹고 나서** 열이 내렸다.\n\n⚡ **Hiểu nhanh:** \"sau khi... xong\" → thứ tự rõ ràng: uống thuốc → hạ sốt.\n\n---\n\n### ❌ Các đáp án sai\n\n- **먹는라고:** sai ngữ pháp → ❌ không tồn tại dạng này → **sai**.\n\n- **먹더라도:** dù có uống thì… → 🛡️ `V-더라도` = nhượng bộ → không phù hợp vì kết quả là hạ sốt → **sai**.\n\n- **먹을 텐데:** chắc là sẽ uống… → 🔮 `V-(으)ㄹ 텐데` = phỏng đoán → không phù hợp ngữ cảnh → **sai**.\n\n---"
+      "explain": "### ✅ Đáp án đúng\n\n**먹고 나서** — ⏭️ `V-고 나서`: hành động xảy ra sau khi hành động trước hoàn thành\n\n🗣️ **Ví dụ:** 감기약을 **먹고 나서** 열이 내렸다.\n\n⚡ **Hiểu nhanh:** \"sau khi... xong\" → thứ tự rõ ràng: uống thuốc → hạ sốt.\n\n---\n\n### ❌ Các đáp án sai\n\n- **먹느라고:** vì mải uống nên... → 🔄 `V-느라고` = vì mải làm A nên B xảy ra khó khăn/kết quả tiêu cực → câu này mô tả kết quả tích cực (hạ sốt) → **sai**.\n\n- **먹더라도:** dù có uống thì… → 🛡️ `V-더라도` = nhượng bộ (dù A vẫn B) → không phù hợp với quan hệ nguyên nhân-kết quả trực tiếp → **sai**.\n\n- **먹을 텐데:** chắc là sẽ uống… → 🔮 `V-(으)ㄹ 텐데` = phỏng đoán → không phù hợp vì câu tường thuật sự thật đã xảy ra → **sai**.\n\n---"
     },
     {
       "id": 6,
@@ -292,7 +292,7 @@
     {
       "id": 21,
       "exam": "연습",
-      "question_ko": "선영이는 미아에게 “미아 씨, 왜 이렇게 늦었어요? 제가 미아 씨한테 1시에 시작한다고 (      ).” 하고 화를 냈다.",
+      "question_ko": "선영이는 미아에게 \"미아 씨, 왜 이렇게 늦었어요? 제가 미아 씨한테 1시에 시작한다고 (      ).\" 하고 화를 냈다.",
       "question_vi": "Seonyeong đã tức giận với Mia và nói: \"Mia, sao bạn đến muộn vậy? Tôi đã nói với bạn là bắt đầu lúc 1 giờ rồi mà.\"",
       "choices": [
         { "type": "text", "text": "했거든요" },
@@ -320,7 +320,7 @@
     {
       "id": 23,
       "exam": "연습",
-      "question_ko": "유나는 “열심히 노력해서 이번에는 꼭 (       )!” 하고 다짐했다.",
+      "question_ko": "유나는 \"열심히 노력해서 이번에는 꼭 (       )!\" 하고 다짐했다.",
       "question_vi": "Yuna đã tự hứa với lòng mình: \"Lần này mình nhất định phải đỗ bằng được!\"",
       "choices": [
         { "type": "text", "text": "합격하거든" },
