@@ -32,7 +32,8 @@ const { exams, selectedExams = [] } = Astro.props;
 const totalCount = exams.reduce((sum, exam) => sum + exam.count, 0);
 ---
 <!-- Header ở ngoài container để khi collapse chỉ còn nút -->
-<div class="exam-filter-header-outside">
+<!-- Tạm thời ẩn nút "Lọc theo kỳ thi" -->
+<div class="exam-filter-header-outside" style="display: none;">
   <button 
     type="button" 
     class="exam-filter-collapse-btn exam-filter-header-btn"

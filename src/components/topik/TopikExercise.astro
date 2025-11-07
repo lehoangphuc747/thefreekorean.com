@@ -180,15 +180,6 @@ const totalQuestionsCount = questions.length;
           <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium whitespace-nowrap">
             {meta.range}
           </span>
-          {exams.length > 0 && (
-            <div class="flex items-center justify-center gap-2 flex-wrap max-h-24 overflow-y-auto overflow-x-hidden px-2">
-              {exams.map((exam: string) => (
-                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium whitespace-nowrap">
-                  {exam.toUpperCase()}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
@@ -453,25 +444,6 @@ const totalQuestionsCount = questions.length;
 
   #questions-container.font-large .text-xl {
     font-size: 1.5rem;
-  }
-
-  /* Exam badges scrollbar styling */
-  .flex.max-h-24.overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .flex.max-h-24.overflow-y-auto::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-  }
-  
-  .flex.max-h-24.overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-  }
-  
-  .flex.max-h-24.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
   }
 </style>
 
