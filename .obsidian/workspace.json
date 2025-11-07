@@ -49,9 +49,23 @@
               "icon": "lucide-file",
               "title": "topik_vocabulary"
             }
+          },
+          {
+            "id": "af1459ea830b755b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/TOPIK 1.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "TOPIK 1"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -153,13 +167,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "topik_vocabulary.md",
+                "file": "src/content/grammar/TOPIK 1.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of topik_vocabulary"
+              "title": "Outline of TOPIK 1"
             }
           },
           {
@@ -186,7 +200,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -197,10 +212,11 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "10fd7dec9b39e2af",
+  "active": "af1459ea830b755b",
   "lastOpenFiles": [
-    "src/content/topik/kien-thuc/topik2-reading-dang-1.md",
     "topik_vocabulary.md",
+    "src/content/grammar/TOPIK 1.md",
+    "src/content/topik/kien-thuc/topik2-reading-dang-1.md",
     "src/content/kien-thuc/topik2-reading-dang-1.md",
     "ĐỌC DẠNG 1.md",
     "src/content/kien-thuc",
