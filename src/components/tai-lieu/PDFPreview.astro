@@ -1,10 +1,19 @@
 ---
+export interface PDFFile {
+  url: string;
+  label: string;
+  tabLabel?: string; // Optional shorter label for tabs
+}
+
 export interface Props {
-  downloadUrl: string;
+  downloadUrl?: string;
   title?: string;
   height?: string;
   width?: string;
   class?: string;
+  // For multiple files
+  files?: PDFFile[];
+  defaultIndex?: number;
 }
 
 const { 
@@ -12,8 +21,14 @@ const {
   title = "PDF Preview",
   height = "600px",
   width = "100%",
-  class: className = '' 
+  class: className = '',
+  files = [],
+  defaultIndex = 0
 } = Astro.props;
+
+// Support both single file and multiple files
+const hasMultipleFiles = files.length > 0;
+const singleFileUrl = downloadUrl || '';
 
 // Function to convert Google Drive download URL to preview URL
 function convertToPreviewUrl(url: string): string {
@@ -54,50 +69,136 @@ function convertToPreviewUrl(url: string): string {
   }
 }
 
-const previewUrl = convertToPreviewUrl(downloadUrl);
-const isValidUrl = previewUrl && previewUrl.startsWith('http');
+// Handle multiple files or single file
+const previewFiles = hasMultipleFiles 
+  ? files.map(file => ({
+      ...file,
+      previewUrl: convertToPreviewUrl(file.url)
+    }))
+  : [];
+
+const previewUrl = hasMultipleFiles 
+  ? null 
+  : convertToPreviewUrl(singleFileUrl);
+  
+const isValidUrl = hasMultipleFiles 
+  ? previewFiles.length > 0 
+  : (previewUrl && previewUrl.startsWith('http'));
 ---
 
 <div class={`pdf-preview-container ${className}`}>
   {isValidUrl ? (
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
-      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4 flex-wrap">
-        <div class="flex-1">
-          <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
-            </svg>
-            {title}
-          </h3>
-          <p class="text-sm text-gray-600 mt-1">
-            Xem trước tài liệu PDF trực tiếp trên trình duyệt
-          </p>
+    hasMultipleFiles ? (
+      <!-- Multiple files with tabs -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+        <!-- Tabs Navigation -->
+        <div class="bg-gray-50 border-b border-gray-200">
+          <div class="flex flex-wrap overflow-x-auto">
+            {previewFiles.map((file, index) => (
+              <button
+                type="button"
+                class={`pdf-tab-btn px-6 py-4 text-sm font-medium transition-colors whitespace-nowrap ${
+                  index === defaultIndex 
+                    ? 'bg-white text-blue-600 border-b-2 border-blue-600' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                data-tab-index={index}
+                data-pdf-url={file.previewUrl}
+                data-download-url={file.url}
+              >
+                {file.tabLabel || file.label}
+              </button>
+            ))}
+          </div>
         </div>
-        <a 
-          href={downloadUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
-        >
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-          Mở trong tab mới
-        </a>
+
+        <!-- PDF Preview Container -->
+        <div class="pdf-iframe-wrapper p-4">
+          {previewFiles.map((file, index) => (
+            <div
+              class={`pdf-preview-panel ${index === defaultIndex ? 'active' : 'hidden'}`}
+              data-panel-index={index}
+            >
+              <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4 flex-wrap mb-4">
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                    </svg>
+                    Xem trước: {file.label}
+                  </h3>
+                  <p class="text-sm text-gray-600 mt-1">
+                    Xem trước tài liệu PDF trực tiếp trên trình duyệt
+                  </p>
+                </div>
+                <a 
+                  href={file.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                >
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                  Mở trong tab mới
+                </a>
+              </div>
+              
+              <iframe 
+                src={file.previewUrl}
+                width="100%"
+                height={height}
+                allow="autoplay"
+                loading={index === defaultIndex ? "eager" : "lazy"}
+                class="w-full border border-gray-200 rounded-lg shadow-sm pdf-iframe"
+                title={`PDF Preview: ${file.label}`}
+                data-src={file.previewUrl}
+              ></iframe>
+            </div>
+          ))}
+        </div>
       </div>
-      
-      <div class="pdf-iframe-wrapper p-4">
-        <iframe 
-          src={previewUrl}
-          width={width}
-          height={height}
-          allow="autoplay"
-          loading="lazy"
-          class="w-full border border-gray-200 rounded-lg shadow-sm"
-          title={`PDF Preview: ${title}`}
-        ></iframe>
+    ) : (
+      <!-- Single file -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4 flex-wrap">
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+              <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+              </svg>
+              {title}
+            </h3>
+            <p class="text-sm text-gray-600 mt-1">
+              Xem trước tài liệu PDF trực tiếp trên trình duyệt
+            </p>
+          </div>
+          <a 
+            href={downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Mở trong tab mới
+          </a>
+        </div>
+        
+        <div class="pdf-iframe-wrapper p-4">
+          <iframe 
+            src={previewUrl}
+            width={width}
+            height={height}
+            allow="autoplay"
+            loading="lazy"
+            class="w-full border border-gray-200 rounded-lg shadow-sm"
+            title={`PDF Preview: ${title}`}
+          ></iframe>
+        </div>
       </div>
-    </div>
+    )
   ) : (
     <!-- Error state -->
     <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
@@ -108,7 +209,9 @@ const isValidUrl = previewUrl && previewUrl.startsWith('http');
         <div>
           <h3 class="text-lg font-semibold text-red-800">Lỗi hiển thị PDF</h3>
           <p class="text-red-600 mt-1">
-            Không thể hiển thị bản xem trước. Vui lòng sử dụng link tải xuống.
+            {hasMultipleFiles 
+              ? 'Không có file để xem trước. Vui lòng thêm ít nhất một file PDF.' 
+              : 'Không thể hiển thị bản xem trước. Vui lòng sử dụng link tải xuống.'}
           </p>
         </div>
       </div>
@@ -116,14 +219,82 @@ const isValidUrl = previewUrl && previewUrl.startsWith('http');
   )}
 </div>
 
+<script>
+  // Tab switching functionality for multiple files
+  if (document.querySelector('.pdf-tab-btn')) {
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabButtons = document.querySelectorAll('.pdf-tab-btn');
+      const pdfPanels = document.querySelectorAll('.pdf-preview-panel');
+      
+      tabButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+          // Remove active class from all tabs and panels
+          tabButtons.forEach(btn => {
+            btn.classList.remove('bg-white', 'text-blue-600', 'border-b-2', 'border-blue-600');
+            btn.classList.add('text-gray-600');
+          });
+          
+          pdfPanels.forEach(panel => {
+            panel.classList.remove('active');
+            panel.classList.add('hidden');
+          });
+          
+          // Add active class to clicked tab and corresponding panel
+          button.classList.remove('text-gray-600');
+          button.classList.add('bg-white', 'text-blue-600', 'border-b-2', 'border-blue-600');
+          
+          const panel = pdfPanels[index];
+          if (panel) {
+            panel.classList.remove('hidden');
+            panel.classList.add('active');
+            
+            // Lazy load iframe if not loaded yet
+            const iframe = panel.querySelector('.pdf-iframe');
+            if (iframe && !iframe.src) {
+              const src = iframe.getAttribute('data-src');
+              if (src) {
+                iframe.src = src;
+              }
+            }
+          }
+        });
+      });
+    });
+  }
+</script>
+
 <style>
   .pdf-preview-container {
     /* Container styles */
   }
   
+  .pdf-tab-btn {
+    position: relative;
+    outline: none;
+  }
+  
+  .pdf-tab-btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+  }
+  
+  .pdf-preview-panel {
+    display: none;
+  }
+  
+  .pdf-preview-panel.active {
+    display: block;
+  }
+  
   .pdf-iframe-wrapper iframe {
     min-height: 500px;
     background: #f9fafb;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .pdf-iframe-wrapper iframe[src] {
+    opacity: 1;
   }
   
   /* Responsive adjustments */
@@ -132,15 +303,10 @@ const isValidUrl = previewUrl && previewUrl.startsWith('http');
       height: 400px;
       min-height: 400px;
     }
-  }
-  
-  /* Loading animation */
-  .pdf-iframe-wrapper iframe {
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-  }
-  
-  .pdf-iframe-wrapper iframe[src] {
-    opacity: 1;
+    
+    .pdf-tab-btn {
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+    }
   }
 </style>

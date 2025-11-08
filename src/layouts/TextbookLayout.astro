@@ -1,0 +1,225 @@
+---
+import Layout from './Layout.astro';
+import TextbooksHeader from '../components/tai-lieu/TextbooksHeader.astro';
+import TextbooksDownloader from '../components/tai-lieu/TextbooksDownloader.astro';
+import PDFPreview from '../components/tai-lieu/PDFPreview.astro';
+import RelatedDocuments from '../components/tai-lieu/RelatedDocuments.astro';
+
+export interface PostData {
+  title: string;
+  date?: string;
+  category?: string;
+  subcategory?: string;
+  type?: string;
+  cover?: string;
+  description?: string;
+  downloadUrl?: string;
+  downloadOriginal?: string;
+  downloadWorkbook?: string;
+  downloadAudio?: string;
+  downloadAnki?: string;
+  fileSize?: string;
+  originalSize?: string;
+  workbookSize?: string;
+  audioSize?: string;
+  pages?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  keywords?: string[];
+}
+
+export interface RelatedDocument {
+  title: string;
+  slug?: string;
+  url: string;
+  type?: string;
+  size?: string;
+  category?: string;
+  subcategory?: string;
+  date?: string;
+  cards?: number;
+}
+
+export interface CustomDownloadItem {
+  href: string;
+  label: string;
+  size: string;
+  colorClasses?: string;
+  icon?: string;
+}
+
+export interface PreviewFile {
+  url: string;
+  label: string;
+  tabLabel?: string; // Optional shorter label for tabs
+}
+
+export interface Props {
+  postData: PostData;
+  related?: RelatedDocument[];
+  class?: string;
+  customDownloads?: CustomDownloadItem[];
+  showDefaultDownloader?: boolean;
+  previewFiles?: PreviewFile[];
+  defaultPreviewIndex?: number;
+}
+
+const { 
+  postData, 
+  related = [],
+  class: className = '',
+  customDownloads = [],
+  showDefaultDownloader = true,
+  previewFiles = [],
+  defaultPreviewIndex = 0
+} = Astro.props as Props;
+
+const fullTitle = postData.seoTitle || `${postData.title} - The Free Korean`;
+const description = postData.seoDescription || postData.description || '';
+---
+
+<Layout title={fullTitle} description={description}>
+  <main class={`container mx-auto px-4 py-8 ${className}`}>
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Header Component -->
+      <TextbooksHeader 
+        title={postData.title}
+        description={postData.description || ''}
+        cover={postData.cover || ''}
+        type={postData.type || 'PDF'}
+        category={postData.category || ''}
+        subcategory={postData.subcategory || ''}
+        pages={postData.pages}
+        fileSize={postData.fileSize || ''}
+      />
+
+      <!-- Download Component -->
+      {showDefaultDownloader && postData.downloadUrl && postData.fileSize && (
+        <TextbooksDownloader 
+          downloadUrl={postData.downloadUrl}
+          downloadOriginal={postData.downloadOriginal}
+          downloadWorkbook={postData.downloadWorkbook}
+          downloadAudio={postData.downloadAudio}
+          downloadAnki={postData.downloadAnki}
+          fileSize={postData.fileSize}
+          originalSize={postData.originalSize}
+          workbookSize={postData.workbookSize}
+          audioSize={postData.audioSize}
+        />
+      )}
+
+      <!-- Custom Download Items -->
+      {customDownloads.length > 0 && (
+        <div class="bg-slate-50 rounded-lg shadow p-5 sm:p-6 mb-6 border border-slate-200/80">
+          <div class="text-center mb-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Tải xuống tài liệu</h2>
+            <p class="text-slate-500 mt-1 text-sm">Chọn file bạn cần tải xuống</p>
+          </div>
+          <div class="max-w-3xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {customDownloads.map(item => (
+                <a
+                  href={item.href}
+                  class={`download-btn group flex items-center justify-between text-white font-semibold p-3 rounded-lg shadow-sm transition-all duration-200 ease-in-out bg-gradient-to-r ${item.colorClasses || 'from-blue-500 to-blue-600'}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="flex items-center gap-2">
+                    {item.icon && <Fragment set:html={item.icon} />}
+                    <span class="text-sm">{item.label}</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-medium opacity-90">{item.size}</span>
+                    <div class="download-icon-wrapper">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 ease-in-out" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- PDF Preview Component -->
+      {previewFiles.length > 0 ? (
+        <PDFPreview 
+          files={previewFiles}
+          defaultIndex={defaultPreviewIndex}
+          height="600px"
+        />
+      ) : postData.downloadUrl && (
+        <PDFPreview 
+          downloadUrl={postData.downloadUrl}
+          title={`Xem trước: ${postData.title}`}
+          height="600px"
+        />
+      )}
+
+      <!-- Related Documents -->
+      {related.length > 0 && (
+        <RelatedDocuments title="Tài liệu liên quan" documents={related} />
+      )}
+
+      <!-- Slot for additional content -->
+      <slot />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .prose {
+    color: #374151;
+  }
+  
+  .prose h2 {
+    color: #1f2937;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .prose h3 {
+    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  
+  .prose ul {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  
+  .prose strong {
+    color: #3b82f6;
+    font-weight: 600;
+  }
+
+  .prose hr {
+    margin: 2rem 0;
+    border: none;
+  }
+
+  .download-btn:hover .download-icon-wrapper svg {
+    transform: translateY(1px);
+  }
+</style>
+

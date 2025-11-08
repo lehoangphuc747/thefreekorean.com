@@ -1,0 +1,145 @@
+---
+import TextbookLayout from '../../../layouts/TextbookLayout.astro';
+
+export const postData = {
+  title: "TOPIK Kỳ 83",
+  date: "2022-04-12",
+  category: "Đề thi TOPIK",
+  subcategory: "TOPIK",
+  type: "PDF",
+  cover: "/images/topik-83.svg",
+  description: "Đề thi TOPIK kỳ 83 - TOPIK II với đầy đủ phần đọc, nghe, viết, đáp án và file audio",
+  pages: 50,
+  downloadUrl: "https://drive.google.com/open?id=1hGvg5g_jRA5y10gf-QQLFIfIdTquVPsV&usp=drive_fs",
+  seoTitle: "TOPIK Kỳ 83 - Đề thi và đáp án TOPIK II - The Free Korean",
+  seoDescription: "Tải đề thi TOPIK kỳ 83 bao gồm TOPIK II: phần đọc, nghe tích hợp, nghe viết, đáp án và file audio. Luyện thi TOPIK miễn phí.",
+  keywords: ["TOPIK", "TOPIK II", "đề thi TOPIK 83", "luyện thi TOPIK", "TOPIK kỳ 83"]
+};
+
+// Custom download items cho TOPIK
+const customDownloads = [
+  // TOPIK II - Thứ tự: 읽기 -> 듣기 - 쓰기 -> TRANSCRIPT -> 정답 -> AUDIO
+  {
+    href: "https://drive.google.com/open?id=1hGvg5g_jRA5y10gf-QQLFIfIdTquVPsV&usp=drive_fs",
+    label: "TOPIK II (읽기)",
+    size: "~5MB",
+    colorClasses: "from-blue-500 to-blue-600",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>`
+  },
+  {
+    href: "https://drive.google.com/open?id=1W5GfS0WqgddWH52C-w9ivJRKGma9mbTO&usp=drive_fs",
+    label: "TOPIK II (듣기 - 쓰기)",
+    size: "~3MB",
+    colorClasses: "from-indigo-500 to-indigo-600",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>`
+  },
+  {
+    href: "https://drive.google.com/open?id=1DGTfbeyb70-uV85PK40mAMMXvMzzpGvC&usp=drive_fs",
+    label: "TOPIK II (TRANSCRIPT)",
+    size: "~3MB",
+    colorClasses: "from-purple-500 to-purple-600",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`
+  },
+  {
+    href: "https://drive.google.com/open?id=1VIcDjZqV9qPR_GCh43dl8AXPKQUhb3mZ&usp=drive_fs",
+    label: "TOPIK II (ĐÁP ÁN)",
+    size: "~2MB",
+    colorClasses: "from-green-500 to-green-600",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
+  },
+  {
+    href: "https://drive.google.com/open?id=1oZnxG4sIjbTNCIATS9E-AwyBTuEXhaDT&usp=drive_fs",
+    label: "TOPIK II (AUDIO)",
+    size: "Folder audio",
+    colorClasses: "from-orange-500 to-orange-600",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>`
+  }
+];
+
+// Files để xem trước
+const previewFiles = [
+  {
+    url: "https://drive.google.com/open?id=1hGvg5g_jRA5y10gf-QQLFIfIdTquVPsV&usp=drive_fs",
+    label: "TOPIK II (읽기)",
+    tabLabel: "TOPIK II (읽기)"
+  },
+  {
+    url: "https://drive.google.com/open?id=1W5GfS0WqgddWH52C-w9ivJRKGma9mbTO&usp=drive_fs",
+    label: "TOPIK II (듣기 - 쓰기)",
+    tabLabel: "TOPIK II (듣기 - 쓰기)"
+  },
+  {
+    url: "https://drive.google.com/open?id=1DGTfbeyb70-uV85PK40mAMMXvMzzpGvC&usp=drive_fs",
+    label: "TOPIK II (TRANSCRIPT)",
+    tabLabel: "TOPIK II (TRANSCRIPT)"
+  },
+  {
+    url: "https://drive.google.com/open?id=1VIcDjZqV9qPR_GCh43dl8AXPKQUhb3mZ&usp=drive_fs",
+    label: "TOPIK II (ĐÁP ÁN)",
+    tabLabel: "TOPIK II (ĐÁP ÁN)"
+  }
+];
+
+// Định nghĩa danh sách tài liệu liên quan
+const allDocuments = [
+  {
+    title: "TOPIK Kỳ 83",
+    url: "/tai-lieu/textbooks/topik-83",
+    type: "PDF",
+    size: "~13MB",
+    category: postData.category,
+    subcategory: postData.subcategory,
+    date: postData.date
+  },
+  {
+    title: "TOPIK Kỳ 91",
+    url: "/tai-lieu/textbooks/topik-91",
+    type: "PDF",
+    size: "~13MB",
+    category: "Đề thi TOPIK",
+    subcategory: "TOPIK",
+    date: "2023-11-12"
+  },
+  {
+    title: "TOPIK Kỳ 96",
+    url: "/tai-lieu/textbooks/topik-2-96",
+    type: "PDF",
+    size: "~13MB",
+    category: "Đề thi TOPIK",
+    subcategory: "TOPIK",
+    date: "2024-10-13"
+  },
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-1",
+    type: "PDF",
+    size: "18.1MB",
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2024-05-01"
+  },
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-2",
+    type: "PDF",
+    size: "~120MB",
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2024-06-01"
+  }
+];
+
+const related = allDocuments
+  .filter(d => d.url !== "/tai-lieu/textbooks/topik-83")
+  .slice(0, 6);
+---
+
+<TextbookLayout 
+  postData={postData} 
+  related={related}
+  customDownloads={customDownloads}
+  showDefaultDownloader={false}
+  previewFiles={previewFiles}
+  defaultPreviewIndex={0}
+/>
+
