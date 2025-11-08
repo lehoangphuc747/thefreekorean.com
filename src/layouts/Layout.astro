@@ -3,15 +3,64 @@ import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import '../styles/global.css';
+
+export interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string[];
+	image?: string;
+	url?: string;
+	type?: string;
+	lang?: string;
+}
+
+const {
+	title = 'The Free Korean - Tài liệu học tiếng Hàn miễn phí',
+	description = 'Tài liệu học tiếng Hàn miễn phí: ngữ pháp, từ vựng, đề thi TOPIK, giáo trình, Anki flashcards. Học tiếng Hàn hiệu quả cùng The Free Korean.',
+	keywords = ['học tiếng Hàn', 'tài liệu tiếng Hàn', 'ngữ pháp tiếng Hàn', 'TOPIK', 'từ vựng tiếng Hàn'],
+	image = '/images/og-default.jpg',
+	url = Astro.url.href,
+	type = 'website',
+	lang = 'vi'
+} = Astro.props as Props;
+
+const siteUrl = Astro.site?.href || 'https://thefreekorean.com';
+const fullImageUrl = image.startsWith('http') ? image : `${siteUrl}${image}`;
+const fullUrl = url.startsWith('http') ? url : `${siteUrl}${url}`;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>The Free Korean - Tài liệu học tiếng Hàn miễn phí</title>
+		
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+		<meta name="author" content="The Free Korean" />
+		<meta name="robots" content="index, follow" />
+		<meta name="language" content="Vietnamese" />
+		<link rel="canonical" href={fullUrl} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={fullUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={fullImageUrl} />
+		<meta property="og:site_name" content="The Free Korean" />
+		<meta property="og:locale" content="vi_VN" />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={fullUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={fullImageUrl} />
 		
 		<!-- Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JNJ099MYS7"></script>

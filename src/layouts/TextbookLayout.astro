@@ -76,9 +76,60 @@ const {
 
 const fullTitle = postData.seoTitle || `${postData.title} - The Free Korean`;
 const description = postData.seoDescription || postData.description || '';
+const keywords = postData.keywords || [];
+const coverImage = postData.cover || '/images/og-default.jpg';
+const pageUrl = Astro.url.pathname;
+
+// Generate structured data for SEO
+const siteUrl = Astro.site?.href || 'https://thefreekorean.com';
+
+// Build structured data object
+const structuredDataObj: Record<string, unknown> = {
+	"@context": "https://schema.org",
+	"@type": "EducationalMaterial",
+	"name": postData.title,
+	"description": description,
+	"author": {
+		"@type": "Organization",
+		"name": "The Free Korean"
+	},
+	"datePublished": postData.date || new Date().toISOString(),
+	"publisher": {
+		"@type": "Organization",
+		"name": "The Free Korean",
+		"logo": {
+			"@type": "ImageObject",
+			"url": `${siteUrl}/favicon.svg`
+		}
+	},
+	"image": coverImage.startsWith('http') ? coverImage : `${siteUrl}${coverImage}`,
+	"inLanguage": "vi",
+	"educationalLevel": "Intermediate",
+	"learningResourceType": "Exam Preparation Material",
+	"url": `${siteUrl}${pageUrl}`
+};
+
+if (postData.category) {
+	structuredDataObj.about = {
+		"@type": "Thing",
+		"name": postData.category
+	};
+}
+
+const structuredData = structuredDataObj;
 ---
 
-<Layout title={fullTitle} description={description}>
+<Layout 
+	title={fullTitle} 
+	description={description}
+	keywords={keywords}
+	image={coverImage}
+	url={pageUrl}
+	type="article"
+	lang="vi"
+>
+	{/* Structured Data for SEO */}
+	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <main class={`container mx-auto px-4 py-8 ${className}`}>
     <div class="max-w-4xl mx-auto">
       
