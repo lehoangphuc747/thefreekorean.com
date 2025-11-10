@@ -2,12 +2,10 @@
 import TopikLayout from '../../../layouts/TopikLayout.astro';
 import { readFileSync, readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
-import OnLuyen001 from '../../../components/topik/OnLuyen001.astro';
-
-const CONTENT_ROOT = join(process.cwd(), 'src', 'content', 'topik', 'on-luyen');
 
 export async function getStaticPaths() {
-  const paths: { params: { slug: string[] } }[] = [];
+  const CONTENT_ROOT = join(process.cwd(), 'src', 'content', 'topik', 'on-luyen');
+  const paths: { params: { slug: string } }[] = [];
 
   const walk = (dir: string) => {
     const entries = readdirSync(dir);
@@ -22,11 +20,16 @@ export async function getStaticPaths() {
         const slugRaw = noExt.split('/');
         const toNFC = (s: string) => (s && s.normalize ? s.normalize('NFC') : s);
         const toNFD = (s: string) => (s && s.normalize ? s.normalize('NFD') : s);
-        const nfc = slugRaw.map(toNFC);
-        const nfd = slugRaw.map(toNFD);
+        const nfcArr = slugRaw.map(toNFC);
+        const nfdArr = slugRaw.map(toNFD);
+        const nfc = nfcArr.join('/');
+        const nfd = nfdArr.join('/');
         paths.push({ params: { slug: nfc } });
         // Thêm biến thể NFD để trình duyệt decode khác normalize vẫn match
-        paths.push({ params: { slug: nfd } });
+        if (nfd !== nfc) {
+          paths.push({ params: { slug: nfd } });
+        }
+        console.log('[on-luyen:getStaticPaths] add:', { rel, nfc, nfd });
         console.log('[on-luyen:getStaticPaths] add:', { rel, nfc, nfd });
       }
     }
@@ -44,16 +47,18 @@ export async function getStaticPaths() {
 }
 
 interface Params {
-  slug: string[]; // catch-all
+  slug: string | string[]; // catch-all
 }
 
 const { slug } = Astro.params as unknown as Params;
 
 let data: any = null;
 let notFound = false;
+const CONTENT_ROOT = join(process.cwd(), 'src', 'content', 'topik', 'on-luyen');
 
 // Chuẩn hóa slug để tránh vấn đề Unicode (NFC/NFD) và thử nhiều cách đọc
-const slugArr = Array.isArray(slug) ? slug : [String(slug)];
+const slugRawValue = Array.isArray(slug) ? slug.join('/') : String(slug ?? '');
+const slugArr = slugRawValue.split('/').filter(Boolean);
 const slugNFC = slugArr.map((s) => s.normalize ? s.normalize('NFC') : s);
 
 try {
@@ -83,7 +88,6 @@ const pageDesc = (meta.description || data?.description || 'Nội dung ôn luy�
 const level = meta.level || data?.level || '';
 const type = meta.type || data?.type || '';
 
-const wantsOnLuyen001 = (meta?.component === 'OnLuyen001') || (meta?.type === 'OnLuyen001') || (type === 'OnLuyen001');
 let sections: any[] = Array.isArray(data?.sections) ? data.sections : [];
 if ((!sections || sections.length === 0) && data && data.groups) {
   sections = data.groups;
@@ -110,19 +114,6 @@ if ((!sections || sections.length === 0) && data && data.groups) {
         <div class="text-red-700 font-semibold mb-1">Không tìm thấy nội dung</div>
         <div class="text-red-700">Vui lòng kiểm tra lại đường dẫn hoặc thêm file JSON phù hợp trong <code class="bg-white px-1 py-0.5 rounded border">src/content/topik/on-luyen/**.json</code>.</div>
       </div>
-    ) : wantsOnLuyen001 && Array.isArray(sections) && sections.length > 0 ? (
-      <>
-        <div class="mb-6">
-          <h1 class="text-3xl font-bold text-gray-900">{pageTitle}</h1>
-          <p class="text-gray-600 mt-2">{pageDesc}</p>
-          <div class="flex items-center gap-3 mt-3 flex-wrap">
-            {type && <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">{type}</span>}
-            {level && <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">{level}</span>}
-            {Array.isArray(sections) && <span class="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded">{sections.reduce((n: number, s: any) => n + (Array.isArray(s?.items) ? s.items.length : 0), 0)} mục</span>}
-          </div>
-        </div>
-        <OnLuyen001 sections={sections} />
-      </>
     ) : (
       <>
         <div class="mb-6">
@@ -131,6 +122,15 @@ if ((!sections || sections.length === 0) && data && data.groups) {
           <div class="flex items-center gap-3 mt-3 flex-wrap">
             {type && <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">{type}</span>}
             {level && <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">{level}</span>}
+            {Array.isArray(sections) && sections.length > 0 && (
+              <span class="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded">
+                {sections.reduce(
+                  (n: number, s: any) => n + (Array.isArray(s?.items) ? s.items.length : 0),
+                  0
+                )}{' '}
+                mục
+              </span>
+            )}
           </div>
         </div>
 

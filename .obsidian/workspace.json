@@ -86,14 +86,14 @@
               "state": {
                 "file": "src/content/topik/kien-thuc/topik2-reading-dang-1-ngu-phap-cau-1-2.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "topik2-reading-dang-1-ngu-phap-cau-1-2"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -150,7 +150,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "772b261196dfe89b",
@@ -241,40 +242,43 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "10b9563826c30f58",
+  "active": "0569292b1934f8b3",
   "lastOpenFiles": [
-    "src/content/topik/kien-thuc/topik2-reading-dang-1-ngu-phap-cau-1-2.md",
+    "dist/index.html",
+    "dist/topik/index.html",
+    "dist/topik/tim-hieu/index.html",
+    "dist/topik/tim-hieu",
+    "dist/topik/thi-thu/index.html",
+    "dist/topik/thi-thu",
+    "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
+    "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
+    "dist/topik/on-luyen/index.html",
+    "dist/topik/on-luyen/on-luyen-002",
+    "dist/topik/on-luyen",
+    "dist/images/topik-vocabulary.jpg",
+    "dist/images/topik-91.svg",
+    "dist/images/topik-83.svg",
+    "dist/images/topik-64.svg",
+    "dist/images/topik-60.svg",
+    "dist/images/topik-52.svg",
+    "dist/images/topik-2-96.svg",
+    "dist/images/tieng-han-tong-hop-2.jpg",
+    "dist/images/tieng-han-tong-hop-1.svg",
+    "dist/images/tieng-han-tong-hop-1.jpg",
     "src/content/topik/kien-thuc/bai-tap-ngu-phap-dang-1-khach-hang.md",
     "src/content/grammar/ĐỌC DẠNG 1.md",
+    "src/content/topik/kien-thuc/topik2-reading-dang-1-ngu-phap-cau-1-2.md",
     "src/content/grammar/Bài tập - Ngữ pháp - Dạng 1 - 고객센터.md",
     "src/content/topik/kien-thuc/Bài tập - Ngữ pháp - Dạng 1 - 고객센터.md",
     "src/content/topik/kien-thuc/Ngữ pháp đọc dạng 1 - câu 1 & 2.md",
-    "src/content/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터.json",
-    "src/content/topik/on-luyen/on-luyen-002",
     "TOPIK.md",
     "src/content/grammar/Ngữ pháp đọc dạng 1 - câu 1 & 2.md",
     "src/content/topik/kien-thuc/topik2-reading-dang-1.md",
-    "check-json.js",
-    "check-json.cjs",
     "topik_vocabulary.md",
     "src/content/topik/on-luyen/on-luyen-001/reading-dang-1-고객센터-intro.md",
-    "src/pages/topik/on-luyen/OnLuyen001.astro",
-    "src/pages/topik/on-luyen/_debug.astro",
-    "src/pages/topik/on-luyen/[...slug].astro",
-    "src/content/topik/on-luyen/on-luyen-001/reading-dang-1-고객센터.json",
-    "src/content/topik/on-luyen/on-luyen-001",
-    "src/content/topik/on-luyen",
-    "public/images/topik-60.svg",
-    "public/images/topik-52.svg",
-    "public/images/topik-64.svg",
-    "public/images/topik-83.svg",
-    "public/images/topik-91.svg",
-    "public/images/anki-tieng-han-tong-hop-1.svg",
-    "public/images/topik-2-96.svg",
     "src/content/grammar/TOPIK 1.md",
     "src/content/kien-thuc/topik2-reading-dang-1.md",
     "ĐỌC DẠNG 1.md",
-    "public/images/image.png",
     "src/content/grammar/ida.md",
     "GRAMMAR.md",
     "src/content/grammar/anida.md",
