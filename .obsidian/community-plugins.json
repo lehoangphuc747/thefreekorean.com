@@ -1,4 +1,7 @@
 [
   "image-converter",
-  "copy-url-in-preview"
+  "copy-url-in-preview",
+  "table-editor-obsidian",
+  "obsidian-minimal-settings",
+  "settings-search"
 ]

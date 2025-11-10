@@ -1,0 +1,844 @@
+{
+  "meta": {
+    "title": "Ôn luyện 001 - 고객센터 (Sắp xếp theo chức năng)",
+    "description": "Dịch nghĩa vĩ tố liên kết (연결어미) - chủ đề: Trung tâm khách hàng",
+    "component": "OnLuyen001",
+    "level": "TOPIK II",
+    "page": "OnLuyen001"
+  },
+  "categories": [
+    {
+      "categoryTitle": "Vĩ tố liên kết (연결어미)",
+      "functionalGroups": [
+        {
+          "groupTitle": "Chức năng: 이유 (Lý do)",
+          "description": "Nhóm này diễn tả nguyên nhân, lý do của một hành động hay trạng thái.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -느라고",
+              "note": "Vì mải mê... nên",
+              "items": [
+                {
+                  "prompt": "대기 시간이 너무 길어서 상담원과 통화하느라고 다른 일을 못 했어요.",
+                  "answer": "Vì mải nói chuyện điện thoại với nhân viên tư vấn do thời gian chờ quá lâu nên tôi đã không làm được việc khác."
+                },
+                {
+                  "prompt": "본인 확인 절차를 거치느라고 시간이 좀 걸렸습니다.",
+                  "answer": "Vì trải qua bước xác minh danh tính nên đã hơi mất thời gian."
+                },
+                {
+                  "prompt": "고장 신고 문제를 처리하느라고 오늘 하루 종일 바빴어요.",
+                  "answer": "Tôi đã bận cả ngày hôm nay vì xử lý vấn đề báo cáo hư hỏng."
+                },
+                {
+                  "prompt": "상담원이 제 불만 사항을 접수하느라고 내용을 계속 확인했어요.",
+                  "answer": "Vì tiếp nhận khiếu nại của tôi nên nhân viên tư vấn đã liên tục xác nhận nội dung."
+                },
+                {
+                  "prompt": "새로운 요금제를 설명하느라고 상담원의 목이 아팠어요.",
+                  "answer": "Nhân viên tư vấn đã bị đau họng vì giải thích về gói cước mới."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -아/어서",
+              "note": "Vì... nên / ... rồi",
+              "items": [
+                {
+                  "prompt": "인터넷 연결이 끊겨서 고객 센터에 문의했습니다.",
+                  "answer": "Tôi đã hỏi trung tâm khách hàng vì kết nối internet bị ngắt."
+                },
+                {
+                  "prompt": "상담원이 친절하게 설명해줘서 문제를 금방 해결했어요.",
+                  "answer": "Tôi đã giải quyết vấn đề nhanh chóng vì nhân viên tư vấn đã giải thích rất thân thiện."
+                },
+                {
+                  "prompt": "오늘 고장 신고가 너무 많아서 수리 센터 연결이 어렵습니다.",
+                  "answer": "Hôm nay việc kết nối với trung tâm sửa chữa rất khó vì có quá nhiều báo cáo hư hỏng."
+                },
+                {
+                  "prompt": "약정 기간이 아직 남아서 해지하면 위약금이 발생합니다.",
+                  "answer": "Nếu hủy bây giờ sẽ phát sinh phí phạt vì thời hạn hợp đồng vẫn còn."
+                },
+                {
+                  "prompt": "고객센터에 전화해서 요금제를 바꿨어요.",
+                  "answer": "Tôi đã gọi điện đến trung tâm khách hàng rồi đổi gói cước."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -아/어서 그런지",
+              "note": "Có lẽ vì... nên",
+              "items": [
+                {
+                  "prompt": "주말이라서 그런지 상담원 연결 대기 시간이 너무 기네요.",
+                  "answer": "Có lẽ vì là cuối tuần nên thời gian chờ kết nối với nhân viên tư vấn lâu quá."
+                },
+                {
+                  "prompt": "신제품이 새로 나와서 그런지 가입 문의가 많아요.",
+                  "answer": "Có lẽ vì sản phẩm mới vừa ra mắt nên có nhiều câu hỏi về việc đăng ký."
+                },
+                {
+                  "prompt": "통화 품질이 계속 안 좋아서 그런지 상담원 목소리가 잘 안 들려요.",
+                  "answer": "Có lẽ vì chất lượng cuộc gọi liên tục không tốt nên tôi không nghe rõ giọng của nhân viên tư vấn."
+                },
+                {
+                  "prompt": "제가 불만을 말해서 그런지 상담원 목소리가 딱딱해졌어요.",
+                  "answer": "Có lẽ vì tôi đã nói ra sự bất mãn nên giọng của nhân viên tư vấn đã trở nên cứng nhắc."
+                },
+                {
+                  "prompt": "자동 응답 시스템이 복잡해서 그런지 많은 사람들이 상담원 연결을 원해요.",
+                  "answer": "Có lẽ vì hệ thống trả lời tự động phức tạp nên nhiều người muốn kết nối với nhân viên tư vấn."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -는 바람에",
+              "note": "Vì (đột ngột)... nên (kết quả xấu)",
+              "items": [
+                {
+                  "prompt": "상담원과 통화가 길어지는 바람에 점심시간을 놓쳤어요.",
+                  "answer": "Vì cuộc gọi với nhân viên tư vấn kéo dài nên tôi đã lỡ mất giờ ăn trưa."
+                },
+                {
+                  "prompt": "갑자기 인터넷 연결이 끊기는 바람에 중요한 말을 전달하지 못했다.",
+                  "answer": "Vì kết nối internet đột ngột bị ngắt nên tôi đã không thể truyền đạt được lời quan trọng."
+                },
+                {
+                  "prompt": "제가 접수 번호를 잃어버리는 바람에 본인 확인 절차를 다시 거쳐야 했어요.",
+                  "answer": "Vì tôi làm mất số tiếp nhận nên đã phải trải qua lại bước xác minh danh tính."
+                },
+                {
+                  "prompt": "상담원이 규정을 잘못 안내하는 바람에 제가 위약금을 내게 생겼어요.",
+                  "answer": "Vì nhân viên tư vấn hướng dẫn sai quy định nên thành ra tôi phải trả phí phạt."
+                },
+                {
+                  "prompt": "시스템이 갑자기 바뀌는 바람에 이용자들이 큰 불편을 겪었다.",
+                  "answer": "Vì hệ thống đột ngột thay đổi nên người dùng đã gặp phải sự bất tiện lớn."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)ㄴ/는 덕분에",
+              "note": "Nhờ có... nên",
+              "items": [
+                {
+                  "prompt": "상담원께서 친절하게 설명해 주신 덕분에 이용 약관을 잘 이해하게 됐어요.",
+                  "answer": "Nhờ có nhân viên tư vấn giải thích thân thiện mà tôi đã hiểu rõ các điều khoản sử dụng."
+                },
+                {
+                  "prompt": "문제를 빨리 처리해 준 덕분에 불편 없이 서비스를 이용할 수 있었어요.",
+                  "answer": "Nhờ họ xử lý vấn đề nhanh chóng mà tôi đã có thể sử dụng dịch vụ mà không có bất tiện gì."
+                },
+                {
+                  "prompt": "고객센터에서 신제품 안내를 자세히 해준 덕분에 좋은 상품에 가입했어요.",
+                  "answer": "Nhờ trung tâm khách hàng hướng dẫn chi tiết về sản phẩm mới mà tôi đã đăng ký được một sản phẩm tốt."
+                },
+                {
+                  "prompt": "수리 센터에서 빨리 와서 고쳐준 덕분에 인터넷을 다시 쓸 수 있게 됐어요.",
+                  "answer": "Nhờ trung tâm sửa chữa đến sửa nhanh chóng mà tôi đã có thể dùng lại internet."
+                },
+                {
+                  "prompt": "친구가 요금제를 추천해 준 덕분에 통신비를 많이 아낄 수 있었어요.",
+                  "answer": "Nhờ bạn tôi giới thiệu gói cước mà tôi đã có thể tiết kiệm được nhiều tiền phí viễn thông."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -기에/길래",
+              "note": "Vì thấy... nên",
+              "items": [
+                {
+                  "prompt": "상담원이 너무 친절하기에 홈페이지에 칭찬 글을 남겼어요.",
+                  "answer": "Vì thấy nhân viên tư vấn quá thân thiện nên tôi đã để lại một bài khen ngợi trên trang chủ."
+                },
+                {
+                  "prompt": "통화 품질이 너무 안 좋길래 고객센터에 고장 신고를 했습니다.",
+                  "answer": "Vì thấy chất lượng cuộc gọi quá tệ nên tôi đã báo cáo hư hỏng với trung tâm khách hàng."
+                },
+                {
+                  "prompt": "친구가 이 요금제가 좋다고 추천하기에 가입 문의를 하려고요.",
+                  "answer": "Tôi định hỏi về việc đăng ký vì thấy bạn tôi giới thiệu gói cước này tốt."
+                },
+                {
+                  "prompt": "홈페이지에 위약금이 없다고 쓰여 있기에 바로 해지 신청을 했어요.",
+                  "answer": "Tôi đã đăng ký hủy ngay lập tức vì thấy trên trang chủ ghi là không có phí phạt."
+                },
+                {
+                  "prompt": "처리 결과가 이상하기에 다시 한번 확인을 요청했습니다.",
+                  "answer": "Tôi đã yêu cầu xác nhận lại một lần nữa vì thấy kết quả xử lý có vẻ lạ."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 가정 / 조건 (Giả định / Điều kiện)",
+          "description": "Nhóm này đặt ra một giả định hoặc điều kiện để mệnh đề sau xảy ra.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -(으)려면",
+              "note": "Nếu muốn, nếu định",
+              "items": [
+                {
+                  "prompt": "약정 기간 없이 가입하려면 요금이 더 비싸지나요?",
+                  "answer": "Nếu muốn đăng ký mà không có thời hạn hợp đồng thì phí có đắt hơn không?"
+                },
+                {
+                  "prompt": "접수 번호 없이 처리 결과를 확인하려면 본인 확인 절차를 거쳐야 합니다.",
+                  "answer": "Nếu muốn kiểm tra kết quả xử lý mà không có số tiếp nhận thì phải trải qua bước xác minh danh tính."
+                },
+                {
+                  "prompt": "서비스를 해지하려면 위약금을 내야 할 수도 있습니다.",
+                  "answer": "Nếu muốn hủy dịch vụ, bạn có thể sẽ phải trả phí phạt."
+                },
+                {
+                  "prompt": "신제품에 대한 안내를 받으려면 홈페이지를 참고해 주세요.",
+                  "answer": "Nếu muốn nhận hướng dẫn về sản phẩm mới, xin vui lòng tham khảo trang chủ."
+                },
+                {
+                  "prompt": "문제를 빨리 해결하려면 문의 사항을 정확히 말씀해 주셔야 합니다.",
+                  "answer": "Nếu muốn giải quyết vấn đề nhanh chóng, quý khách phải cho chúng tôi biết chính xác vấn đề thắc mắc."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -아/어야",
+              "note": "Phải... thì mới...",
+              "items": [
+                {
+                  "prompt": "가입자 본인이 직접 전화해야 해지가 가능합니다.",
+                  "answer": "Chính người đăng ký phải trực tiếp gọi điện thì mới có thể hủy dịch vụ."
+                },
+                {
+                  "prompt": "정확한 요금 안내를 위해서는 약정 기간을 먼저 확인해야 합니다.",
+                  "answer": "Để có hướng dẫn về phí chính xác, phải xác nhận thời hạn hợp đồng trước."
+                },
+                {
+                  "prompt": "접수 번호를 알고 있어야 처리 결과를 쉽게 조회할 수 있습니다.",
+                  "answer": "Phải biết số tiếp nhận thì mới có thể tra cứu kết quả xử lý một cách dễ dàng."
+                },
+                {
+                  "prompt": "불편 사항을 자세히 말씀해 주셔야 저희가 문제를 해결할 수 있습니다.",
+                  "answer": "Quý khách phải nói chi tiết về sự bất tiện thì chúng tôi mới có thể giải quyết vấn đề."
+                },
+                {
+                  "prompt": "통화 품질을 개선해야 이용자들이 만족할 것입니다.",
+                  "answer": "Phải cải thiện chất lượng cuộc gọi thì người dùng mới hài lòng."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)면",
+              "note": "Nếu... thì...",
+              "items": [
+                {
+                  "prompt": "약정 기간이 끝나면 다른 통신사로 바꿀 생각입니다.",
+                  "answer": "Nếu thời hạn hợp đồng kết thúc, tôi định sẽ đổi sang nhà mạng khác."
+                },
+                {
+                  "prompt": "문의 사항이 있으시면 언제든지 고객센터로 연락 주세요.",
+                  "answer": "Nếu có thắc mắc, xin hãy liên lạc với trung tâm khách hàng bất cứ lúc nào."
+                },
+                {
+                  "prompt": "본인 확인이 되면 바로 요금제를 변경해 드리겠습니다.",
+                  "answer": "Nếu việc xác minh danh tính hoàn tất, chúng tôi sẽ đổi gói cước cho bạn ngay lập tức."
+                },
+                {
+                  "prompt": "통화 품질이 계속 안 좋으면 저희가 직접 방문해서 확인하겠습니다.",
+                  "answer": "Nếu chất lượng cuộc gọi tiếp tục không tốt, chúng tôi sẽ đến trực tiếp để kiểm tra."
+                },
+                {
+                  "prompt": "처리 결과에 만족하지 못하시면 다시 불편을 접수할 수 있습니다.",
+                  "answer": "Nếu bạn không hài lòng với kết quả xử lý, bạn có thể gửi lại khiếu nại."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -아/어도",
+              "note": "Dù... cũng...",
+              "items": [
+                {
+                  "prompt": "자동 응답 시스템 설명을 몇 번을 들어도 이해할 수가 없어요.",
+                  "answer": "Dù tôi có nghe giải thích của hệ thống trả lời tự động mấy lần cũng không thể hiểu được."
+                },
+                {
+                  "prompt": "제가 아무리 불만을 말해도 규정상 처리가 어렵다고만 해요.",
+                  "answer": "Dù tôi có phàn nàn bao nhiêu đi nữa, họ cũng chỉ nói rằng theo quy định thì khó xử lý."
+                },
+                {
+                  "prompt": "다시 전화해도 또 대기 시간이 길 것 같아요.",
+                  "answer": "Dù có gọi lại thì có lẽ thời gian chờ cũng sẽ lại dài."
+                },
+                {
+                  "prompt": "요금이 조금 비싸도 통화 품질이 좋은 서비스를 이용하고 싶어요.",
+                  "answer": "Dù phí có hơi đắt một chút, tôi vẫn muốn sử dụng dịch vụ có chất lượng cuộc gọi tốt."
+                },
+                {
+                  "prompt": "약정 기간이 끝나도 해지 신청을 안 하면 자동으로 연장됩니다.",
+                  "answer": "Dù thời hạn hợp đồng kết thúc, nếu không đăng ký hủy thì nó sẽ tự động được gia hạn."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -더라도",
+              "note": "Dù... đi nữa thì",
+              "items": [
+                {
+                  "prompt": "대기 시간이 좀 길더라도 꼭 상담원과 직접 통화하고 싶어요.",
+                  "answer": "Dù thời gian chờ có hơi dài đi nữa, tôi nhất định muốn nói chuyện trực tiếp với nhân viên tư vấn."
+                },
+                {
+                  "prompt": "지금 당장 문제를 해결할 수 없더라도 불편 사항은 접수해 주세요.",
+                  "answer": "Dù không thể giải quyết vấn đề ngay bây giờ đi nữa, xin hãy tiếp nhận khiếu nại của tôi."
+                },
+                {
+                  "prompt": "규정상 환불이 어렵더라도 다른 보상 방법은 없는지 확인해 주세요.",
+                  "answer": "Dù theo quy định việc hoàn tiền có khó đi nữa, xin hãy kiểm tra xem có phương pháp bồi thường nào khác không."
+                },
+                {
+                  "prompt": "위약금을 내더라도 저는 이 서비스를 해지해야겠어요.",
+                  "answer": "Dù có phải trả phí phạt đi nữa, tôi vẫn phải hủy dịch vụ này."
+                },
+                {
+                  "prompt": "조금 귀찮더라도 이용 약관은 반드시 읽어보셔야 합니다.",
+                  "answer": "Dù có hơi phiền một chút, bạn nhất định phải đọc các điều khoản sử dụng."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 순서 / 시간 관계 (Trình tự / Mối quan hệ thời gian)",
+          "description": "Nhóm này thể hiện thứ tự trước sau hoặc mối quan hệ thời gian giữa các hành động.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -다가",
+              "note": "Đang... thì (chuyển đổi hành động)",
+              "items": [
+                {
+                  "prompt": "상담원과 통화하다가 갑자기 인터넷 연결이 끊겼어요.",
+                  "answer": "Tôi đang nói chuyện điện thoại với nhân viên tư vấn thì đột nhiên kết nối internet bị ngắt."
+                },
+                {
+                  "prompt": "자동 응답 시스템으로 요금 안내를 듣다가 문의 사항이 생겨서 상담원 연결을 눌렀어요.",
+                  "answer": "Tôi đang nghe hướng dẫn về phí qua hệ thống trả lời tự động thì có vấn đề thắc mắc nên đã nhấn kết nối với nhân viên tư vấn."
+                },
+                {
+                  "prompt": "새로운 요금제 가입 신청서를 작성하다가 실수해서 다시 문의했습니다.",
+                  "answer": "Tôi đang điền đơn đăng ký gói cước mới thì bị lỗi nên đã hỏi lại."
+                },
+                {
+                  "prompt": "서비스를 해지하다가 약정 기간이 남아서 위약금이 있다는 걸 알게 됐어요.",
+                  "answer": "Trong lúc hủy dịch vụ, tôi đã phát hiện ra có phí phạt vì vẫn còn thời hạn hợp đồng."
+                },
+                {
+                  "prompt": "홈페이지에서 수리 센터 위치를 찾아보다가 갑자기 로그인이 안 됐어요.",
+                  "answer": "Tôi đang tìm vị trí trung tâm sửa chữa trên trang chủ thì đột nhiên không đăng nhập được."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -고 나서",
+              "note": "Sau khi",
+              "items": [
+                {
+                  "prompt": "본인 확인 절차를 거치고 나서 문의 사항을 접수해 드리겠습니다.",
+                  "answer": "Sau khi trải qua bước xác minh danh tính, chúng tôi sẽ tiếp nhận vấn đề thắc mắc của quý khách."
+                },
+                {
+                  "prompt": "상담원과 충분히 상담하고 나서 문제를 해결할 수 있었어요.",
+                  "answer": "Sau khi trao đổi đầy đủ với nhân viên tư vấn, tôi đã có thể giải quyết vấn đề."
+                },
+                {
+                  "prompt": "이용 약관을 꼼꼼히 확인하고 나서 서비스를 가입하는 것이 좋습니다.",
+                  "answer": "Tốt nhất là bạn nên đăng ký dịch vụ sau khi đã kiểm tra kỹ các điều khoản sử dụng."
+                },
+                {
+                  "prompt": "불편 사항을 접수하고 나서 처리 결과를 기다려 주세요.",
+                  "answer": "Sau khi tiếp nhận khiếu nại, xin quý khách vui lòng chờ kết quả xử lý."
+                },
+                {
+                  "prompt": "기사님이 제품을 설치하고 나서 바로 개통해 주실 겁니다.",
+                  "answer": "Sau khi kỹ thuật viên lắp đặt sản phẩm, anh ấy sẽ kích hoạt cho bạn ngay lập tức."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -자마자",
+              "note": "Ngay sau khi",
+              "items": [
+                {
+                  "prompt": "상담원과 연결되자마자 통화 품질이 안 좋다고 불만을 말했어요.",
+                  "answer": "Ngay sau khi được kết nối với nhân viên tư vấn, tôi đã phàn nàn rằng chất lượng cuộc gọi không tốt."
+                },
+                {
+                  "prompt": "불편을 접수하자마자 바로 접수 번호를 문자로 보내주었다.",
+                  "answer": "Ngay sau khi tôi gửi khiếu nại, họ đã gửi ngay số tiếp nhận qua tin nhắn."
+                },
+                {
+                  "prompt": "약정 기간이 끝나자마자 바로 서비스를 해지할 거예요.",
+                  "answer": "Ngay sau khi thời hạn hợp đồng kết thúc, tôi sẽ hủy dịch vụ ngay lập tức."
+                },
+                {
+                  "prompt": "가입 신청을 하자마자 설치 기사님한테서 연락이 왔어요.",
+                  "answer": "Ngay sau khi đăng ký gia nhập, tôi đã nhận được liên lạc từ kỹ thuật viên lắp đặt."
+                },
+                {
+                  "prompt": "문제를 해결하자마자 고객에게 처리 결과를 안내했다.",
+                  "answer": "Ngay sau khi giải quyết vấn đề, họ đã thông báo kết quả xử lý cho khách hàng."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)면서",
+              "note": "Vừa... vừa...",
+              "items": [
+                {
+                  "prompt": "상담원은 이용 약관을 설명하면서 중요한 부분에 표시를 했다.",
+                  "answer": "Nhân viên tư vấn vừa giải thích điều khoản sử dụng vừa đánh dấu vào những phần quan trọng."
+                },
+                {
+                  "prompt": "죄송하다고 하면서 아무런 보상 규정에 대해 안내하지 않았어요.",
+                  "answer": "Anh ta vừa nói xin lỗi nhưng lại không hề hướng dẫn về bất kỳ quy định bồi thường nào."
+                },
+                {
+                  "prompt": "고객은 불만을 말하면서 언성을 높이기 시작했다.",
+                  "answer": "Khách hàng vừa nói ra sự bất mãn vừa bắt đầu lớn tiếng."
+                },
+                {
+                  "prompt": "자동 응답 시스템 안내를 들으면서 해당하는 번호를 눌렀다.",
+                  "answer": "Tôi vừa nghe hướng dẫn của hệ thống trả lời tự động vừa nhấn số tương ứng."
+                },
+                {
+                  "prompt": "요금제를 바꾸면서 약정 기간도 연장할 수 있나요?",
+                  "answer": "Tôi có thể vừa đổi gói cước vừa gia hạn thời gian hợp đồng được không?"
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -는 길에",
+              "note": "Nhân tiện, trên đường...",
+              "items": [
+                {
+                  "prompt": "퇴근하는 길에 수리 센터에 들러서 고장 신고를 하려고 해요.",
+                  "answer": "Trên đường đi làm về, tôi định sẽ ghé qua trung tâm sửa chữa để báo cáo hư hỏng."
+                },
+                {
+                  "prompt": "고객센터에 직접 방문하러 가는 길에 궁금한 점들을 미리 정리했다.",
+                  "answer": "Trên đường đến trực tiếp trung tâm khách hàng, tôi đã sắp xếp trước những điểm thắc mắc."
+                },
+                {
+                  "prompt": "집에 돌아오는 길에 상담원에게서 처리 결과에 대한 전화를 받았다.",
+                  "answer": "Trên đường về nhà, tôi đã nhận được cuộc gọi từ nhân viên tư vấn về kết quả xử lý."
+                },
+                {
+                  "prompt": "친구를 만나러 가는 길에 잠시 대리점에 들러 요금 안내를 받았다.",
+                  "answer": "Trên đường đi gặp bạn, tôi đã ghé qua đại lý một lát để nhận hướng dẫn về phí."
+                },
+                {
+                  "prompt": "회사에 출근하는 길에 어제 문의했던 내용에 대한 답변을 확인했다.",
+                  "answer": "Trên đường đi làm, tôi đã kiểm tra câu trả lời cho nội dung đã hỏi ngày hôm qua."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 선택 (Lựa chọn)",
+          "description": "Nhóm này dùng để đưa ra sự lựa chọn hoặc các khả năng.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -거나",
+              "note": "Hoặc là",
+              "items": [
+                {
+                  "prompt": "문의 사항이 있으면 고객센터에 전화하시거나 홈페이지를 이용해 주세요.",
+                  "answer": "Nếu có thắc mắc, xin hãy gọi đến trung tâm khách hàng hoặc sử dụng trang chủ."
+                },
+                {
+                  "prompt": "요금제를 변경하시거나 서비스를 해지하시려면 본인 확인이 필요합니다.",
+                  "answer": "Nếu bạn muốn thay đổi gói cước hoặc hủy dịch vụ, bạn cần xác minh danh tính."
+                },
+                {
+                  "prompt": "직접 방문하시거나 온라인으로도 고장 신고를 접수할 수 있습니다.",
+                  "answer": "Bạn có thể đến trực tiếp hoặc tiếp nhận báo cáo hư hỏng trực tuyến."
+                },
+                {
+                  "prompt": "처리 결과에 불만이 있으시거나 기타 문의가 있으시면 다시 연락 주세요.",
+                  "answer": "Nếu bạn không hài lòng với kết quả xử lý hoặc có các thắc mắc khác, xin hãy liên lạc lại."
+                },
+                {
+                  "prompt": "이용 약관을 읽어보시거나 상담원에게 직접 물어보시면 위약금 규정을 알 수 있어요.",
+                  "answer": "Bạn có thể biết quy định về phí phạt bằng cách đọc điều khoản sử dụng hoặc hỏi trực tiếp nhân viên tư vấn."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)ㄹ지",
+              "note": "...hay không, nên...",
+              "items": [
+                {
+                  "prompt": "어떤 요금제로 변경할지 고민이라서 상담원과 상담하고 싶어요.",
+                  "answer": "Tôi muốn trao đổi với nhân viên tư vấn vì đang phân vân không biết nên đổi sang gói cước nào."
+                },
+                {
+                  "prompt": "이 고장을 수리 센터에서 해결할 수 있을지 잘 모르겠어요.",
+                  "answer": "Tôi không biết liệu trung tâm sửa chữa có thể giải quyết được sự cố này hay không."
+                },
+                {
+                  "prompt": "위약금이 얼마나 나올지 몰라서 해지를 못 하고 있습니다.",
+                  "answer": "Tôi không thể hủy được vì không biết phí phạt sẽ là bao nhiêu."
+                },
+                {
+                  "prompt": "처리 결과가 언제 나올지 알 수 있을까요?",
+                  "answer": "Tôi có thể biết được khi nào sẽ có kết quả xử lý không ạ?"
+                },
+                {
+                  "prompt": "본인 확인 없이 문의 사항 접수가 가능할지 궁금합니다.",
+                  "answer": "Tôi tò mò không biết liệu có thể tiếp nhận thắc mắc mà không cần xác minh danh tính hay không."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -든지",
+              "note": "Bất kể là... hay...",
+              "items": [
+                {
+                  "prompt": "요금 안내든지 이용 안내든지 궁금한 건 뭐든지 물어보세요.",
+                  "answer": "Bất kể là hướng dẫn về phí hay hướng dẫn sử dụng, bất cứ điều gì tò mò xin hãy hỏi."
+                },
+                {
+                  "prompt": "고장 신고든지 불만 사항 접수든지 이 번호로 전화하시면 됩니다.",
+                  "answer": "Bất kể là báo cáo hư hỏng hay tiếp nhận khiếu nại, bạn chỉ cần gọi đến số này là được."
+                },
+                {
+                  "prompt": "가입을 하든지 해지를 하든지 약정 기간 확인은 필수입니다.",
+                  "answer": "Bất kể là đăng ký hay hủy dịch vụ, việc xác nhận thời hạn hợp đồng là bắt buộc."
+                },
+                {
+                  "prompt": "상담원이 누구든지 친절하게 응대하는 것이 중요합니다.",
+                  "answer": "Bất kể nhân viên tư vấn là ai, việc đối đãi thân thiện là quan trọng."
+                },
+                {
+                  "prompt": "위약금이 얼마가 나오든지 저는 오늘 바로 해지하고 싶어요.",
+                  "answer": "Bất kể phí phạt là bao nhiêu, tôi muốn hủy ngay hôm nay."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)ㄴ/는 대신에",
+              "note": "Thay vì, đổi lại",
+              "items": [
+                {
+                  "prompt": "전화로 문의하는 대신에 홈페이지에서 1:1 문의를 남겼다.",
+                  "answer": "Thay vì hỏi qua điện thoại, tôi đã để lại câu hỏi 1:1 trên trang chủ."
+                },
+                {
+                  "prompt": "불편을 드린 점에 대해 요금을 할인해 주는 대신에 상품권을 보상으로 드립니다.",
+                  "answer": "Đổi lại cho sự bất tiện đã gây ra, chúng tôi sẽ tặng phiếu mua hàng như một khoản bồi thường thay vì giảm giá cước."
+                },
+                {
+                  "prompt": "직접 방문하는 것이 힘든 대신에 기사님이 와서 설치해 줍니다.",
+                  "answer": "Thay vì việc đến trực tiếp vất vả, kỹ thuật viên sẽ đến và lắp đặt cho bạn."
+                },
+                {
+                  "prompt": "위약금을 내는 대신에 약정 기간을 더 연장할 수도 있습니다.",
+                  "answer": "Thay vì trả phí phạt, bạn cũng có thể gia hạn thêm thời hạn hợp đồng."
+                },
+                {
+                  "prompt": "상담원과 직접 통화하는 대신에 자동 응답 시스템으로 문제를 해결했다.",
+                  "answer": "Tôi đã giải quyết vấn đề bằng hệ thống trả lời tự động thay vì nói chuyện trực tiếp với nhân viên tư vấn."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 상반 / 대조 (Tương phản / Đối chiếu)",
+          "description": "Nhóm này dùng để nối hai mệnh đề có ý nghĩa trái ngược nhau.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -(으)ㄴ/는데",
+              "note": "...nhưng / ...thì (dẫn nhập, đối chiếu)",
+              "items": [
+                {
+                  "prompt": "통화 품질이 계속 안 좋은데, 고장 신고는 어디에 해야 하나요?",
+                  "answer": "Chất lượng cuộc gọi liên tục không tốt, tôi phải báo cáo hư hỏng ở đâu ạ?"
+                },
+                {
+                  "prompt": "제가 어제 문의를 했는데 아직 처리 결과에 대한 연락이 없네요.",
+                  "answer": "Tôi đã hỏi hôm qua nhưng vẫn chưa có liên lạc nào về kết quả xử lý."
+                },
+                {
+                  "prompt": "약정 기간이 거의 다 끝났는데, 해지하면 위약금이 있나요?",
+                  "answer": "Thời hạn hợp đồng của tôi gần hết rồi, nếu hủy thì có mất phí phạt không?"
+                },
+                {
+                  "prompt": "저는 상담원과 직접 통화를 원하는데, 계속 자동 응답 시스템만 나와요.",
+                  "answer": "Tôi muốn nói chuyện trực tiếp với nhân viên tư vấn nhưng cứ chỉ ra hệ thống trả lời tự động."
+                },
+                {
+                  "prompt": "제품을 이미 설치했는데, 지금이라도 가입을 취소할 수 있나요?",
+                  "answer": "Tôi đã lắp đặt sản phẩm rồi, bây giờ hủy đăng ký có được không?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 목적 (Mục đích)",
+          "description": "Nhóm này diễn tả mục đích của hành động.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -(으)려고",
+              "note": "Để, định",
+              "items": [
+                {
+                  "prompt": "요금제를 바꾸려고 고객 센터에 문의했어요.",
+                  "answer": "Tôi đã hỏi trung tâm khách hàng để đổi gói cước."
+                },
+                {
+                  "prompt": "인터넷 연결이 자꾸 끊겨서 고장 신고를 하려고 합니다.",
+                  "answer": "Tôi định báo cáo hư hỏng vì kết nối internet cứ bị ngắt liên tục."
+                },
+                {
+                  "prompt": "위약금 규정을 확인하려고 이용 약관을 다시 읽어봤어요.",
+                  "answer": "Tôi đã đọc lại điều khoản sử dụng để xác nhận quy định về phí phạt."
+                },
+                {
+                  "prompt": "서비스 이용을 잠시 정지하려고 하는데 어떻게 해야 하나요?",
+                  "answer": "Tôi định tạm dừng sử dụng dịch vụ thì phải làm thế nào ạ?"
+                },
+                {
+                  "prompt": "상담원과 직접 통화하려고 10분 넘게 기다렸어요.",
+                  "answer": "Tôi đã chờ hơn 10 phút để được nói chuyện trực tiếp với nhân viên tư vấn."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -도록",
+              "note": "Để, đến mức",
+              "items": [
+                {
+                  "prompt": "고객님께서 이해하기 쉽도록 천천히 설명해 드리겠습니다.",
+                  "answer": "Chúng tôi sẽ giải thích một cách chậm rãi để quý khách có thể dễ hiểu."
+                },
+                {
+                  "prompt": "다시는 이런 불편이 없도록 시스템을 개선하겠습니다.",
+                  "answer": "Chúng tôi sẽ cải thiện hệ thống để sự bất tiện như thế này không xảy ra lần nữa."
+                },
+                {
+                  "prompt": "모든 이용자가 규정을 알 수 있도록 홈페이지에 공지해 주세요.",
+                  "answer": "Xin hãy thông báo trên trang chủ để tất cả người dùng có thể biết quy định."
+                },
+                {
+                  "prompt": "상담원이 제 말을 잘 들을 수 있도록 큰 소리로 불만을 말했어요.",
+                  "answer": "Tôi đã nói to sự bất mãn của mình để nhân viên tư vấn có thể nghe rõ lời tôi."
+                },
+                {
+                  "prompt": "약정 기간이 끝나기 전에 알 수 있도록 미리 문자를 보내드립니다.",
+                  "answer": "Chúng tôi sẽ gửi tin nhắn trước để quý khách có thể biết trước khi thời hạn hợp đồng kết thúc."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 경험 / 발견 (Kinh nghiệm / Phát hiện)",
+          "description": "Nhóm này diễn tả điều gì đó được nhận ra qua kinh nghiệm hoặc khám phá.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -더니",
+              "note": "Thấy... rồi thì...",
+              "items": [
+                {
+                  "prompt": "아까는 상담원 연결이 안 되더니 지금은 바로 되네요.",
+                  "answer": "Lúc nãy không kết nối được với nhân viên tư vấn, vậy mà bây giờ lại được ngay."
+                },
+                {
+                  "prompt": "그 이용자가 계속 불만을 말하더니 결국 서비스를 해지했어요.",
+                  "answer": "Người dùng đó cứ liên tục phàn nàn rồi cuối cùng đã hủy dịch vụ."
+                },
+                {
+                  "prompt": "직원이 문제를 확인하더니 바로 새 제품으로 교환해 주겠다고 했어요.",
+                  "answer": "Nhân viên kiểm tra vấn đề xong rồi nói sẽ đổi ngay sản phẩm mới cho tôi."
+                },
+                {
+                  "prompt": "인터넷 연결이 계속 끊기더니 결국 완전히 안 돼요.",
+                  "answer": "Kết nối internet cứ liên tục bị ngắt rồi cuối cùng không vào được hẳn."
+                },
+                {
+                  "prompt": "요금 안내를 자세히 듣더니 고객님이 가장 비싼 요금제로 가입했어요.",
+                  "answer": "Khách hàng nghe kỹ hướng dẫn về phí xong rồi đã đăng ký gói cước đắt nhất."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)니까",
+              "note": "Vì... nên / Sau khi... thì thấy",
+              "items": [
+                {
+                  "prompt": "약정 기간이 아직 많이 남았으니까 지금 해지하면 위약금이 많습니다.",
+                  "answer": "Vì thời hạn hợp đồng vẫn còn lại nhiều nên nếu hủy bây giờ phí phạt sẽ rất cao."
+                },
+                {
+                  "prompt": "상담원과 직접 통화해보니까 문제가 바로 해결되었어요.",
+                  "answer": "Sau khi thử nói chuyện trực tiếp với nhân viên tư vấn thì vấn đề đã được giải quyết ngay."
+                },
+                {
+                  "prompt": "현재 상담 전화가 많으니까 잠시 후에 다시 걸어주시기 바랍니다.",
+                  "answer": "Vì hiện tại có nhiều cuộc gọi tư vấn nên xin quý khách vui lòng gọi lại sau một lát."
+                },
+                {
+                  "prompt": "이용 약관을 확인했으니까 이제 가입 신청서를 작성해 주세요.",
+                  "answer": "Vì quý khách đã xác nhận điều khoản sử dụng nên bây giờ xin hãy điền vào đơn đăng ký."
+                },
+                {
+                  "prompt": "고장 신고를 접수했으니까 곧 수리 기사님이 방문할 겁니다.",
+                  "answer": "Vì đã tiếp nhận báo cáo hư hỏng nên kỹ thuật viên sửa chữa sẽ sớm đến thăm."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -다가 보면",
+              "note": "Cứ... rồi sẽ...",
+              "items": [
+                {
+                  "prompt": "자동 응답 시스템을 계속 사용하다가 보면 익숙해질 거예요.",
+                  "answer": "Cứ tiếp tục sử dụng hệ thống trả lời tự động rồi bạn sẽ quen thôi."
+                },
+                {
+                  "prompt": "여러 요금제를 비교하다가 보면 자신에게 맞는 상품을 찾을 수 있어요.",
+                  "answer": "Cứ so sánh nhiều gói cước rồi bạn sẽ có thể tìm thấy sản phẩm phù hợp với mình."
+                },
+                {
+                  "prompt": "고객들의 불만 사항을 계속 듣다가 보면 서비스의 문제점이 무엇인지 알게 됩니다.",
+                  "answer": "Cứ tiếp tục lắng nghe khiếu nại của khách hàng rồi sẽ biết được vấn đề của dịch vụ là gì."
+                },
+                {
+                  "prompt": "이 규정을 계속 읽다가 보면 이해가 안 되는 부분도 이해하게 될 겁니다.",
+                  "answer": "Cứ tiếp tục đọc quy định này rồi bạn sẽ hiểu được cả những phần không hiểu."
+                },
+                {
+                  "prompt": "다양한 고객과 상담하다가 보면 어떻게 응대해야 할지 노하우가 생겨요.",
+                  "answer": "Cứ tư vấn với nhiều khách hàng đa dạng rồi sẽ có kinh nghiệm về cách ứng đối."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groupTitle": "Chức năng: 추가 / 상태 / 기타 (Bổ sung / Trạng thái / Khác)",
+          "description": "Nhóm này bao gồm các chức năng bổ sung, diễn tả trạng thái hoặc các chức năng khác.",
+          "sections": [
+            {
+              "title": "Ngữ pháp -(으)ㄹ수록",
+              "note": "Càng... càng...",
+              "items": [
+                {
+                  "prompt": "약정 기간이 길수록 월 요금 할인을 더 많이 받을 수 있습니다.",
+                  "answer": "Thời hạn hợp đồng càng dài, bạn càng có thể nhận được nhiều chiết khấu phí hàng tháng."
+                },
+                {
+                  "prompt": "문의 사항을 자세하게 설명할수록 상담원이 더 빨리 문제를 해결할 수 있어요.",
+                  "answer": "Bạn càng giải thích chi tiết các vấn đề thắc mắc, nhân viên tư vấn càng có thể giải quyết vấn đề nhanh hơn."
+                },
+                {
+                  "prompt": "대기 시간이 길어질수록 이용자들의 불만 사항도 많아집니다.",
+                  "answer": "Thời gian chờ càng kéo dài, các khiếu nại của người dùng cũng càng nhiều lên."
+                },
+                {
+                  "prompt": "규정이 복잡할수록 고객들이 이해하기 어려워요.",
+                  "answer": "Quy định càng phức tạp, khách hàng càng khó hiểu."
+                },
+                {
+                  "prompt": "신제품에 대한 안내가 부족할수록 기타 문의가 늘어납니다.",
+                  "answer": "Hướng dẫn về sản phẩm mới càng thiếu, các thắc mắc khác càng tăng lên."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)ㄴ/는 데다가",
+              "note": "Đã... lại còn...",
+              "items": [
+                {
+                  "prompt": "인터넷 연결이 계속 끊기는 데다가 통화 품질도 너무 안 좋아요.",
+                  "answer": "Kết nối internet đã liên tục bị ngắt, lại còn chất lượng cuộc gọi cũng quá tệ."
+                },
+                {
+                  "prompt": "그 상담원은 목소리가 좋은 데다가 설명도 아주 친절하게 해줘요.",
+                  "answer": "Nhân viên tư vấn đó đã có giọng nói hay, lại còn giải thích rất thân thiện."
+                },
+                {
+                  "prompt": "대기 시간이 긴 데다가 자동 응답 시스템까지 복잡해서 불편했어요.",
+                  "answer": "Đã thời gian chờ dài, lại còn hệ thống trả lời tự động phức tạp nên tôi đã rất bất tiện."
+                },
+                {
+                  "prompt": "요금이 저렴한 데다가 약정 기간도 짧아서 이 요금제로 가입했어요.",
+                  "answer": "Tôi đã đăng ký gói cước này vì phí đã rẻ, lại còn thời hạn hợp đồng cũng ngắn."
+                },
+                {
+                  "prompt": "고장 신고를 했는데 처리가 늦는 데다가 결과 안내도 없었어요.",
+                  "answer": "Tôi đã báo cáo hư hỏng nhưng việc xử lý đã chậm, lại còn không có thông báo kết quả."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)ㄴ 채로",
+              "note": "Trong trạng thái, giữ nguyên...",
+              "items": [
+                {
+                  "prompt": "문제를 해결하지 못한 채로 상담원과의 통화가 종료되었다.",
+                  "answer": "Cuộc gọi với nhân viên tư vấn đã kết thúc trong trạng thái vấn đề vẫn chưa được giải quyết."
+                },
+                {
+                  "prompt": "고객은 불만이 가득한 채로 수화기를 내려놓았다.",
+                  "answer": "Khách hàng đã đặt ống nghe xuống trong trạng thái đầy bất mãn."
+                },
+                {
+                  "prompt": "저는 문의 사항에 대한 답변을 받지 못한 채로 며칠을 기다렸어요.",
+                  "answer": "Tôi đã chờ đợi mấy ngày trong trạng thái chưa nhận được câu trả lời cho thắc mắc của mình."
+                },
+                {
+                  "prompt": "자동 응답 시스템 안내를 끝까지 듣지 않은 채로 상담원 연결 버튼을 눌렀다.",
+                  "answer": "Tôi đã nhấn nút kết nối nhân viên tư vấn trong trạng thái chưa nghe hết hướng dẫn của hệ thống trả lời tự động."
+                },
+                {
+                  "prompt": "위약금 문제를 해결하지 않은 채로 서비스를 계속 이용할 수는 없습니다.",
+                  "answer": "Bạn không thể tiếp tục sử dụng dịch vụ trong trạng thái chưa giải quyết vấn đề phí phạt."
+                }
+              ]
+            },
+            {
+              "title": "Ngữ pháp -(으)ㄹ까 봐(서)",
+              "note": "Vì lo rằng, sợ rằng",
+              "items": [
+                {
+                  "prompt": "위약금이 많이 나올까 봐 해지를 못 하고 있어요.",
+                  "answer": "Tôi không thể hủy được vì lo rằng phí phạt sẽ ra nhiều."
+                },
+                {
+                  "prompt": "대기 시간이 너무 길어질까 봐 기타 문의는 다음에 하기로 했어요.",
+                  "answer": "Tôi đã quyết định để các thắc mắc khác sang lần sau vì sợ thời gian chờ sẽ quá dài."
+                },
+                {
+                  "prompt": "중요한 내용이라 잊어버릴까 봐 상담 내용을 녹음했어요.",
+                  "answer": "Tôi đã ghi âm nội dung tư vấn vì sợ sẽ quên mất nội dung quan trọng."
+                },
+                {
+                  "prompt": "고장 신고가 제대로 접수되지 않았을까 봐 다시 전화해서 확인했어요.",
+                  "answer": "Tôi đã gọi lại xác nhận vì lo rằng việc báo cáo hư hỏng đã không được tiếp nhận đúng cách."
+                },
+                {
+                  "prompt": "상담원이 제 말을 이해 못 할까 봐 천천히 불만 사항을 말했어요.",
+                  "answer": "Tôi đã nói ra sự bất mãn một cách chậm rãi vì sợ nhân viên tư vấn không hiểu lời tôi."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,18 @@
 {
   "livePreview": false,
   "spellcheck": false,
-  "showLineNumber": true,
+  "showLineNumber": false,
   "trashOption": "local",
   "alwaysUpdateLinks": true,
   "newFileLocation": "folder",
   "newFileFolderPath": "src/content/grammar",
   "newLinkFormat": "relative",
   "showUnsupportedFiles": true,
-  "attachmentFolderPath": "public/images"
+  "attachmentFolderPath": "public/images",
+  "pdfExportSettings": {
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
 }

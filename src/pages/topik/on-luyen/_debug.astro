@@ -1,0 +1,74 @@
+---
+import { readdirSync, statSync } from 'fs';
+import { join, relative } from 'path';
+import TopikLayout from '../../../layouts/TopikLayout.astro';
+
+const contentRoot = join(process.cwd(), 'src', 'content', 'topik', 'on-luyen');
+
+type Row = {
+  abs: string;
+  rel: string;
+  slugRaw: string[];
+  slugNFC: string[];
+  slugNFD: string[];
+  hrefEncoded: string;
+};
+
+const rows: Row[] = [];
+
+const toNFC = (s: string) => (s && s.normalize ? s.normalize('NFC') : s);
+const toNFD = (s: string) => (s && s.normalize ? s.normalize('NFD') : s);
+
+try {
+  const walk = (dir: string) => {
+    const entries = readdirSync(dir);
+    for (const name of entries) {
+      const full = join(dir, name);
+      const s = statSync(full);
+      if (s.isDirectory()) {
+        walk(full);
+      } else if (s.isFile() && name.endsWith('.json')) {
+        const rel = relative(contentRoot, full).replace(/\\/g, '/');
+        const noExt = rel.replace(/\.json$/i, '');
+        const slugRaw = noExt.split('/');
+        const slugNFC = slugRaw.map(toNFC);
+        const slugNFD = slugRaw.map(toNFD);
+        const hrefEncoded = '/topik/on-luyen/' + slugRaw.map(encodeURIComponent).join('/') + '/';
+        rows.push({ abs: full, rel, slugRaw, slugNFC, slugNFD, hrefEncoded });
+      }
+    }
+  };
+  walk(contentRoot);
+} catch (e) {
+  // ignore
+}
+---
+
+<TopikLayout title="Debug Ôn luyện" description="Debug route và slug cho Ôn luyện">
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    <h1 class="text-2xl font-bold mb-4">Debug Ôn luyện</h1>
+    <p class="text-gray-700 mb-6">Danh sách file JSON và các biến thể slug:</p>
+
+    {rows.length === 0 ? (
+      <div class="bg-yellow-50 border-2 border-yellow-200 rounded p-4">
+        Không tìm thấy file JSON trong <code class="bg-white px-1 py-0.5 rounded border">src/content/topik/on-luyen/</code>
+      </div>
+    ) : (
+      <div class="space-y-4">
+        {rows.map((r) => (
+          <div class="border rounded p-4 bg-white">
+            <div class="text-sm text-gray-600"><b>rel:</b> {r.rel}</div>
+            <div class="text-sm text-gray-600"><b>slugRaw:</b> {JSON.stringify(r.slugRaw)}</div>
+            <div class="text-sm text-gray-600"><b>slugNFC:</b> {JSON.stringify(r.slugNFC)}</div>
+            <div class="text-sm text-gray-600"><b>slugNFD:</b> {JSON.stringify(r.slugNFD)}</div>
+            <div class="mt-2">
+              <a class="text-blue-600 underline break-all" href={r.hrefEncoded}>{r.hrefEncoded}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</TopikLayout>
+
+
