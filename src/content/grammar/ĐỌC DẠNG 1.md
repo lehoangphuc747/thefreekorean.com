@@ -1,2 +1,3 @@
-[[Ngữ pháp đọc dạng 1 - câu 1 & 2]]
-[[Bài tập - Ngữ pháp - Dạng 1 - 고객센터]]
+[[topik2-reading-dang-1-ngu-phap-cau-1-2]]
+[[bai-tap-ngu-phap-dang-1-khach-hang]]
+

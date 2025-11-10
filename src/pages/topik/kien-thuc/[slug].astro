@@ -168,16 +168,6 @@ if (notFound) {
             </span>
           )}
         </div>
-
-        {frontmatter.tags && frontmatter.tags.length > 0 && (
-          <div class="flex gap-2 flex-wrap mt-4">
-            {frontmatter.tags.map((tag: string) => (
-              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
       </header>
 
       <!-- Article content -->

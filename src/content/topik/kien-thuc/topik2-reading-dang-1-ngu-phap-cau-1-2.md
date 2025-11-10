@@ -1,3 +1,12 @@
+---
+title: "Ngữ pháp đọc dạng 1 - câu 1 & 2"
+description: "Tổng hợp các ngữ pháp TOPIK II phần đọc dạng 1 (câu 1-2): Vĩ tố liên kết (연결어미) và Vĩ tố kết thúc câu (종결어미) được phân loại theo chức năng."
+category: "Đọc (Reading)"
+level: "TOPIK II"
+tags: ["reading", "dạng 1", "câu 1-2", "ngữ pháp", "연결어미", "종결어미", "vĩ tố liên kết", "vĩ tố kết thúc"]
+date: "2025-11-10"
+---
+
 ## **1. Vĩ tố liên kết (연결어미)**
 
 ### **Chức năng: 이유 (Lý do)**
@@ -148,4 +157,5 @@
 | **-(으)ㄴ 적이 있다** | 경험: 시간 (Kinh nghiệm: Đã từng) | 어렸을 때 부산에서 **산 적이 있다**. |
 | **-기 마련이다** | 당위: 예정 사실 (Đương nhiên: Lẽ dĩ nhiên là) | 뭐든지 열심히 하다가 보면 실력이 **좋아지기 마련이다**. |
 | **-(으)면 된다** | 조건: 충족 (Điều kiện: Chỉ cần... là được) | 지하철역으로 가려면 이쪽으로 3분쯤 **걸어가면 된다**. |
+
 
