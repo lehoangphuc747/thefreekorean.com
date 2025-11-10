@@ -93,7 +93,7 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -150,8 +150,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "772b261196dfe89b",
@@ -242,11 +241,11 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "0569292b1934f8b3",
+  "active": "10b9563826c30f58",
   "lastOpenFiles": [
+    "src/content/topik/kien-thuc/topik2-reading-dang-1-ngu-phap-cau-1-2.md",
     "src/content/topik/kien-thuc/bai-tap-ngu-phap-dang-1-khach-hang.md",
     "src/content/grammar/ĐỌC DẠNG 1.md",
-    "src/content/topik/kien-thuc/topik2-reading-dang-1-ngu-phap-cau-1-2.md",
     "src/content/grammar/Bài tập - Ngữ pháp - Dạng 1 - 고객센터.md",
     "src/content/topik/kien-thuc/Bài tập - Ngữ pháp - Dạng 1 - 고객센터.md",
     "src/content/topik/kien-thuc/Ngữ pháp đọc dạng 1 - câu 1 & 2.md",
