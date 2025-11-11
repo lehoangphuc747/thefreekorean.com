@@ -3,6 +3,8 @@ Link trang nguồn ngữ pháp:
 
 https://engoo.com/app/lessons/korean-grammar-in-use-grammar-in-use-intermediate-%EC%95%84%EC%96%B4-%EB%B3%B4%EC%9D%B4%EB%8B%A4/ldmOLuW3Eem0mM9PHBW7hg?category_id=gtmQNOqkEemK0fcPRnl2tQ&course_id=j5i3KOqkEemNJMNg-7-rRQ#exercise-2
 
+
+
 ## SƠ CẤP
 
 [[src/content/grammar/ida|1. N이다]]
@@ -234,7 +236,7 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 | **A. Cấu Trúc Câu Cơ Bản - Tiểu Từ (조사)**   |           |         |      |                                                                                                                                   |
 | 91                                          | 이다        | 1       | 10   | Là (Đuôi từ của danh từ)                                                                                                          |
 | 5                                           | 이 아니다     | 2       | 1    | Không phải là                                                                                                                     |
-| 98                                          | 은1        | 3       | 10   | Tiểu từ chủ đề (kết thúc bằng phụ âm)                                                                                             |
+| 98                                          | [[은1]]    | 3       | 10   | Tiểu từ chủ đề (kết thúc bằng phụ âm)                                                                                             |
 | 77                                          | -는        | 4       | 8    | Tiểu từ chủ đề (kết thúc bằng nguyên âm) - *Trong danh sách này được phân loại là 전성어미 nhưng chức năng cơ bản như tiểu từ chủ đề* |
 | 95                                          | 이         | 5       | 10   | Tiểu từ chủ ngữ (kết thúc bằng phụ âm)                                                                                            |
 | Bổ sung                                     | 가         | 6       | -    | Tiểu từ chủ ngữ (kết thúc bằng nguyên âm)                                                                                         |
