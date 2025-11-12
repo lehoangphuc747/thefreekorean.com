@@ -8,7 +8,14 @@ import '../styles/navbar.css';
     <a href="/" class="navbar-logo">
       <span class="logo-text">The Free Korean</span>
     </a>
-    <button class="navbar-toggle" id="navbar-toggle" aria-label="Mở menu">
+    <button
+      class="navbar-toggle"
+      id="navbar-toggle"
+      type="button"
+      aria-label="Mở menu"
+      aria-controls="navbar-menu"
+      aria-expanded="false"
+    >
       <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
@@ -19,6 +26,7 @@ import '../styles/navbar.css';
       <li><a href="/grammar" class="nav-link">Ngữ pháp</a></li>
       <li><a href="/topik" class="nav-link">TOPIK</a></li>
     </ul>
+    <div class="navbar-overlay" id="navbar-overlay" hidden></div>
   </div>
 </nav>
 
@@ -94,21 +102,41 @@ import '../styles/navbar.css';
   position: relative;
   font-weight: 600;
   font-size: 1.08rem;
-  color: #3245ff;
+  color: #1f2a8b;
   text-decoration: none;
-  padding: 0.5rem 0.7rem;
-  border-radius: 8px;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
-.nav-link:hover, .nav-link:focus {
-  background: linear-gradient(90deg, #3245ff22, #bc52ee22);
-  color: #bc52ee;
-  box-shadow: 0 2px 8px #bc52ee22;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0.25rem;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3245ff, #bc52ee);
+  border-radius: 999px;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+.nav-link:hover,
+.nav-link:focus {
+  background: rgba(50, 69, 255, 0.08);
+  color: #2430c5;
+  box-shadow: 0 8px 20px rgba(50, 69, 255, 0.12);
+}
+.nav-link:hover::after,
+.nav-link:focus::after {
+  width: 60%;
 }
 .nav-link.active, .nav-link[aria-current="page"] {
   background: linear-gradient(90deg, #3245ff, #bc52ee);
   color: #fff;
   box-shadow: 0 4px 16px #3245ff33;
+}
+.navbar-overlay {
+  display: none;
 }
 @media (max-width: 900px) {
   .navbar-container {
@@ -140,8 +168,28 @@ import '../styles/navbar.css';
     width: 100%;
     text-align: center;
     padding: 1rem 0;
+  }
+  .nav-link::after {
+    display: none;
     font-size: 1.1rem;
     border-radius: 0;
+  }
+  .navbar-overlay {
+    display: block;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    height: calc(100vh - 70px);
+    background: rgba(17, 24, 39, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 3250;
+  }
+  .navbar-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 </style>
@@ -150,37 +198,102 @@ import '../styles/navbar.css';
 document.addEventListener('DOMContentLoaded', function() {
   const toggle = document.getElementById('navbar-toggle');
   const menu = document.getElementById('navbar-menu');
+  const overlay = document.getElementById('navbar-overlay');
+  const mobileQuery = window.matchMedia('(max-width: 900px)');
+
+  function isMobile() {
+    return mobileQuery.matches;
+  }
+
+  function resetMenu() {
+    if (!menu || !toggle) return;
+    menu.classList.remove('open');
+    toggle.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    if (overlay) {
+      overlay.classList.remove('open');
+      overlay.setAttribute('hidden', '');
+    }
+  }
 
   function setOpen(isOpen) {
     if (!menu || !toggle) return;
+    if (!isMobile()) {
+      resetMenu();
+      return;
+    }
     menu.classList.toggle('open', isOpen);
     toggle.classList.toggle('open', isOpen);
     document.body.classList.toggle('menu-open', isOpen);
     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (overlay) {
+      if (isOpen) {
+        overlay.classList.add('open');
+        overlay.removeAttribute('hidden');
+      } else {
+        overlay.classList.remove('open');
+        overlay.setAttribute('hidden', '');
+      }
+    }
   }
 
-  // Robust toggle: support clicks on child SVG and touchstart on mobile
   function handleToggle(e) {
     e.preventDefault();
     e.stopPropagation();
+    if (!isMobile()) return;
     const isOpen = menu?.classList.contains('open');
     setOpen(!isOpen);
   }
 
-  if (toggle && menu) {
+  function handleDocumentClick(e) {
+    if (!isMobile() || !menu || !toggle) return;
+    const clickedToggle = e.target && e.target.closest ? e.target.closest('#navbar-toggle') : null;
+    if (clickedToggle) return;
+    if (menu.classList.contains('open') && !menu.contains(e.target)) {
+      setOpen(false);
+    }
+  }
+
+  if (toggle) {
     toggle.addEventListener('click', handleToggle, { passive: false });
     toggle.addEventListener('touchstart', handleToggle, { passive: false });
   }
 
-  // Close when clicking outside
-  document.addEventListener('click', function(e) {
-    if (!menu || !toggle) return;
-    const clickedToggle = e.target && e.target.closest ? e.target.closest('#navbar-toggle') : null;
-    if (clickedToggle) return; // handled above
-    if (menu.classList.contains('open') && !menu.contains(e.target)) {
+  if (overlay) {
+    overlay.addEventListener('click', () => setOpen(false));
+  }
+
+  if (menu) {
+    const links = menu.querySelectorAll('a');
+    links.forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+  }
+
+  function syncMenu() {
+    if (isMobile()) {
+      setOpen(false);
+    } else {
+      resetMenu();
+    }
+  }
+
+  if (typeof mobileQuery.addEventListener === 'function') {
+    mobileQuery.addEventListener('change', syncMenu);
+  } else if (typeof mobileQuery.addListener === 'function') {
+    mobileQuery.addListener(syncMenu);
+  }
+
+  syncMenu();
+
+  document.addEventListener('click', handleDocumentClick);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
       setOpen(false);
     }
   });
+
   // Highlight active link
   const links = document.querySelectorAll('.nav-link');
   const path = window.location.pathname;
@@ -189,6 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
       link.classList.add('active');
       link.setAttribute('aria-current', 'page');
     }
-    });
   });
+});
 </script>

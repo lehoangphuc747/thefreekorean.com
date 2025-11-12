@@ -199,6 +199,11 @@ console.log('================================');
     align-items: center;
     line-height: 1;
   }
+  .markdown-content .heading-anchor svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
   .markdown-content h1:hover .heading-anchor,
   .markdown-content h2:hover .heading-anchor,
   .markdown-content h3:hover .heading-anchor,
@@ -458,36 +463,220 @@ console.log('================================');
       if (!content) return;
 
       // Common grammar keywords to highlight
+      // IMPORTANT: Sắp xếp theo độ dài từ dài đến ngắn để tránh highlight trùng lặp
+      // (ví dụ: highlight "격조사" trước "조사" để tránh highlight sai)
       const keywords = [
-        '조사', '서술어', '명사', '동사', '형용사', '어미',
-        '선어말어미', '연결어미', '종결어미', '받침',
-        '주격조사', '목적격조사', '보격조사', '부사격조사',
-        '서술격조사', '접속조사', '관형사', '부사',
-        '대명사', '수사', '감탄사', '체언', '용언',
-        '형태소', '단어', '문장', '문법', '활용',
-        '어미', '어간', '어말어미', '선어말어미',
-        '연결어미', '종결어미', '존칭어', '반말',
-        '높임말', '낮춤말', '표준어', '방언'
+        // Từ dài trước (4-5 ký tự)
+        '목적격조사', '부사격조사', '서술격조사', '선어말어미', '연결어미', '종결어미',
+        '어말어미', '존칭어',
+        // Từ trung bình (3 ký tự)
+        '주격조사', '보격조사', '접속조사', '서술어', '형용사', '관형사',
+        '대명사', '형태소', '높임말', '낮춤말', '표준어',
+        // Từ ngắn (2 ký tự) - chỉ highlight khi không nằm trong từ dài hơn
+        '조사', '명사', '동사', '어미', '받침', '부사', '수사',
+        '감탄사', '체언', '용언', '단어', '문장', '문법', '활용',
+        '어간', '반말', '방언'
       ];
 
-      // Function to highlight text
-      function highlightText(element, searchTerm) {
-        const text = element.textContent;
-        const regex = new RegExp(`(${searchTerm})`, 'gi');
-        const highlighted = text.replace(regex, '<span class="grammar-keyword">$1</span>');
-        if (highlighted !== text) {
-          element.innerHTML = highlighted;
-        }
+      // Function to highlight text - sắp xếp từ dài đến ngắn và chỉ highlight các từ chưa nằm trong span
+      function highlightKeywordsInElement(element) {
+        let html = element.innerHTML;
+        
+        // Sắp xếp keywords theo độ dài từ dài đến ngắn (quan trọng: từ dài trước)
+        const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
+        
+        // Duyệt qua từng keyword từ dài đến ngắn
+        sortedKeywords.forEach(keyword => {
+          const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(escapedKeyword, 'gi');
+          const grammarKeywordRegex = /<span[^>]*class=["']grammar-keyword["'][^>]*>/gi;
+          
+          // Tìm tất cả matches - xử lý từ cuối lên đầu
+          const replacements: Array<{ start: number; end: number; text: string }> = [];
+          
+          // Tạo một bản copy HTML để tìm match mà không bị ảnh hưởng bởi các thay đổi
+          let searchHTML = html;
+          let offset = 0;
+          
+          while (true) {
+            // Tìm match tiếp theo trong cleanText
+            const cleanText = searchHTML.replace(/<[^>]*>/g, '');
+            regex.lastIndex = 0;
+            const match = regex.exec(cleanText);
+            
+            if (!match) break; // Không còn match nào
+            
+            const textIndex = match.index;
+            const textEnd = textIndex + keyword.length;
+            
+            // Tìm vị trí tương ứng trong HTML
+            let htmlStart = -1;
+            let htmlEnd = -1;
+            let currentTextIndex = 0;
+            let inTag = false;
+            
+            // Tìm vị trí bắt đầu và kết thúc của text trong HTML
+            for (let j = 0; j < searchHTML.length; j++) {
+              if (searchHTML[j] === '<') {
+                inTag = true;
+              } else if (searchHTML[j] === '>') {
+                inTag = false;
+              } else if (!inTag) {
+                if (currentTextIndex === textIndex && htmlStart === -1) {
+                  htmlStart = j + offset;
+                }
+                if (currentTextIndex === textEnd - 1) {
+                  htmlEnd = j + 1 + offset;
+                  break;
+                }
+                currentTextIndex++;
+              }
+            }
+            
+            // Bỏ qua nếu không tìm thấy vị trí hợp lệ
+            if (htmlStart === -1 || htmlEnd === -1) break;
+            
+            // Kiểm tra xem vị trí này có nằm trong span grammar-keyword đã highlight không
+            const beforeHTML = html.substring(0, htmlStart);
+            const openSpans = (beforeHTML.match(grammarKeywordRegex) || []).length;
+            const closeSpans = (beforeHTML.match(/<\/span>/gi) || []).length;
+            
+            // Nếu số span mở > số span đóng, nghĩa là đang nằm trong một span đã highlight
+            if (openSpans > closeSpans) {
+              // Tìm vị trí kết thúc của span này để tiếp tục tìm từ đó
+              let spanEnd = htmlEnd;
+              let depth = openSpans - closeSpans;
+              for (let j = htmlEnd; j < html.length && depth > 0; j++) {
+                if (html[j] === '<' && html.substring(j, j + 8) === '</span>') {
+                  depth--;
+                  if (depth === 0) {
+                    spanEnd = html.indexOf('>', j) + 1;
+                    break;
+                  }
+                } else if (html[j] === '<') {
+                  const tagMatch = html.substring(j + 1).match(/^span[^>]*class=["']grammar-keyword["']/);
+                  if (tagMatch) {
+                    depth++;
+                  }
+                }
+              }
+              // Cập nhật searchHTML để tìm từ vị trí sau span
+              const textAfterSpan = html.substring(spanEnd).replace(/<[^>]*>/g, '');
+              if (textAfterSpan.length === 0) break;
+              searchHTML = html.substring(spanEnd);
+              offset = spanEnd;
+              continue;
+            }
+            
+            // Tìm các thẻ HTML bao quanh text này để giữ nguyên formatting
+            let actualHtmlStart = htmlStart;
+            let actualHtmlEnd = htmlEnd;
+            
+            // Tìm thẻ mở bao quanh (nếu có, nhưng không phải span grammar-keyword)
+            for (let j = htmlStart - 1; j >= 0; j--) {
+              if (html[j] === '>') {
+                let tagStart = j;
+                while (tagStart >= 0 && html[tagStart] !== '<') tagStart--;
+                if (tagStart >= 0) {
+                  const tagContent = html.substring(tagStart + 1, j);
+                  // Bỏ qua nếu là span grammar-keyword
+                  if (tagContent.includes('class="grammar-keyword"') || tagContent.includes("class='grammar-keyword'")) {
+                    break;
+                  }
+                  const tagName = tagContent.split(/\s/)[0];
+                  if (tagName && tagName !== 'span') {
+                    // Tìm thẻ đóng tương ứng
+                    let depth = 1;
+                    for (let k = j + 1; k < html.length && depth > 0; k++) {
+                      if (html[k] === '<') {
+                        const tagEnd = html.indexOf('>', k);
+                        if (tagEnd > k) {
+                          const closeTag = html.substring(k + 1, tagEnd).trim();
+                          if (closeTag === '/' + tagName || closeTag.startsWith('/' + tagName)) {
+                            depth--;
+                            if (depth === 0 && tagEnd >= htmlEnd - 1) {
+                              actualHtmlStart = tagStart;
+                              actualHtmlEnd = tagEnd + 1;
+                              break;
+                            }
+                          } else if (closeTag.split(/\s/)[0] === tagName) {
+                            depth++;
+                          }
+                        }
+                      }
+                    }
+                    if (actualHtmlStart < htmlStart) break;
+                  }
+                }
+                break;
+              } else if (html[j] === '<') {
+                break;
+              }
+            }
+            
+            // Lấy text trong khoảng này
+            const matchText = html.substring(actualHtmlStart, actualHtmlEnd);
+            const cleanMatchText = matchText.replace(/<[^>]*>/g, '').trim();
+            
+            // Chỉ highlight nếu text khớp chính xác với keyword
+            if (cleanMatchText.toLowerCase() === keyword.toLowerCase()) {
+              // Kiểm tra lại một lần nữa để đảm bảo không nằm trong span
+              const checkBefore = html.substring(0, actualHtmlStart);
+              const checkOpen = (checkBefore.match(grammarKeywordRegex) || []).length;
+              const checkClose = (checkBefore.match(/<\/span>/gi) || []).length;
+              
+              if (checkOpen === checkClose) {
+                // Lưu lại replacement (từ cuối lên đầu)
+                replacements.unshift({
+                  start: actualHtmlStart,
+                  end: actualHtmlEnd,
+                  text: matchText
+                });
+                // Cập nhật searchHTML để tiếp tục tìm
+                searchHTML = html.substring(actualHtmlEnd);
+                offset = actualHtmlEnd;
+              } else {
+                // Nằm trong span, bỏ qua và tiếp tục tìm từ sau span
+                let spanEnd = actualHtmlEnd;
+                let depth = checkOpen - checkClose;
+                for (let j = actualHtmlEnd; j < html.length && depth > 0; j++) {
+                  if (html[j] === '<' && html.substring(j, j + 8) === '</span>') {
+                    depth--;
+                    if (depth === 0) {
+                      spanEnd = html.indexOf('>', j) + 1;
+                      break;
+                    }
+                  } else if (html[j] === '<') {
+                    const tagMatch = html.substring(j + 1).match(/^span[^>]*class=["']grammar-keyword["']/);
+                    if (tagMatch) {
+                      depth++;
+                    }
+                  }
+                }
+                searchHTML = html.substring(spanEnd);
+                offset = spanEnd;
+              }
+            } else {
+              // Không khớp, có thể do đã bị thay đổi
+              break;
+            }
+          }
+          
+          // Thực hiện replacements từ cuối lên đầu
+          for (const replacement of replacements) {
+            const before = html.substring(0, replacement.start);
+            const after = html.substring(replacement.end);
+            html = before + `<span class="grammar-keyword">${replacement.text}</span>` + after;
+          }
+        });
+        
+        element.innerHTML = html;
       }
 
       // Apply highlighting to paragraphs, list items, and table cells
       const elements = content.querySelectorAll('p, li, td, blockquote');
       elements.forEach(element => {
-        keywords.forEach(keyword => {
-          if (element.textContent.includes(keyword)) {
-            highlightText(element, keyword);
-          }
-        });
+        highlightKeywordsInElement(element);
       });
     }
 
@@ -517,8 +706,8 @@ console.log('================================');
     }
 
     // Apply highlighting after content loads
-    highlightGrammarKeywords();
-    highlightCorrectnessIndicators();
+    // highlightGrammarKeywords();
+    // highlightCorrectnessIndicators();
 
     // Heading link anchors + copy on click
     (function enableHeadingAnchorsAndCopy() {
@@ -575,6 +764,20 @@ console.log('================================');
         }
       };
 
+      const ensureAnchorSpacing = (anchor) => {
+        if (!(anchor instanceof HTMLElement)) return;
+        const prev = anchor.previousSibling;
+        const next = anchor.nextSibling;
+
+        if (!(prev && prev.nodeType === Node.TEXT_NODE && /\s$/.test(prev.textContent || ''))) {
+          anchor.before(document.createTextNode(' '));
+        }
+
+        if (!(next && next.nodeType === Node.TEXT_NODE && /^\s/.test(next.textContent || ''))) {
+          anchor.after(document.createTextNode(' '));
+        }
+      };
+
       const headings = contentRoot.querySelectorAll('h1, h2, h3, h4, h5, h6');
       headings.forEach((h) => {
         const level = parseInt(h.tagName.substring(1), 10);
@@ -593,6 +796,13 @@ console.log('================================');
           h.id = candidate;
         }
 
+        // Nếu đã có anchor nằm trước heading (do SSR hoặc plugin), di chuyển vào trong heading
+        const prevSibling = h.previousElementSibling;
+        if (prevSibling instanceof HTMLElement && prevSibling.classList.contains('heading-anchor')) {
+          h.appendChild(prevSibling);
+          ensureAnchorSpacing(prevSibling);
+        }
+
         // Chỉ thêm anchor 1 lần
         if (!h.querySelector('.heading-anchor')) {
           const a = document.createElement('a');
@@ -606,15 +816,19 @@ console.log('================================');
             copyLink(h.id);
           });
           h.appendChild(a);
+          ensureAnchorSpacing(a);
         }
 
-        // Click vào chính heading cũng copy
-        h.style.cursor = 'pointer';
-        h.addEventListener('click', (e) => {
-          // Nếu click vào anchor icon đã xử lý ở trên
-          if ((e.target instanceof HTMLElement) && e.target.closest('.heading-anchor')) return;
-          copyLink(h.id);
-        });
+        // Chỉ h1, h2, h3 có cursor pointer và click để copy link
+        // h4, h5, h6 chỉ có anchor icon, không có cursor pointer
+        if (level <= 3) {
+          h.style.cursor = 'pointer';
+          h.addEventListener('click', (e) => {
+            // Nếu click vào anchor icon đã xử lý ở trên
+            if ((e.target instanceof HTMLElement) && e.target.closest('.heading-anchor')) return;
+            copyLink(h.id);
+          });
+        }
       });
     })();
 

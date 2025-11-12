@@ -4,6 +4,19 @@
 
 @import "tailwindcss";
 
+/* Override Tailwind preflight media display to keep inline alignment */
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 /* Base styles */
 html {
   font-family: 'Inter', system-ui, sans-serif;
