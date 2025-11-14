@@ -3,65 +3,508 @@ title: "을/를"
 meaning: "trợ từ tân ngữ"
 level: "beginner"
 slug: "eul-reul"
-description: "Trợ từ tân ngữ dùng để chỉ đối tượng bị tác động bởi hành động hoặc nơi mà hành động hướng tới."
+description: "Trợ từ đánh dấu tân ngữ – đối tượng mà hành động tác động vào."
 tags: ["trợ từ"]
 order: 5
 ---
-## Nghĩa và cách dùng
 
-“을/를” là tiểu từ gắn sau danh từ để chỉ đối tượng bị tác động bởi hành động hoặc nơi mà hành động hướng tới.
+## 1. Nghĩa và cách dùng
 
-**ĐƠN GIẢN:**
+“을/를” gắn sau danh từ để chỉ **đối tượng của hành động**.
 
-**“Ai làm gì \+ cái gì / ở đâu”**
+Cấu trúc:
+**Ai + (động từ) + cái gì**
 
-Khi **“을/를”** đứng sau **danh từ**, danh từ đó trở thành **tân ngữ** (đối tượng của hành động).
+✔ Dùng với **ngoại động từ**: 먹다, 보다, 듣다, 읽다, 사다…
 
-Dùng khi **hành động tác động trực tiếp đến cái gì đó** (ăn cái gì, xem cái gì, mua cái gì, v.v.).
+**Ví dụ:**
+	- 영희 씨가 콜라**를** 마셔요.
+	- 우리는 텔레비전**을** 봅니다.
+	- 동생이 한국 노래**를** 들어요.
+	- 저는 책**을** 읽습니다.
 
-### **1️⃣ Đối tượng mà hành động hướng đến**
+---
 
-영희 씨가 콜라를 마셔요.  
-우리 같이 텔레비전을 봅시다.  
-동생이 한국 노래를 듣고 있어요.  
-미도리가 마이클을 만났습니다.
+## 2. Quy tắc dùng 을/를
 
-→ Các danh từ “콜라, 텔레비전, 노래” lần lượt là thứ được uống, được xem, được nghe, nên đây là đối tượng trực tiếp của hành động.
+|Danh từ|Quy tắc|
+|---|---|
+|Có 받침|+ **을**|
+|Không có 받침|+ **를**|
 
-#### **💡 Ghi nhớ:**
+---
 
-“을/를” đi kèm với **ngoại động từ (타동사)** – tức là động từ **tác động trực tiếp lên một đối tượng** như: 사다, 보다, 듣다, 읽다, 먹다, 쓰다, 부르다...
+### **① N có 받침 → dùng ‘을’.**
 
-Vì tiếng Việt không phân biệt rõ nội/ngoại động từ, nên người học cần luyện thật nhiều ví dụ quen thuộc để hình thành phản xạ.
+|  식당 \+ 을 → 식당을  |   컵 \+ 을 → 컵을   |
+| :-------------: | :-------------: |
+| 도서관 \+ 을 → 도서관을 | 핸드폰 \+ 을 → 핸드폰을 |
+|  은행 \+ 을 → 은행을  |   책 \+ 을 → 책을   |
 
-엄마가 옷을 샀어요.  
-나는 영화를 봤습니다.  
-수지는 커피를 마셨어요.  
-마이클이 방에서 음악을 들어요.  
-저는 책을 읽습니다.
+---
 
-### **2️⃣ Địa điểm là mục tiêu hoặc đích đến của hành động**
+### **② N không có 받침 → dùng ‘를’.**
 
-“을/를” cũng dùng khi chỉ địa điểm mà hành động hướng tới, đặc biệt với động từ di chuyển như:
+| 컴퓨터 \+ 를 → 컴퓨터를	 | 전화 \+ 를 → 전화를  |
+| :---: | :---: |
+| 학교 \+ 를 → 학교를	 | 의자 \+ 를 → 의자를  |
+| 휴지 \+ 를 → 휴지를	 | 피자 \+ 를 → 피자를  |
 
-- 가다 (đi)  
-- 오다 (đến)  
-- 다니다 (đi học/đi làm)  
-- 떠나다 (rời khỏi)
+---
 
-**VÍ DỤ:**
+## 3. Rút gọn trong văn nói
 
-왕밍은 학교를 갑니다.  
-언니는 부산을 떠납니다.  
-흐엉은 교회를 다녀요.
 
-Trong những trường hợp này, **“을/를” có thể thay bằng ‘에’** mà nghĩa không đổi nhiều:
+Khi nói nhanh, “을/를” rút gọn thành **ㄹ**:
 
-학교를 가다 \= 학교에 가다
+|Nguyên dạng|Rút gọn|Nghĩa|
+|---|---|---|
+|저 + 를|절|tôi|
+|너 + 를|널|cậu|
+|뭐 + 를|뭘|cái gì|
+|누구 + 를|누굴|ai|
 
-명동을 가다 \= 명동에 가다
+---
 
-Một số học giả cho rằng “을/를” trong cách dùng này mang nghĩa nhấn mạnh (보조사), không còn là “tân ngữ thuần túy”.
+## 4. Có thể *lược bỏ* trong văn nói
+
+Trong giao tiếp, người Hàn hay bỏ “을/를”:
+
+- 커피 잘 안 마셔요.
+- 휴지 주세요.
+- 누구 만나요?
+- 수업이 끝나고 누구 만나요?
+- 식사 후에 어디 가요?
+
+👉 **Giữ lại “을/를” = nhấn mạnh đối tượng**
+
+- 커피**를** 안 마셔요.
+- 누구**를** 만나요?
+- 커피**를** 안 마셔요.  
+- 휴지**를** 주세요.  
+- 누구**를** 만나요?  
+- 수업이 끝나고 누구**를** 만나요?  
+- 식사 후에 어디**를** 가요?
+
+---
+
+**Trong các câu sau, câu nào mới đúng?**
+
+학교**를** 가요.
+학교**에** 가요
+
+시장**을** 가요.
+시장**에** 가요.
+
+
+
+---
+## 5. Dùng với động từ di chuyển
+
+Với động từ như 가다/오다, đôi khi “을/를” dùng như **đích đến**, gần giống “에”.
+
+- 학교**를** 가요 (= 학교에 가요)
+    
+- 시장**을** 가요 (= 시장에 가요)
+    
+
+**Ví dụ**:
+
+왕밍은 학교**를** 갑니다.  
+미도리는 길**을** 걷습니다.  
+엄마는 교회**를** 다닙니다.  
+언니는 부산**을** 떠납니다.  
+흐엉은 교회**를** 다녀요.
+
+저는 다음 주에 프랑스**를** 갈 거예요.  
+저는 친구와 서울**을** 떠날 거예요.
+
+커피**를** 안 마셔요.  
+휴지**를** 주세요.  
+누구**를** 만나요?
+
+
+> 👉 Tới đây các bạn chỉ cần hiểu: **có thể thấy cả hai dạng, nghĩa không đổi nhiều.**
+
+---
+
+## 6. “을/를” chỉ thời gian – khoảng cách – số lượng
+
+Dùng khi chỉ **lượng**:
+	- 수지는 **두 시간을** 쇼핑했어요.
+	- 마이클은 한국에서 **이 년을** 살았어요.
+	- 철수는 매일 **2킬로미터를** 걸어요.
+	- 앤디는 물 **세 잔을** 마셨어요.
+
+
+---
+
+## 7. “을/를” chỉ tiêu chuẩn/mục tiêu trong cấu trúc **“~를 ~로”**
+
+- 시험**을** 목표로 공부해요.
+- 나이**를** 기준으로 반을 나눠요.
+- 건강**을** 목표로 운동해요.
+
+---
+
+## 8. So sánh "을/를" – "에" với danh từ hoạt động
+
+**을/를** → nơi **được chọn làm đích**  
+**에** → nơi **hướng đến / tồn tại**
+
+Ví dụ với địa điểm:
+
+- 흐엉이 학교**에** 가요.
+- 흐엉이 학교**를** 가요. (nhấn mạnh)
+
+**NHƯNG**
+
+Với danh từ **hoạt động (hành vi có mục đích)** (여행, 등산, 낚시, 구경, 소풍, 목욕…), chỉ dùng **을/를**, không dùng "에".
+
+Danh từ hoạt động → dùng **을/를**:
+
+- 여행**을** 가다 / 여행**을** 하다
+- 등산**을** 가다 / 등산**을** 하다
+- 낚시**을** 가다 / 낚시**을** 하다
+- 목욕**을** 가다 / 목욕**을** 하다
+- 구경**을** 가다 / 구경**을** 하다
+- 소풍**을** 가다 / 소풍**을** 하다
+
+❌ Không dùng: 여행**에** 가다, 등산**에** 가다
+
+#### **👉 Tóm lại:**
+
+"을/를" → dùng được với các danh từ hành động / hoạt động.  
+"에" → không dùng được trong những trường hợp đó (chỉ dùng với địa điểm thật).
+
+---
+
+### 📝 Ôn tập 8
+
+👉 **Yêu cầu:** Chọn 을/를 hay 에? Nhớ: **Danh từ hoạt động** (여행, 등산, 소풍...) → dùng **을/를**. **Địa điểm thật** (학교, 집, 도서관...) → dùng **에**.
+
+<ol class="quiz-list">
+  <li>
+    <p><strong>여행( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>등산( ) 하다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>학교( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>소풍( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>도서관( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>목욕( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>집( ) 왔다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>낚시( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>서울( ) 갔어요</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>구경( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>공원( ) 갔어요</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>쇼핑( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>병원( ) 갔어요</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>운동( ) 하다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>마트( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>수영( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>카페( ) 갔어요</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>요리( ) 하다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>영화관( ) 갔어요</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>산책( ) 가다</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>해변( ) 갔어요</strong></p>
+    <ul>
+      <li>을/를</li>
+      <li>에</li>
+    </ul>
+  </li>
+</ol>
+
+---
+
+## 9. So sánh "을/를¹" – "에서²" (rời khỏi nơi)
+
+**을/를** → **rời khỏi** nơi đó  
+**에서** → **từ** nơi đó mà đến / nơi diễn ra hành động
+
+- 언니는 서울**을** 떠났어요.
+- 언니는 서울**에서** 떠났어요.
+
+Không dùng “을/를” với **오다**:
+
+- ❌ 베트남**을** 왔어요
+- ✔ 베트남**에서** 왔어요
+
+Dùng với các động từ ‘출발하다, 떠나다, 나오다, 벗어나다, 내려오다’
+
+<table>
+  <colgroup>
+    <col style="width: 50%" />
+    <col style="width: 50%" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th><strong>을/를</strong></th>
+      <th><strong>에서</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p><strong>을/를</strong> dùng với các động từ chỉ sự rời đi / xuất phát như:</p>
+        <ul>
+          <li>출발하다 (xuất phát)</li>
+          <li>떠나다 (rời đi)</li>
+          <li>나오다 (đi ra)</li>
+          <li>벗어나다 (thoát khỏi)</li>
+          <li>내려오다 (đi xuống)</li>
+        </ul>
+        <p>우리는 9시에 서울을 떠났다.</p>
+      </td>
+      <td style="vertical-align: top;">
+        <p><strong>에서</strong> dùng rộng hơn, chỉ nơi bắt đầu, nơi hành động diễn ra và kết hợp được nhiều loại động từ.</p>
+        <p>우리는 9시에 서울에서 떠났다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>흐엉 씨는 부산을 떠났어요.</p>
+        <p>왕밍은 교실을 나왔어요.</p>
+        <p>언니는 서울을 출발했어요.</p>
+      </td>
+      <td>
+        <p>흐엉 씨는 부산에서 떠났어요.</p>
+        <p>왕밍은 교실에서 나왔어요.</p>
+        <p>언니는 서울에서 출발했어요.</p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        📘 Không được dùng <strong>을/를</strong> với động từ không mang ý nghĩa rời đi. Ví dụ: 오다 - đến, chỉ có thể dùng <strong>에서</strong> để chỉ nơi xuất phát.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        흐엉 씨는 베트남을 왔어요. ❌<br><br>
+        흐엉 씨는 베트남에서 왔어요.
+      </td>
+      <td>
+        흐엉 씨는 베트남에서 왔어요.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### **👉 ĐƠN GIẢN:**
+
+"을/를" → dùng khi rời khỏi nơi đó.
+"에서" → dùng khi đến từ / hành động tại nơi đó.
+
+---
+
+### 📝 Ôn tập 9
+
+👉 **Yêu cầu:** 
+- Với **오다** (đến) → chỉ dùng **에서**, không dùng 을/를
+- Với **떠나다, 나오다, 출발하다, 벗어나다, 내려오다** → cả **을/를** và **에서** đều dùng được, nhưng nghĩa khác nhau
+
+<ol class="quiz-list">
+  <li>
+    <p><strong>베트남( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>한국( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>일본( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>서울( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>중국( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>도서관( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>미국( ) 왔어요.</strong></p>
+    <ul>
+      <li>을/를 (đúng)</li>
+      <li>에서 (đúng)</li>
+      <li>Chỉ dùng 에서 (đúng)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>"서울을 떠났어요" và "서울에서 떠났어요" - sự khác biệt là gì?</strong></p>
+    <ul>
+      <li>Giống nhau hoàn toàn</li>
+      <li>Khác nhau về nghĩa nhấn mạnh</li>
+      <li>Một câu đúng, một câu sai</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>"교실을 나왔어요" và "교실에서 나왔어요" - cả hai đều đúng?</strong></p>
+    <ul>
+      <li>Đúng, cả hai đều đúng</li>
+      <li>Sai, chỉ một câu đúng</li>
+      <li>Phụ thuộc vào ngữ cảnh</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Với động từ "오다", có thể dùng "을/를" không?</strong></p>
+    <ul>
+      <li>Có thể</li>
+      <li>Không thể, chỉ dùng "에서"</li>
+      <li>Tùy trường hợp</li>
+    </ul>
+  </li>
+</ol>
+
+---
 
 ## Dẫn nhập
 
@@ -83,137 +526,3 @@ Một số học giả cho rằng “을/를” trong cách dùng này mang ngh�
 
 **(1)** là ví dụ dùng để giới thiệu cách “을” biểu thị đối tượng mà hành động hướng tới.  
 **(2)** là ví dụ giới thiệu cách “을” được dùng để chỉ nơi chốn – mục tiêu của hành động (ví dụ: **“학교를 가다”**, **“시장을 가다”**).
-
-## 형태 정보
-
-### **① Nếu danh từ có 받침 (phụ âm cuối) → dùng ‘을’.**
-
-|  식당 \+ 을 → 식당을  |   컵 \+ 을 → 컵을   |
-| :-------------: | :-------------: |
-| 도서관 \+ 을 → 도서관을 | 핸드폰 \+ 을 → 핸드폰을 |
-|  은행 \+ 을 → 은행을  |   책 \+ 을 → 책을   |
-
-### **② Nếu danh từ không có 받침 (không có phụ âm cuối) → dùng ‘를’.**
-
-| 컴퓨터 \+ 를 → 컴퓨터를	 | 전화 \+ 를 → 전화를  |
-| :---: | :---: |
-| 학교 \+ 를 → 학교를	 | 의자 \+ 를 → 의자를  |
-| 휴지 \+ 를 → 휴지를	 | 피자 \+ 를 → 피자를  |
-
-## CÁCH CHIA
-
-받침 (O)	\+ 을	식당을, 컵을, 도서관을, 핸드폰을, 은행을, 책을  
-받침 (X)	\+ 를	컴퓨터를, 전화를, 학교를, 의자를, 휴지를, 피자를
-
-## MỞ RỘNG
-
-### **(1) Rút gọn trong lời nói**
-
-Khi nói nhanh, “을/를” có thể rút gọn thành ㄹ:
-
-| Nguyên dạng | Dạng rút gọn | Nghĩa |
-| :---: | :---: | :---: |
-| 저 \+ 를 | 절 | tôi (tân ngữ) |
-| 너 \+ 를 | 널 | cậu (tân ngữ) |
-| 누구 \+ 를 | 누굴 | ai (tân ngữ) |
-| 뭐 \+ 를 | 뭘 | cái gì (tân ngữ) |
-
-### **② Dùng trong hành động di chuyển**
-
-#### 
-
-왕밍은 학교를 갑니다.  
-미도리는 길을 걷습니다.  
-엄마는 교회를 다닙니다.  
-언니는 부산을 떠납니다.  
-흐엉은 교회를 다녀요.
-
-저는 다음 주에 프랑스를 갈 거예요.  
-저는 친구와 서울을 떠날 거예요.
-
-커피를 안 마셔요.  
-휴지를 주세요.  
-누구를 만나요?
-
-### **③ Khi nói – có thể lược bỏ**
-
-Trong **văn nói**, người Hàn thường **bỏ “을/를”**, nhưng trong **văn viết thì không nên bỏ.**
-
-커피 잘 안 마셔요.  
-휴지 주세요.  
-수업이 끝나고 누구 만나요?  
-식사 후에 어디 가요?
-
-⚠️ Tuy nhiên, nếu **giữ lại** **“을/를”**, câu sẽ có nghĩa **nhấn mạnh hoặc xác định rõ đối tượng hơn**:
-
-커피를 안 마셔요.  
-휴지를 주세요.  
-누구를 만나요?  
-수업이 끝나고 누구를 만나요?  
-식사 후에 어디를 가요?
-
-### **④ Khi “을/를” đi kèm với các biểu thức số lượng, nó được dùng để chỉ thời gian, quãng đường hoặc số lượng của đối tượng hành động.**
-
-수지는 **두 시간을** 쇼핑했다.  
-마이클은 한국에서 **이 년을** 살았어요.  
-철수는 매일 **2킬로미터를** 걷습니다.  
-앤디가 물 **세 잔을** 마셨습니다.
-
-### **⑤ Trong cấu trúc ‘\~를 \~로’, “을/를” được dùng để chỉ đối tượng ĐƯỢC LẤY LÀM CHUẨN hoặc MỤC TIÊU của hành động.**
-
-저는 **시험을 목표로** 공부해요.  
-우리는 **나이를 기준으로** 반을 나눠요.  
-언니는 **다이어트를 목표로** 운동해요.  
-언니는 **건강을 목표로** 운동해요.
-
-## NGỮ PHÁP TƯƠNG TỰ
-
-### **① “을/를”, “에”**
-
-
-Cả “에” và “을/를” đều có thể dùng để chỉ nơi mà hành động hướng tới (đích đến).
-
-| 을/를                                                   | 에                                        |
-| ----------------------------------------------------- | ---------------------------------------- |
-| Dùng để chỉ nơi là mục tiêu (đích đến) của hành động. | Dùng để chỉ nơi hướng đến / nơi tồn tại. |
-| 흐엉이 학교에 갑니다.                                          | 흐엉이 학교를 갑니다.                             |
-
-#### **📘 Phân biệt thêm:**
-
-Khi danh từ chỉ một hoạt động (hành vi có mục đích) như:
-
-- 목욕  
-- 구경  
-- 등산  
-- 여행  
-- 소풍  
-- 낚시  
-- 일
-
-**Ta chỉ dùng ‘을/를’, không dùng ‘에’.**
-
-| Đúng ✅                           | Sai ❌                            |
-| -------------------------------- | -------------------------------- |
-| 철수가 **목욕/구경/등산/여행/소풍/낚시/일을** 갔다. | 철수가 **목욕/구경/등산/여행/소풍/낚시/일에** 갔다. |
-
-#### **👉 Nói cách khác:**
-
-“을/를” → dùng được với các danh từ hành động / hoạt động.
-
-“에” → không dùng được trong những trường hợp đó.
-
-### **② ‘을/를1’, ‘에서2’**
-
-Dùng với các động từ ‘출발하다, 떠나다, 나오다, 벗어나다, 내려오다’
-
-| 을/를                                                                                                                                                              | 에서                                                                                                           |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Dùng với các động từ chỉ sự rời đi / xuất phát như:<br>• 출발하다 (xuất phát)<br>• 떠나다 (rời đi)<br>• 나오다 (đi ra)<br>• 벗어나다 (thoát khỏi)<br>• 내려오다 (đi xuống)<br><br> | Dùng rộng hơn, chỉ nơi bắt đầu, nơi hành động diễn ra, và có thể đi với nhiều loại động từ. 우리는 9시에 서울을 떠났다. |
-| 우리는 9시에 서울에서 떠났다.<br>흐엉 씨는 부산을 떠났어요.<br>왕밍은 교실을 나왔어요.<br>언니는 서울을 출발했어요.                                                                                          | 흐엉 씨는 부산에서 떠났어요.<br>왕밍은 교실에서 나왔어요.<br>언니는 서울에서 출발했어요.                                                        |
-| 📘 Không được dùng ‘을/를’ với động từ không mang ý nghĩa rời đi. Ví dụ: 오다 - đến, chỉ có thể dùng "에서" để chỉ nơi xuất phát.<br>                                  |                                                                                                              |
-| 흐엉 씨는 베트남을 왔어요. ❌ <br><br>흐엉 씨는 베트남에서 왔어요.                                                                                                                     | 흐엉 씨는 베트남에서 왔어요.                                                                                             |
-
-#### **👉 ĐƠN GIẢN:**
-
-“을/를” → dùng khi rời khỏi nơi đó.
-“에서” → dùng khi đến từ / hành động tại nơi đó.

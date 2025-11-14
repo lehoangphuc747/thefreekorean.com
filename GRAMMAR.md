@@ -3,7 +3,7 @@ Link trang nguồn ngữ pháp:
 
 https://engoo.com/app/lessons/korean-grammar-in-use-grammar-in-use-intermediate-%EC%95%84%EC%96%B4-%EB%B3%B4%EC%9D%B4%EB%8B%A4/ldmOLuW3Eem0mM9PHBW7hg?category_id=gtmQNOqkEemK0fcPRnl2tQ&course_id=j5i3KOqkEemNJMNg-7-rRQ#exercise-2
 
-
+https://kcenter.korean.go.kr/kcenter/search/dgrammar.do?mode=&id=&srchChosung=%E3%84%B1&searchCategory=&searchGrade=&searchTabMenu=&searchChineseYn=&curPage=1
 
 ## SƠ CẤP
 
@@ -239,9 +239,8 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 | 98                                          | [[src/content/grammar/eun-neun1\|은/는1]] | 3       | 10   | Tiểu từ chủ đề (kết thúc bằng phụ âm)                                                                                             |
 | 77 **ĐỊNH NGUWX**                           | -는                                      | 4       | 8    | Tiểu từ chủ đề (kết thúc bằng nguyên âm) - *Trong danh sách này được phân loại là 전성어미 nhưng chức năng cơ bản như tiểu từ chủ đề* |
 | 95                                          | [[src/content/grammar/i-ga\|이/가]]       | 5       | 10   | Tiểu từ chủ ngữ (kết thúc bằng phụ âm)                                                                                            |
-| 97                                          | 을1                                      | 7       | 10   | Tiểu từ tân ngữ (kết thúc bằng phụ âm)                                                                                            |
-| Bổ sung                                     | 를                                       | 8       | -    | Tiểu từ tân ngữ (kết thúc bằng nguyên âm)                                                                                         |
-| 96                                          | 의                                       | 9       | 10   | Sở hữu cách 'của'                                                                                                                 |
+| 97                                          | [[src/content/grammar/eul-reul\|을/를]]   | 7       | 10   | Tiểu từ tân ngữ (kết thúc bằng phụ âm)                                                                                            |
+| 96                                          | [[src/content/grammar/ui\|의]]           | 9       | 10   | Sở hữu cách 'của'                                                                                                                 |
 | 112                                         | 에1                                      | 10      | 12   | Ở, vào (thời gian, địa điểm tĩnh)                                                                                                 |
 | 111                                         | 에2                                      | 11      | 12   | Ở, vào (nơi chốn, phương hướng)                                                                                                   |
 | 103                                         | 에서1                                     | 12      | 11   | Ở, tại (nơi xảy ra hành động)                                                                                                     |

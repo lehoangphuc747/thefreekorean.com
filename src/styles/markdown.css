@@ -139,15 +139,76 @@
   color: #2563eb;
 }
 
-/* Blockquote */
+/* Blockquote / Callout */
 .markdown-content blockquote {
+  position: relative;
   border-left: 4px solid #3b82f6;
-  padding-left: 1rem;
-  margin: 1rem 0;
-  color: #64748b;
-  background: #f8fafc;
-  padding: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  color: #475569;
+  background: linear-gradient(to right, #f8fafc 0%, #f1f5f9 100%);
   border-radius: 0 8px 8px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  font-style: normal;
+}
+
+.markdown-content blockquote:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  transform: translateX(2px);
+}
+
+/* Blockquote paragraphs */
+.markdown-content blockquote p {
+  margin: 0.75rem 0;
+  line-height: 1.7;
+}
+
+.markdown-content blockquote p:first-child {
+  margin-top: 0;
+}
+
+.markdown-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Blockquote strong text */
+.markdown-content blockquote strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Blockquote lists */
+.markdown-content blockquote ul,
+.markdown-content blockquote ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown-content blockquote li {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+/* Blockquote code */
+.markdown-content blockquote code {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Blockquote links */
+.markdown-content blockquote a {
+  color: #2563eb;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.markdown-content blockquote a:hover {
+  color: #1d4ed8;
 }
 
 /* Strong, Em */
@@ -351,6 +412,13 @@
     max-width: 100%;
     page-break-inside: avoid;
   }
+
+  .markdown-content blockquote {
+    border-left-width: 3px;
+    box-shadow: none;
+    background: #f8fafc;
+    page-break-inside: avoid;
+  }
 }
 
 /* Mobile responsive */
@@ -383,5 +451,20 @@
   .markdown-content th,
   .markdown-content td {
     padding: 0.5rem;
+  }
+
+  .markdown-content blockquote {
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    border-left-width: 3px;
+  }
+
+  .markdown-content blockquote:hover {
+    transform: none;
+  }
+
+  .markdown-content blockquote ul,
+  .markdown-content blockquote ol {
+    padding-left: 1.25rem;
   }
 }
