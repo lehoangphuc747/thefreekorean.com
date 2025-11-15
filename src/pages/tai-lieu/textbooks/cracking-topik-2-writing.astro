@@ -1,0 +1,74 @@
+---
+import TextbookLayout from '../../../layouts/TextbookLayout.astro';
+
+export const postData = {
+  title: "Cracking the TOPIK Ⅱ Writing",
+  date: "2019-11-29",
+  category: "Giáo trình",
+  subcategory: "TOPIK Writing",
+  type: "PDF",
+  cover: "/images/cracking-topik-2-writing.jpg",
+  description: "Sách luyện kỹ năng viết TOPIK II của tác giả Won Eunyeoung và Lee Yumi",
+  downloadUrl: "https://drive.google.com/open?id=1hfCPfMhuAPtGRJasFQZgXYKYCwYNZB8L&usp=drive_fs",
+  seoTitle: "Cracking the TOPIK Ⅱ Writing - Luyện viết TOPIK II - The Free Korean",
+  seoDescription: "Tải sách Cracking the TOPIK Ⅱ Writing - Giáo trình luyện kỹ năng viết TOPIK II của Won Eunyeoung và Lee Yumi. Hướng dẫn chi tiết cách làm bài thi viết TOPIK II.",
+  keywords: ["TOPIK Writing", "Cracking TOPIK", "luyện viết TOPIK II", "TOPIK II Writing", "giáo trình TOPIK"]
+};
+
+// Định nghĩa danh sách tài liệu tối thiểu để lọc liên quan
+const allDocuments = [
+  {
+    title: "Cracking the TOPIK Ⅱ Writing",
+    slug: "tai-lieu/textbooks/cracking-topik-2-writing",
+    url: "/tai-lieu/textbooks/cracking-topik-2-writing",
+    type: "PDF",
+    category: postData.category,
+    subcategory: postData.subcategory,
+    date: postData.date
+  },
+  {
+    title: "TOPIK Kỳ 96",
+    url: "/tai-lieu/textbooks/topik-2-96",
+    type: "PDF",
+    size: "~13MB",
+    category: "Đề thi TOPIK",
+    subcategory: "TOPIK",
+    date: "2024-10-13"
+  },
+  {
+    title: "TOPIK Kỳ 91",
+    url: "/tai-lieu/textbooks/topik-91",
+    type: "PDF",
+    size: "~13MB",
+    category: "Đề thi TOPIK",
+    subcategory: "TOPIK",
+    date: "2023-11-12"
+  },
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-1",
+    type: "PDF",
+    size: "18.1MB",
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2024-05-01"
+  },
+  {
+    title: "Tiếng Hàn Tổng Hợp Sơ cấp 2",
+    url: "/tai-lieu/textbooks/tieng-han-tong-hop-2",
+    type: "PDF",
+    size: "~120MB",
+    category: "Giáo trình",
+    subcategory: "Tiếng Hàn Tổng Hợp",
+    date: "2024-06-01"
+  }
+];
+
+const related = allDocuments
+  .filter(d => d.url !== "/tai-lieu/textbooks/cracking-topik-2-writing")
+  .filter(d => d.subcategory === postData.subcategory || d.category === postData.category || d.subcategory === "TOPIK")
+  .slice(0, 6);
+---
+
+<TextbookLayout postData={postData} related={related} />
+
