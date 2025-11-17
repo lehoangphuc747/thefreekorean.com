@@ -5,9 +5,6 @@ import '../styles/navbar.css';
 
 <nav class="navbar">
   <div class="navbar-container">
-    <a href="/" class="navbar-logo">
-      <span class="logo-text">The Free Korean</span>
-    </a>
     <button
       class="navbar-toggle"
       id="navbar-toggle"
@@ -20,6 +17,10 @@ import '../styles/navbar.css';
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
+    <a href="/" class="navbar-logo">
+      <span class="logo-text">The Free Korean</span>
+    </a>
+    <div class="navbar-spacer"></div>
     <ul class="navbar-menu" id="navbar-menu">
       <li><a href="/gioi-thieu" class="nav-link">Giới thiệu</a></li>
       <li><a href="/tai-lieu" class="nav-link">Tài liệu</a></li>
@@ -82,7 +83,6 @@ import '../styles/navbar.css';
   border: none;
   cursor: pointer;
   color: #3245ff;
-  margin-left: 1rem;
   position: relative;
   z-index: 3200; /* ensure clickable */
   width: 44px; /* tăng vùng click tối thiểu */
@@ -90,6 +90,12 @@ import '../styles/navbar.css';
   padding: 8px; /* tăng vùng tap */
   -webkit-tap-highlight-color: transparent;
   pointer-events: auto; /* bảo đảm nhận click */
+  flex-shrink: 0;
+}
+.navbar-spacer {
+  display: none;
+  width: 44px;
+  flex-shrink: 0;
 }
 .navbar-menu {
   display: flex;
@@ -142,9 +148,24 @@ import '../styles/navbar.css';
 @media (max-width: 900px) {
   .navbar-container {
     padding: 0.5rem 1rem;
+    position: relative;
+    justify-content: space-between;
   }
   /* Hiển thị toggle sớm hơn cho tablet dọc */
   .navbar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Logo căn giữa trên mobile */
+  .navbar-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3101;
+  }
+  /* Spacer để cân bằng với toggle button */
+  .navbar-spacer {
     display: block;
   }
   /* Chuyển menu sang dạng dropdown dưới navbar */
