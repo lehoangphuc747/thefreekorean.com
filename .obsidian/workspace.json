@@ -215,6 +215,9 @@
   },
   "active": "a109b88c8d92aa19",
   "lastOpenFiles": [
+    "public/html/에4.html",
+    "public/ppt/thefreekorean.com - Ngữ pháp - 에2.pptx",
+    "src/content/grammar/e3.md",
     "public/html/에3.html",
     "public/에3.html",
     "public/html",
@@ -224,8 +227,6 @@
     "public/ppt/thefreekorean.com - Ngữ pháp - 에1.pdf",
     "public/ppt/Tro-Tu-1-Vi-Tri-Ton-Tai-ban-final.pdf",
     "에2.html",
-    "src/components/bai-tap/PracticeInteractions.astro",
-    "src/components/bai-tap/SectionMiniTest.astro",
     "src/content/grammar/e2.md",
     "src/content/grammar/e1.md",
     "topik_vocabulary.md",
@@ -259,7 +260,6 @@
     "src/content/topik/on-luyen/on-luyen-001/reading-dang-1-고객센터-intro.md",
     "src/content/grammar/TOPIK 1.md",
     "src/content/kien-thuc/topik2-reading-dang-1.md",
-    "src/content/grammar/anida.md",
-    "src/content/grammar/n-ibnida.md"
+    "src/content/grammar/anida.md"
   ]
 }
