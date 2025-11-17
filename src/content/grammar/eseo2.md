@@ -63,13 +63,11 @@ order: 19
 ## 2. Gợi ý dẫn nhập trên lớp
 
 1. **Bản đồ/đường đi**  
-   - 교사: (chỉ bản đồ) 여기가 어디입니까?  
-   - 학생: 학교입니다.  
-   - 교사: 식당 **에서** 기숙사까지 10분 걸려요.  
+
    → Cho học viên nhìn **điểm xuất phát → điểm đến** để cảm nhận nghĩa “bắt đầu từ…”.
-2. **Điện thoại/nguồn thông tin**  
-   - 교사: (tranh điện thoại từ quê) 어디 **에서** 전화가 왔습니까?  
-   - 학생: 고향 **에서** 전화가 왔습니다.  
+2. **Điện thoại/ng
+uồn thông tin**  
+
    → Nhấn mạnh “tin tức bắt nguồn từ đâu”.
 
 ---
@@ -90,11 +88,9 @@ order: 19
 ## 4. Cấu trúc câu thường gặp
 
 1. `N에서 + N까지`: nêu **phạm vi hoặc quãng đường** của hành động/trạng thái. Có thể thay `에서` bằng `부터/에서부터` nếu muốn nhấn mạnh hơn điểm bắt đầu.  
-   - 서울 **에서(부터/에서부터)** 베이징까지 비행기로 두 시간 정도 걸립니다.  
-   - 이 가게는 7일 **에서(부터/에서부터)** 10일까지 문을 열지 않아요.
+
 2. `시간/장소 + 에서(부터) + 까지`: dùng với cả thời gian lẫn địa điểm, nhưng **riêng thời gian** thì ưu tiên `부터` hoặc `에서부터`.  
-   - 사무실은 한 시 **에서** (부터) 두 시까지 점심시간입니다.  
-   - 수지는 집 **에서** 부산 **까지** 자전거 여행을 했습니다.
+
 
 ---
 

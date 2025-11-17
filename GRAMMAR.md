@@ -239,6 +239,22 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 8. [[src/content/grammar/e4|에4]]
 9. [[src/content/grammar/eseo1|에서1]]
 10. [[src/content/grammar/eseo2|에서2]]
+11. 으로1
+12. 으로2
+13. 에게
+14. 한테
+15. 께
+16. 에게서
+17. 한테서
+18. 께서
+19. 하고1
+20. 과1
+21. 이랑1
+22. 부터
+23. 까지
+24. 도
+25. 만
+26. 밖에
 
 ### Bảng Ngữ Pháp Sắp Xếp Cho Người Mới Học
 
