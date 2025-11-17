@@ -32,7 +32,7 @@ order: 6
 > **⇒ Khi nói “chủ của …” → dùng “의”.**
 
 > 📘 **Ví dụ – thuộc về nhóm/tổ chức:**
-> - 한국의 축구 대표 선수 (thủ đại diện của Hàn Quốc)
+> - 한국의 축구 대표 선수 (tuyển thủ đại diện của Hàn Quốc)
 > - 우리 학교의 한국어 선생님 (giáo viên tiếng Hàn của trường chúng tôi)
 >
 > ⇒ “의” thể hiện **sự thuộc về**.
@@ -254,7 +254,7 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 ### 🔹 ① Trường hợp được phép lược bỏ “의”
 
 ---
-#### ✔ Nhóm 1: Sở hữu giữa người/vật – vật
+#### ✔ Nhóm 1: Sở hữu giữa người/con vật – vật
 
 철수**의** 연필 = 철수 연필
 강아지**의** 집 = 강아지 집
@@ -264,12 +264,18 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 #### ✔ Nhóm 2: Tổng thể – bộ phận (전체–부분)
 
 호랑이**의** 발 = 호랑이 발
+동생의 손 = 동생 손 
+어머니의 머리 = 어머니 머리
 
 ---
 
 #### ✔ Nhóm 3: Quan hệ huyết thống (친족)
 
 앤디**의** 누나 = 앤디 누나
+마이클 형
+
+수진 아빠
+
 
 ---
 
@@ -282,6 +288,7 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 
 *호반: bờ hồ, ven hồ*  
 **⇒ Danh xưng → không bỏ 의.**
+
 
 ---
 
@@ -478,7 +485,9 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 그것은 최선**의** 선택이에요.
 
 *최선의 = tốt nhất*  
-**→ Thuộc tính** (mô tả đặc điểm của "...")
+**→ Thuộc tính** (mô tả đặc điểm của "선택")
+
+đặc điểm 의   N
 
 ---
 
@@ -487,7 +496,13 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 그 남자는 최고**의** 남자예요.
 
 *최고의 = tuyệt nhất*  
-**→ Thuộc tính** (mô tả đặc điểm của "...")
+**→ Thuộc tính** (mô tả đặc điểm của "남자")
+
+그 여자는 예쁨의 여자예요.
+
+**N의 N**
+
+THUỘC TÍNH 의 DANH TỪ
 
 ---
 
@@ -500,7 +515,11 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 책상 위에 다섯 자루**의** 연필이 있어요.
 
 *다섯 자루 = năm cây*  
-**→ Số lượng** (chỉ số lượng của "...")
+**→ Số lượng** (chỉ số lượng của "연필")
+
+책상 위에 연필이 다섯 자루 있어요.
+
+**SỐ LƯỢNG 의 DANH TỪ** 
 
 ---
 
@@ -509,7 +528,12 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 두 반**의** 학생들이 서로 다릅니다.
 
 *두 반 = hai lớp*  
-**→ Số lượng** (chỉ số lượng của "...")
+**→ Số lượng** (chỉ số lượng của "학생들")
+
+2 lớp 의 학생들이 서로 다르다 
+
+서로 똑같다
+서로 비슷타다
 
 **⇒ Tóm lại:** "số lượng + 의" = số lượng thuộc về danh từ sau.
 
@@ -697,7 +721,6 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 ### ① ‘의’, ‘에’
 
 
-
 | 의                                                            | 에                                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Đứng sau danh từ, **의** thường được phát âm thành **에**.     |                                                              |
@@ -707,84 +730,4 @@ Trong (2), “의” thể hiện **thuộc về / 소속**.
 > **의 → đứng trước danh từ**  
 > **에 → đứng trước động từ**
 
-
 **Nghe "에" nhưng có thể là "의". → Đừng tin vào tai, hãy nhìn chức năng trong câu.**
-
----
-
-### 📝 Bài tập: Phân biệt '의' và '에'
-
-👉 **Yêu cầu:** Chọn '의' hay '에' cho các câu sau? Nhớ: **의 → đứng trước danh từ**, **에 → đứng trước động từ**.
-
-<ol class="quiz-list">
-  <li>
-    <p><strong>기분 좋은 날( ) 데이트를 했다.</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>기분 좋은 날( ) 데이트</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>학교( ) 가요.</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>학교( ) 학생</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>집( ) 왔어요.</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>집( ) 문</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>오늘( ) 만났어요.</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>오늘( ) 날씨</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>도서관( ) 갔어요.</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>친구( ) 집</strong></p>
-    <ul>
-      <li>의</li>
-      <li>에</li>
-    </ul>
-  </li>
-</ol>

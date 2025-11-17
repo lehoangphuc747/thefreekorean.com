@@ -229,6 +229,14 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 
 ---
 
+1. [[src/content/grammar/eun-neun1|은/는1]]
+2. [[src/content/grammar/i-ga|이/가]]
+3. [[src/content/grammar/eul-reul|을/를]]
+4. [[src/content/grammar/ui|의]]
+5. [[src/content/grammar/e1|에1]]
+6. [[src/content/grammar/e2|에2]]
+7. 
+
 ### Bảng Ngữ Pháp Sắp Xếp Cho Người Mới Học
 
 | STT Cũ                                      | Ngữ pháp                                | STT Mới | Page | Ghi chú (Nhóm ngữ pháp)                                                                                                           |
@@ -241,8 +249,8 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 | 95                                          | [[src/content/grammar/i-ga\|이/가]]       | 5       | 10   | Tiểu từ chủ ngữ (kết thúc bằng phụ âm)                                                                                            |
 | 97                                          | [[src/content/grammar/eul-reul\|을/를]]   | 7       | 10   | Tiểu từ tân ngữ (kết thúc bằng phụ âm)                                                                                            |
 | 96                                          | [[src/content/grammar/ui\|의]]           | 9       | 10   | Sở hữu cách 'của'                                                                                                                 |
-| 112                                         | 에1                                      | 10      | 12   | Ở, vào (thời gian, địa điểm tĩnh)                                                                                                 |
-| 111                                         | 에2                                      | 11      | 12   | Ở, vào (nơi chốn, phương hướng)                                                                                                   |
+| 112                                         | [[src/content/grammar/e1\|에1]]          | 10      | 12   | Ở, vào (thời gian, địa điểm tĩnh)                                                                                                 |
+| 111                                         | [[src/content/grammar/e2\|에2]]          | 11      | 12   | Ở, vào (nơi chốn, phương hướng)                                                                                                   |
 | 103                                         | 에서1                                     | 12      | 11   | Ở, tại (nơi xảy ra hành động)                                                                                                     |
 | 102                                         | 에서2                                     | 13      | 11   | Từ (nơi xuất phát)                                                                                                                |
 | 100                                         | 으로1                                     | 14      | 10   | Bằng (phương tiện), đến (phương hướng)                                                                                            |

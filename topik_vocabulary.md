@@ -266,7 +266,7 @@
 
 #### **3. Thư viện (도서관)**
 
-**A. Danh từ (명사)**
+##### **A. Danh từ (명사)**
 
 
 | word       | meaning                    | pos     | explain                                                                                               | example                              | example_translated                                                                          | collocation                                          | synonym   | antonym |
@@ -308,7 +308,7 @@
 
 
 
-### **B. Động từ (동사)**
+##### **B. Động từ (동사)**
 
 
 
@@ -349,1111 +349,113 @@
 
 #### **4. Tiệm làm tóc (미용실)**
 
+머리 : tóc
+샴푸: dầu gội
+린스 dầu xả
+수건 khăn
+감다 gội đầu
+헹구다 xả nước
+말리다 làm khô, sấy
+빗다 chải
+머리를 감다 gội đầu
+머리를 헹구다 xả tóc (sau khi gội)
+수건으로 머리를 닦다 lau tóc bằng khăn
+머리를 말리다 sấy tóc
+머리를 빗다 chải tóc
+샴푸로 머리를 감다 gội đầu bằng dầu gội
+머리를 감은 뒤에 헹구다 gội xong rồi xả
+수건으로 물기를 빼다 thấm bớt nước bằng khăn
+드라이기로 머리를 말리다 sấy tóc bằng máy sấy
+빗으로 정리하다 chải cho gọn
+드라이기 máy sấy tóc
+고데기 máy uốn (tạo xoăn bằng nhiệt)
+매직기 máy duỗi (làm thẳng bằng nhiệt)
+스타일링하다 tạo kiểu (styling)
+말다 uốn (tóc/đòn uốn)
+펴다 duỗi (thẳng)
+드라이기로 말리다 sấy bằng máy sấy
+머리를 스타일링하다 tạo kiểu tóc
+머리를 말다 cuốn tóc
+머리를 펴다 duỗi tóc
+고데기로 컬을 넣다 tạo lọn xoăn bằng máy uốn
+매직기로 머리를 펴다 duỗi thăng bằng máy duỗi
+드라이로 볼륨을 살리다 SẤY tạo phồng/ tạo độ bồng bềnh
+앞머리를 살짝 말다 uốn nhẹ phần tóc mái
+가위 kéo
+자르다 cắt
+머리를 자르다 cắt tóc
+다듬다 tỉa, chỉnh lại
+머리를 다듬다 tỉa tóc, chỉnh lại tóc
+끝만 다듬다 chỉ tỉa phần đuôi
+머리 숱을 치다 tỉa bớt cho mỏng
+가위로 끝을 다듬다 tỉa phần ngọn bằng kéo
+레이어를 내다 cắt layer
+얼굴형에 맞게 잘라 주세요 cắt hợp với khuôn mặt
+파마하다 uốn tóc
+염색하다 nhuộm tóc
+탈색하다 tẩy tóc
+뿌리 염색하다 nhuộm chân tóc
+전체 염색하다 nhuộm toàn bộ
+탈색 후 염색하다 tẩy rồi nhuộm
+머리카락 sợi tóc (vật lý)
+머릿결 chất tóc (độ mượt, khô, sơ)
+머리가 길다 tóc ngắn
+머리가 짧다 tóc dài
+
+
+머릿결이 부드럽다 chất tóc mềm
+머릿결이 거칠다 chất tóc khô xơ
+머릿결이 굵다 sợi tóc dày
+머릿결이 가늘다 sợi tóc mảnh
+머리가 부스스하다 tóc xù, rối
+머리가 차분하다 tóc mượt, vào nếp
+머리가 풍선하다 tóc dày dặn
+머리 숱이 많다 tóc nhiều
+머리 숱이 적다 tóc ít
+색이 선명하다 màu tươi
+색이 자연스럽다 màu tự nhiên
+얼굴에 잘 어울리다 rất hợp với khuôn mặt
+끝이 많이 상하다 ngọn tóc hư nhiều
+머릿결이 너무 건조하다 chất tóc quá khô
+저한테 이 스타일이 어울릴까요? Kiểu này hợp với tôi không?
+사진처럼 해 주세요 Hãy làm giống như trong ảnh này
+조금만 짧게 잘라 주세요 Hãy cắt ngắn một chút thôi
+끝만 살짝 다듬어 주세요 Hãy chỉ tỉa nhẹ phần đuôi thôi
+얼굴형에 맞게 부탁드려요 Nhờ bạn làm kiểu phù hợp với khuôn mặt tôi
+단발 머리 kiểu tóc ngang vai
+투블럭 two block (undercut Hàn)
+투블럭으로 깔끔하게 부탁드려요 Hãy làm cho tôi kiểu Two-Block gọn gàng
+왁스를 바르다 vuốt wax
+두피 da đầu
+지성 da dầu
+건성 da khô
+민감성 da nhạy cảm
+비듬 gàu
+가려움 ngứa
+탈모 sự rụng tóc/hói
+가렵다 ngứa 
+예민하다 nhạy cảm
+케어하다 chăm sóc (care)
+지성 두피 da đầu dầu
+건성 두피 da đầu khô
+두피가 가렵다 da đầu ngứa
+두피가 따갑다 da đầu rát
+비듬이 있다 có gàu
+탈모가 있다 bị rụng tóc
+두피를 케어하다 chăm sóc da đầu
+머리핀 kẹp tóc
+머리띠 dây buộc tóc
+머리핀을 꽂다 cài kẹp tóc
+머리끈으로 묶다 buộc bằng dây buộc tóc
+정수리 đỉnh đầu
+가마 xoáy tóc
+앞머리 tóc mái
+앞머리를 자르다 cắt mái
+앞머리를 내리다 để mái
+앞머리를 넘기다 hất mái sang bên
+앞머리 숱을 치다 để mái thưa
 
-##### A. Chuẩn bị · Gội · Xả · Sấy
 
-###### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|머리|tóc|danh từ gốc|
-|샴푸|dầu gội||
-|린스|dầu xả||
-|수건|khăn||
-|감다|gội (đầu)||
-|헹구다|xả (nước)|**chính tả:** 헹구다 (không phải _행구다_)|
-|말리다|làm khô, sấy||
-|빗다|chải||
-
- ##### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|머리를 감다|gội đầu|chunk cơ bản|
-|머리를 헹구다|xả tóc|sau khi gội|
-|수건으로 머리를 닦다|lau tóc bằng khăn||
-|머리를 말리다|sấy tóc||
-|머리를 빗다|chải tóc||
-
- ##### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|샴푸로 머리를 감다|gội đầu bằng dầu gội|cụ thể công cụ|
-|머리를 감은 뒤에 헹구다|gội xong rồi xả|trình tự|
-|수건으로 물기를 빼다|thấm bớt nước bằng khăn|tự nhiên bản ngữ|
-|드라이기로 머리를 말리다|sấy tóc bằng máy sấy|giới thiệu “드라이기” ở B|
-|빗으로 정리하다|chải cho gọn||
-
----
-
-  ##### B. Dụng cụ · Sấy · Tạo kiểu
-
-  ###### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|드라이기|máy sấy tóc||
-|고데기|máy uốn (tạo xoăn bằng nhiệt)||
-|매직기|máy duỗi (làm thẳng bằng nhiệt)||
-|스타일링하다|tạo kiểu||
-|말다|cuốn (tóc/đòn uốn)||
-|펴다|duỗi (thẳng)||
-
- ###### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|드라이기로 말리다|sấy bằng máy sấy|rút gọn tự nhiên|
-|머리를 스타일링하다|tạo kiểu tóc||
-|머리를 말다|cuốn tóc||
-|머리를 펴다|duỗi tóc||
-
- ###### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|고데기로 컬을 넣다|tạo lọn xoăn bằng máy uốn|“고데기 = uốn”|
-|매직기로 머리를 펴다|duỗi thẳng bằng máy duỗi|“매직기 = duỗi”|
-|드라이로 볼륨을 살리다|sấy tạo phồng/độ bồng bềnh|collocation salon|
-|앞머리를 살짝 말다|cuốn nhẹ phần tóc mái|tự nhiên|
-
----
-#####  C. CẮT TỈA LAYER
-
- ###### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|가위|kéo||
-|자르다|cắt||
-|다듬다|tỉa, chỉnh lại|**bạn yêu cầu**|
-|끝|đuôi (ngọn)||
-|숱|độ dày tóc (mật độ)||
-|치다|tỉa bớt (làm mỏng)|dùng với 숱|
-
-###### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|머리를 자르다|cắt tóc||
-|머리를 다듬다|tỉa tóc, chỉnh lại|trọng tâm|
-|끝만 다듬다|chỉ tỉa phần đuôi|yêu cầu phổ biến|
-|머리숱을 치다|tỉa bớt cho mỏng|chuyên salon|
-
-###### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|가위로 끝을 다듬다|tỉa phần ngọn bằng kéo|cụ thể dụng cụ|
-|레이어(층)를 내다|cắt layer (tạo tầng)|collocation chuẩn|
-|얼굴형에 맞게 잘라 주세요|cắt hợp với khuôn mặt|yêu cầu tự nhiên|
-
----
-
-##### D. Uốn · Nhuộm · Tẩy · Dưỡng
-
-###### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|파마|uốn (perm)||
-|염색|nhuộm||
-|탈색|tẩy (phai màu)||
-|트리트먼트|hấp/ phục hồi||
-|에센스|tinh chất dưỡng tóc||
-|바르다|thoa, bôi|động từ nền để ghép|
-
-###### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|파마하다|uốn tóc|động từ hóa|
-|염색하다|nhuộm tóc||
-|탈색하다|tẩy tóc||
-|트리트먼트를 하다|làm hấp/ phục hồi||
-|에센스를 바르다|thoa tinh chất dưỡng|sau sấy/ tạo kiểu|
-
-###### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|뿌리 염색하다|nhuộm chân tóc|phần gốc|
-|전체 염색하다|nhuộm toàn bộ||
-|탈색 후에 염색하다|tẩy rồi nhuộm|trình tự|
-|트리트먼트로 케어하다|chăm tóc bằng treatment||
-|에센스로 마무리하다|hoàn thiện bằng essence|closing step|
-
----
-
-##### E. Tóc & chất tóc · Trạng thái (TÍNH TỪ)
-
-###### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|머리카락|sợi tóc (vật lý)|phân biệt với 머릿결|
-|머릿결|chất tóc (độ mượt/khô/xơ)|trạng thái|
-|길다 / 짧다|dài / ngắn||
-|굵다 / 가늘다|dày (sợi to) / mảnh||
-|부드럽다 / 거칠다|mềm mượt / khô xơ||
-|뻣뻣하다|cứng, khó chải||
-|부스스하다|xù, rối||
-|차분하다|mượt, vào nếp||
-|풍성하다|dày dặn, nhiều||
-|숱이 많다/적다|nhiều/ít tóc||
-|선명하다|(màu) tươi, rõ||
-|자연스럽다|tự nhiên||
-|세련되다 / 촌스럽다|thời thượng / lỗi thời||
-|어울리다|hợp (với khuôn mặt)|tính từ-động từ|
-
-###### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|머리가 길다/짧다|tóc dài/ ngắn|khung miêu tả|
-|머릿결이 부드럽다/거칠다|chất tóc mềm/khô xơ||
-|머릿결이 굵다/가늘다|sợi tóc dày/mảnh||
-|머리가 부스스하다|tóc xù, rối||
-|머리가 차분하다|tóc mượt, vào nếp||
-|머리가 풍성하다|tóc dày dặn||
-|머리 숱이 많다/적다|tóc nhiều/ít||
-|색이 선명하다/자연스럽다|màu tươi/ tự nhiên||
-|얼굴에 잘 어울리다|rất hợp với khuôn mặt||
-
-###### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|끝이 많이 상했어요|ngọn tóc hư nhiều|feedback khách|
-|머릿결이 너무 건조해요|chất tóc quá khô|vấn đề thường gặp|
-|자연스러운 컬이 예뻐요|lọn xoăn tự nhiên đẹp|khen/đánh giá|
-|이 색이 더 세련돼 보여요|màu này trông thời thượng hơn|so sánh|
-|저한테 이 스타일이 어울릴까요?|kiểu này hợp với em không?|hỏi stylist|
-
----
-
-##### F. Giao tiếp tại salon (chọn lọc theo bậc thang)
-
-###### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|예약|lịch hẹn|danh từ|
-|예약하다|đặt lịch|**không dùng** “예약을 하다”|
-|상담|tư vấn|danh từ|
-|상담하다|tư vấn (động từ)||
-|계산|thanh toán|danh từ|
-|결제하다|thanh toán|động từ|
-
-###### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|예약했어요|em đã đặt lịch rồi|mở đầu|
-|상담을 받다|nhận tư vấn||
-|계산해 주세요|tính tiền giúp ạ|lịch sự|
-
-###### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|사진처럼 해 주세요|làm giống như trong ảnh này|yêu cầu mẫu|
-|조금만 짧게 잘라 주세요|cắt ngắn **một chút** thôi|kiểm soát độ dài|
-|끝만 살짝 다듬어 주세요|chỉ tỉa nhẹ phần đuôi thôi|rất tự nhiên|
-|얼굴형에 맞게 부탁드려요|nhờ làm hợp với khuôn mặt|lịch sự|
-
-
-
-
-## G. **Kiểu tóc cụ thể (컷 & 스타일)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|단발|tóc ngang vai (bob ngắn)|danh từ kiểu|
-|장발|tóc dài||
-|보브|bob (kiểu bob)|loanword|
-|레이어드컷|cắt layer||
-|샤기컷|cắt shaggy||
-|허쉬컷|cắt hush/hersh|Hàn thịnh hành|
-|히메컷|hime cut||
-|투블럭|two-block (undercut Hàn)|nam/nữ đều có|
-|가르마|ngôi tóc||
-|가운데 가르마|ngôi giữa||
-|옆가르마|ngôi lệch||
-|시스루 앞머리|mái thưa (see-through)||
-|C컬|xoăn chữ C||
-|S컬|xoăn chữ S||
-|웨이브|sóng||
-|하다|làm, thực hiện|động từ dùng chung|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|보브로 하다|làm kiểu bob|dùng trợ từ 로|
-|레이어드컷으로 하다|cắt kiểu layer||
-|투블럭으로 자르다|cắt kiểu two-block||
-|가르마를 타다|rẽ ngôi|collocation chuẩn|
-|가운데/옆가르마로 하다|để ngôi giữa/lệch||
-|시스루 앞머리로 하다|để mái thưa||
-|C컬을 넣다|tạo C-curl||
-|S컬을 넣다|tạo S-curl||
-|웨이브를 넣다|làm sóng||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|얼굴형에 맞게 보브로 잘라 주세요|cắt bob hợp khuôn mặt|yêu cầu lịch sự|
-|레이어드컷으로 자연스럽게 해 주세요|làm layer tự nhiên||
-|투블럭으로 깔끔하게 부탁드려요|two-block gọn gàng||
-|가르마를 가운데로 바꿔 주세요|đổi sang ngôi giữa||
-|앞머리는 시스루로 얇게 해 주세요|mái thưa mỏng nhẹ||
-|S컬 웨이브를 자연스럽게 넣어 주세요|thêm sóng S tự nhiên||
-
----
-
-## H. **Sản phẩm tạo kiểu (왁스/스프레이/젤/오일…)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|왁스|sáp (wax)||
-|스프레이|keo xịt tóc||
-|젤|gel tóc||
-|무스|mousse||
-|오일|dầu dưỡng||
-|크림|kem dưỡng||
-|포마드|pomade||
-|고정력|độ giữ nếp||
-|윤기|độ bóng/ánh mượt||
-|바르다|thoa/bôi||
-|뿌리다|xịt/rắc||
-|사용하다|sử dụng||
-|쓰다|dùng|khẩu ngữ|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|왁스를 바르다|thoa sáp||
-|젤을 바르다|thoa gel||
-|오일을 바르다|thoa dầu dưỡng||
-|스프레이를 뿌리다|xịt keo||
-|제품을 사용하다/쓰다|dùng sản phẩm||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|볼륨을 살리려고 스프레이를 조금만 뿌리세요|xịt ít để tạo phồng|“조금만” n+1|
-|윤기를 위해 오일을 살짝 바르세요|thoa nhẹ dầu để bóng mượt||
-|고정력이 센 스프레이로 마무리해요|hoàn thiện bằng keo giữ mạnh|tính từ: 센/강한|
-|향이 약한 제품을 사용해 주세요|dùng sp mùi nhẹ|약한 ↔ 강한|
-
----
-
-## I. **Màu tóc & kỹ thuật nhuộm (컬러)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|금발|tóc vàng|màu nền|
-|흑발|tóc đen||
-|갈색|nâu||
-|다크브라운|nâu đậm||
-|애쉬브라운|nâu tro||
-|밀크브라운|nâu sữa||
-|카키브라운|nâu rêu||
-|레드브라운|nâu đỏ||
-|블루블랙|đen ánh xanh||
-|하이라이트|highlight (gẩy light)||
-|옴브레|ombre||
-|톤다운/톤업|hạ tông/nâng tông||
-|바꾸다|thay đổi||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|~~색으로 염색하다|nhuộm màu ~~|đặt màu trước|
-|하이라이트를 넣다|gẩy light||
-|옴브레로 하다|nhuộm ombre||
-|톤다운/톤업하다|hạ/nâng tông||
-|색을 바꾸다|đổi màu tóc||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|애쉬브라운으로 자연스럽게 염색해 주세요|nhuộm nâu tro tự nhiên||
-|하이라이트만 가볍게 넣어 주세요|chỉ gẩy light nhẹ||
-|전체는 다크브라운으로, 끝은 옴브레로|toàn bộ nâu đậm, ngọn ombre|phối hợp|
-|카키브라운이 얼굴에 잘 어울려요|nâu rêu hợp khuôn mặt|phản hồi|
-
----
-
-## J. **Da đầu & tình trạng (두피/컨디션)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|두피|da đầu||
-|지성|da dầu||
-|건성|da khô||
-|민감성|da nhạy cảm||
-|비듬|gàu||
-|가려움|ngứa|danh từ|
-|탈모|rụng tóc/hói||
-|트러블|vấn đề/mụn||
-|가렵다|ngứa|tính/động từ|
-|따갑다|rát/cay xè||
-|순하다|dịu/nhẹ||
-|예민하다|nhạy cảm||
-|심하다|nặng/nghiêm trọng||
-|케어하다|chăm sóc|loanword|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|지성/건성 두피|da đầu dầu/khô||
-|두피가 가렵다/따갑다|da đầu ngứa/rát||
-|비듬이 있다|có gàu||
-|탈모가 있다|bị rụng tóc||
-|두피를 케어하다|chăm sóc da đầu||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|두피가 예민해서 순한 제품으로 해 주세요|da đầu nhạy, xin dùng sp dịu|lịch sự|
-|비듬이 심해서 관리가 필요해요|gàu nặng, cần chăm sóc||
-|따가움이 있어서 톤다운만 할게요|bị rát nên chỉ hạ tông|quyết định dịch vụ|
-
----
-
-## K. **Phụ kiện (핀/집게핀/머리끈/머리띠…)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|핀/머리핀|kẹp tóc (pin)||
-|집게핀|kẹp càng cua||
-|머리끈/고무줄|dây buộc tóc||
-|머리띠/헤어밴드|bờm/hoàng hậu (headband)||
-|헤어롤|lô cuốn tóc||
-|꽂다|cài/ghim||
-|집다|kẹp||
-|끼우다|lồng/cho vào||
-|고정하다|cố định||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|핀을 꽂다|cài kẹp||
-|집게핀으로 집다|kẹp bằng càng cua||
-|머리끈으로 묶다|buộc bằng dây||
-|머리띠를 하다|đeo bờm||
-|헤어롤을 말다|quấn lô||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|집게핀으로 뒤를 단단히 고정해 주세요|cố định phần sau bằng càng cua|yêu cầu stylist|
-|장식핀으로 포인트를 주세요|nhấn điểm bằng kẹp trang trí||
-|헤어롤은 앞쪽에만 가볍게 말아 주세요|chỉ cuốn lô nhẹ phần trước||
-
----
-
-## L. **Mẫu câu lịch sự & biến thể yêu cầu**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|주세요|làm ơn… (hãy…)|đuôi yêu cầu|
-|부탁드려요|nhờ (lịch sự)||
-|가능하다|có thể||
-|조금/살짝|một chút/nhẹ||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|~~해 주세요|xin hãy ~|công thức chung|
-|~~해 주실 수 있을까요?|bạn có thể ~ giúp không ạ?|lịch sự cao|
-|~~로 해 주세요|làm theo kiểu ~|với danh từ kiểu|
-|조금만/살짝만 ~~해 주세요|chỉ ~ một chút thôi|kiểm soát mức độ|
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|자연스럽게 해 주실 수 있을까요?|bạn làm tự nhiên giúp được không ạ?||
-|조금만 짧게 잘라 주세요|cắt ngắn một chút thôi ạ||
-|끝만 살짝 다듬어 주세요|chỉ tỉa nhẹ phần đuôi thôi||
-|얼굴형에 맞게 부탁드려요|nhờ làm hợp với khuôn mặt||
-|하이라이트를 살짝만 넣어 주세요|gẩy light nhẹ thôi ạ||
-
----
-
-Bạn muốn tôi **gộp toàn bộ (A–L) thành 1 file CSV “Front | Back | Notes”** để import Anki ngay không?  
-Nếu ok, tôi sẽ giữ **thứ tự bậc thang** chuẩn n+1 và thêm cột Notes (ví dụ: chính tả, sắc thái dùng trong salon, mẹo phân biệt).
-
-
-# 💇‍♀️ 미용실 — Bậc thang collocation (n+1) — **Mở rộng (M–R)**
-
-> Quy tắc giữ nguyên: **Cấp 1** (từ đơn) → **Cấp 2** (cụm cơ bản) → **Cấp 3** (cụm mở rộng/tự nhiên).  
-> (Đảm bảo không dùng cụm ở Cấp 2/3 nếu thành phần chưa xuất hiện ở Cấp 1.)
-
----
-
-## M. **Nam giới & barber (페이드/라인/구레나룻)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|이발기/클리퍼|tông đơ/clipper|dụng cụ|
-|트리머|tông đơ chi tiết (trimmer)|viền/mai|
-|페이드|kiểu “fade”|loanword|
-|구레나룻|tóc mai/sideburn|danh từ|
-|라인|đường viền (hairline)||
-|네이프/목덜미|gáy/nape||
-|다운펌|ép sát phần chân tóc (down perm)|nam hay dùng|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|페이드로 자르다|cắt kiểu fade||
-|라인을 정리하다|gọt/viền đường line||
-|구레나룻을 정리하다|chỉnh tóc mai||
-|목덜미를 깔끔하게 정리하다|gọn phần gáy||
-|다운펌을 하다|làm down perm|ép phẳng chân tóc|
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|사이드를 짧게, 라인은 날카롭게 정리해 주세요|hông ngắn, line sắc gọn|yêu cầu nam|
-|뒤랑 구레나룻은 자연스럽게 연결해 주세요|nối tự nhiên phần sau & mai|“연결”|
-|페이드는 중간 정도로 부탁드려요|fade tầm trung nhé|mức độ|
-
----
-
-## N. **Clinic & Home-care (클리닉/케어/앰플/팩)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|클리닉|liệu trình phục hồi (clinic)|dịch vụ|
-|케라틴|keratin||
-|단백질|protein||
-|앰플|ampoule||
-|헤어팩/마스크|ủ tóc/mặt nạ tóc||
-|토너|toner (khử ám, cân tông)|nhuộm|
-|보호제|chất bảo vệ (heat protectant)||
-|미스트|xịt dưỡng (mist)||
-|케어하다|chăm sóc/khử trị|động từ|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|클리닉을 받다|làm phục hồi clinic||
-|케라틴 케어를 하다|chăm tóc keratin||
-|단백질 앰플을 바르다|thoa ampoule protein|“바르다” đã có|
-|헤어팩을 하다|ủ tóc||
-|토너를 하다|dùng toner cho màu|sau nhuộm|
-|보호제를 뿌리다|xịt chất bảo vệ|trước nhiệt|
-|미스트를 뿌리다|xịt dưỡng||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|열 사용 전에 보호제를 꼭 뿌리세요|nhớ xịt bảo vệ trước khi dùng nhiệt|hướng dẫn|
-|탈색 후엔 단백질 앰플로 케어하세요|sau tẩy hãy chăm bằng ampoule protein|trình tự|
-|집에서는 주 1회 헤어팩을 해 보세요|ở nhà 1 tuần 1 lần ủ tóc|tần suất|
-
----
-
-## O. **Nhuộm & Duy trì màu (리터치/새치/톤/유지)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|리터치|retouch/chỉnh lại||
-|새치|tóc bạc lẻ||
-|새치염색|nhuộm che bạc||
-|톤|tông (tone)||
-|유지|duy trì/bền màu||
-|빠지다|phai (màu)|động từ|
-|커버하다|che/cover|loanword|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|뿌리 리터치하다|retouch phần chân||
-|새치를 커버하다|che tóc bạc||
-|톤을 맞추다|cân/tinh chỉnh tông||
-|색을 유지하다|giữ màu||
-|색이 빨리 빠지다|màu phai nhanh||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|한 달 후에 뿌리 리터치를 할게요|em sẽ retouch chân sau 1 tháng|kế hoạch|
-|새치 부분만 자연스럽게 커버해 주세요|che bạc phần đó cho tự nhiên|yêu cầu|
-|집에서는 톤을 맞추는 샴푸를 써 보세요|ở nhà dùng shampoo cân tông|gợi ý sản phẩm|
-
----
-
-## P. **Thời gian · Lịch · Giá (소요/대기/변경/비용/추가요금)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|소요 시간|thời gian cần (mất)|danh từ|
-|대기 시간|thời gian chờ||
-|끝나다|kết thúc|động từ|
-|변경하다|thay đổi||
-|취소하다|hủy||
-|비용/가격|chi phí/giá||
-|추가요금|phụ phí||
-|할인|giảm giá||
-|포인트|điểm tích lũy||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|소요 시간이 얼마나 걸려요?|mất khoảng bao lâu ạ?|hỏi ước lượng|
-|몇 시에 끝나요?|mấy giờ xong ạ?||
-|대기 시간이 있어요?|có phải chờ không ạ?||
-|예약을 변경/취소하다|đổi/hủy lịch hẹn|dùng “예약” đã có|
-|비용이 얼마나 돼요?|chi phí khoảng bao nhiêu?||
-|추가요금이 있어요?|có phụ phí không ạ?||
-|포인트를 적립하다|tích điểm||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|오늘은 시간이 없어서 커트만 할게요|hôm nay bận nên em chỉ cắt thôi|quyết định|
-|추가요금이 생기면 미리 말씀해 주세요|nếu có phụ phí báo trước giúp ạ|lịch sự|
-|6시 전에 끝날 수 있을까요?|có thể xong trước 6h không ạ?|ràng buộc giờ|
-
----
-
-## Q. **An toàn & Dị ứng (알레르기/자극/테스트/환기)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|알레르기|dị ứng||
-|테스트|thử nghiệm/kiểm tra||
-|자극|kích ứng||
-|저자극|ít kích ứng||
-|냄새|mùi||
-|환기하다|thông gió||
-|화끈거리다|nóng rát/bỏng rát|cảm giác|
-|발진|phát ban||
-|붉어지다|ửng đỏ/đỏ lên||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|알레르기가 있다|bị dị ứng||
-|알레르기 테스트를 하다|làm test dị ứng|trước thuốc|
-|자극이 적은 제품|sản phẩm ít kích ứng||
-|냄새가 강하다/약하다|mùi mạnh/nhẹ||
-|환기를 시키다|cho thông gió||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|두피가 화끈거려서 중단하고 싶어요|da đầu rát, em muốn dừng lại|phản ứng|
-|알레르기 이력이 있어서 테스트 먼저 해 주세요|em có tiền sử dị ứng, xin test trước|lịch sự|
-|자극이 적은 라인으로 바꿔 주세요|chuyển sang dòng ít kích ứng|yêu cầu|
-
----
-
-## R. **Bộ phận tóc chi tiết & hiện tượng (정수리/가마/헤어라인/뜰다/갈라지다)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|정수리|đỉnh đầu/crown||
-|가마|xoáy tóc (whorl)||
-|헤어라인|đường chân tóc||
-|옆머리/윗머리/뒷머리|tóc bên/trên/sau|vùng|
-|목선|đường cổ/gáy||
-|갈라지다|chẻ ngọn|động từ|
-|끊어지다|gãy rụng (đứt)||
-|뜨다|dựng/phồng không vào nếp||
-|탄력|độ đàn hồi||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|정수리가 뜨다|đỉnh đầu bị dựng|vấn đề phổ biến|
-|가마 방향을 보다|xem hướng xoáy tóc|để tạo kiểu|
-|헤어라인을 정리하다|chỉnh đường chân tóc||
-|끝이 갈라지다|ngọn tóc chẻ||
-|모발이 끊어지다|sợi tóc bị gãy||
-|탄력이 떨어지다|mất độ đàn hồi|hư tổn|
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|정수리가 잘 떠서 볼륨매직이 필요해요|đỉnh dễ dựng nên cần “volume magic”|giải pháp|
-|가마 방향에 맞춰서 가르마를 타 주세요|rẽ ngôi theo hướng xoáy tóc|tự nhiên|
-|끝이 많이 갈라져서 트리트먼트를 받을게요|chẻ ngọn nhiều nên em sẽ phục hồi|quyết định|
-
----
-
-Bạn muốn tôi **gộp tất cả (A–R) thành 1 file CSV “Front | Back | Notes”** để import Anki ngay không?  
-Nếu đồng ý, tôi sẽ:
-
-- Giữ **thứ tự bậc thang** chuẩn n+1,
-    
-- Chuẩn hóa chính tả (헹구다, 구레나룻…),
-    
-- Thêm **Notes** ngắn gọn (phân biệt, sắc thái salon, mẹo).
-
-# 💇‍♀️ 미용실 — Bậc thang collocation (n+1) — **Mở rộng tiếp (S–W)**
-
-> Quy tắc giữ: **Cấp 1** (từ đơn) → **Cấp 2** (cụm cơ bản) → **Cấp 3** (cụm mở rộng/tự nhiên).  
-> Không dùng cụm ở Cấp 2/3 nếu thành phần chưa có ở Cấp 1 của _chính phần đó_.
-
----
-
-## S. **Biến thể uốn/duỗi (펌/매직/볼륨)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|일반펌|uốn thường||
-|디지털펌|digital perm||
-|셋팅펌|setting perm||
-|뿌리펌|uốn chân tóc||
-|볼륨펌|uốn tạo phồng||
-|볼륨매직|duỗi + giữ phồng||
-|매직|duỗi (magic)||
-|에어펌|uốn “air” tự nhiên||
-|물결펌|uốn sóng nước||
-|히피펌|uốn xoăn nhỏ kiểu hippie||
-|넣다|thêm/đưa vào (curl/vol)||
-|살리다|làm nổi/giữ phồng||
-|풀리다|(xoăn) bị duỗi/nhả nếp||
-|하다|làm/thực hiện||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|디지털펌을 하다|làm digital perm||
-|셋팅펌을 하다|làm setting perm||
-|뿌리펌을 하다|uốn chân tóc||
-|볼륨을 살리다|làm/giữ độ phồng||
-|컬을 넣다|thêm lọn xoăn||
-|매직을 하다|duỗi tóc||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|뿌리펌으로 볼륨을 살려 주세요|uốn chân tóc để giữ phồng|yêu cầu|
-|셋팅펌으로 자연스러운 컬을 넣어 주세요|thêm lọn S/C tự nhiên bằng setting||
-|여름이라 컬이 금방 풀려요|mùa hè xoăn nhanh nhả nếp|phàn nàn tự nhiên|
-
----
-
-## T. **Các kiểu mái (앞머리/뱅)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|앞머리|tóc mái||
-|시스루뱅|mái thưa||
-|처피뱅|mái ngố ngắn||
-|풀뱅|mái dày (full bang)||
-|사이드뱅|mái lệch||
-|자르다|cắt||
-|내리다|để buông xuống||
-|넘기다|hất/đẩy sang bên||
-|숱|mật độ tóc||
-|치다|tỉa bớt (làm mỏng)|dùng với 숱|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|앞머리를 자르다|cắt mái||
-|앞머리를 내리다|để mái||
-|앞머리를 넘기다|hất mái sang bên||
-|앞머리 숱을 치다|tỉa mỏng phần mái||
-|시스루뱅으로 하다|để mái thưa||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|앞머리는 시스루로 얇게 해 주세요|mái thưa, mỏng nhẹ giúp ạ|yêu cầu|
-|사이드뱅으로 자연스럽게 넘겨 주세요|tạo mái lệch hất tự nhiên||
-|풀뱅은 너무 답답해 보여요|mái dày trông bí quá|nhận xét|
-
----
-
-## U. **Dáng cắt & đường viền (U/V/일자/원랭스/텍스처)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|U컷|cắt đuôi chữ U||
-|V컷|cắt đuôi chữ V||
-|일자컷|cắt thẳng (one-length)||
-|원랭스|one-length (không layer)|loanword|
-|층|tầng/layer||
-|텍스처|texture/độ chuyển||
-|넣다|thêm/đưa vào||
-|자르다|cắt||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|U컷으로 자르다|cắt đuôi chữ U||
-|V컷으로 자르다|cắt đuôi chữ V||
-|일자컷으로 하다|cắt thẳng||
-|층을 내다|tạo tầng/layer||
-|텍스처를 넣다|thêm texture||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|뒤는 U컷, 앞은 원랭스로 맞춰 주세요|sau đuôi U, phía trước one-length|phối hợp|
-|층을 많이 내지 말고 자연스럽게만 해 주세요|tạo tầng nhẹ, tự nhiên thôi|mức độ|
-|텍스처를 살짝만 넣어 주세요|thêm chút texture nhẹ|tinh chỉnh|
-
----
-
-## V. **Khuôn mặt & điểm nhấn (얼굴형/광대/턱선/이마)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|얼굴형|dáng/khuôn mặt||
-|계란형(달걀형)|mặt trái xoan||
-|둥근형|mặt tròn||
-|각진형|mặt góc cạnh/vuông||
-|긴형|mặt dài||
-|하트형|mặt trái tim||
-|광대|gò má||
-|턱선|đường quai hàm||
-|이마|trán||
-|가리다|che (phủ)||
-|강조하다|nhấn mạnh||
-|보완하다|bổ trợ/che khuyết||
-|어울리다|hợp||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|얼굴형에 어울리다|hợp với khuôn mặt||
-|광대를 보완하다|che/bổ trợ gò má||
-|턱선을 강조하다|nhấn mạnh quai hàm||
-|이마를 가리다|che trán|với mái|
-|얼굴형에 맞게 하다|làm cho hợp mặt||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|광대가 도드라져서 사이드뱅이 필요해요|gò má nổi nên cần mái lệch|giải pháp|
-|이마가 넓어서 앞머리로 살짝 가려 주세요|trán rộng, che nhẹ bằng mái|yêu cầu|
-|각진형이라 턱선이 부드러워 보이게 해 주세요|mặt vuông, làm mềm đường hàm|mục tiêu hiệu ứng|
-
----
-
-## W. **Độ ẩm · Xù rối · Tĩnh điện (습도/부스스/정전기/보습)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|습도|độ ẩm||
-|건조|khô/độ khô||
-|정전기|tĩnh điện||
-|부스스함|sự xù rối|danh từ|
-|수분|độ ẩm (nước)||
-|세럼|serum||
-|오일|dầu dưỡng||
-|드라이샴푸|dry shampoo||
-|열|nhiệt||
-|보호제|chất bảo vệ (heat protectant)||
-|진정시키다|làm dịu/giảm bớt||
-|잡다|“bắt/ghìm” (tame)||
-|바르다|thoa/bôi||
-|뿌리다|xịt||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|정전기가 일어나다|bị tĩnh điện||
-|머리가 부스스해지다|tóc bị xù rối||
-|습도가 높다/낮다|ẩm cao/thấp|trạng thái|
-|세럼/오일을 바르다|thoa serum/dầu||
-|드라이샴푸를 쓰다|dùng dry shampoo||
-|열 보호제를 뿌리다|xịt bảo vệ trước nhiệt||
-|수분감을 주다|cấp ẩm/cho độ ẩm||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|요즘 건조해서 정전기가 자주 일어나요|dạo này khô nên hay tĩnh điện|than phiền|
-|부스스함을 잡으려면 오일을 살짝 바르세요|để ghìm xù rối, thoa chút dầu|hướng dẫn|
-|열 사용 전에는 꼭 보호제를 먼저 뿌려 주세요|trước khi dùng nhiệt nhớ xịt bảo vệ|quy tắc an toàn|
-
----
-
-Bạn muốn tôi tiếp tục mở thêm **X–Z** (giờ giấc/chính sách & walk-in/노쇼/예약금, dịp đặc biệt & updo, trẻ em/senior/student discount), rồi gộp **A–W** thành **CSV “Front | Back | Notes”** sẵn import Anki không?
-# 💇‍♀️ 미용실 — Bậc thang collocation (n+1) — **Mở rộng tiếp (S–W)**
-
-> Quy tắc giữ: **Cấp 1** (từ đơn) → **Cấp 2** (cụm cơ bản) → **Cấp 3** (cụm mở rộng/tự nhiên).  
-> Không dùng cụm ở Cấp 2/3 nếu thành phần chưa có ở Cấp 1 của _chính phần đó_.
-
----
-
-## S. **Biến thể uốn/duỗi (펌/매직/볼륨)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|일반펌|uốn thường||
-|디지털펌|digital perm||
-|셋팅펌|setting perm||
-|뿌리펌|uốn chân tóc||
-|볼륨펌|uốn tạo phồng||
-|볼륨매직|duỗi + giữ phồng||
-|매직|duỗi (magic)||
-|에어펌|uốn “air” tự nhiên||
-|물결펌|uốn sóng nước||
-|히피펌|uốn xoăn nhỏ kiểu hippie||
-|넣다|thêm/đưa vào (curl/vol)||
-|살리다|làm nổi/giữ phồng||
-|풀리다|(xoăn) bị duỗi/nhả nếp||
-|하다|làm/thực hiện||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|디지털펌을 하다|làm digital perm||
-|셋팅펌을 하다|làm setting perm||
-|뿌리펌을 하다|uốn chân tóc||
-|볼륨을 살리다|làm/giữ độ phồng||
-|컬을 넣다|thêm lọn xoăn||
-|매직을 하다|duỗi tóc||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|뿌리펌으로 볼륨을 살려 주세요|uốn chân tóc để giữ phồng|yêu cầu|
-|셋팅펌으로 자연스러운 컬을 넣어 주세요|thêm lọn S/C tự nhiên bằng setting||
-|여름이라 컬이 금방 풀려요|mùa hè xoăn nhanh nhả nếp|phàn nàn tự nhiên|
-
----
-
-## T. **Các kiểu mái (앞머리/뱅)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|앞머리|tóc mái||
-|시스루뱅|mái thưa||
-|처피뱅|mái ngố ngắn||
-|풀뱅|mái dày (full bang)||
-|사이드뱅|mái lệch||
-|자르다|cắt||
-|내리다|để buông xuống||
-|넘기다|hất/đẩy sang bên||
-|숱|mật độ tóc||
-|치다|tỉa bớt (làm mỏng)|dùng với 숱|
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|앞머리를 자르다|cắt mái||
-|앞머리를 내리다|để mái||
-|앞머리를 넘기다|hất mái sang bên||
-|앞머리 숱을 치다|tỉa mỏng phần mái||
-|시스루뱅으로 하다|để mái thưa||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|앞머리는 시스루로 얇게 해 주세요|mái thưa, mỏng nhẹ giúp ạ|yêu cầu|
-|사이드뱅으로 자연스럽게 넘겨 주세요|tạo mái lệch hất tự nhiên||
-|풀뱅은 너무 답답해 보여요|mái dày trông bí quá|nhận xét|
-
----
-
-## U. **Dáng cắt & đường viền (U/V/일자/원랭스/텍스처)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|U컷|cắt đuôi chữ U||
-|V컷|cắt đuôi chữ V||
-|일자컷|cắt thẳng (one-length)||
-|원랭스|one-length (không layer)|loanword|
-|층|tầng/layer||
-|텍스처|texture/độ chuyển||
-|넣다|thêm/đưa vào||
-|자르다|cắt||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|U컷으로 자르다|cắt đuôi chữ U||
-|V컷으로 자르다|cắt đuôi chữ V||
-|일자컷으로 하다|cắt thẳng||
-|층을 내다|tạo tầng/layer||
-|텍스처를 넣다|thêm texture||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|뒤는 U컷, 앞은 원랭스로 맞춰 주세요|sau đuôi U, phía trước one-length|phối hợp|
-|층을 많이 내지 말고 자연스럽게만 해 주세요|tạo tầng nhẹ, tự nhiên thôi|mức độ|
-|텍스처를 살짝만 넣어 주세요|thêm chút texture nhẹ|tinh chỉnh|
-
----
-
-## V. **Khuôn mặt & điểm nhấn (얼굴형/광대/턱선/이마)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|얼굴형|dáng/khuôn mặt||
-|계란형(달걀형)|mặt trái xoan||
-|둥근형|mặt tròn||
-|각진형|mặt góc cạnh/vuông||
-|긴형|mặt dài||
-|하트형|mặt trái tim||
-|광대|gò má||
-|턱선|đường quai hàm||
-|이마|trán||
-|가리다|che (phủ)||
-|강조하다|nhấn mạnh||
-|보완하다|bổ trợ/che khuyết||
-|어울리다|hợp||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|얼굴형에 어울리다|hợp với khuôn mặt||
-|광대를 보완하다|che/bổ trợ gò má||
-|턱선을 강조하다|nhấn mạnh quai hàm||
-|이마를 가리다|che trán|với mái|
-|얼굴형에 맞게 하다|làm cho hợp mặt||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|광대가 도드라져서 사이드뱅이 필요해요|gò má nổi nên cần mái lệch|giải pháp|
-|이마가 넓어서 앞머리로 살짝 가려 주세요|trán rộng, che nhẹ bằng mái|yêu cầu|
-|각진형이라 턱선이 부드러워 보이게 해 주세요|mặt vuông, làm mềm đường hàm|mục tiêu hiệu ứng|
-
----
-
-## W. **Độ ẩm · Xù rối · Tĩnh điện (습도/부스스/정전기/보습)**
-
-### Cấp 1
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|습도|độ ẩm||
-|건조|khô/độ khô||
-|정전기|tĩnh điện||
-|부스스함|sự xù rối|danh từ|
-|수분|độ ẩm (nước)||
-|세럼|serum||
-|오일|dầu dưỡng||
-|드라이샴푸|dry shampoo||
-|열|nhiệt||
-|보호제|chất bảo vệ (heat protectant)||
-|진정시키다|làm dịu/giảm bớt||
-|잡다|“bắt/ghìm” (tame)||
-|바르다|thoa/bôi||
-|뿌리다|xịt||
-
-### Cấp 2
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|정전기가 일어나다|bị tĩnh điện||
-|머리가 부스스해지다|tóc bị xù rối||
-|습도가 높다/낮다|ẩm cao/thấp|trạng thái|
-|세럼/오일을 바르다|thoa serum/dầu||
-|드라이샴푸를 쓰다|dùng dry shampoo||
-|열 보호제를 뿌리다|xịt bảo vệ trước nhiệt||
-|수분감을 주다|cấp ẩm/cho độ ẩm||
-
-### Cấp 3
-
-|Tiếng Hàn|Tiếng Việt|Ghi chú|
-|---|---|---|
-|요즘 건조해서 정전기가 자주 일어나요|dạo này khô nên hay tĩnh điện|than phiền|
-|부스스함을 잡으려면 오일을 살짝 바르세요|để ghìm xù rối, thoa chút dầu|hướng dẫn|
-|열 사용 전에는 꼭 보호제를 먼저 뿌려 주세요|trước khi dùng nhiệt nhớ xịt bảo vệ|quy tắc an toàn|
-
----
-
-Bạn muốn tôi tiếp tục mở thêm **X–Z** (giờ giấc/chính sách & walk-in/노쇼/예약금, dịp đặc biệt & updo, trẻ em/senior/student discount), rồi gộp **A–W** thành **CSV “Front | Back | Notes”** sẵn import Anki không?
 
 #### **5. Tiệm giặt ủi (세탁소)**
 

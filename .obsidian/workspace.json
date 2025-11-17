@@ -15,7 +15,7 @@
               "state": {
                 "file": "topik_vocabulary.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "topik_vocabulary"
@@ -42,7 +42,7 @@
               "type": "markdown",
               "state": {
                 "file": "src/content/grammar/eul-reul.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
@@ -167,13 +167,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "GRAMMAR.md",
+                "file": "topik_vocabulary.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of GRAMMAR"
+              "title": "Outline of topik_vocabulary"
             }
           },
           {
@@ -200,7 +200,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -214,29 +215,32 @@
   },
   "active": "a109b88c8d92aa19",
   "lastOpenFiles": [
-    "src/content/grammar/eul-reul.md",
+    "public/html/에3.html",
+    "public/에3.html",
+    "public/html",
+    "에3.html",
+    "public/ppt/thefreekorean.com - Ngữ pháp - 에1.pptx",
+    "public/ppt/~$thefreekorean.com - Ngữ pháp - 에1.pptx",
+    "public/ppt/thefreekorean.com - Ngữ pháp - 에1.pdf",
+    "public/ppt/Tro-Tu-1-Vi-Tri-Ton-Tai-ban-final.pdf",
+    "에2.html",
+    "src/components/bai-tap/PracticeInteractions.astro",
+    "src/components/bai-tap/SectionMiniTest.astro",
+    "src/content/grammar/e2.md",
+    "src/content/grammar/e1.md",
+    "topik_vocabulary.md",
     "src/content/grammar/ui.md",
+    "src/content/grammar/eul-reul.md",
     "GRAMMAR.md",
     "src/content/grammar/ida.md",
     "src/content/grammar/i-ga.md",
     "src/content/grammar/eun-neun1.md",
-    "topik_vocabulary.md",
     "src/content/grammar/이 가.md",
     "src/content/grammar/은 는1.md",
     "ĐỌC DẠNG 1.md",
     "TOPIK.md",
     "src/content/topik/kien-thuc/topik2-reading-dang-1-ngu-phap-cau-1-2.md",
     "src/content/topik/kien-thuc/bai-tap-ngu-phap-dang-1-khach-hang.md",
-    "check_json.py",
-    "dist/index.html",
-    "dist/topik/index.html",
-    "dist/topik/tim-hieu/index.html",
-    "dist/topik/tim-hieu",
-    "dist/topik/thi-thu/index.html",
-    "dist/topik/thi-thu",
-    "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
-    "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
-    "dist/topik/on-luyen/index.html",
     "dist/images/topik-vocabulary.jpg",
     "dist/images/topik-91.svg",
     "dist/images/topik-83.svg",
@@ -256,9 +260,6 @@
     "src/content/grammar/TOPIK 1.md",
     "src/content/kien-thuc/topik2-reading-dang-1.md",
     "src/content/grammar/anida.md",
-    "src/content/grammar/n-ibnida.md",
-    "src/content/grammar/go-sipda.md",
-    "src/content/grammar/eumyeonseo.md",
-    "grammar-guide.md"
+    "src/content/grammar/n-ibnida.md"
   ]
 }
