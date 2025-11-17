@@ -235,120 +235,112 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 4. [[src/content/grammar/ui|의]]
 5. [[src/content/grammar/e1|에1]]
 6. [[src/content/grammar/e2|에2]]
-7. 
+7. [[src/content/grammar/e3|에3]]
+8. [[src/content/grammar/e4|에4]]
+9. [[src/content/grammar/eseo1|에서1]]
+10. [[src/content/grammar/eseo2|에서2]]
 
 ### Bảng Ngữ Pháp Sắp Xếp Cho Người Mới Học
 
-| STT Cũ                                      | Ngữ pháp                                | STT Mới | Page | Ghi chú (Nhóm ngữ pháp)                                                                                                           |
-| :------------------------------------------ | :-------------------------------------- | :------ | :--- | :-------------------------------------------------------------------------------------------------------------------------------- |
-| **A. Cấu Trúc Câu Cơ Bản - Tiểu Từ (조사)**   |                                         |         |      |                                                                                                                                   |
-| 91                                          | 이다                                      | 1       | 10   | Là (Đuôi từ của danh từ)                                                                                                          |
-| 5                                           | 이 아니다                                   | 2       | 1    | Không phải là                                                                                                                     |
-| 98                                          | [[src/content/grammar/eun-neun1\|은/는1]] | 3       | 10   | Tiểu từ chủ đề (kết thúc bằng phụ âm)                                                                                             |
-| 77 **ĐỊNH NGUWX**                           | -는                                      | 4       | 8    | Tiểu từ chủ đề (kết thúc bằng nguyên âm) - *Trong danh sách này được phân loại là 전성어미 nhưng chức năng cơ bản như tiểu từ chủ đề* |
-| 95                                          | [[src/content/grammar/i-ga\|이/가]]       | 5       | 10   | Tiểu từ chủ ngữ (kết thúc bằng phụ âm)                                                                                            |
-| 97                                          | [[src/content/grammar/eul-reul\|을/를]]   | 7       | 10   | Tiểu từ tân ngữ (kết thúc bằng phụ âm)                                                                                            |
-| 96                                          | [[src/content/grammar/ui\|의]]           | 9       | 10   | Sở hữu cách 'của'                                                                                                                 |
-| 112                                         | [[src/content/grammar/e1\|에1]]          | 10      | 12   | Ở, vào (thời gian, địa điểm tĩnh)                                                                                                 |
-| 111                                         | [[src/content/grammar/e2\|에2]]          | 11      | 12   | Ở, vào (nơi chốn, phương hướng)                                                                                                   |
-| 103                                         | 에서1                                     | 12      | 11   | Ở, tại (nơi xảy ra hành động)                                                                                                     |
-| 102                                         | 에서2                                     | 13      | 11   | Từ (nơi xuất phát)                                                                                                                |
-| 100                                         | 으로1                                     | 14      | 10   | Bằng (phương tiện), đến (phương hướng)                                                                                            |
-| 99                                          | 으로2                                     | 15      | 10   | Với tư cách là                                                                                                                    |
-| 108                                         | 에게                                      | 16      | 11   | Cho (người, động vật)                                                                                                             |
-| 85                                          | 한테                                      | 17      | 9    | Cho (người, động vật - văn nói)                                                                                                   |
-| 120                                         | 께                                       | 18      | 12   | Cho (kính ngữ)                                                                                                                    |
-| 119                                         | 께서                                      | 19      | 12   | Chủ ngữ (kính ngữ của 이/가)                                                                                                        |
-| 106                                         | 에게서                                     | 20      | 11   | Từ (người, động vật)                                                                                                              |
-| 84                                          | 한테서                                     | 21      | 9    | Từ (người, động vật - văn nói)                                                                                                    |
-| 86                                          | 하고1                                     | 22      | 9    | Và, với (danh từ)                                                                                                                 |
-| 123                                         | 과1                                      | 23      | 13   | Và, với (danh từ - trang trọng hơn)                                                                                               |
-| 89                                          | 이랑1                                     | 24      | 9    | Và, với (danh từ - văn nói)                                                                                                       |
-| 113                                         | 부터                                      | 25      | 12   | Từ (thời gian, địa điểm)                                                                                                          |
-| 121                                         | 까지                                      | 26      | 13   | Đến (thời gian, địa điểm)                                                                                                         |
-| 118                                         | 도                                       | 27      | 12   | Cũng, cả                                                                                                                          |
-| 116                                         | 만                                       | 28      | 12   | Chỉ                                                                                                                               |
-| 115                                         | 밖에                                      | 29      | 12   | Chỉ (đi với phủ định)                                                                                                             |
-| 114                                         | 보다                                      | 30      | 12   | Hơn (so sánh)                                                                                                                     |
-| 117                                         | 마다                                      | 31      | 12   | Mỗi                                                                                                                               |
-| 88                                          | 처럼                                      | 32      | 9    | Giống như                                                                                                                         |
-| 94                                          | 이나1                                     | 33      | 10   | Hoặc là (danh từ)                                                                                                                 |
-| **B. Đuôi Câu Cơ Bản & Thì (종결어미 & 선어말어미)** |                                         |         |      |                                                                                                                                   |
-| 70                                          | -습니다                                    | 34      | 7    | Đuôi câu trần thuật trang trọng                                                                                                   |
-| 71                                          | -습니까                                    | 35      | 8    | Đuôi câu nghi vấn trang trọng                                                                                                     |
-| 31                                          | -어4                                     | 36      | 4    | Đuôi câu thân mật (아요/어요/해요)                                                                                                      |
-| 54                                          | -었-                                     | 37      | 6    | Thì quá khứ                                                                                                                       |
-| 53                                          | -으시-                                    | 38      | 6    | Kính ngữ                                                                                                                          |
-| 30                                          | -으세요1                                   | 39      | 3    | Đuôi câu kính ngữ (Kết hợp -으시- + -어요)                                                                                            |
-| 29                                          | -으세요2                                   | 40      | 3    | Mời, yêu cầu (kính ngữ)                                                                                                           |
-| 64                                          | -으십시오                                   | 41      | 7    | Mệnh lệnh, yêu cầu (trang trọng)                                                                                                  |
-| 57                                          | -읍시다                                    | 42      | 6    | Rủ rê, đề nghị (trang trọng)                                                                                                      |
-| **C. Dạng Phủ Định**                        |                                         |         |      |                                                                                                                                   |
-| 2                                           | -지 않다                                   | 43      | 1    | Không (phủ định dài)                                                                                                              |
-| 3                                           | -지 못하다                                  | 44      | 1    | Không thể (phủ định dài)                                                                                                          |
-| 4                                           | -지 말다                                   | 45      | 1    | Đừng (câu mệnh lệnh phủ định)                                                                                                     |
-| **D. Các Biểu Hiện Cốt Lõi (표현)**           |                                         |         |      |                                                                                                                                   |
-| 21                                          | -고 싶다                                   | 46      | 3    | Muốn                                                                                                                              |
-| 10                                          | -을 수 있다1                                | 47      | 1    | Có thể                                                                                                                            |
-| 9                                           | -을 수 있다2                                | 48      | 1    | Có khả năng (nghĩa khác)                                                                                                          |
-| 7                                           | -을 수밖에 없다                               | 49      | 1    | Không thể không, đành phải                                                                                                        |
-| 68                                          | -어 보다1                                  | 50      | 7    | Thử làm gì đó                                                                                                                     |
-| 18                                          | -어 보다2                                  | 51      | 2    | Thử làm gì đó (nghĩa khác)                                                                                                        |
-| 16                                          | -은 적이 있다                                | 52      | 2    | Đã từng                                                                                                                           |
-| 67                                          | -어야 되다                                  | 53      | 7    | Phải làm gì đó (tương tự -어야 하다)                                                                                                  |
-| 69                                          | -어도 되다                                  | 54      | 7    | Được phép làm gì đó                                                                                                               |
-| 65                                          | -어 주다                                   | 55      | 7    | Làm gì đó cho ai đó                                                                                                               |
-| **E. Từ Nối Cơ Bản (연결어미)**                 |                                         |         |      |                                                                                                                                   |
-| 48                                          | -고1¹                                    | 56      | 5    | Và, rồi (nối 2 hành động theo thứ tự)                                                                                             |
-| 47                                          | -고1²                                    | 57      | 5    | Và (liệt kê)                                                                                                                      |
-| 36                                          | -지만                                     | 58      | 4    | Nhưng                                                                                                                             |
-| 44                                          | -어서1                                    | 59      | 5    | Vì... nên (chỉ nguyên nhân)                                                                                                       |
-| 43                                          | -어서2                                    | 60      | 5    | Rồi, sau đó (chỉ thứ tự)                                                                                                          |
-| 42                                          | -으니까1                                   | 61      | 5    | Vì... nên (thường đi với mệnh lệnh, đề nghị)                                                                                      |
-| 41                                          | -으니까2                                   | 62      | 5    | Vì... nên (phát hiện ra điều gì)                                                                                                  |
-| 38                                          | -으면                                     | 63      | 4    | Nếu... thì                                                                                                                        |
-| 40                                          | -으러                                     | 64      | 4    | Để (đi/đến đâu đó để làm gì)                                                                                                      |
-| 39                                          | -으려고                                    | 65      | 4    | Định, để (chỉ mục đích, ý định)                                                                                                   |
-| 37                                          | -으면서                                    | 66      | 4    | Vừa... vừa...                                                                                                                     |
-| 46                                          | -는데1¹                                   | 67      | 5    | Nối câu, đưa ra bối cảnh                                                                                                          |
-| 45                                          | -는데1²                                   | 68      | 5    | Nhưng (trái ngược)                                                                                                                |
-| 52                                          | -거나1                                    | 69      | 6    | Hoặc là (hành động)                                                                                                               |
-| 72                                          | -다가1                                    | 70      | 8    | Đang làm gì thì... (hành động bị xen vào)                                                                                         |
-| **F. Định Ngữ & Danh Từ Hóa (전성어미)**        |                                         |         |      |                                                                                                                                   |
-| 63                                          | -은2                                     | 71      | 7    | Định ngữ quá khứ (cho động từ)                                                                                                    |
-| 61                                          | -을2                                     | 72      | 7    | Định ngữ tương lai (cho động từ)                                                                                                  |
-| 82                                          | -기                                      | 73      | 9    | Danh từ hóa động từ/tính từ                                                                                                       |
-| 58                                          | -음                                      | 74      | 6    | Danh từ hóa (thường dùng trong văn viết)                                                                                          |
-| 79                                          | -기 전에                                   | 75      | 8    | Trước khi                                                                                                                         |
-| 14                                          | -은 후에                                   | 76      | 2    | Sau khi                                                                                                                           |
-| 81                                          | -기 때문에                                  | 77      | 9    | Bởi vì                                                                                                                            |
-| 76                                          | -는 것                                    | 78      | 8    | Việc..., cái việc... (hiện tại)                                                                                                   |
-| 1                                           | -은 것1                                   | 79      | 1    | Việc..., cái việc... (quá khứ)                                                                                                    |
-| 17                                          | -은 것2                                   | 80      | 2    | Dường như là (phỏng đoán)                                                                                                         |
-| 12                                          | -을 것1                                   | 81      | 2    | Việc..., cái việc... (tương lai)                                                                                                  |
-| 11                                          | -을 것2                                   | 82      | 2    | Sẽ (chỉ ý chí, tương lai)                                                                                                         |
-| 15                                          | -은 지                                    | 83      | 2    | (Làm gì đó) được bao lâu rồi                                                                                                      |
-| 73                                          | -는 동안에                                  | 84      | 8    | Trong khi                                                                                                                         |
-| 83                                          | -게 되다                                   | 85      | 9    | Trở nên, được, phải                                                                                                               |
-| 80                                          | -기로 하다                                  | 86      | 8    | Quyết định làm gì đó                                                                                                              |
-| 66                                          | -어 있다                                   | 87      | 7    | Đang (trạng thái tiếp diễn)                                                                                                       |
-| 19                                          | -고 있다1                                  | 88      | 2    | Đang (hành động tiếp diễn)                                                                                                        |
-| 20                                          | -고 있다2                                  | 89      | 2    | Đang (trạng thái tiếp diễn của việc mặc)                                                                                          |
-| 49                                          | -게1¹                                    | 90      | 5    | Trạng từ hóa tính từ                                                                                                              |
-| 50                                          | -게1²                                    | 91      | 5    | Để, khiến cho                                                                                                                     |
-| **G. Đuôi Câu & Biểu Hiện Nâng Cao**        |                                         |         |      |                                                                                                                                   |
-| 56                                          | -겠-1                                    | 92      | 6    | Sẽ (ý chí, dự đoán)                                                                                                               |
-| 55                                          | -겠-2                                    | 93      | 6    | Chắc là, có lẽ (phỏng đoán)                                                                                                       |
-| 13                                          | -을 것 같다                                 | 94      | 2    | Hình như, có lẽ là                                                                                                                |
-| 60                                          | -을게                                     | 95      | 6    | Sẽ (hứa hẹn, thể hiện ý chí với người nghe)                                                                                       |
-| 25                                          | -을래1                                    | 96      | 3    | Sẽ (hỏi ý kiến đối phương)                                                                                                        |
-| 24                                          | -을래2                                    | 97      | 3    | Sẽ (thể hiện ý chí bản thân)                                                                                                      |
-| 27                                          | -을까1                                    | 98      | 3    | ...nhỉ? (tự hỏi) / ...nhé? (hỏi ý kiến)                                                                                           |
-| 26                                          | -을까2                                    | 99      | 3    | Có lẽ là / Sợ rằng là                                                                                                             |
-| 6                                           | -을까 보다1                                 | 100     | 1    | Chắc là tôi sẽ... / Hay là...                                                                                                     |
-| 74                                          | -는데2                                    | 101     | 8    | Đuôi câu cảm thán, giải thích bối cảnh                                                                                            |
-| 78                                          | -네                                      | 102     | 8    | Đuôi câu cảm thán khi nhận ra điều gì mới                                                                                         |
-| 75                                          | -는군                                     | 103     | 8    | Đuôi câu cảm thán (tương tự -네 nhưng nam tính hơn)                                                                                |
-| 23                                          | -지1                                     | 104     | 3    | ... chứ?/ ...đúng không? (xác nhận)                                                                                               |
-| 22                                          | -지2                                     | 105     | 3    | Đuôi câu mệnh lệnh nhẹ nhàng                                                                                                      |
-| 59                                          | -을 때                                    | 106     | 6    | Khi                                                                                                                               |
+| STT Cũ                                      | Ngữ pháp  | STT Mới | Page | Ghi chú (Nhóm ngữ pháp)                            |
+| :------------------------------------------ | :-------- | :------ | :--- | :------------------------------------------------- |
+| **A. Cấu Trúc Câu Cơ Bản - Tiểu Từ (조사)**   |           |         |      |                                                    |
+| 100                                         | 으로1       | 14      | 10   | Bằng (phương tiện), đến (phương hướng)             |
+| 99                                          | 으로2       | 15      | 10   | Với tư cách là                                     |
+| 108                                         | 에게        | 16      | 11   | Cho (người, động vật)                              |
+| 85                                          | 한테        | 17      | 9    | Cho (người, động vật - văn nói)                    |
+| 120                                         | 께         | 18      | 12   | Cho (kính ngữ)                                     |
+| 119                                         | 께서        | 19      | 12   | Chủ ngữ (kính ngữ của 이/가)                         |
+| 106                                         | 에게서       | 20      | 11   | Từ (người, động vật)                               |
+| 84                                          | 한테서       | 21      | 9    | Từ (người, động vật - văn nói)                     |
+| 86                                          | 하고1       | 22      | 9    | Và, với (danh từ)                                  |
+| 123                                         | 과1        | 23      | 13   | Và, với (danh từ - trang trọng hơn)                |
+| 89                                          | 이랑1       | 24      | 9    | Và, với (danh từ - văn nói)                        |
+| 113                                         | 부터        | 25      | 12   | Từ (thời gian, địa điểm)                           |
+| 121                                         | 까지        | 26      | 13   | Đến (thời gian, địa điểm)                          |
+| 118                                         | 도         | 27      | 12   | Cũng, cả                                           |
+| 116                                         | 만         | 28      | 12   | Chỉ                                                |
+| 115                                         | 밖에        | 29      | 12   | Chỉ (đi với phủ định)                              |
+| 114                                         | 보다        | 30      | 12   | Hơn (so sánh)                                      |
+| 117                                         | 마다        | 31      | 12   | Mỗi                                                |
+| 88                                          | 처럼        | 32      | 9    | Giống như                                          |
+| 94                                          | 이나1       | 33      | 10   | Hoặc là (danh từ)                                  |
+| **B. Đuôi Câu Cơ Bản & Thì (종결어미 & 선어말어미)** |           |         |      |                                                    |
+| 70                                          | -습니다      | 34      | 7    | Đuôi câu trần thuật trang trọng                    |
+| 71                                          | -습니까      | 35      | 8    | Đuôi câu nghi vấn trang trọng                      |
+| 31                                          | -어4       | 36      | 4    | Đuôi câu thân mật (아요/어요/해요)                       |
+| 54                                          | -었-       | 37      | 6    | Thì quá khứ                                        |
+| 53                                          | -으시-      | 38      | 6    | Kính ngữ                                           |
+| 30                                          | -으세요1     | 39      | 3    | Đuôi câu kính ngữ (Kết hợp -으시- + -어요)             |
+| 29                                          | -으세요2     | 40      | 3    | Mời, yêu cầu (kính ngữ)                            |
+| 64                                          | -으십시오     | 41      | 7    | Mệnh lệnh, yêu cầu (trang trọng)                   |
+| 57                                          | -읍시다      | 42      | 6    | Rủ rê, đề nghị (trang trọng)                       |
+| **C. Dạng Phủ Định**                        |           |         |      |                                                    |
+| 2                                           | -지 않다     | 43      | 1    | Không (phủ định dài)                               |
+| 3                                           | -지 못하다    | 44      | 1    | Không thể (phủ định dài)                           |
+| 4                                           | -지 말다     | 45      | 1    | Đừng (câu mệnh lệnh phủ định)                      |
+| **D. Các Biểu Hiện Cốt Lõi (표현)**           |           |         |      |                                                    |
+| 21                                          | -고 싶다     | 46      | 3    | Muốn                                               |
+| 10                                          | -을 수 있다1  | 47      | 1    | Có thể                                             |
+| 9                                           | -을 수 있다2  | 48      | 1    | Có khả năng (nghĩa khác)                           |
+| 7                                           | -을 수밖에 없다 | 49      | 1    | Không thể không, đành phải                         |
+| 68                                          | -어 보다1    | 50      | 7    | Thử làm gì đó                                      |
+| 18                                          | -어 보다2    | 51      | 2    | Thử làm gì đó (nghĩa khác)                         |
+| 16                                          | -은 적이 있다  | 52      | 2    | Đã từng                                            |
+| 67                                          | -어야 되다    | 53      | 7    | Phải làm gì đó (tương tự -어야 하다)                   |
+| 69                                          | -어도 되다    | 54      | 7    | Được phép làm gì đó                                |
+| 65                                          | -어 주다     | 55      | 7    | Làm gì đó cho ai đó                                |
+| **E. Từ Nối Cơ Bản (연결어미)**                 |           |         |      |                                                    |
+| 48                                          | -고1¹      | 56      | 5    | Và, rồi (nối 2 hành động theo thứ tự)              |
+| 47                                          | -고1²      | 57      | 5    | Và (liệt kê)                                       |
+| 36                                          | -지만       | 58      | 4    | Nhưng                                              |
+| 44                                          | -어서1      | 59      | 5    | Vì... nên (chỉ nguyên nhân)                        |
+| 43                                          | -어서2      | 60      | 5    | Rồi, sau đó (chỉ thứ tự)                           |
+| 42                                          | -으니까1     | 61      | 5    | Vì... nên (thường đi với mệnh lệnh, đề nghị)       |
+| 41                                          | -으니까2     | 62      | 5    | Vì... nên (phát hiện ra điều gì)                   |
+| 38                                          | -으면       | 63      | 4    | Nếu... thì                                         |
+| 40                                          | -으러       | 64      | 4    | Để (đi/đến đâu đó để làm gì)                       |
+| 39                                          | -으려고      | 65      | 4    | Định, để (chỉ mục đích, ý định)                    |
+| 37                                          | -으면서      | 66      | 4    | Vừa... vừa...                                      |
+| 46                                          | -는데1¹     | 67      | 5    | Nối câu, đưa ra bối cảnh                           |
+| 45                                          | -는데1²     | 68      | 5    | Nhưng (trái ngược)                                 |
+| 52                                          | -거나1      | 69      | 6    | Hoặc là (hành động)                                |
+| 72                                          | -다가1      | 70      | 8    | Đang làm gì thì... (hành động bị xen vào)          |
+| **F. Định Ngữ & Danh Từ Hóa (전성어미)**        |           |         |      |                                                    |
+| 63                                          | -은2       | 71      | 7    | Định ngữ quá khứ (cho động từ)                     |
+| 61                                          | -을2       | 72      | 7    | Định ngữ tương lai (cho động từ)                   |
+| 82                                          | -기        | 73      | 9    | Danh từ hóa động từ/tính từ                        |
+| 58                                          | -음        | 74      | 6    | Danh từ hóa (thường dùng trong văn viết)           |
+| 79                                          | -기 전에     | 75      | 8    | Trước khi                                          |
+| 14                                          | -은 후에     | 76      | 2    | Sau khi                                            |
+| 81                                          | -기 때문에    | 77      | 9    | Bởi vì                                             |
+| 76                                          | -는 것      | 78      | 8    | Việc..., cái việc... (hiện tại)                    |
+| 1                                           | -은 것1     | 79      | 1    | Việc..., cái việc... (quá khứ)                     |
+| 17                                          | -은 것2     | 80      | 2    | Dường như là (phỏng đoán)                          |
+| 12                                          | -을 것1     | 81      | 2    | Việc..., cái việc... (tương lai)                   |
+| 11                                          | -을 것2     | 82      | 2    | Sẽ (chỉ ý chí, tương lai)                          |
+| 15                                          | -은 지      | 83      | 2    | (Làm gì đó) được bao lâu rồi                       |
+| 73                                          | -는 동안에    | 84      | 8    | Trong khi                                          |
+| 83                                          | -게 되다     | 85      | 9    | Trở nên, được, phải                                |
+| 80                                          | -기로 하다    | 86      | 8    | Quyết định làm gì đó                               |
+| 66                                          | -어 있다     | 87      | 7    | Đang (trạng thái tiếp diễn)                        |
+| 19                                          | -고 있다1    | 88      | 2    | Đang (hành động tiếp diễn)                         |
+| 20                                          | -고 있다2    | 89      | 2    | Đang (trạng thái tiếp diễn của việc mặc)           |
+| 49                                          | -게1¹      | 90      | 5    | Trạng từ hóa tính từ                               |
+| 50                                          | -게1²      | 91      | 5    | Để, khiến cho                                      |
+| **G. Đuôi Câu & Biểu Hiện Nâng Cao**        |           |         |      |                                                    |
+| 56                                          | -겠-1      | 92      | 6    | Sẽ (ý chí, dự đoán)                                |
+| 55                                          | -겠-2      | 93      | 6    | Chắc là, có lẽ (phỏng đoán)                        |
+| 13                                          | -을 것 같다   | 94      | 2    | Hình như, có lẽ là                                 |
+| 60                                          | -을게       | 95      | 6    | Sẽ (hứa hẹn, thể hiện ý chí với người nghe)        |
+| 25                                          | -을래1      | 96      | 3    | Sẽ (hỏi ý kiến đối phương)                         |
+| 24                                          | -을래2      | 97      | 3    | Sẽ (thể hiện ý chí bản thân)                       |
+| 27                                          | -을까1      | 98      | 3    | ...nhỉ? (tự hỏi) / ...nhé? (hỏi ý kiến)            |
+| 26                                          | -을까2      | 99      | 3    | Có lẽ là / Sợ rằng là                              |
+| 6                                           | -을까 보다1   | 100     | 1    | Chắc là tôi sẽ... / Hay là...                      |
+| 74                                          | -는데2      | 101     | 8    | Đuôi câu cảm thán, giải thích bối cảnh             |
+| 78                                          | -네        | 102     | 8    | Đuôi câu cảm thán khi nhận ra điều gì mới          |
+| 75                                          | -는군       | 103     | 8    | Đuôi câu cảm thán (tương tự -네 nhưng nam tính hơn) |
+| 23                                          | -지1       | 104     | 3    | ... chứ?/ ...đúng không? (xác nhận)                |
+| 22                                          | -지2       | 105     | 3    | Đuôi câu mệnh lệnh nhẹ nhàng                       |
+| 59                                          | -을 때      | 106     | 6    | Khi                                                |
