@@ -1,0 +1,50 @@
+---
+import Layout, { Props as BaseLayoutProps } from './Layout.astro';
+
+interface Badge {
+  label: string;
+  bgClass: string;
+  textClass: string;
+}
+
+interface Props extends BaseLayoutProps {
+  pageTitle: string;
+  subtitle?: string;
+  badges?: Badge[];
+}
+
+const { pageTitle, subtitle = '', badges = [], ...layoutProps } = Astro.props as Props;
+---
+
+<Layout {...layoutProps}>
+  <main class="min-h-[60vh] bg-gray-50 px-4 py-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{pageTitle}</h1>
+        {subtitle && <p class="text-gray-600 mb-4">{subtitle}</p>}
+        {badges.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {badges.map((badge) => (
+              <span class={`px-3 py-1 rounded-full text-sm font-medium ${badge.bgClass} ${badge.textClass}`}>
+                {badge.label}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <slot name="progress" />
+      <slot />
+
+      <div class="text-center mt-8">
+        <a
+          href="/bai-tap"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
+        >
+          ← Quay lại trang Bài tập
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+

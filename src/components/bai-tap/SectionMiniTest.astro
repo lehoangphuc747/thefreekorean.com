@@ -1,0 +1,109 @@
+---
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface MiniChoiceQuestion {
+  id: string;
+  number: number;
+  prompt: string;
+  options: Option[];
+}
+
+interface MiniFillQuestion {
+  id: string;
+  number: number;
+  sentence: string;
+}
+
+interface MiniWritingQuestion {
+  id: string;
+  number: number;
+  prompt: string;
+}
+
+interface Props {
+  choiceQuestions: MiniChoiceQuestion[];
+  fillQuestions: MiniFillQuestion[];
+  writingQuestions: MiniWritingQuestion[];
+}
+
+const { choiceQuestions, fillQuestions, writingQuestions } = Astro.props as Props;
+---
+
+<section id="section-5" class="section-content hidden">
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">Section 5: Mini Test Tổng hợp</h2>
+    <p class="text-gray-600 mb-6">Bài kiểm tra tổng hợp tất cả các kỹ năng đã học.</p>
+
+    <div class="space-y-6" id="section5-questions">
+      {choiceQuestions.map((question) => (
+        <div class="question-item bg-gray-50 rounded-lg p-6">
+          <div class="flex items-start gap-3 mb-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold">
+              {question.number}
+            </span>
+            <div class="flex-1">
+              <p class="text-lg font-semibold text-gray-800 mb-4">{question.prompt}</p>
+              <div class="space-y-2">
+                {question.options.map((option) => (
+                  <label class="flex items-center gap-3 p-3 bg-white border-2 rounded hover:border-blue-400 cursor-pointer">
+                    <input type="radio" name={question.id} value={option.value} class="w-4 h-4 text-blue-600" />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {fillQuestions.map((question) => (
+        <div class="question-item bg-gray-50 rounded-lg p-6">
+          <div class="flex items-start gap-3 mb-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold">
+              {question.number}
+            </span>
+            <div class="flex-1">
+              <p class="text-lg text-gray-800 mb-4">{question.sentence}</p>
+              <input
+                type="text"
+                name={question.id}
+                placeholder="에 hoặc 에서"
+                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-gray-900"
+                maxlength="3"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {writingQuestions.map((question) => (
+        <div class="question-item bg-gray-50 rounded-lg p-6">
+          <div class="flex items-start gap-3 mb-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold">
+              {question.number}
+            </span>
+            <div class="flex-1">
+              <p class="text-lg text-gray-800 mb-4">{question.prompt}</p>
+              <textarea
+                name={question.id}
+                placeholder="Viết câu tiếng Hàn..."
+                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[80px] text-gray-900"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-6 pt-6 border-t">
+      <button onclick="checkMiniTest()" class="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium mb-4">
+        Nộp bài - Xem kết quả
+      </button>
+      <div id="mini-test-result" class="hidden"></div>
+    </div>
+  </div>
+</section>
+

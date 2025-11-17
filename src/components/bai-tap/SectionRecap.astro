@@ -1,0 +1,56 @@
+---
+interface FlashcardData {
+  id: number;
+  title: string;
+  gradientClass: string;
+  borderClass: string;
+  buttonClass: string;
+  question: string;
+  hint?: string;
+  answerContent: string;
+}
+
+interface Props {
+  description: string;
+  cards: FlashcardData[];
+}
+
+const { description, cards } = Astro.props as Props;
+---
+
+<section id="section-1" class="section-content">
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">Phần 1: Ôn tập nhanh</h2>
+    <p class="text-gray-600 mb-6">{description}</p>
+
+    <div class="space-y-4">
+      {cards.map((card) => (
+        <div class={`flashcard rounded-lg p-6 border-2 ${card.gradientClass} ${card.borderClass}`}>
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-lg font-semibold text-gray-900">{card.title}</h3>
+            <button
+              onclick={`toggleCard(${card.id})`}
+              class={`card-toggle-btn font-medium text-sm px-3 py-1 border rounded hover:bg-opacity-10 ${card.buttonClass}`}
+            >
+              <span class={`card-show-${card.id}`}>Hiện đáp án</span>
+              <span class={`card-hide-${card.id} hidden`}>Ẩn đáp án</span>
+            </button>
+          </div>
+          <div class={`card-front-${card.id}`}>
+            <p class="text-xl text-gray-800 mb-4 font-semibold">{card.question}</p>
+            {card.hint && <p class="text-gray-600 text-sm mt-2">{card.hint}</p>}
+          </div>
+          <div class={`card-back-${card.id} hidden`} set:html={card.answerContent}></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-6 pt-6 border-t">
+      <p class="text-gray-600 text-sm mb-3">Sau khi ôn tập xong, hãy nhấn nút bên dưới để tiếp tục.</p>
+      <button onclick="completeSection(1)" class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+        Hoàn thành Phần 1 → Mở Phần 2
+      </button>
+    </div>
+  </div>
+</section>
+
