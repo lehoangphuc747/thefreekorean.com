@@ -321,6 +321,9 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
   const toggle = document.getElementById('role-toggle') as HTMLInputElement | null;
   const statusText = document.getElementById('role-status');
   const mobilePanelButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-scroll-target]'));
+  const grammarSidebar = document.getElementById('grammar-sidebar');
+  const tocContainer = document.getElementById('toc-container');
+  const isMobileLayout = () => window.matchMedia('(max-width: 1024px)').matches;
   const serverMode: RoleMode = toggle?.checked ? 'teacher' : 'student';
   const alternateUrl = toggle?.dataset.alternateUrl;
 
@@ -384,6 +387,27 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     element.classList.remove('mobile-highlight');
   };
 
+  const tryOpenPanelForMobile = (panel: HTMLElement) => {
+    if (!isMobileLayout()) {
+      return false;
+    }
+
+    if (panel === grammarSidebar) {
+      panel.classList.remove('collapsed');
+      panel.classList.add('open');
+      return true;
+    }
+
+    if (panel === tocContainer) {
+      panel.classList.remove('collapsed');
+      panel.classList.remove('slide-out');
+      panel.classList.add('open');
+      return true;
+    }
+
+    return false;
+  };
+
   mobilePanelButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const selector = button.dataset.scrollTarget;
@@ -392,7 +416,11 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
       if (!target) return;
 
       target.classList.add('mobile-highlight');
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      const openedPanel = tryOpenPanelForMobile(target);
+      if (!openedPanel) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
 
       window.setTimeout(() => removeHighlight(target), 2400);
     });
