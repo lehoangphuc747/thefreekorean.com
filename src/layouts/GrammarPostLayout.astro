@@ -8,9 +8,11 @@ export interface Props {
   title: string;
   description?: string;
   showTOC?: boolean;
+  isTeacherMode?: boolean;
+  alternateUrl?: string;
 }
 
-const { title, description, showTOC = true } = Astro.props as Props;
+const { title, description, showTOC = true, isTeacherMode = false, alternateUrl } = Astro.props as Props;
 ---
 
 <Layout title={`${title} - Ngữ pháp tiếng Hàn`} description={description || `Học ngữ pháp ${title} tiếng Hàn miễn phí với The Free Korean.`}>
@@ -23,13 +25,13 @@ const { title, description, showTOC = true } = Astro.props as Props;
 
     <!-- Nội dung chính -->
     <main class="grammar-main">
-      <div class="role-switch-container">
+      <div class="role-switch-container" style={!alternateUrl ? 'display: none;' : ''}>
         <span class="role-label">Chế độ xem:</span>
         <label class="switch">
-          <input type="checkbox" id="role-toggle">
+          <input type="checkbox" id="role-toggle" checked={isTeacherMode} data-alternate-url={alternateUrl}>
           <span class="slider round"></span>
         </label>
-        <span class="status-text" id="role-status">Học sinh</span>
+        <span class="status-text" id="role-status">{isTeacherMode ? 'Giáo viên' : 'Học sinh'}</span>
       </div>
       <slot />
     </main>
@@ -225,34 +227,25 @@ const { title, description, showTOC = true } = Astro.props as Props;
 </style>
 
 <script>
-  // Script xử lý chuyển đổi chế độ
+  // Script xử lý chuyển đổi chế độ (URL based)
   const toggle = document.getElementById('role-toggle') as HTMLInputElement;
   const statusText = document.getElementById('role-status');
   
-  // Hàm cập nhật UI
-  function updateMode(isTeacher: boolean) {
-    if (isTeacher) {
-      document.body.classList.add('teacher-mode');
-      if (statusText) statusText.innerText = 'Giáo viên';
-      if (toggle) toggle.checked = true;
-    } else {
-      document.body.classList.remove('teacher-mode');
-      if (statusText) statusText.innerText = 'Học sinh';
-      if (toggle) toggle.checked = false;
-    }
-  }
-
-  // 1. Khởi tạo từ localStorage khi load trang
-  const savedMode = localStorage.getItem('user_role');
-  const isTeacherInitially = savedMode === 'teacher';
-  updateMode(isTeacherInitially);
-
-  // 2. Lắng nghe sự kiện click
   if (toggle) {
     toggle.addEventListener('change', (e) => {
+      const alternateUrl = toggle.dataset.alternateUrl;
       const isChecked = (e.target as HTMLInputElement).checked;
-      updateMode(isChecked);
+      
+      // Update text immediately for feedback
+      if (statusText) statusText.innerText = isChecked ? 'Giáo viên' : 'Học sinh';
+
+      // Save preference
       localStorage.setItem('user_role', isChecked ? 'teacher' : 'student');
+
+      // Navigate if url exists
+      if (alternateUrl) {
+        window.location.href = alternateUrl;
+      }
     });
   }
 </script>

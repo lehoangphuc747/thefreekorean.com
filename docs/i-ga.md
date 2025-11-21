@@ -2,7 +2,7 @@
 title: "이/가"
 meaning: "trợ từ chủ ngữ"
 level: "beginner"
-slug: "i-ga"
+slug: "i-ga-draft"
 description: "Trợ từ chủ ngữ dùng để xác định chủ thể của hành động hoặc trạng thái trong câu."
 tags: ["trợ từ"]
 order: 4

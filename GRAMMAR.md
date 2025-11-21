@@ -7,7 +7,7 @@ https://kcenter.korean.go.kr/kcenter/search/dgrammar.do?mode=&id=&srchChosung=%E
 
 ## SƠ CẤP
 
-[[src/content/grammar/ida|1. N이다]]
+[[docs/ida|1. N이다]]
 
 
 ## Danh sách ngữ pháp chưa lọc
@@ -229,16 +229,16 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 
 ---
 
-1. [[src/content/grammar/eun-neun1|은/는1]]
-2. [[src/content/grammar/i-ga|이/가]]
-3. [[src/content/grammar/eul-reul|을/를]]
-4. [[src/content/grammar/ui|의]]
-5. [[src/content/grammar/e1|에1]]
-6. [[src/content/grammar/e2|에2]]
-7. [[src/content/grammar/e3|에3]]
-8. [[src/content/grammar/e4|에4]]
-9. [[src/content/grammar/eseo1|에서1]]
-10. [[src/content/grammar/eseo2|에서2]]
+1. [[docs/eun-neun1|은/는1]]
+2. [[docs/i-ga|이/가]]
+3. [[docs/eul-reul|을/를]]
+4. [[docs/ui|의]]
+5. [[docs/e1|에1]]
+6. [[docs/e2|에2]]
+7. [[docs/e3|에3 - Điểm đến]]
+8. [[docs/e4|에4]]
+9. [[docs/eseo1|에서1]]
+10. [[docs/eseo2|에서2]]
 11. 으로1
 12. 으로2
 13. 에게

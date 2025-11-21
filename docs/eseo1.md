@@ -2,7 +2,7 @@
 title: "에서 (1)"
 meaning: "Trợ từ chỉ nơi hành động diễn ra"
 level: "beginner"
-slug: "eseo1"
+slug: "eseo1-draft"
 description: "‘에서 (1)’ là 부사격조사 gắn sau danh từ để nêu rõ hành động/động tác diễn ra ở đâu; dùng để nói “làm gì ở/tại…”."
 tags: ["조사", "địa điểm"]
 order: 11
@@ -158,4 +158,3 @@ order: 11
 5. 에서
 
 </details>
-

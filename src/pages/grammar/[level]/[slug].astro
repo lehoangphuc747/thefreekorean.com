@@ -40,7 +40,33 @@ const { Content } = content;
 
 // Lấy tất cả ngữ pháp để tạo sidebar và navigation
 const allGrammar = await getCollection('grammar');
-const sortedGrammar = allGrammar.sort((a, b) => {
+
+// --- Teacher/Student Mode Logic ---
+const isTeacherMode = entry.slug.endsWith('-gv');
+let alternateEntry = null;
+
+// Find the alternate version
+if (isTeacherMode) {
+  // Current is Teacher (e.g. "e3-gv"), find Student ("e3")
+  const studentSlug = entry.slug.replace(/-gv$/, '');
+  alternateEntry = allGrammar.find(g => g.slug === studentSlug);
+} else {
+  // Current is Student (e.g. "e3"), find Teacher ("e3-gv")
+  const teacherSlug = `${entry.slug}-gv`;
+  alternateEntry = allGrammar.find(g => g.slug === teacherSlug);
+}
+
+const alternateUrl = alternateEntry 
+  ? `/grammar/${alternateEntry.data.level}/${alternateEntry.slug}`
+  : undefined;
+// ---------------------------------
+
+const sortedGrammar = allGrammar
+  // Filter out "draft" or "original" duplicates if necessary, 
+  // but for now we just keep them but ensure navigation skips them if needed.
+  // A better way is to filter out entries that end in '-draft' or similar if we add them.
+  .filter(g => !g.slug.endsWith('-draft') && !g.slug.endsWith('-original')) 
+  .sort((a, b) => {
   const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
   if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
     return levelOrder[a.data.level] - levelOrder[b.data.level];
@@ -89,7 +115,12 @@ console.log('Number of headings:', headings.length);
 console.log('================================');
 ---
 
-<GrammarPostLayout title={title} description={description}>
+<GrammarPostLayout 
+  title={title} 
+  description={description}
+  isTeacherMode={isTeacherMode}
+  alternateUrl={alternateUrl}
+>
   
   
   <div class="grammar-post">

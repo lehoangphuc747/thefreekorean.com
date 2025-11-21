@@ -2,7 +2,7 @@
 title: "을/를"
 meaning: "trợ từ tân ngữ"
 level: "beginner"
-slug: "eul-reul"
+slug: "eul-reul-draft"
 description: "Trợ từ đánh dấu tân ngữ – đối tượng mà hành động tác động vào."
 tags: ["trợ từ"]
 order: 5

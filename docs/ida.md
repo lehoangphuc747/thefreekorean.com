@@ -2,7 +2,7 @@
 title: "이다"
 meaning: "là"
 level: "beginner"
-slug: "ida"
+slug: "ida-draft"
 description: "<strong>조사</strong> cơ bản làm cho danh từ trở thành <strong>vị ngữ</strong>"
 tags: ["giới thiệu"]
 order: 1

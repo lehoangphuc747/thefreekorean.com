@@ -4,7 +4,14 @@ import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import { getCollection } from 'astro:content';
 
 // Lấy tất cả ngữ pháp từ content collection
-const allGrammar = await getCollection('grammar');
+const allGrammarRaw = await getCollection('grammar');
+
+// Lọc bỏ các bài dành cho giáo viên (-gv) và bài nháp (-draft, -original) khỏi danh sách chính
+const allGrammar = allGrammarRaw.filter(entry => {
+  return !entry.slug.endsWith('-gv') && 
+         !entry.slug.endsWith('-draft') && 
+         !entry.slug.endsWith('-original');
+});
 
 // Sắp xếp theo level và order
 const sortedGrammar = allGrammar.sort((a, b) => {

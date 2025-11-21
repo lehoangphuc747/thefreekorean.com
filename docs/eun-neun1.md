@@ -2,7 +2,7 @@
 title: "은/는1"
 meaning: "trợ từ chủ đề"
 level: "beginner"
-slug: "eun-neun1"
+slug: "eun-neun1-draft"
 description: "Trợ từ chủ đề dùng để nêu chủ đề, so sánh và nhấn mạnh thông tin"
 tags: ["trợ từ"]
 order: 3

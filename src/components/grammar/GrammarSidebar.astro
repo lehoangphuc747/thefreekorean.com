@@ -2,7 +2,15 @@
 import { getCollection } from 'astro:content';
 import './GrammarSidebar.css';
 
-const allGrammar = await getCollection('grammar');
+const allGrammarRaw = await getCollection('grammar');
+
+// Lọc bỏ các bài dành cho giáo viên (-gv) và bài nháp (-draft, -original) khỏi sidebar
+const allGrammar = allGrammarRaw.filter(entry => {
+  return !entry.slug.endsWith('-gv') && 
+         !entry.slug.endsWith('-draft') && 
+         !entry.slug.endsWith('-original');
+});
+
 const sortedGrammar = allGrammar.sort((a, b) => {
   const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
   if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {

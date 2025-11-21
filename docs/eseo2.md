@@ -2,7 +2,7 @@
 title: "에서 (2)"
 meaning: "trợ từ chỉ điểm xuất phát/nguồn gốc"
 level: "beginner"
-slug: "eseo2"
+slug: "eseo2-draft"
 description: "'에서2' gắn sau danh từ để nêu nơi chốn, nguồn gốc hoặc đối tượng mà hành động/hiện tượng bắt đầu hay phát sinh."
 tags: ["조사", "xuất phát", "địa điểm", "nguồn gốc"]
 order: 19
@@ -131,4 +131,3 @@ uồn thông tin**
 - Kết hợp tự nhiên với động từ chuyển động (*가다, 오다, 출발하다, 떠나다…*) và động từ tạo ra kết quả (*전화가 오다, 편지가 도착하다*).  
 - Khi muốn nói “xuất phát từ người A”, ưu tiên `에게서/한테서`; khi muốn nhấn mạnh thời gian, dùng `부터`.  
 - Thay bằng `로부터/으로부터` khi cần văn phong trang trọng: `고향에서(=고향으로부터) 편지가 도착했어요`.
-

@@ -2,7 +2,7 @@
 title: "N이/가 아니다"
 meaning: "không phải"
 level: "beginner"
-slug: "anida"
+slug: "anida-draft"
 description: "Biểu hiện phủ định của '이다' bằng cấu trúc 'N이/가 아니다'"
 tags: ["phủ định"]
 order: 2

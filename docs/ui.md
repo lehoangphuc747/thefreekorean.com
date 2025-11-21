@@ -2,7 +2,7 @@
 title: "의"
 meaning: "Trợ từ sở hữu"
 level: "beginner"
-slug: "ui"
+slug: "ui-draft"
 description: "Ngữ pháp 조사 ‘의’ là trợ từ quan hệ dùng để nối hai danh từ và thể hiện các quan hệ như sở hữu, thuộc về, vị trí hay chủ thể; cấu trúc cơ bản cho người học tiếng Hàn sơ cấp."
 tags: ["조사"]
 order: 6
