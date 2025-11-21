@@ -129,26 +129,28 @@ const { prevGrammar, nextGrammar, showBackButton = true, position = 'top' } = As
   /* Mobile responsive */
   @media (max-width: 768px) {
     .navigation-buttons {
-      flex-direction: column;
-      gap: 0.75rem;
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .nav-btn {
-      max-width: none;
+      max-width: 140px;
       padding: 0.875rem 1rem;
+      flex: 0 0 auto;
     }
 
     .back-btn {
-      max-width: none;
-      order: 2;
+      max-width: 140px;
     }
 
     .prev-btn {
-      order: 1;
+      order: 0;
     }
 
     .next-btn {
-      order: 3;
+      order: 0;
     }
 
     .nav-label {
