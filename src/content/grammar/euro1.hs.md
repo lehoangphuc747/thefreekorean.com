@@ -5,7 +5,7 @@ level: "beginner"
 slug: "euro1"
 description: "Chỉ phương hướng di chuyển hoặc đích đến của hành động"
 tags: ["trợ từ"]
-order: 12
+order: 13
 type: "Tài liệu Tự học"
 ---
 

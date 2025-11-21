@@ -4,8 +4,8 @@ title: "으로 (1)"
 meaning: "Về phía / Đến (Chỉ phương hướng)"
 level: "beginner"
 description: "Chỉ phương hướng di chuyển hoặc đích đến của hành động."
-tags: ["조사"]
-order: 12
+tags: ["trợ từ"]
+order: 13
 type: "Slide Bài Giảng"
 ---
 
