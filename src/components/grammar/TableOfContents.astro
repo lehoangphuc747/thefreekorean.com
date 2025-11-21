@@ -45,6 +45,35 @@ const { headings } = Astro.props;
     const tocContainer = document.getElementById('toc-container');
     const tocToggle = document.getElementById('toc-toggle');
     const tocNav = document.getElementById('toc-nav');
+    const TOC_STATE_KEY = 'tfk:tocCollapsed';
+
+    const readTocState = () => {
+      try {
+        return window.localStorage.getItem(TOC_STATE_KEY);
+      } catch {
+        return null;
+      }
+    };
+
+    const persistTocState = () => {
+      if (!tocContainer) return;
+      try {
+        const collapsed = tocContainer.classList.contains('collapsed');
+        window.localStorage.setItem(TOC_STATE_KEY, collapsed ? '1' : '0');
+      } catch {
+        // Ignore storage errors (e.g. private mode)
+      }
+    };
+
+    const applyStoredTocState = () => {
+      if (!tocContainer) return;
+      const stored = readTocState();
+      if (stored === '1') {
+        tocContainer.classList.add('collapsed');
+      } else if (stored === '0') {
+        tocContainer.classList.remove('collapsed');
+      }
+    };
 
     function setToggleIcon(collapsed) {
       if (!tocToggle) return;
@@ -72,6 +101,9 @@ const { headings } = Astro.props;
       setToggleIcon(collapsed);
     }
 
+    applyStoredTocState();
+    updateToggleA11y();
+
     // Toggle ẩn/hiện TOC (luôn dùng collapsed để chừa lại button)
     if (tocToggle && tocContainer) {
       tocToggle.addEventListener('click', function(e) {
@@ -81,6 +113,7 @@ const { headings } = Astro.props;
           tocContainer.classList.remove('open');
         }
         tocContainer.classList.toggle('collapsed');
+        persistTocState();
         updateToggleA11y();
       });
 
@@ -92,11 +125,10 @@ const { headings } = Astro.props;
             tocContainer.classList.remove('open');
           }
           tocContainer.classList.toggle('collapsed');
+          persistTocState();
           updateToggleA11y();
         }
       });
-
-      updateToggleA11y();
     }
 
     // Active heading detection

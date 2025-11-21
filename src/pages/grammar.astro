@@ -134,12 +134,18 @@ const grammarByLevel = {
   }
 
   .grammar-container {
+    --sidebar-column-width: 280px;
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: minmax(56px, var(--sidebar-column-width)) 1fr;
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
+  }
+
+  .grammar-container.sidebar-collapsed {
+    --sidebar-column-width: 72px;
+    gap: 1rem;
   }
 
 

@@ -137,6 +137,37 @@ const totalCount = sortedGrammar.length;
     const sidebar = document.getElementById('grammar-sidebar');
     if (!sidebar) return;
 
+    const sidebarContainer = sidebar.closest('.grammar-container');
+    const SIDEBAR_STATE_KEY = 'tfk:grammarSidebarCollapsed';
+    const readSidebarState = () => {
+      try {
+        return window.localStorage.getItem(SIDEBAR_STATE_KEY);
+      } catch {
+        return null;
+      }
+    };
+    const syncSidebarLayout = () => {
+      const collapsed = sidebar.classList.contains('collapsed');
+      sidebarContainer?.classList.toggle('sidebar-collapsed', collapsed);
+      return collapsed;
+    };
+    const persistSidebarState = (collapsed = syncSidebarLayout()) => {
+      try {
+        window.localStorage.setItem(SIDEBAR_STATE_KEY, collapsed ? '1' : '0');
+      } catch {
+        // Ignore storage errors (e.g. private mode)
+      }
+    };
+    const applyStoredSidebarState = () => {
+      const stored = readSidebarState();
+      if (stored === '1') {
+        sidebar.classList.add('collapsed');
+      } else if (stored === '0') {
+        sidebar.classList.remove('collapsed');
+      }
+      syncSidebarLayout();
+    };
+
     const backLink = sidebar.querySelector('.sidebar-back') as HTMLAnchorElement | null;
     if (backLink) {
       const isGrammarList = window.location.pathname === '/grammar';
@@ -255,6 +286,9 @@ const totalCount = sortedGrammar.length;
       toggle?.setAttribute('title', collapsed ? 'Hiện sidebar (Ctrl+B)' : 'Ẩn sidebar (Ctrl+B)');
     };
 
+    applyStoredSidebarState();
+    updateToggleA11y();
+
     // Toggle hide/show sidebar (desktop + mobile)
     if (toggle) {
       toggle.addEventListener('click', () => {
@@ -266,6 +300,8 @@ const totalCount = sortedGrammar.length;
           }
         }
         sidebar.classList.toggle('collapsed');
+        const collapsed = syncSidebarLayout();
+        persistSidebarState(collapsed);
         updateToggleA11y();
       });
 
@@ -274,10 +310,11 @@ const totalCount = sortedGrammar.length;
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
           e.preventDefault();
           sidebar.classList.toggle('collapsed');
+          const collapsed = syncSidebarLayout();
+          persistSidebarState(collapsed);
           updateToggleA11y();
         }
       });
-      updateToggleA11y();
     }
 
     document.addEventListener('click', (event) => {
