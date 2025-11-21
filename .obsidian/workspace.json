@@ -186,6 +186,8 @@
   },
   "active": "389fea449968ad8f",
   "lastOpenFiles": [
+    "src/content/grammar/euro1.gv.md",
+    "src/content/grammar/euro1.hs.md",
     "docs/euro1.md",
     "docs/으로1.md",
     "public/html/으로1.html",
@@ -229,8 +231,6 @@
     "docs/e2.md",
     "docs/e1.md",
     "docs/ui.md",
-    "docs/eul-reul.md",
-    "docs/i-ga.md",
-    "docs/eun-neun1.md"
+    "docs/eul-reul.md"
   ]
 }
