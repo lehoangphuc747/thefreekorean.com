@@ -1,0 +1,65 @@
+---
+slug: "anida-gv"
+title: "N이/가 아니다"
+meaning: "không phải"
+level: "beginner"
+description: "Biểu hiện phủ định của '이다' bằng cấu trúc 'N이/가 아니다'"
+tags: ["phủ định"]
+order: 2
+---
+
+## 1. Mục tiêu & Thách thức 🎯
+* **Thách thức:** Học sinh hay quên trợ từ `이/가` trước `아니다`. (Ví dụ: `학생 아니에요` thay vì `학생이 아니에요`).
+* **Mục tiêu:** Tạo phản xạ `Danh từ + 이/가 + 아니다`.
+
+## 2. Trình tự lên lớp (Lesson Flow) 📝
+
+### Bước 1: Dẫn nhập - "Sự thật và Dối trá" (5 phút)
+* **Hoạt động:** Hỏi những câu hiển nhiên sai để HS phủ định.
+* **Hội thoại:**
+    * GV: *Hôm nay là Chủ Nhật phải không? (오늘은 일요일이에요?)*
+    * HS: *Không, không phải Chủ Nhật. (아니요, 일요일이 아니에요).*
+    * GV: *Em là người Hàn Quốc phải không? (한국 사람이에요?)*
+    * HS: *Không, em không phải người Hàn. (아니요, 한국 사람이 아니에요).*
+
+### Bước 2: Công thức (5 phút)
+* **Cấu trúc:** `N + 이/가 + 아니다`.
+* **Quy tắc:**
+    * Có Patchim + `이 아니다`. (`학생이 아니다`)
+    * Không Patchim + `가 아니다`. (`의사가 아니다`)
+
+### Bước 3: Luyện tập (Drill) (7 phút)
+* GV đưa từ, HS phủ định.
+* GV: *Táo (사과)* -> HS: *사과가 아니에요.*
+* GV: *Bút (펜)* -> HS: *펜이 아니에요.*
+
+## 3. Các điểm cần lưu ý (Teacher's Notes) 💡
+
+### 🔴 1. Phát âm `아니에요`
+* `아니에요` thường được phát âm nhanh là `아녜요`.
+* Chú ý HS hay viết sai thành `아니예요` (thừa dấu `y`).
+
+### 🔴 2. So sánh với `안/못` (Mở rộng)
+* Nếu HS hỏi "Sao không dùng `안`?", giải thích:
+    * `이/가 아니다` dùng để phủ định **DANH TỪ** (Cái này không phải cái kia).
+    * `안/못` dùng để phủ định **ĐỘNG/TÍNH TỪ** (Không ăn, không đẹp).
+
+---
+
+## 4. Tài liệu tham khảo từ giáo trình (Reference)
+
+### Đưa ra tình huống sai để sửa (Correction)
+
+#### (1)
+**교사:** 왕밍 씨, 오늘은 수요일이에요. 맞아요?  
+**학생:** 아니요, 오늘은 화요일이에요.  
+**교사:** 맞아요. 오늘은 화요일이에요. 오늘은 수요일이 **아니에요**. 지금은 10시예요. 맞아요?  
+**학생:** 틀려요. 지금은 11시예요.  
+**교사:** 지금은 11시예요. 10시가 **아니에요**.
+
+#### (2)
+**교사:** 줄리아 씨, 미국 사람이에요?  
+**학생:** 아니요, 저는 영국 사람이에요.  
+**교사:** 줄리아 씨는 영국 사람이에요. 미국 사람이 **아니에요**. 분티안 씨는 태국 사람이에요?  
+**학생:** 아니요, 저는 캄보디아 사람이에요.  
+**교사:** 분티안 씨는 캄보디아 사람이에요. 태국 사람이 **아니에요**.
