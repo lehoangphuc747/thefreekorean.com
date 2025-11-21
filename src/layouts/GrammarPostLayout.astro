@@ -23,6 +23,14 @@ const { title, description, showTOC = true } = Astro.props as Props;
 
     <!-- Nội dung chính -->
     <main class="grammar-main">
+      <div class="role-switch-container">
+        <span class="role-label">Chế độ xem:</span>
+        <label class="switch">
+          <input type="checkbox" id="role-toggle">
+          <span class="slider round"></span>
+        </label>
+        <span class="status-text" id="role-status">Học sinh</span>
+      </div>
       <slot />
     </main>
 
@@ -107,4 +115,144 @@ const { title, description, showTOC = true } = Astro.props as Props;
       padding: 1rem;
     }
   }
+
+  /* Role Switch Styles */
+  .role-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    font-family: system-ui, sans-serif;
+  }
+
+  .role-label {
+    font-weight: 600;
+    color: #666;
+  }
+
+  .status-text {
+    font-weight: bold;
+    color: #2196F3; /* Màu xanh cho học sinh */
+    min-width: 80px;
+  }
+
+  body.teacher-mode .status-text {
+    color: #e91e63; /* Màu hồng/đỏ cho giáo viên */
+  }
+
+  /* Toggle Switch UI */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2196F3; /* Default Student Color */
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #e91e63; /* Teacher Color */
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  /* Ẩn/Hiện nội dung giáo viên */
+  /* Mặc định ẩn nội dung có class .teacher-only */
+  :global(.teacher-only) {
+    display: none;
+  }
+
+  /* Khi body có class teacher-mode thì hiện lên */
+  :global(body.teacher-mode .teacher-only) {
+    display: block;
+    border: 2px dashed #e91e63;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background-color: #fff0f5;
+    position: relative;
+  }
+
+  :global(body.teacher-mode .teacher-only::before) {
+    content: "Dành cho giáo viên";
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #e91e63;
+    color: white;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
 </style>
+
+<script>
+  // Script xử lý chuyển đổi chế độ
+  const toggle = document.getElementById('role-toggle') as HTMLInputElement;
+  const statusText = document.getElementById('role-status');
+  
+  // Hàm cập nhật UI
+  function updateMode(isTeacher: boolean) {
+    if (isTeacher) {
+      document.body.classList.add('teacher-mode');
+      if (statusText) statusText.innerText = 'Giáo viên';
+      if (toggle) toggle.checked = true;
+    } else {
+      document.body.classList.remove('teacher-mode');
+      if (statusText) statusText.innerText = 'Học sinh';
+      if (toggle) toggle.checked = false;
+    }
+  }
+
+  // 1. Khởi tạo từ localStorage khi load trang
+  const savedMode = localStorage.getItem('user_role');
+  const isTeacherInitially = savedMode === 'teacher';
+  updateMode(isTeacherInitially);
+
+  // 2. Lắng nghe sự kiện click
+  if (toggle) {
+    toggle.addEventListener('change', (e) => {
+      const isChecked = (e.target as HTMLInputElement).checked;
+      updateMode(isChecked);
+      localStorage.setItem('user_role', isChecked ? 'teacher' : 'student');
+    });
+  }
+</script>
