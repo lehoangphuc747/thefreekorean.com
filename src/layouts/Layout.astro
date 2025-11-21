@@ -72,69 +72,10 @@ const fullUrl = url.startsWith('http') ? url : `${siteUrl}${url}`;
 		</script>
 	</head>
 	<body>
-		<div id="adblock-banner" class="adblock-banner" hidden>
-			<span>Trang web không có quảng cáo, nên hy vọng bạn có thể tắt chặn quảng cáo trên trang web để tránh chặn nhầm nội dung quan trọng.</span>
-			<button type="button" class="adblock-banner__close" aria-label="Đóng cảnh báo">×</button>
-		</div>
 		<NavBar />
 		<slot />
 		<Footer />
 		<ScrollToTop />
-		<script>
-			(function () {
-				try {
-					const STORAGE_KEY = 'tfk-adblock-banner-dismissed';
-					const banner = document.getElementById('adblock-banner');
-					if (!banner) {
-						return;
-					}
-					const closeButton = banner.querySelector('.adblock-banner__close');
-					closeButton?.addEventListener('click', () => {
-						banner.hidden = true;
-						try {
-							localStorage.setItem(STORAGE_KEY, '1');
-						} catch (error) {
-							console.warn('Không thể lưu trạng thái banner:', error);
-						}
-					});
-					try {
-						if (localStorage.getItem(STORAGE_KEY) === '1') {
-							return;
-						}
-					} catch (error) {
-						console.warn('Không thể đọc trạng thái banner:', error);
-					}
-					const showBanner = () => {
-						if (!banner.hidden) {
-							return;
-						}
-						banner.hidden = false;
-					};
-					const gaScript = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
-					let checkTimer;
-					if (gaScript) {
-						gaScript.addEventListener('load', () => {
-							if (checkTimer) {
-								clearTimeout(checkTimer);
-							}
-						});
-						gaScript.addEventListener('error', () => {
-							if (checkTimer) {
-								clearTimeout(checkTimer);
-							}
-							showBanner();
-						});
-						checkTimer = setTimeout(() => {
-							showBanner();
-						}, 4000);
-					} else {
-						showBanner();
-					}
-				} catch (error) {
-					console.warn('Không thể khởi tạo banner chặn quảng cáo:', error);
-				}
-			})();
-		</script>
 	</body>
 </html>
 
@@ -148,33 +89,5 @@ const fullUrl = url.startsWith('http') ? url : `${siteUrl}${url}`;
 	
 	body {
 		padding-top: 70px; /* offset fixed navbar height */
-	}
-
-	.adblock-banner {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		background: #ffe08a;
-		color: #4a1d1f;
-		padding: 12px 16px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		z-index: 1000;
-		font-size: 0.95rem;
-		line-height: 1.4;
-	}
-
-	.adblock-banner__close {
-		margin-left: auto;
-		background: transparent;
-		border: none;
-		font-size: 1.2rem;
-		line-height: 1;
-		cursor: pointer;
-		color: inherit;
-		padding: 4px;
 	}
 </style>
