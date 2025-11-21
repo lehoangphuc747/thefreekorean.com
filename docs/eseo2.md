@@ -4,7 +4,7 @@ meaning: "trợ từ chỉ điểm xuất phát/nguồn gốc"
 level: "beginner"
 slug: "eseo2-draft"
 description: "'에서2' gắn sau danh từ để nêu nơi chốn, nguồn gốc hoặc đối tượng mà hành động/hiện tượng bắt đầu hay phát sinh."
-tags: ["조사", "xuất phát", "địa điểm", "nguồn gốc"]
+tags: ["trợ từ"]
 order: 19
 ---
 

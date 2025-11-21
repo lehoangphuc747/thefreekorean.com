@@ -4,7 +4,7 @@ meaning: "Ở, tại (Chỉ nơi hành động)"
 level: "beginner"
 slug: "eseo1"
 description: "Gắn sau danh từ chỉ địa điểm để nói 'Làm gì ở đâu?'"
-tags: ["ngữ pháp", "sơ cấp", "địa điểm"]
+tags: ["trợ từ"]
 order: 11
 ---
 

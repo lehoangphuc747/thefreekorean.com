@@ -33,6 +33,18 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
         </label>
         <span class="status-text" id="role-status">{isTeacherMode ? 'Giáo viên' : 'Học sinh'}</span>
       </div>
+
+      <div class="mobile-panel-actions" aria-label="Điều hướng khu vực phụ">
+        <button type="button" data-scroll-target="#grammar-sidebar">
+          Danh sách ngữ pháp
+        </button>
+        {showTOC && (
+          <button type="button" data-scroll-target="#toc-container">
+            Mục lục bài học
+          </button>
+        )}
+      </div>
+
       <slot />
     </main>
 
@@ -96,25 +108,101 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     min-width: 0;
   }
 
+  .mobile-panel-actions {
+    display: none;
+  }
+
   /* Mobile responsive */
   @media (max-width: 1024px) {
     .grammar-post-container {
-      grid-template-columns: 1fr;
-      gap: 0;
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+      gap: 1rem;
+      padding: 1rem 1.25rem 2rem;
+      min-height: auto;
     }
 
     .grammar-main {
-      padding: 1rem;
+      order: 1;
+      padding: 1.25rem;
+    }
+
+    :global(.grammar-sidebar) {
+      order: 3;
+      width: 100%;
+      max-width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      padding: 0.5rem 0;
+      scroll-margin-top: 72px;
+    }
+
+    :global(#toc-container) {
+      order: 4;
+      width: 100%;
+      max-width: 100%;
+      scroll-margin-top: 72px;
+    }
+
+    .mobile-panel-actions {
+      order: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mobile-panel-actions button {
+      flex: 1 1 220px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .mobile-panel-actions button:hover,
+    .mobile-panel-actions button:focus-visible {
+      background: #e0f2fe;
+      border-color: #bae6fd;
+      color: #0c4a6e;
+      outline: none;
     }
   }
 
   @media (max-width: 768px) {
     .grammar-post-container {
-      padding: 0.5rem;
+      padding: 0.5rem 0.75rem 1.5rem;
     }
 
     .grammar-main {
       padding: 1rem;
+    }
+
+    .mobile-panel-actions button {
+      flex-basis: 100%;
+    }
+  }
+
+  :global(.mobile-highlight) {
+    animation: mobilePulse 2.4s ease-in-out;
+  }
+
+  @keyframes mobilePulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.35);
+    }
+    50% {
+      box-shadow: 0 0 0 9px rgba(33, 150, 243, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
     }
   }
 
@@ -227,25 +315,86 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
 </style>
 
 <script>
-  // Script xử lý chuyển đổi chế độ (URL based)
-  const toggle = document.getElementById('role-toggle') as HTMLInputElement;
+  type RoleMode = 'teacher' | 'student';
+  const MODE_STORAGE_KEY = 'grammar_view_mode';
+
+  const toggle = document.getElementById('role-toggle') as HTMLInputElement | null;
   const statusText = document.getElementById('role-status');
-  
+  const mobilePanelButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-scroll-target]'));
+  const serverMode: RoleMode = toggle?.checked ? 'teacher' : 'student';
+  const alternateUrl = toggle?.dataset.alternateUrl;
+
+  const applyModeToUI = (mode: RoleMode) => {
+    const isTeacher = mode === 'teacher';
+    document.body.classList.toggle('teacher-mode', isTeacher);
+    if (statusText) {
+      statusText.textContent = isTeacher ? 'Giáo viên' : 'Học sinh';
+    }
+    if (toggle) {
+      toggle.checked = isTeacher;
+    }
+  };
+
+  const readStoredMode = (): RoleMode | null => {
+    const stored = localStorage.getItem(MODE_STORAGE_KEY) || localStorage.getItem('user_role');
+    if (stored === 'teacher' || stored === 'student') {
+      return stored;
+    }
+    return null;
+  };
+
+  const preferredMode = readStoredMode() ?? serverMode;
+
+  if (!readStoredMode()) {
+    localStorage.setItem(MODE_STORAGE_KEY, preferredMode);
+  }
+
+  if (alternateUrl) {
+    if (preferredMode === 'teacher' && serverMode !== 'teacher') {
+      localStorage.setItem(MODE_STORAGE_KEY, 'teacher');
+      localStorage.setItem('user_role', 'teacher');
+      window.location.replace(alternateUrl);
+    } else if (preferredMode === 'student' && serverMode !== 'student') {
+      localStorage.setItem(MODE_STORAGE_KEY, 'student');
+      localStorage.setItem('user_role', 'student');
+      window.location.replace(alternateUrl);
+    } else {
+      applyModeToUI(preferredMode);
+    }
+  } else {
+    applyModeToUI(preferredMode);
+  }
+
   if (toggle) {
     toggle.addEventListener('change', (e) => {
-      const alternateUrl = toggle.dataset.alternateUrl;
-      const isChecked = (e.target as HTMLInputElement).checked;
-      
-      // Update text immediately for feedback
-      if (statusText) statusText.innerText = isChecked ? 'Giáo viên' : 'Học sinh';
+      const isTeacherMode = (e.target as HTMLInputElement).checked;
+      const nextMode: RoleMode = isTeacherMode ? 'teacher' : 'student';
 
-      // Save preference
-      localStorage.setItem('user_role', isChecked ? 'teacher' : 'student');
+      localStorage.setItem(MODE_STORAGE_KEY, nextMode);
+      localStorage.setItem('user_role', nextMode);
+      applyModeToUI(nextMode);
 
-      // Navigate if url exists
       if (alternateUrl) {
         window.location.href = alternateUrl;
       }
     });
   }
+
+  const removeHighlight = (element: HTMLElement) => {
+    element.classList.remove('mobile-highlight');
+  };
+
+  mobilePanelButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const selector = button.dataset.scrollTarget;
+      if (!selector) return;
+      const target = document.querySelector<HTMLElement>(selector);
+      if (!target) return;
+
+      target.classList.add('mobile-highlight');
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      window.setTimeout(() => removeHighlight(target), 2400);
+    });
+  });
 </script>

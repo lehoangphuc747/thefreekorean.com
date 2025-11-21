@@ -4,8 +4,8 @@ meaning: "trợ từ chỉ điểm xuất phát/nguồn gốc"
 level: "beginner"
 slug: "eseo2"
 description: "Gắn sau danh từ chỉ địa điểm để chỉ nơi bắt đầu của hành trình hoặc nguồn gốc."
-tags: ["ngữ pháp", "sơ cấp", "địa điểm"]
-order: 19
+tags: ["trợ từ"]
+order: 12
 ---
 
 ## 1. Ý nghĩa và Công thức

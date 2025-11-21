@@ -4,7 +4,7 @@ meaning: "Của (Sở hữu)"
 level: "beginner"
 slug: "ui"
 description: "Trợ từ nối hai danh từ, mang nghĩa sở hữu hoặc thuộc về."
-tags: ["ngữ pháp", "sơ cấp", "trợ từ"]
+tags: ["trợ từ"]
 order: 6
 ---
 

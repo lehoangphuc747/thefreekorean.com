@@ -239,7 +239,7 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 8. [[docs/e4|에4]]
 9. [[docs/eseo1|에서1]]
 10. [[docs/eseo2|에서2]]
-11. 으로1
+11. [[src/content/grammar/으로1|으로1]]
 12. 으로2
 13. 에게
 14. 한테
