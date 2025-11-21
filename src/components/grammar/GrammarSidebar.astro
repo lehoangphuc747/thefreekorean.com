@@ -184,6 +184,9 @@ const totalCount = sortedGrammar.length;
     const collapseButtons = Array.from(sidebar.querySelectorAll<HTMLButtonElement>('[data-level-toggle]'));
     const levelReadMoreState = new Map<string, boolean>();
 
+    const PANEL_STATE_EVENT = 'tfk:panel-state-change';
+    const emitPanelStateChange = () => window.dispatchEvent(new CustomEvent(PANEL_STATE_EVENT));
+
     const highlightActiveItem = () => {
       const currentPath = window.location.pathname;
       const items = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('.grammar-item'));
@@ -293,11 +296,14 @@ const totalCount = sortedGrammar.length;
     if (toggle) {
       toggle.addEventListener('click', () => {
         if (window.matchMedia('(max-width: 1024px)').matches) {
-          if (!sidebar.classList.contains('open') && !sidebar.classList.contains('collapsed')) {
-            sidebar.classList.add('open');
-            updateToggleA11y();
-            return;
+          const willOpen = !sidebar.classList.contains('open');
+          sidebar.classList.toggle('open', willOpen);
+          if (willOpen) {
+            sidebar.classList.remove('collapsed');
           }
+          updateToggleA11y();
+          emitPanelStateChange();
+          return;
         }
         sidebar.classList.toggle('collapsed');
         const collapsed = syncSidebarLayout();
@@ -320,6 +326,14 @@ const totalCount = sortedGrammar.length;
     document.addEventListener('click', (event) => {
       if (sidebar.classList.contains('open') && event.target instanceof Node && !sidebar.contains(event.target) && event.target !== toggle) {
         sidebar.classList.remove('open');
+        emitPanelStateChange();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        emitPanelStateChange();
       }
     });
 

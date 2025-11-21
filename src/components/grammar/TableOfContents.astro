@@ -46,6 +46,7 @@ const { headings } = Astro.props;
     const tocToggle = document.getElementById('toc-toggle');
     const tocNav = document.getElementById('toc-nav');
     const TOC_STATE_KEY = 'tfk:tocCollapsed';
+    const PANEL_STATE_EVENT = 'tfk:panel-state-change';
 
     const readTocState = () => {
       try {
@@ -101,6 +102,24 @@ const { headings } = Astro.props;
       setToggleIcon(collapsed);
     }
 
+    const emitPanelStateChange = () => window.dispatchEvent(new CustomEvent(PANEL_STATE_EVENT));
+    const toggleMobilePanel = () => {
+      if (!tocContainer) return;
+      const shouldOpen = !tocContainer.classList.contains('open');
+      tocContainer.classList.toggle('open', shouldOpen);
+      if (shouldOpen) {
+        tocContainer.classList.remove('collapsed');
+      }
+      emitPanelStateChange();
+      updateToggleA11y();
+    };
+    const closeMobilePanel = () => {
+      if (!tocContainer?.classList.contains('open')) return;
+      tocContainer.classList.remove('open');
+      emitPanelStateChange();
+      updateToggleA11y();
+    };
+
     applyStoredTocState();
     updateToggleA11y();
 
@@ -108,9 +127,9 @@ const { headings } = Astro.props;
     if (tocToggle && tocContainer) {
       tocToggle.addEventListener('click', function(e) {
         e.stopPropagation();
-        // Nếu đang ở mobile và panel đang ở trạng thái open slide-in thì đóng panel, sau đó chuyển collapsed
-        if (window.matchMedia('(max-width: 1024px)').matches && tocContainer.classList.contains('open')) {
-          tocContainer.classList.remove('open');
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+          toggleMobilePanel();
+          return;
         }
         tocContainer.classList.toggle('collapsed');
         persistTocState();
@@ -121,12 +140,19 @@ const { headings } = Astro.props;
       document.addEventListener('keydown', (e) => {
         if ((e.target instanceof HTMLInputElement) || (e.target instanceof HTMLTextAreaElement) || (e.target)?.isContentEditable) return;
         if (e.key.toLowerCase() === 't') {
-          if (window.matchMedia('(max-width: 1024px)').matches && tocContainer.classList.contains('open')) {
-            tocContainer.classList.remove('open');
+          if (window.matchMedia('(max-width: 1024px)').matches) {
+            toggleMobilePanel();
+          } else {
+            tocContainer.classList.toggle('collapsed');
+            persistTocState();
+            updateToggleA11y();
           }
-          tocContainer.classList.toggle('collapsed');
-          persistTocState();
-          updateToggleA11y();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeMobilePanel();
         }
       });
     }
@@ -152,5 +178,7 @@ const { headings } = Astro.props;
     }
     window.addEventListener('scroll', updateActiveHeading);
     updateActiveHeading();
+
+    window.addEventListener(PANEL_STATE_EVENT, updateToggleA11y);
   });
 </script>
