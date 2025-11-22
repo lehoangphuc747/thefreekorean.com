@@ -44,29 +44,29 @@ const totalCount = sortedGrammar.length;
 ---
 
 <aside class="grammar-sidebar" id="grammar-sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-heading">
-      <h2 class="sidebar-title">Ngữ pháp</h2>
-      <span class="sidebar-count">{totalCount} mẫu</span>
+  <div class="sidebar-header-wrapper">
+    <div class="sidebar-header">
+      <div class="sidebar-heading">
+        <h2 class="sidebar-title">Ngữ pháp</h2>
+        <span class="sidebar-count">{totalCount} mẫu câu</span>
+      </div>
+
+      <!-- Toggle hide/show sidebar -->
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Ẩn sidebar" aria-expanded="true" title="Ẩn sidebar (Ctrl+B)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="9" y1="3" x2="9" y2="21"></line>
+        </svg>
+      </button>
     </div>
 
-    <!-- Toggle hide/show sidebar -->
-    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Ẩn sidebar" aria-expanded="true" title="Ẩn sidebar (Ctrl+B)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6 9 12 15 18 9" />
-      </svg>
-    </button>
-  </div>
-
-  <div class="sidebar-search">
-    <label for="sidebar-search-input" class="sr-only">Tìm kiếm ngữ pháp</label>
     <div class="sidebar-search-wrapper">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg class="sidebar-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="7" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
-      <input id="sidebar-search-input" type="text" placeholder="Tìm nhanh trong sidebar..." class="flex-1" />
-      <button id="sidebar-search-clear" aria-label="Xoá tìm kiếm">
+      <input id="sidebar-search-input" type="text" placeholder="Tìm nhanh..." autocomplete="off" />
+      <button id="sidebar-search-clear" aria-label="Xoá tìm kiếm" title="Xoá">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
@@ -75,17 +75,17 @@ const totalCount = sortedGrammar.length;
     </div>
   </div>
 
-  <div class="sidebar-content" data-sidebar-list>
+  <div class="sidebar-content" id="sidebar-content">
     {levelKeys.map((level) => (
       <div class={['level-section', `level-${level}`].join(' ')} data-level-section={level}>
-        <div class="level-header">
+        <div class="level-header" data-level-toggle={level} role="button" aria-expanded="true">
           <div class="level-heading">
             <div class="level-pill" data-level={level}>{levelMap[level]}</div>
-            <span class="level-count">{groupedGrammar[level].length} mẫu</span>
+            <span class="level-count">{groupedGrammar[level].length}</span>
           </div>
 
-          <button class="level-toggle" type="button" data-level-toggle={level} aria-expanded="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button class="level-toggle" type="button" tabindex="-1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
@@ -100,9 +100,9 @@ const totalCount = sortedGrammar.length;
                 data-level={grammar.data.level}
                 data-slug={grammar.slug}
               >
-                <span class="item-title">{grammar.data.title}</span>
+                <span class="item-title" data-original-text={grammar.data.title}>{grammar.data.title}</span>
                 <span class="item-meta">
-                  <span class="item-meaning">{grammar.data.meaning}</span>
+                  <span class="item-meaning" data-original-text={grammar.data.meaning}>{grammar.data.meaning}</span>
                   {grammar.data.tags && grammar.data.tags.length > 0 && (
                     <span class="item-tags">
                       {grammar.data.tags.map((tag) => (
@@ -117,18 +117,14 @@ const totalCount = sortedGrammar.length;
         </ul>
       </div>
     ))}
-  </div>
 
-  <div class="sidebar-empty" data-empty-state hidden>
-    <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M3 7V6a2 2 0 012-2h3.5l1 2H21a2 2 0 012 2v1H3z" />
-      <path d="M3 7h20v11a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-      <path d="M12 12h5" />
-      <path d="M12 16h5" />
-      <path d="M7 12h.01" />
-      <path d="M7 16h.01" />
-    </svg>
-    <p data-empty-text>Không tìm thấy ngữ pháp nào phù hợp.</p>
+    <div class="sidebar-empty" data-empty-state hidden>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto; display: block; opacity: 0.3;">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <p data-empty-text>Không tìm thấy ngữ pháp phù hợp.</p>
+    </div>
   </div>
 </aside>
 
@@ -138,243 +134,260 @@ const totalCount = sortedGrammar.length;
     if (!sidebar) return;
 
     const sidebarContainer = sidebar.closest('.grammar-container');
-    const SIDEBAR_STATE_KEY = 'tfk:grammarSidebarCollapsed';
-    const readSidebarState = () => {
-      try {
-        return window.localStorage.getItem(SIDEBAR_STATE_KEY);
-      } catch {
-        return null;
-      }
-    };
-    const syncSidebarLayout = () => {
-      const collapsed = sidebar.classList.contains('collapsed');
-      sidebarContainer?.classList.toggle('sidebar-collapsed', collapsed);
-      return collapsed;
-    };
-    const persistSidebarState = (collapsed = syncSidebarLayout()) => {
-      try {
-        window.localStorage.setItem(SIDEBAR_STATE_KEY, collapsed ? '1' : '0');
-      } catch {
-        // Ignore storage errors (e.g. private mode)
-      }
-    };
-    const applyStoredSidebarState = () => {
-      const stored = readSidebarState();
-      if (stored === '1') {
-        sidebar.classList.add('collapsed');
-      } else if (stored === '0') {
-        sidebar.classList.remove('collapsed');
-      }
-      syncSidebarLayout();
-    };
-
-    const backLink = sidebar.querySelector('.sidebar-back') as HTMLAnchorElement | null;
-    if (backLink) {
-      const isGrammarList = window.location.pathname === '/grammar';
-      backLink.toggleAttribute('hidden', isGrammarList);
-    }
-
+    const sidebarContent = document.getElementById('sidebar-content');
     const toggle = document.getElementById('sidebar-toggle');
     const searchInput = document.getElementById('sidebar-search-input') as HTMLInputElement | null;
     const clearButton = document.getElementById('sidebar-search-clear');
     const emptyState = sidebar.querySelector('[data-empty-state]') as HTMLElement | null;
     const emptyText = sidebar.querySelector('[data-empty-text]') as HTMLElement | null;
-    const levelSections = Array.from(sidebar.querySelectorAll('[data-level-section]')) as HTMLElement[];
-    const actionButtons = Array.from(sidebar.querySelectorAll<HTMLButtonElement>('.sidebar-action'));
-    const collapseButtons = Array.from(sidebar.querySelectorAll<HTMLButtonElement>('[data-level-toggle]'));
-    const levelReadMoreState = new Map<string, boolean>();
+    const levelHeaders = Array.from(sidebar.querySelectorAll('[data-level-toggle]'));
+    
+    // State Management
+    const SIDEBAR_STATE_KEY = 'tfk:grammarSidebarCollapsed';
+    const EXPANDED_LEVELS_KEY = 'tfk:grammarExpandedLevels';
 
-    const PANEL_STATE_EVENT = 'tfk:panel-state-change';
-    const emitPanelStateChange = () => window.dispatchEvent(new CustomEvent(PANEL_STATE_EVENT));
+    // --- Helper Functions ---
 
-    const highlightActiveItem = () => {
-      const currentPath = window.location.pathname;
-      const items = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('.grammar-item'));
-
-      items.forEach((item) => {
-        if (item.getAttribute('href') === currentPath) {
-          item.classList.add('active');
-          item.scrollIntoView({ block: 'nearest' });
-        } else {
-          item.classList.remove('active');
-        }
-      });
+    const syncSidebarLayout = () => {
+      const collapsed = sidebar.classList.contains('collapsed');
+      sidebarContainer?.classList.toggle('sidebar-collapsed', collapsed);
+      return collapsed;
     };
 
-    const setEmptyState = (hasResult: boolean, text?: string) => {
-      if (!emptyState) return;
-      emptyState.hidden = hasResult;
-      if (!hasResult && emptyText) {
-        emptyText.textContent = text || 'Không tìm thấy ngữ pháp nào phù hợp.';
+    const saveState = (key: string, value: string) => {
+      try { window.localStorage.setItem(key, value); } catch {}
+    };
+
+    const readState = (key: string) => {
+      try { return window.localStorage.getItem(key); } catch { return null; }
+    };
+
+    // --- Collapsible Sidebar Logic ---
+    
+    const initSidebarState = () => {
+      const stored = readState(SIDEBAR_STATE_KEY);
+      if (stored === '1') {
+        sidebar.classList.add('collapsed');
+      } else {
+        sidebar.classList.remove('collapsed');
       }
+      syncSidebarLayout();
+      updateToggleA11y();
+    };
+
+    const updateToggleA11y = () => {
+      const collapsed = sidebar.classList.contains('collapsed');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', String(!collapsed));
+        toggle.setAttribute('title', collapsed ? 'Hiện sidebar (Ctrl+B)' : 'Ẩn sidebar (Ctrl+B)');
+      }
+    };
+
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        // Mobile logic
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+          const willOpen = !sidebar.classList.contains('open');
+          sidebar.classList.toggle('open', willOpen);
+          if (willOpen) sidebar.classList.remove('collapsed');
+          window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
+          return;
+        }
+        // Desktop logic
+        sidebar.classList.toggle('collapsed');
+        const collapsed = syncSidebarLayout();
+        saveState(SIDEBAR_STATE_KEY, collapsed ? '1' : '0');
+        updateToggleA11y();
+      });
+    }
+
+    // Keyboard Shortcut (Ctrl+B)
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        toggle?.click();
+      }
+    });
+
+    // Close on Click Outside (Mobile)
+    document.addEventListener('click', (e) => {
+      if (sidebar.classList.contains('open') && 
+          e.target instanceof Node && 
+          !sidebar.contains(e.target) && 
+          e.target !== toggle) {
+        sidebar.classList.remove('open');
+        window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
+      }
+    });
+
+    // --- Level Accordion Logic ---
+
+    const toggleLevel = (level: string, show: boolean) => {
+      const section = sidebar.querySelector(`[data-level-section="${level}"]`);
+      const list = section?.querySelector('[data-level-list]');
+      const header = section?.querySelector('[data-level-toggle]');
+      const toggleIcon = header?.querySelector('.level-toggle');
+
+      if (show) {
+        list?.removeAttribute('hidden');
+        header?.setAttribute('aria-expanded', 'true');
+        toggleIcon?.setAttribute('aria-expanded', 'true');
+      } else {
+        list?.setAttribute('hidden', 'true');
+        header?.setAttribute('aria-expanded', 'false');
+        toggleIcon?.setAttribute('aria-expanded', 'false');
+      }
+    };
+
+    // Click header to toggle
+    levelHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const level = (header as HTMLElement).dataset.levelToggle;
+        const isExpanded = header.getAttribute('aria-expanded') === 'true';
+        if (level) toggleLevel(level, !isExpanded);
+      });
+    });
+
+
+    // --- Active Item & Auto-Scroll ---
+
+    const highlightActiveAndAutoCollapse = () => {
+      const currentPath = window.location.pathname;
+      const items = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('.grammar-item'));
+      let activeLevel: string | null = null;
+      let foundActive = false;
+
+      items.forEach((item) => {
+        // Remove old highlights
+        item.classList.remove('active');
+        
+        if (item.getAttribute('href') === currentPath && !foundActive) {
+          item.classList.add('active');
+          activeLevel = item.dataset.level || null;
+          foundActive = true;
+          
+          // Auto scroll active item to center
+          setTimeout(() => {
+             item.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          }, 100);
+        }
+      });
+
+      // Smart Collapse: Only open the active level on load, unless user searching
+      const allLevels = Array.from(sidebar.querySelectorAll('[data-level-section]')).map(el => (el as HTMLElement).dataset.levelSection);
+      
+      // If we are on a grammar page, collapse others. If on index, maybe open all or first?
+      // Let's default to: Open Active Level, Close Others.
+      if (activeLevel) {
+        allLevels.forEach(level => {
+            if (level) toggleLevel(level, level === activeLevel);
+        });
+      } else {
+        // If no active item (e.g. home page), open all for exploration
+        allLevels.forEach(level => {
+            if (level) toggleLevel(level, true);
+        });
+      }
+    };
+
+
+    // --- Search & Highlighting Logic ---
+
+    const highlightText = (element: HTMLElement, text: string, keyword: string) => {
+      if (!keyword) {
+        element.textContent = text;
+        return;
+      }
+      // Simple regex replace for highlighting
+      const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      const parts = text.split(regex);
+      
+      element.innerHTML = parts.map(part => {
+        if (part.toLowerCase() === keyword) {
+          return `<span class="highlight-text">${part}</span>`;
+        }
+        return part; // Escape html if needed, but title/meaning are trusted
+      }).join('');
     };
 
     const filterItems = () => {
       if (!searchInput) return;
       const keyword = searchInput.value.trim().toLowerCase();
-      let visibleCount = 0;
+      const isSearching = keyword.length > 0;
+      let globalMatchCount = 0;
 
+      // Handle clear button visibility
       if (clearButton) {
-        if (keyword.length > 0) {
-          clearButton.classList.add('active');
-        } else {
-          clearButton.classList.remove('active');
-        }
+        if (isSearching) clearButton.classList.add('active');
+        else clearButton.classList.remove('active');
       }
 
-      levelSections.forEach((section) => {
-        const level = section.dataset.levelSection || '';
-        const list = section.querySelector('[data-level-list]');
-        if (!list) return;
+      const sections = sidebar.querySelectorAll('[data-level-section]');
 
-        const items = Array.from(list.querySelectorAll<HTMLAnchorElement>('.grammar-item'));
-        let levelVisible = 0;
+      sections.forEach(section => {
+        const sectionEl = section as HTMLElement;
+        const level = sectionEl.dataset.levelSection;
+        const list = sectionEl.querySelector('[data-level-list]');
+        const items = list?.querySelectorAll('.grammar-item');
+        let sectionMatchCount = 0;
 
-        items.forEach((item) => {
-          const title = item.querySelector('.item-title')?.textContent?.toLowerCase() || '';
-          const meaning = item.querySelector('.item-meaning')?.textContent?.toLowerCase() || '';
-          const tags = Array.from(item.querySelectorAll('.item-tag')).map(tag => tag.textContent?.toLowerCase() || '').join(' ');
+        items?.forEach(item => {
+          const itemEl = item as HTMLElement;
+          const titleEl = itemEl.querySelector('.item-title') as HTMLElement;
+          const meaningEl = itemEl.querySelector('.item-meaning') as HTMLElement;
+          
+          const originalTitle = titleEl.dataset.originalText || titleEl.textContent || '';
+          const originalMeaning = meaningEl.dataset.originalText || meaningEl.textContent || '';
+          const tags = Array.from(itemEl.querySelectorAll('.item-tag')).map(t => t.textContent?.toLowerCase()).join(' ');
 
-          const match = keyword.length === 0 ||
-            title.includes(keyword) ||
-            meaning.includes(keyword) ||
-            tags.includes(keyword);
+          const match = !isSearching || 
+                        originalTitle.toLowerCase().includes(keyword) || 
+                        originalMeaning.toLowerCase().includes(keyword) ||
+                        tags.includes(keyword);
 
-          item.parentElement?.toggleAttribute('hidden', !match);
-
+          itemEl.parentElement?.toggleAttribute('hidden', !match);
+          
           if (match) {
-            levelVisible++;
-            visibleCount++;
+            sectionMatchCount++;
+            globalMatchCount++;
+            if (isSearching) {
+              highlightText(titleEl, originalTitle, keyword);
+              highlightText(meaningEl, originalMeaning, keyword);
+            } else {
+              // Restore original text
+              titleEl.textContent = originalTitle;
+              meaningEl.textContent = originalMeaning;
+            }
           }
         });
 
-        section.toggleAttribute('hidden', levelVisible === 0);
-        const countBadge = section.querySelector('.level-count');
-        if (countBadge) {
-          countBadge.textContent = `${levelVisible} mẫu`;
-        }
-
-        if (keyword.length === 0 && levelReadMoreState.has(level)) {
-          section.dataset.collapsed = 'false';
-          levelReadMoreState.set(level, false);
+        // Hide section if no matches
+        sectionEl.style.display = (sectionMatchCount === 0 && isSearching) ? 'none' : '';
+        
+        // If searching, force expand matched sections
+        if (isSearching && sectionMatchCount > 0 && level) {
+           toggleLevel(level, true);
         }
       });
 
-      setEmptyState(visibleCount > 0, keyword ? `Không tìm thấy kết quả với từ khóa "${keyword}"` : undefined);
+      // Empty State
+      if (emptyState) {
+        emptyState.hidden = globalMatchCount > 0;
+        if (emptyText && isSearching) {
+          emptyText.textContent = `Không tìm thấy kết quả cho "${keyword}"`;
+        }
+      }
     };
 
-    const collapseLevel = (level: string, collapse: boolean) => {
-      const section = sidebar.querySelector<HTMLElement>(`[data-level-section="${level}"]`);
-      if (!section) return;
-      const list = section.querySelector<HTMLElement>('[data-level-list]');
-      const button = section.querySelector<HTMLButtonElement>(`[data-level-toggle="${level}"]`);
-
-      if (collapse) {
-        list?.setAttribute('hidden', 'true');
-        button?.setAttribute('aria-expanded', 'false');
-      } else {
-        list?.removeAttribute('hidden');
-        button?.setAttribute('aria-expanded', 'true');
-      }
-
-      levelReadMoreState.set(level, collapse);
-    };
-
-    highlightActiveItem();
-
-    const updateToggleA11y = () => {
-      const collapsed = sidebar.classList.contains('collapsed');
-      toggle?.setAttribute('aria-expanded', String(!collapsed));
-      toggle?.setAttribute('aria-label', collapsed ? 'Hiện sidebar' : 'Ẩn sidebar');
-      toggle?.setAttribute('title', collapsed ? 'Hiện sidebar (Ctrl+B)' : 'Ẩn sidebar (Ctrl+B)');
-    };
-
-    applyStoredSidebarState();
-    updateToggleA11y();
-
-    // Toggle hide/show sidebar (desktop + mobile)
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        if (window.matchMedia('(max-width: 1024px)').matches) {
-          const willOpen = !sidebar.classList.contains('open');
-          sidebar.classList.toggle('open', willOpen);
-          if (willOpen) {
-            sidebar.classList.remove('collapsed');
-          }
-          updateToggleA11y();
-          emitPanelStateChange();
-          return;
-        }
-        sidebar.classList.toggle('collapsed');
-        const collapsed = syncSidebarLayout();
-        persistSidebarState(collapsed);
-        updateToggleA11y();
-      });
-
-      // Keyboard shortcut Ctrl+B
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
-          e.preventDefault();
-          sidebar.classList.toggle('collapsed');
-          const collapsed = syncSidebarLayout();
-          persistSidebarState(collapsed);
-          updateToggleA11y();
-        }
-      });
-    }
-
-    document.addEventListener('click', (event) => {
-      if (sidebar.classList.contains('open') && event.target instanceof Node && !sidebar.contains(event.target) && event.target !== toggle) {
-        sidebar.classList.remove('open');
-        emitPanelStateChange();
-      }
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && sidebar.classList.contains('open')) {
-        sidebar.classList.remove('open');
-        emitPanelStateChange();
-      }
-    });
-
-    collapseButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const level = button.dataset.levelToggle;
-        if (!level) return;
-        const currentlyCollapsed = levelReadMoreState.get(level) ?? false;
-        collapseLevel(level, !currentlyCollapsed);
-      });
-    });
-
-    actionButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        actionButtons.forEach((btn) => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        const action = button.dataset.action;
-        switch (action) {
-          case 'list':
-            setEmptyState(true);
-            filterItems();
-            break;
-          case 'bookmark':
-            setEmptyState(false, 'Chức năng bookmark đang được phát triển.');
-            break;
-          case 'recent':
-            setEmptyState(false, 'Chức năng bài học gần đây đang được phát triển.');
-            break;
-          default:
-            break;
-        }
-      });
-    });
+    // --- Event Listeners ---
 
     if (searchInput) {
       searchInput.addEventListener('input', filterItems);
-      searchInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
           searchInput.value = '';
           filterItems();
+          searchInput.blur();
         }
       });
     }
@@ -385,11 +398,32 @@ const totalCount = sortedGrammar.length;
           searchInput.value = '';
           searchInput.focus();
         }
-        clearButton.classList.remove('active');
         filterItems();
+        // Reset view to active item state logic
+        highlightActiveAndAutoCollapse();
       });
     }
 
-    window.addEventListener('astro:after-swap', highlightActiveItem);
+    // Add visual scroll indicator for header border
+    if (sidebarContent) {
+      sidebarContent.addEventListener('scroll', () => {
+        if (sidebarContent.scrollTop > 10) {
+          sidebar.classList.add('has-scroll');
+        } else {
+          sidebar.classList.remove('has-scroll');
+        }
+      });
+    }
+
+
+    // Initialize
+    initSidebarState();
+    highlightActiveAndAutoCollapse();
+
+    // Re-run on view transitions
+    window.addEventListener('astro:after-swap', () => {
+      initSidebarState();
+      highlightActiveAndAutoCollapse();
+    });
   });
 </script>
