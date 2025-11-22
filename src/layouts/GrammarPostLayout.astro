@@ -45,11 +45,23 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
 
       <div class="mobile-panel-actions" aria-label="Điều hướng khu vực phụ">
         <button type="button" data-scroll-target="#grammar-sidebar">
-          Danh sách ngữ pháp
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M9 3v18" />
+          </svg>
+          Danh sách bài
         </button>
         {showTOC && (
           <button type="button" data-scroll-target="#toc-container">
-            Mục lục bài học
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+              <line x1="8" y1="6" x2="21" y2="6" />
+              <line x1="8" y1="12" x2="21" y2="12" />
+              <line x1="8" y1="18" x2="21" y2="18" />
+              <line x1="3" y1="6" x2="3.01" y2="6" />
+              <line x1="3" y1="12" x2="3.01" y2="12" />
+              <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+            Mục lục
           </button>
         )}
       </div>
@@ -79,244 +91,251 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     height: 100%;
   }
 
+  :root {
+    --sidebar-width: 300px;
+    --sidebar-collapsed-width: 70px;
+    --toc-width: 260px;
+    --content-gap: 1.5rem;
+  }
+
   .grammar-post-container {
     display: grid;
-    grid-template-columns: 280px 1fr 280px;
-    min-height: calc(100vh - 120px);
-    gap: 1rem;
+    /* Sidebar | Main Content | TOC */
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--toc-width);
+    min-height: calc(100vh - 80px); /* Adjusted for header */
+    gap: var(--content-gap);
     padding: 2rem;
-    max-width: 1400px;
+    max-width: 1500px; /* Increased max-width for better reading */
     margin: 0 auto;
+    transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Khi sidebar thu gọn, thu nhỏ cột trái để main nới rộng */
+  /* Khi sidebar thu gọn */
   .grammar-post-container:has(.grammar-sidebar.collapsed) {
-    grid-template-columns: 56px 1fr 280px;
+    grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr) var(--toc-width);
   }
 
-  /* Khi TOC slide-out, thu nhỏ cột phải để main nới rộng */
+  /* Khi TOC slide-out/collapsed */
   .grammar-post-container:has(#toc-container.slide-out),
   .grammar-post-container:has(#toc-container.collapsed) {
-    grid-template-columns: 280px 1fr 48px;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 48px;
+  }
+
+  /* Khi cả hai thu gọn */
+  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) {
+    grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr) 48px;
   }
 
   .grammar-main {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+    border-radius: 16px; /* Bo góc khớp với sidebar */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Nhẹ nhàng hơn */
+    border: 1px solid #e2e8f0;
+    padding: 2.5rem; /* Tăng padding để thoáng */
+    transition: all 0.3s ease;
   }
 
-  /* Khi một trong hai cột thu gọn, cho nội dung mở rộng hơn */
-  .grammar-post-container:has(.grammar-sidebar.collapsed) .grammar-post,
-  .grammar-post-container:has(#toc-container.collapsed) .grammar-post {
-    max-width: 100%;
+  /* Khi sidebar/toc thu gọn, content sẽ rộng ra, giới hạn max-width để dễ đọc */
+  .grammar-post-container:has(.grammar-sidebar.collapsed) .grammar-main,
+  .grammar-post-container:has(#toc-container.collapsed) .grammar-main {
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  /* Khi cả hai bên đều thu gọn, giảm gap để nội dung tiến gần 2 nút toggle */
-  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) {
-    grid-template-columns: 56px 1fr 48px;
-    gap: 0.5rem;
+  /* Responsive Adjustments */
+  
+  /* Tablet Landscape / Small Desktop */
+  @media (max-width: 1280px) {
+    :root {
+      --sidebar-width: 260px;
+      --toc-width: 220px;
+      --content-gap: 1rem;
+    }
+    .grammar-post-container {
+      padding: 1.5rem;
+    }
   }
 
-  /* Đảm bảo cột giữa co giãn đúng và không bị lệch */
-  .grammar-post-container > .grammar-main {
-    min-width: 0;
-  }
-
-  .mobile-panel-actions {
-    display: none;
-  }
-
-  #mobile-panel-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.35);
-    backdrop-filter: blur(2px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 130;
-  }
-
-  #mobile-panel-overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  :global(body.panel-open) {
-    overflow: hidden;
-    touch-action: none;
-  }
-
-  /* Mobile responsive */
+  /* Tablet Portrait */
   @media (max-width: 1024px) {
     .grammar-post-container {
       display: flex;
       flex-direction: column;
-      grid-template-columns: none;
-      gap: 1rem;
-      padding: 1rem 1.25rem 2rem;
-      min-height: auto;
+      gap: 1.5rem;
+      padding: 1rem 1rem 3rem;
     }
 
     .grammar-main {
-      order: 1;
-      padding: 1.25rem;
+      padding: 1.5rem;
+      box-shadow: none;
+      border: none;
+      background: transparent; /* Mobile looks cleaner without box on bg */
     }
 
+    /* Mobile Actions Bar */
     .mobile-panel-actions {
-      display: none;
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      background: white;
+      padding: 0.75rem;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      position: sticky;
+      top: 1rem;
+      z-index: 30;
+    }
+
+    .mobile-panel-actions button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .mobile-panel-actions button:active {
+      transform: translateY(1px);
+      background: #e2e8f0;
     }
 
     :global(.grammar-sidebar),
     :global(#toc-container) {
-      display: none !important;
+      display: none !important; /* Hide initially on mobile */
     }
   }
 
-  @media (max-width: 768px) {
-    .grammar-post-container {
-      padding: 0.5rem 0.75rem 1.5rem;
-    }
-
+  @media (max-width: 640px) {
     .grammar-main {
-      padding: 1rem;
+      padding: 1rem 0.5rem;
     }
-
-    .mobile-panel-actions button {
-      flex-basis: 100%;
+    .role-switch-container {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
     }
   }
+
+  /* ... (Keep existing animations) ... */
 
   :global(.mobile-highlight) {
     animation: mobilePulse 2.4s ease-in-out;
   }
 
   @keyframes mobilePulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.35);
-    }
-    50% {
-      box-shadow: 0 0 0 9px rgba(33, 150, 243, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
-    }
+    0% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.35); }
+    50% { box-shadow: 0 0 0 9px rgba(33, 150, 243, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0); }
   }
 
-  /* Role Switch Styles */
+  /* Role Switch Styles (Refined) */
   .role-switch-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    font-family: system-ui, sans-serif;
-    margin-left: auto;
-    margin-right: auto;
+    gap: 12px;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #cbd5e1;
   }
 
   .role-label {
     font-weight: 600;
-    color: #666;
+    color: #64748b;
+    font-size: 0.95rem;
   }
 
   .status-text {
-    font-weight: bold;
-    color: #2196F3; /* Màu xanh cho học sinh */
+    font-weight: 700;
+    color: #3b82f6;
     min-width: 80px;
+    text-align: center;
   }
 
   body.teacher-mode .status-text {
-    color: #e91e63; /* Màu hồng/đỏ cho giáo viên */
+    color: #ec4899;
   }
 
   /* Toggle Switch UI */
   .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 24px;
+    width: 52px;
+    height: 28px;
   }
 
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+  .switch input { opacity: 0; width: 0; height: 0; }
 
   .slider {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #2196F3; /* Default Student Color */
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #3b82f6;
     transition: .4s;
+    border-radius: 34px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   }
 
   .slider:before {
     position: absolute;
     content: "";
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     left: 4px;
     bottom: 4px;
     background-color: white;
     transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
   input:checked + .slider {
-    background-color: #e91e63; /* Teacher Color */
+    background-color: #ec4899;
   }
 
   input:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(24px);
   }
 
-  .slider.round {
-    border-radius: 34px;
-  }
+  /* Teacher Only Content */
+  :global(.teacher-only) { display: none; }
 
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-  /* Ẩn/Hiện nội dung giáo viên */
-  /* Mặc định ẩn nội dung có class .teacher-only */
-  :global(.teacher-only) {
-    display: none;
-  }
-
-  /* Khi body có class teacher-mode thì hiện lên */
   :global(body.teacher-mode .teacher-only) {
     display: block;
-    border: 2px dashed #e91e63;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 8px;
-    background-color: #fff0f5;
+    border: 2px dashed #fbcfe8;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 12px;
+    background-color: #fdf2f8;
     position: relative;
   }
 
   :global(body.teacher-mode .teacher-only::before) {
-    content: "Dành cho giáo viên";
+    content: "Giáo viên";
     position: absolute;
-    top: -10px;
-    left: 10px;
-    background: #e91e63;
+    top: -12px;
+    left: 20px;
+    background: #db2777;
     color: white;
-    font-size: 0.8rem;
-    padding: 2px 8px;
-    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 99px;
+    text-transform: uppercase;
   }
 </style>
 
 <script>
+  // ... (Keep existing script logic, it works fine) ...
   type RoleMode = 'teacher' | 'student';
   const MODE_STORAGE_KEY = 'grammar_view_mode';
 
@@ -463,3 +482,4 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     updatePanelOverlayState();
   });
 </script>
+
