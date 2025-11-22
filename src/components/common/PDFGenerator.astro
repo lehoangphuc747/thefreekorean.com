@@ -183,7 +183,7 @@ const levelMap = {
         // Remove temporary container
         document.body.removeChild(pdfContainer);
 
-        // --- LOGIC MỚI: CẮT ẢNH ĐỂ TẠO LỀ (MARGIN) ---
+        // --- LOGIC MỚI: CẮT ẢNH THÔNG MINH ĐỂ TRÁNH CẮT NGANG CHỮ (SMART SPLIT) ---
         const pdf = new jsPDF({
           orientation: 'portrait',
           unit: 'mm',
@@ -205,40 +205,86 @@ const levelMap = {
         
         let currentYPx = 0; // Vị trí hiện tại trên ảnh gốc (px)
         const totalHeightPx = canvas.height;
+        const originalCtx = canvas.getContext('2d');
+
+        // Hàm kiểm tra dòng trắng (hoặc gần trắng)
+        const isLineBlank = (ctx: CanvasRenderingContext2D, y: number, width: number): boolean => {
+           // Lấy 1 dòng pixel tại y
+           try {
+              const pixelData = ctx.getImageData(0, y, width, 1).data;
+              // Kiểm tra xem có pixel nào KHÔNG phải màu trắng không
+              // Duyệt qua từng pixel (4 byte: r, g, b, a)
+              for (let i = 0; i < pixelData.length; i += 4) {
+                  const r = pixelData[i];
+                  const g = pixelData[i + 1];
+                  const b = pixelData[i + 2];
+                  // Nếu pixel tối màu (tổng màu < 750/765 ~ 98% trắng), coi là có nội dung
+                  // Hoặc kiểm tra đơn giản: r < 250 || g < 250 || b < 250
+                  if (r < 250 || g < 250 || b < 250) {
+                      return false; // Có nội dung
+                  }
+              }
+              return true; // Dòng trắng
+           } catch (e) {
+              return false; // Fallback nếu lỗi (ví dụ tainted canvas)
+           }
+        };
+
+        // Hàm tìm vị trí cắt an toàn (quét ngược từ dưới lên)
+        const findSafeCutY = (ctx: CanvasRenderingContext2D, startY: number, width: number, maxScan: number): number => {
+             // Quét ngược lên maxScan pixels
+             for (let y = startY; y > startY - maxScan; y--) {
+                 if (isLineBlank(ctx, Math.floor(y), width)) {
+                     return y;
+                 }
+             }
+             return startY; // Không tìm thấy, đành cắt tại chỗ cũ
+        };
 
         while (currentYPx < totalHeightPx) {
           if (currentYPx > 0) {
             pdf.addPage();
           }
 
-          // 1. Tạo canvas tạm cho 1 trang A4
+          // 1. Tính toán vị trí cắt (Slice Height)
+          let sliceHeightPx = Math.min(pageHeightPx, totalHeightPx - currentYPx);
+
+          // Nếu không phải trang cuối, thử tìm vị trí cắt an toàn để không cắt ngang chữ
+          if (originalCtx && currentYPx + sliceHeightPx < totalHeightPx) {
+               // Quét ngược lên 50px (khoảng 1-2 dòng chữ) để tìm chỗ trắng
+               const proposedCutY = currentYPx + sliceHeightPx;
+               const safeCutY = findSafeCutY(originalCtx, proposedCutY, canvas.width, 60);
+               
+               // Điều chỉnh lại sliceHeight nếu tìm được chỗ cắt mới
+               if (safeCutY < proposedCutY) {
+                   sliceHeightPx = safeCutY - currentYPx;
+               }
+          }
+
+          // 2. Tạo canvas tạm cho 1 trang A4
           const pageCanvas = document.createElement('canvas');
           pageCanvas.width = canvas.width;
-          pageCanvas.height = pageHeightMM / pxToMm; // Chiều cao A4 tính theo pixel tương ứng tỷ lệ ảnh
+          pageCanvas.height = pageHeightMM / pxToMm; // Chiều cao A4 toàn trang
           const ctx = pageCanvas.getContext('2d');
           
           if (ctx) {
-            // 2. Tô nền trắng cho toàn bộ trang (để tạo lề trắng)
+            // Tô nền trắng
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-            // 3. Tính toán phần ảnh cần cắt từ canvas gốc
-            // Chiều cao phần cần cắt: lấy chiều cao trang nội dung, hoặc phần còn lại nếu nỏ hơn
-            const sliceHeightPx = Math.min(pageHeightPx, totalHeightPx - currentYPx);
-
-            // 4. Vẽ phần cắt đó vào canvas trang (vị trí bắt đầu từ lề trên)
+            // Vẽ phần cắt vào canvas trang
             ctx.drawImage(
               canvas, 
-              0, currentYPx, canvas.width, sliceHeightPx, // Source: x, y, w, h
-              0, marginTopPx, canvas.width, sliceHeightPx // Dest: x, y, w, h
+              0, currentYPx, canvas.width, sliceHeightPx, // Source
+              0, marginTopPx, canvas.width, sliceHeightPx // Dest
             );
 
-            // 5. Đưa canvas trang này vào PDF
-            const pageData = pageCanvas.toDataURL('image/jpeg', 0.95); // Dùng JPEG để giảm dung lượng
+            // Đưa vào PDF
+            const pageData = pageCanvas.toDataURL('image/jpeg', 0.95);
             pdf.addImage(pageData, 'JPEG', 0, 0, pageWidthMM, pageHeightMM);
           }
 
-          currentYPx += pageHeightPx;
+          currentYPx += sliceHeightPx;
         }
 
         // Save PDF
