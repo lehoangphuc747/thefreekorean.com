@@ -174,7 +174,7 @@ const levelMap = {
 
         // Capture as canvas
         const canvas = await html2canvas(pdfContainer, {
-          scale: 2, // Higher quality
+          scale: 2,
           useCORS: true,
           logging: false,
           backgroundColor: '#ffffff'
@@ -183,30 +183,62 @@ const levelMap = {
         // Remove temporary container
         document.body.removeChild(pdfContainer);
 
-        // Create PDF
-        const imgData = canvas.toDataURL('image/png');
+        // --- LOGIC MỚI: CẮT ẢNH ĐỂ TẠO LỀ (MARGIN) ---
         const pdf = new jsPDF({
           orientation: 'portrait',
           unit: 'mm',
           format: 'a4'
         });
 
-        const imgWidth = 210; // A4 width in mm
-        const pageHeight = 297; // A4 height in mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 0;
+        const pageHeightMM = 297; // A4 height
+        const pageWidthMM = 210;  // A4 width
+        const marginTopMM = 15;   // Lề trên 15mm
+        const marginBottomMM = 15;// Lề dưới 15mm
+        const contentHeightMM = pageHeightMM - marginTopMM - marginBottomMM; // Chiều cao nội dung khả dụng
 
-        // Add first page
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        // Tính toán tỷ lệ quy đổi từ px sang mm dựa trên chiều rộng
+        const pxToMm = pageWidthMM / canvas.width;
+        
+        // Chiều cao của một trang nội dung tính theo pixel của ảnh gốc
+        const pageHeightPx = contentHeightMM / pxToMm; 
+        const marginTopPx = marginTopMM / pxToMm;
+        
+        let currentYPx = 0; // Vị trí hiện tại trên ảnh gốc (px)
+        const totalHeightPx = canvas.height;
 
-        // Add additional pages if needed
-        while (heightLeft > 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
+        while (currentYPx < totalHeightPx) {
+          if (currentYPx > 0) {
+            pdf.addPage();
+          }
+
+          // 1. Tạo canvas tạm cho 1 trang A4
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.width = canvas.width;
+          pageCanvas.height = pageHeightMM / pxToMm; // Chiều cao A4 tính theo pixel tương ứng tỷ lệ ảnh
+          const ctx = pageCanvas.getContext('2d');
+          
+          if (ctx) {
+            // 2. Tô nền trắng cho toàn bộ trang (để tạo lề trắng)
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+
+            // 3. Tính toán phần ảnh cần cắt từ canvas gốc
+            // Chiều cao phần cần cắt: lấy chiều cao trang nội dung, hoặc phần còn lại nếu nỏ hơn
+            const sliceHeightPx = Math.min(pageHeightPx, totalHeightPx - currentYPx);
+
+            // 4. Vẽ phần cắt đó vào canvas trang (vị trí bắt đầu từ lề trên)
+            ctx.drawImage(
+              canvas, 
+              0, currentYPx, canvas.width, sliceHeightPx, // Source: x, y, w, h
+              0, marginTopPx, canvas.width, sliceHeightPx // Dest: x, y, w, h
+            );
+
+            // 5. Đưa canvas trang này vào PDF
+            const pageData = pageCanvas.toDataURL('image/jpeg', 0.95); // Dùng JPEG để giảm dung lượng
+            pdf.addImage(pageData, 'JPEG', 0, 0, pageWidthMM, pageHeightMM);
+          }
+
+          currentYPx += pageHeightPx;
         }
 
         // Save PDF
