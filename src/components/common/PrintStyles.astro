@@ -4,8 +4,15 @@
 ---
 
 <style is:global>
+  /* Mặc định ẩn header và footer in trên màn hình */
+  .print-header,
+  .print-footer,
+  .print-watermark {
+    display: none !important;
+  }
+
   @media print {
-    /* Ẩn các phần không cần thiết khi in */
+    /* 1. Ẩn các thành phần UI không cần thiết */
     nav,
     .navbar,
     footer,
@@ -26,19 +33,77 @@
     .scroll-to-top,
     button,
     .sidebar-toggle,
-    .toc-toggle {
+    .toc-toggle,
+    .role-switch-container,
+    .mobile-panel-actions,
+    #mobile-panel-overlay,
+    .copy-toast {
       display: none !important;
     }
 
-    /* Reset layout */
+    /* 2. Reset layout cơ bản */
     body {
       background: white !important;
       color: black !important;
-      margin: 0;
-      padding: 0;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: "Times New Roman", Times, serif !important; /* Font serif dễ đọc khi in */
     }
 
-    /* Container tối ưu cho in */
+    /* 3. Cấu hình Header/Footer cho bản in */
+    .print-header {
+      display: block !important;
+      text-align: center !important;
+      margin-bottom: 20pt !important;
+      padding-bottom: 10pt !important;
+      border-bottom: 3px solid #3b82f6 !important;
+      page-break-after: avoid !important;
+    }
+
+    .print-brand {
+      font-size: 20pt !important;
+      font-weight: bold !important;
+      color: #3b82f6 !important;
+      margin-bottom: 5pt !important;
+      text-transform: uppercase !important;
+    }
+
+    .print-subtitle {
+      font-size: 12pt !important;
+      color: #666 !important;
+      font-style: italic !important;
+    }
+
+    .print-footer {
+      display: block !important;
+      margin-top: 30pt !important;
+      padding-top: 10pt !important;
+      border-top: 1px solid #e5e7eb !important;
+      text-align: center !important;
+      font-size: 10pt !important;
+      color: #999 !important;
+      page-break-before: auto !important;
+    }
+
+    /* Watermark chéo toàn trang */
+    .print-watermark {
+      display: block !important;
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) rotate(-45deg) !important;
+      font-size: 60pt !important; /* Giảm size xuống để vừa trang A4 */
+      font-weight: bold !important;
+      color: rgba(0, 0, 0, 0.05) !important;
+      white-space: nowrap !important;
+      pointer-events: none !important;
+      z-index: -1 !important;
+      width: 100% !important;
+      text-align: center !important;
+      overflow: visible !important; /* Đảm bảo không bị cắt nếu hơi dài */
+    }
+
+    /* 4. Tinh chỉnh nội dung chính */
     .grammar-post,
     .grammar-main,
     main {
@@ -48,239 +113,129 @@
       margin: 0 !important;
       box-shadow: none !important;
       border: none !important;
-      background: white !important;
+      z-index: 1 !important; /* Đảm bảo nội dung nằm trên watermark */
+      background: transparent !important; /* Để nhìn xuyên qua thấy watermark */
     }
 
     .grammar-post-container {
       display: block !important;
-      grid-template-columns: 1fr !important;
-      max-width: none !important;
       padding: 0 !important;
       margin: 0 !important;
     }
 
-    /* Typography tối ưu cho in */
-    .grammar-title,
-    h1 {
+    /* Typography */
+    .grammar-title {
       font-size: 24pt !important;
-      color: black !important;
-      margin-top: 0 !important;
-      margin-bottom: 12pt !important;
-      page-break-after: avoid !important;
+      color: #1e293b !important;
+      margin-bottom: 10pt !important;
+      text-align: center !important;
     }
 
     .grammar-meaning {
-      font-size: 14pt !important;
-      color: #333 !important;
-      margin-bottom: 10pt !important;
-      page-break-after: avoid !important;
+      font-size: 16pt !important;
+      color: #3b82f6 !important;
+      font-weight: bold !important;
+      text-align: center !important;
+      margin-bottom: 15pt !important;
     }
 
     .grammar-description {
-      font-size: 11pt !important;
+      font-size: 12pt !important;
+      font-style: italic !important;
       color: #555 !important;
-      margin-bottom: 14pt !important;
-      line-height: 1.5 !important;
+      margin-bottom: 20pt !important;
+      border-left: 3pt solid #ddd !important;
+      padding-left: 10pt !important;
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+      color: #111 !important;
+      page-break-after: avoid !important;
+      break-after: avoid !important;
     }
 
     h2 {
-      font-size: 18pt !important;
-      color: black !important;
+      font-size: 16pt !important;
+      border-bottom: 1pt solid #eee !important;
+      padding-bottom: 5pt !important;
       margin-top: 20pt !important;
-      margin-bottom: 10pt !important;
-      page-break-after: avoid !important;
     }
 
     h3 {
       font-size: 14pt !important;
-      color: black !important;
-      margin-top: 16pt !important;
-      margin-bottom: 8pt !important;
-      page-break-after: avoid !important;
+      margin-top: 15pt !important;
     }
 
-    p {
-      font-size: 11pt !important;
-      line-height: 1.6 !important;
-      margin-bottom: 10pt !important;
-      color: black !important;
-      orphans: 3 !important;
-      widows: 3 !important;
-    }
-
-    /* Badges và tags */
-    .grammar-badges,
-    .level-badge,
-    .tag-badge {
-      page-break-inside: avoid !important;
-      margin-bottom: 10pt !important;
-    }
-
-    .level-badge {
-      border: 1px solid #999 !important;
-      padding: 2pt 6pt !important;
-      font-size: 9pt !important;
-      background: white !important;
-      color: black !important;
-    }
-
-    .tag-badge {
-      border: 1px solid #ccc !important;
-      padding: 2pt 4pt !important;
-      font-size: 8pt !important;
-      background: #f5f5f5 !important;
-      color: #333 !important;
-    }
-
-    /* Content area */
-    .grammar-content,
-    .markdown-content {
-      font-size: 11pt !important;
-      line-height: 1.6 !important;
-      color: black !important;
-    }
-
-    /* Lists */
-    ul, ol {
-      margin-left: 20pt !important;
-      margin-bottom: 10pt !important;
-      page-break-inside: avoid !important;
-    }
-
-    li {
-      font-size: 11pt !important;
+    /* Paragraphs & Lists */
+    p, li {
+      font-size: 12pt !important;
       line-height: 1.5 !important;
-      margin-bottom: 4pt !important;
+      orphans: 3;
+      widows: 3;
+      text-align: justify !important;
     }
 
     /* Tables */
     table {
       width: 100% !important;
+      border: 1px solid #999 !important;
       border-collapse: collapse !important;
-      margin-bottom: 14pt !important;
+      margin: 15pt 0 !important;
       page-break-inside: avoid !important;
     }
 
     th, td {
       border: 1px solid #999 !important;
-      padding: 6pt !important;
-      font-size: 10pt !important;
-      text-align: left !important;
+      padding: 8pt !important;
+      font-size: 11pt !important;
     }
 
     th {
-      background: #f0f0f0 !important;
+      background-color: #f3f4f6 !important;
       font-weight: bold !important;
     }
 
-    /* Code blocks */
-    pre {
-      background: #f5f5f5 !important;
-      border: 1px solid #ccc !important;
-      padding: 8pt !important;
-      margin-bottom: 10pt !important;
-      page-break-inside: avoid !important;
-      font-size: 9pt !important;
-      line-height: 1.4 !important;
+    /* Badges (Level, Tags) */
+    .grammar-badges {
+      justify-content: center !important;
+      margin-bottom: 15pt !important;
     }
 
-    code {
-      background: #f5f5f5 !important;
-      padding: 2pt 4pt !important;
-      font-size: 9pt !important;
-      border: 1px solid #ddd !important;
-    }
-
-    /* Blockquotes */
-    blockquote {
-      border-left: 3pt solid #999 !important;
-      padding-left: 10pt !important;
-      margin-left: 0 !important;
-      margin-bottom: 10pt !important;
-      font-style: italic !important;
+    .level-badge, .tag-badge {
+      border: 1pt solid #999 !important;
+      background: transparent !important;
       color: #333 !important;
-      page-break-inside: avoid !important;
+      padding: 2pt 8pt !important;
     }
 
-    /* Links - hiển thị URL */
+    /* Links */
     a {
-      color: black !important;
-      text-decoration: underline !important;
+      text-decoration: none !important;
+      color: #2563eb !important;
     }
-
-    a[href]:after {
-      content: " (" attr(href) ")" !important;
-      font-size: 9pt !important;
-      color: #555 !important;
-    }
-
-    /* Không hiển thị URL cho anchor links */
-    a[href^="#"]:after {
-      content: "" !important;
-    }
+    
+    /* Hiển thị URL sau link (trừ link nội bộ anchor #) */
+    /* Tắt cái này vì nhiều link sẽ làm rối bản in nếu không cần thiết */
+    /* a[href]:not([href^="#"])::after {
+      content: " (" attr(href) ")";
+      font-size: 0.8em;
+      color: #666;
+    } */
 
     /* Images */
     img {
       max-width: 100% !important;
       height: auto !important;
-      page-break-inside: avoid !important;
-      margin: 10pt 0 !important;
-    }
-
-    /* Tránh ngắt trang không mong muốn */
-    .grammar-info {
-      page-break-after: avoid !important;
-    }
-
-    /* Page breaks */
-    h1, h2, h3, h4, h5, h6 {
-      page-break-after: avoid !important;
-    }
-
-    /* Đảm bảo nội dung đầy đủ */
-    * {
-      box-shadow: none !important;
-      text-shadow: none !important;
-    }
-
-    /* Print header/footer */
-    @page {
-      margin: 2.5cm 2cm 2cm 2cm;
-      size: A4;
-    }
-
-    /* Header - Logo ở đầu trang */
-    .grammar-post::before {
-      content: "📚 THE FREE KOREAN - HỌC TIẾNG HÀN MIỄN PHÍ" !important;
       display: block !important;
-      text-align: center !important;
-      font-size: 12pt !important;
-      font-weight: bold !important;
-      color: #3b82f6 !important;
-      padding: 12pt 0 !important;
-      margin-bottom: 20pt !important;
-      border-bottom: 2pt solid #3b82f6 !important;
-      letter-spacing: 1pt !important;
-    }
-    
-    /* Đảm bảo không lặp trong các elements con */
-    .grammar-main::before {
-      content: none !important;
+      margin: 15pt auto !important;
+      border: 1pt solid #eee !important;
     }
 
-    /* Footer - Watermark */
-    body::after {
-      content: "© The Free Korean - thefreekorean.com" !important;
-      position: fixed !important;
-      bottom: 10pt !important;
-      left: 0 !important;
-      right: 0 !important;
-      text-align: center !important;
-      font-size: 8pt !important;
-      color: #999 !important;
-      padding: 10pt !important;
-      border-top: 1pt solid #e5e7eb !important;
+    /* Page Margins */
+    @page {
+      size: A4;
+      margin: 2cm;
     }
   }
 </style>
-

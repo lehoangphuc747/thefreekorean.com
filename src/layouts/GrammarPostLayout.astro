@@ -19,6 +19,15 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
   <!-- Print-friendly CSS -->
   <PrintStyles />
 
+  <!-- Print Header (Hidden on screen) -->
+  <div class="print-header">
+    <div class="print-brand">📚 THE FREE KOREAN</div>
+    <div class="print-subtitle">Ngữ pháp tiếng Hàn</div>
+  </div>
+
+  <!-- Watermark (Hidden on screen) -->
+  <div class="print-watermark">THE FREE KOREAN</div>
+  
   <div class="grammar-post-container">
     <!-- Sidebar bên trái -->
     <GrammarSidebar />
@@ -54,6 +63,11 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     {showTOC && (
       <slot name="toc" />
     )}
+  </div>
+
+  <!-- Print Footer (Hidden on screen) -->
+  <div class="print-footer">
+    © The Free Korean - thefreekorean.com
   </div>
 </Layout>
 
