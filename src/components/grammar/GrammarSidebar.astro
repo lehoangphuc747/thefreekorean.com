@@ -252,26 +252,47 @@ const totalCount = sortedGrammar.length;
     // --- Active Item & Auto-Scroll ---
 
     const highlightActiveAndAutoCollapse = () => {
-      const currentPath = window.location.pathname;
+      // Normalize path: remove trailing slash for comparison
+      let currentPath = window.location.pathname.replace(/\/$/, '');
+      
+      // If viewing teacher version (-gv), match with student version
+      // e.g., /grammar/beginner/hante-gv -> /grammar/beginner/hante
+      if (currentPath.endsWith('-gv')) {
+        currentPath = currentPath.replace(/-gv$/, '');
+      }
+      
       const items = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('.grammar-item'));
       let activeLevel: string | null = null;
       let foundActive = false;
+      let activeItem: HTMLAnchorElement | null = null;
 
-      items.forEach((item) => {
+      console.log('[Sidebar Debug] Current path (normalized):', currentPath);
+      console.log('[Sidebar Debug] Total items found:', items.length);
+
+      items.forEach((item, index) => {
         // Remove old highlights
         item.classList.remove('active');
         
-        if (item.getAttribute('href') === currentPath && !foundActive) {
+        // Normalize href for comparison
+        const itemHref = (item.getAttribute('href') || '').replace(/\/$/, '');
+        
+        if (itemHref === currentPath && !foundActive) {
+          console.log('[Sidebar Debug] ✅ MATCH FOUND at index', index);
+          console.log('[Sidebar Debug] Item href:', itemHref);
+          console.log('[Sidebar Debug] Item level:', item.dataset.level);
+          console.log('[Sidebar Debug] Item slug:', item.dataset.slug);
+          
           item.classList.add('active');
           activeLevel = item.dataset.level || null;
           foundActive = true;
-          
-          // Auto scroll active item to center
-          setTimeout(() => {
-             item.scrollIntoView({ block: 'center', behavior: 'smooth' });
-          }, 100);
+          activeItem = item;
         }
       });
+
+      if (!foundActive) {
+        console.log('[Sidebar Debug] ❌ No matching item found for path:', currentPath);
+        console.log('[Sidebar Debug] Sample hrefs:', items.slice(0, 5).map(i => i.getAttribute('href')));
+      }
 
       // Smart Collapse: Only open the active level on load, unless user searching
       const allLevels = Array.from(sidebar.querySelectorAll('[data-level-section]')).map(el => (el as HTMLElement).dataset.levelSection);
@@ -279,10 +300,21 @@ const totalCount = sortedGrammar.length;
       // If we are on a grammar page, collapse others. If on index, maybe open all or first?
       // Let's default to: Open Active Level, Close Others.
       if (activeLevel) {
+        console.log('[Sidebar Debug] Active level:', activeLevel);
         allLevels.forEach(level => {
             if (level) toggleLevel(level, level === activeLevel);
         });
+        
+        // Auto scroll active item AFTER level is expanded
+        if (activeItem) {
+          console.log('[Sidebar Debug] Scrolling to active item...');
+          setTimeout(() => {
+            activeItem?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            console.log('[Sidebar Debug] ✅ Scroll complete. Active item:', activeItem?.querySelector('.item-title')?.textContent);
+          }, 150);
+        }
       } else {
+        console.log('[Sidebar Debug] No active level, opening all levels');
         // If no active item (e.g. home page), open all for exploration
         allLevels.forEach(level => {
             if (level) toggleLevel(level, true);
