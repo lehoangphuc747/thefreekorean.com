@@ -6,31 +6,29 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
   title="Tìm hiểu về TOPIK" 
   description="Thông tin chi tiết về kỳ thi TOPIK - Test of Proficiency in Korean"
 >
-  <!-- Back to TOPIK button -->
-  <div class="max-w-7xl mx-auto px-4 pt-8">
+  <!-- Floating Back Button - Fixed on mobile -->
+  <div class="back-btn-container">
     <a 
       href="/topik"
-      class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+      class="back-btn"
+      aria-label="Quay lại trang TOPIK"
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="back-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
-      <span>Quay lại trang TOPIK</span>
+      <span class="back-text">Quay lại</span>
     </a>
   </div>
   
   <!-- Hero Section -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-indigo-600/5 to-pink-600/10"></div>
-    <div class="relative max-w-7xl mx-auto px-4 py-16 text-center">
-      
-      <!-- Hero Content -->
-      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-        <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Tìm hiểu về TOPIK</span>
+  <section class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="gradient-text">Tìm hiểu về TOPIK</span>
       </h1>
-      
-      <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-        Tài liệu hướng dẫn toàn diện về kỳ thi TOPIK - Test of Proficiency in Korean
+      <p class="hero-subtitle">
+        Hướng dẫn toàn diện về kỳ thi năng lực tiếng Hàn TOPIK
       </p>
     </div>
   </section>
@@ -1766,15 +1764,112 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
     </div>
   </section>
 
+  <!-- Back to Top Button -->
+  <button 
+    id="back-to-top" 
+    class="back-to-top" 
+    aria-label="Cuộn lên đầu trang"
+    title="Lên đầu trang"
+  >
+    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
 </TopikLayout>
 
 <style>
-  /* Smooth scrolling for anchor links */
+  /* ===== BACK BUTTON ===== */
+  .back-btn-container {
+    position: fixed;
+    top: 80px;
+    left: 1rem;
+    z-index: 100;
+  }
+  
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    background: white;
+    color: #7c3aed;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.15);
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .back-btn:hover {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+    transform: translateX(-4px);
+    box-shadow: 0 6px 24px rgba(124, 58, 237, 0.3);
+  }
+  
+  .back-btn:active {
+    transform: translateX(-2px) scale(0.98);
+  }
+  
+  .back-icon {
+    transition: transform 0.25s ease;
+  }
+  
+  .back-btn:hover .back-icon {
+    transform: translateX(-3px);
+  }
+
+  /* ===== HERO SECTION ===== */
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 1rem 2.5rem;
+  }
+  
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(99, 102, 241, 0.04) 50%, rgba(236, 72, 153, 0.08) 100%);
+  }
+  
+  .hero-content {
+    position: relative;
+    max-width: 56rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.75rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: #64748b;
+    max-width: 36rem;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ===== SMOOTH SCROLL ===== */
   html {
     scroll-behavior: smooth;
   }
   
-  /* Prose styling */
+  /* ===== PROSE STYLING ===== */
   .prose {
     font-size: 1.125rem;
     line-height: 1.75;
@@ -1788,16 +1883,104 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
   .prose li {
     margin-top: 0.5rem;
   }
+
+  /* ===== BACK TO TOP BUTTON ===== */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    z-index: 100;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .back-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.45);
+  }
+  
+  .back-to-top:active {
+    transform: scale(0.95);
+  }
+
+  /* ===== MOBILE RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .back-btn-container {
+      top: auto;
+      bottom: 1rem;
+      left: 1rem;
+      right: auto;
+    }
+    
+    .back-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.875rem;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .back-text {
+      display: none;
+    }
+    
+    .back-btn {
+      padding: 0.75rem;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      justify-content: center;
+    }
+    
+    .hero-section {
+      padding: 2rem 1rem 1.5rem;
+    }
+    
+    .back-to-top {
+      bottom: 1rem;
+      right: 1rem;
+      width: 44px;
+      height: 44px;
+    }
+  }
+  
+  /* Safe area for mobile devices with notch */
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    @media (max-width: 768px) {
+      .back-btn-container {
+        bottom: calc(1rem + env(safe-area-inset-bottom));
+      }
+      
+      .back-to-top {
+        bottom: calc(1rem + env(safe-area-inset-bottom));
+      }
+    }
+  }
 </style>
 
 <script is:inline>
-  // TOC Collapse functionality
   document.addEventListener('DOMContentLoaded', function() {
+    // ===== TOC COLLAPSE =====
     const toggleHeader = document.getElementById('toc-toggle');
     const tocContent = document.getElementById('toc-content');
     const tocIcon = document.getElementById('toc-icon');
-    
-    if (!toggleHeader || !tocContent || !tocIcon) return;
     
     let isCollapsed = false;
     
@@ -1810,20 +1993,88 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
         tocContent.style.maxHeight = '0';
         tocContent.style.overflow = 'hidden';
         tocContent.style.opacity = '0';
+        tocContent.style.paddingTop = '0';
+        tocContent.style.marginTop = '0';
         tocIcon.style.transform = 'rotate(-90deg)';
       } else {
         tocContent.style.maxHeight = tocContent.scrollHeight + 'px';
         tocContent.style.opacity = '1';
+        tocContent.style.paddingTop = '';
+        tocContent.style.marginTop = '';
         tocIcon.style.transform = 'rotate(0deg)';
+        // Reset maxHeight sau animation để cho phép resize
+        setTimeout(() => {
+          if (!isCollapsed) tocContent.style.maxHeight = 'none';
+        }, 300);
       }
     }
     
-    toggleHeader.addEventListener('click', toggleCollapse);
-    toggleHeader.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleCollapse();
+    if (toggleHeader) {
+      toggleHeader.addEventListener('click', toggleCollapse);
+      toggleHeader.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCollapse();
+        }
+      });
+    }
+
+    // ===== BACK TO TOP =====
+    const backToTopBtn = document.getElementById('back-to-top');
+    const SCROLL_THRESHOLD = 400;
+    let ticking = false;
+
+    function handleScroll() {
+      if (!backToTopBtn) return;
+      
+      if (window.scrollY > SCROLL_THRESHOLD) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
       }
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    handleScroll(); // Check initial state
+
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          const headerOffset = 100;
+          const elementPosition = targetEl.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
     });
   });
 </script>
