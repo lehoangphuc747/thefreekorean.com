@@ -1764,18 +1764,6 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
     </div>
   </section>
 
-  <!-- Back to Top Button -->
-  <button 
-    id="back-to-top" 
-    class="back-to-top" 
-    aria-label="Cuộn lên đầu trang"
-    title="Lên đầu trang"
-  >
-    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-    </svg>
-  </button>
-
 </TopikLayout>
 
 <style>
@@ -1884,44 +1872,6 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
     margin-top: 0.5rem;
   }
 
-  /* ===== BACK TO TOP BUTTON ===== */
-  .back-to-top {
-    position: fixed;
-    bottom: 2rem;
-    right: 1.5rem;
-    z-index: 100;
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .back-to-top.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-  
-  .back-to-top:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.45);
-  }
-  
-  .back-to-top:active {
-    transform: scale(0.95);
-  }
-
   /* ===== MOBILE RESPONSIVE ===== */
   @media (max-width: 768px) {
     .back-btn-container {
@@ -1952,23 +1902,12 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
     .hero-section {
       padding: 2rem 1rem 1.5rem;
     }
-    
-    .back-to-top {
-      bottom: 1rem;
-      right: 1rem;
-      width: 44px;
-      height: 44px;
-    }
   }
   
   /* Safe area for mobile devices with notch */
   @supports (padding-bottom: env(safe-area-inset-bottom)) {
     @media (max-width: 768px) {
       .back-btn-container {
-        bottom: calc(1rem + env(safe-area-inset-bottom));
-      }
-      
-      .back-to-top {
         bottom: calc(1rem + env(safe-area-inset-bottom));
       }
     }
