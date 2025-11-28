@@ -109,15 +109,31 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Nhẹ nhàng hơn */
     border: 1px solid #e2e8f0;
     padding: 2.5rem; /* Tăng padding để thoáng */
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 0; /* Cho phép co lại trong grid */
   }
 
-  /* Khi sidebar/toc thu gọn, content sẽ rộng ra, giới hạn max-width để dễ đọc */
-  .grammar-post-container:has(.grammar-sidebar.collapsed) .grammar-main,
-  .grammar-post-container:has(#toc-container.collapsed) .grammar-main {
-    max-width: 1000px;
+  /* Khi chỉ sidebar thu gọn - tận dụng không gian bên trái */
+  .grammar-post-container:has(.grammar-sidebar.collapsed):not(:has(#toc-container.collapsed)) .grammar-main {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  /* Khi chỉ TOC thu gọn - tận dụng không gian bên phải */
+  .grammar-post-container:has(#toc-container.collapsed):not(:has(.grammar-sidebar.collapsed)) .grammar-main,
+  .grammar-post-container:has(#toc-container.slide-out):not(:has(.grammar-sidebar.collapsed)) .grammar-main {
+    max-width: 900px;
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Khi CẢ HAI thu gọn - content mở rộng tối đa, căn giữa */
+  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) .grammar-main,
+  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.slide-out) .grammar-main {
+    max-width: 1100px;
     margin: 0 auto;
-    width: 100%;
+    padding: 3rem 4rem; /* Tăng padding khi có nhiều không gian */
   }
 
   /* Responsive Adjustments */
@@ -131,6 +147,18 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
     }
     .grammar-post-container {
       padding: 1.5rem;
+    }
+    
+    /* Giảm max-width cho màn hình nhỏ hơn */
+    .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) .grammar-main,
+    .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.slide-out) .grammar-main {
+      max-width: 900px;
+      padding: 2.5rem 3rem;
+    }
+    
+    .grammar-post-container:has(.grammar-sidebar.collapsed):not(:has(#toc-container.collapsed)) .grammar-main,
+    .grammar-post-container:has(#toc-container.collapsed):not(:has(.grammar-sidebar.collapsed)) .grammar-main {
+      max-width: 800px;
     }
   }
 
