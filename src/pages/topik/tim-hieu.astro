@@ -1958,43 +1958,6 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
       });
     }
 
-    // ===== BACK TO TOP =====
-    const backToTopBtn = document.getElementById('back-to-top');
-    const SCROLL_THRESHOLD = 400;
-    let ticking = false;
-
-    function handleScroll() {
-      if (!backToTopBtn) return;
-      
-      if (window.scrollY > SCROLL_THRESHOLD) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    }
-
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(function() {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    handleScroll(); // Check initial state
-
-    if (backToTopBtn) {
-      backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
-    }
-
     // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
