@@ -12,7 +12,10 @@ export default defineConfig({
   site: 'https://thefreekorean.com',
   output: 'static',
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ['@tailwindcss/vite']
+    }
   },
 
   integrations: [react(), mdx()]
