@@ -1774,10 +1774,38 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
     scroll-behavior: smooth;
   }
   
+  /* CSS Custom Properties for consistency */
+  :root {
+    --navbar-height: 80px;
+    --brand-color: #3245ff;
+  }
+  
+  /* Improved readability styles */
+  
+  /* Better paragraph spacing */
+  p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  
+  /* Better list spacing */
+  ul, ol {
+    line-height: 1.75;
+  }
+  
+  li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Better heading and section spacing - offset for fixed navbar */
+  h2, h3, h4, section {
+    scroll-margin-top: var(--navbar-height);
+  }
+  
   /* Prose styling */
   .prose {
     font-size: 1.125rem;
-    line-height: 1.75;
+    line-height: 1.8;
   }
   
   .prose ul {
@@ -1787,6 +1815,46 @@ import TopikLayout from '../../layouts/TopikLayout.astro';
   
   .prose li {
     margin-top: 0.5rem;
+  }
+  
+  /* Table readability improvements */
+  table {
+    font-size: 0.95rem;
+  }
+  
+  td, th {
+    line-height: 1.6;
+  }
+  
+  /* Better focus styles for accessibility */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--brand-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  
+  /* Responsive text sizing for better mobile readability */
+  @media (max-width: 640px) {
+    p {
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+    
+    li {
+      font-size: 0.95rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1.25rem;
+    }
+    
+    table {
+      font-size: 0.875rem;
+    }
   }
 </style>
 
