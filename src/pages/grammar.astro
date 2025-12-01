@@ -103,8 +103,10 @@ const grammarByLevel = {
 
         <!-- Grammar Cards -->
         <div class="grammar-cards" id="grammar-cards">
-          {sortedGrammar.map((grammar) => (
-            <div class="grammar-card" data-level={grammar.data.level} data-slug={grammar.slug}>
+          {sortedGrammar.map((grammar) => {
+            const slug = grammar.data.slug || grammar.slug;
+            return (
+            <div class="grammar-card" data-level={grammar.data.level} data-slug={slug}>
               <div class="card-header">
                 <h3 class="card-title">{grammar.data.title}</h3>
                 <span class="card-level">{grammar.data.level}</span>
@@ -119,7 +121,8 @@ const grammarByLevel = {
                 ))}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>

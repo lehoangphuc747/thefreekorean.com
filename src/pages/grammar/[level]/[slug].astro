@@ -15,10 +15,12 @@ export async function getStaticPaths() {
   const paths = await Promise.all(
     grammarEntries.map(async (entry) => {
       const rendered = await entry.render();
+      // Sử dụng frontmatter slug nếu có, nếu không thì dùng filename slug
+      const slug = entry.data.slug || entry.slug;
       return {
         params: {
           level: entry.data.level,
-          slug: entry.slug
+          slug: slug
         },
         props: { 
           entry,

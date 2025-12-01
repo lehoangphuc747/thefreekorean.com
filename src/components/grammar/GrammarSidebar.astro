@@ -92,13 +92,15 @@ const totalCount = sortedGrammar.length;
         </div>
 
         <ul class="grammar-list" data-level-list={level}>
-          {groupedGrammar[level].map((grammar) => (
+          {groupedGrammar[level].map((grammar) => {
+            const slug = grammar.data.slug || grammar.slug;
+            return (
             <li>
               <a
-                href={`/grammar/${grammar.data.level}/${grammar.slug}`}
+                href={`/grammar/${grammar.data.level}/${slug}`}
                 class="grammar-item"
                 data-level={grammar.data.level}
-                data-slug={grammar.slug}
+                data-slug={slug}
               >
                 <span class="item-title" data-original-text={grammar.data.title}>{grammar.data.title}</span>
                 <span class="item-meta">
@@ -113,7 +115,8 @@ const totalCount = sortedGrammar.length;
                 </span>
               </a>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
     ))}
