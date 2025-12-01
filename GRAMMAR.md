@@ -239,28 +239,29 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 8. [에2](./docs/e2.md)
 9. [에3 - Điểm đến](./docs/e3.md)
 10. [에4](./docs/e4.md)
-11. [에서1](./docs/eseo1.md)
-12. [에서2](./docs/eseo2.md)
+11. [에서1](./docs/eseo1.md) ở (hành động)
+12. [에서2](./docs/eseo2.md) từ (địa điểm)
 13. [으로1](./docs/으로1.md)
 14. [으로2](./docs/으로2.md)
 15. [에게](./docs/에게.md)
 16. [한테](./docs/한테.md)
 17. [께](./docs/께.md)
-18. 에게서
-19. 한테서
-20. 에게로
-21. 하고1
-22. 과1
-23. 이랑1
-24. 부터
-25. 까지
-26. 도
-27. 만
-28. 밖에
-29. 보다
-30. 마다
-31. 처럼
-32. 이나1
+18. [[src/content/grammar/에게서|에게서]]
+19. [[src/content/grammar/한테서|한테서]]
+20. [[src/content/grammar/에게로|에게로]]
+21. [하고1](src/content/grammar/하고1.md) và
+22. [하고2](src/content/grammar/하고2.md) cùng, với
+23. 과1 và
+24. 이랑1 và
+25. 부터 
+26. 까지
+27. 도
+28. 만
+29. 밖에
+30. 보다
+31. 마다
+32. 처럼
+33. 이나1
 
 Đuôi câu thì
 

@@ -20,37 +20,8 @@
               "icon": "lucide-file",
               "title": "topik_vocabulary"
             }
-          },
-          {
-            "id": "680aa68d12a4741b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "GRAMMAR.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "GRAMMAR"
-            }
-          },
-          {
-            "id": "6e8d2173df305d4d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "docs/께.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "께"
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -199,8 +170,28 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6e8d2173df305d4d",
+  "active": "6b7445db5afce163",
   "lastOpenFiles": [
+    "GRAMMAR.md",
+    "src/content/grammar/hago2.gv.md",
+    "src/content/grammar/hago1.gv.md",
+    "src/content/grammar/egero.hs.md",
+    "src/content/grammar/hanteseo.hs.md",
+    "src/content/grammar/egeseo.hs.md",
+    "src/content/grammar/kke.gv.md",
+    "src/content/grammar/hante.gv.md",
+    "src/content/grammar/ege.gv.md",
+    "topik_vocabulary.md",
+    "src/content/grammar/에게로.md",
+    "src/content/grammar/한테서.md",
+    "src/content/grammar/에게서.md",
+    "docs/께.md",
+    "docs/한테.md",
+    "docs/에게.md",
+    "src/content/grammar/hago2.hs.md",
+    "src/content/grammar/하고2.md",
+    "src/content/grammar/hago1.hs.md",
+    "src/content/grammar/하고1.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
@@ -211,7 +202,6 @@
     "dist/topik/luyen-tap/topik2-reading-dang-13/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-12/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-11/index.html",
-    "dist/topik/luyen-tap/topik2-reading-dang-10/index.html",
     "dist/images/topik-vocabulary.jpg",
     "dist/images/topik-self-study-guide.jpg",
     "dist/images/topik-91.svg",
@@ -222,30 +212,11 @@
     "dist/images/topik-2-96.svg",
     "dist/images/tieng-han-tong-hop-2.jpg",
     "dist/images/tieng-han-tong-hop-1.svg",
-    "docs/께.md",
-    "GRAMMAR.md",
-    "docs/한테.md",
-    "src/content/grammar/hante.gv.md",
     "src/content/grammar/hante.hs.md",
-    "docs/에게.md",
-    "src/content/grammar/ege.gv.md",
     "src/content/grammar/ege.hs.md",
     "docs/으로2.md",
-    "topik_vocabulary.md",
     "docs/으로1.md",
     "src/content/grammar/euro2.gv.md",
-    "src/content/grammar/euro2.hs.md",
-    "src/content/grammar/euro1.gv.md",
-    "src/content/grammar/euro1.hs.md",
-    "docs/euro1.md",
-    "src/content/grammar/eseo1.gv.md",
-    "src/content/grammar/eseo1.hs.md",
-    "src/content/grammar/e4.hs.md",
-    "src/content/grammar/e4.gv.md",
-    "docs/e4.md",
-    "src/content/grammar/ui.gv.md",
-    "src/content/grammar/ui.hs.md",
-    "docs/eseo1.md",
-    "docs/eseo2.md"
+    "src/content/grammar/euro2.hs.md"
   ]
 }

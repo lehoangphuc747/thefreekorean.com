@@ -6,7 +6,7 @@
   "alwaysUpdateLinks": true,
   "newFileLocation": "folder",
   "newFileFolderPath": "src/content/grammar",
-  "newLinkFormat": "relative",
+  "newLinkFormat": "absolute",
   "showUnsupportedFiles": true,
   "attachmentFolderPath": "public/images",
   "pdfExportSettings": {
@@ -14,5 +14,6 @@
     "landscape": false,
     "margin": "0",
     "downscalePercent": 100
-  }
+  },
+  "useMarkdownLinks": true
 }
