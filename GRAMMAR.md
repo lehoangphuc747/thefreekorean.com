@@ -251,8 +251,8 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 20. [[src/content/grammar/에게로|에게로]]
 21. [하고1](src/content/grammar/하고1.md) và
 22. [하고2](src/content/grammar/하고2.md) cùng, với
-23. 과1 và
-24. 이랑1 và
+23. 과1 và - done
+24. 이랑1 và done
 25. 부터 
 26. 까지
 27. 도

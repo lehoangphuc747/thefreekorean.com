@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국어 문법: 부터</title>
+    <style>
+        /* CSS Styles */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #16a085; /* Teal for 'Start/Order' */
+            --bg-color: #f8f9fa;
+            --table-header-bg: #e9ecef;
+            --border-color: #dee2e6;
+            --highlight-text: #c0392b;
+            --success-color: #27ae60;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            background-color: #e8f6f3; /* Light teal bg */
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            font-weight: bold;
+            color: var(--primary-color);
+            width: 20%;
+        }
+
+        /* Grammar Highlights */
+        .grammar-point {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .example-box, .info-box {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background-color: #fdfefe;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .dialogue {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        .dialogue:last-child {
+            border-bottom: none;
+        }
+        .dialogue span.speaker {
+            font-weight: bold;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        /* Tabs */
+        .tab-container {
+            margin-top: 20px;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #777;
+        }
+        .tab-btn.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            margin-bottom: -2px;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            th, td { display: block; width: 100%; }
+            th { text-align: center; background-color: #e9ecef; }
+            .tab-buttons { flex-direction: column; }
+            .tab-btn { width: 100%; text-align: left; border-bottom: 1px solid #eee; }
+            .tab-btn.active { border-bottom: 3px solid var(--accent-color); }
+        }
+        
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: white;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .badge-time { background-color: #3498db; }
+        .badge-order { background-color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 표제어 정보 -->
+    <h1>문법·표현: 부터</h1>
+    
+    <table>
+        <caption>표제어 상세 정보</caption>
+        <colgroup>
+            <col style="width: 15%">
+            <col style="width: 35%">
+            <col style="width: 15%">
+            <col style="width: 35%">
+        </colgroup>
+        <tbody>
+            <tr>
+                <th>문법/표현</th>
+                <td><strong>부터</strong></td>
+                <th>품사</th>
+                <td>조사</td>
+            </tr>
+            <tr>
+                <th>토픽 등급</th>
+                <td>초급</td>
+                <th>국제표준모형</th>
+                <td>초급</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 의미와 용법 -->
+    <section>
+        <h2>1. 의미와 용법</h2>
+        <p>
+            어떤 동작이나 상태의 <strong class="grammar-point">시작점</strong>을 나타내는 조사입니다.<br>
+            크게 두 가지 의미로 사용됩니다.
+        </p>
+        <div class="info-box">
+            <p><span class="badge badge-time">시간</span> <strong>동작/상태의 시작:</strong> 어떤 동작이나 상태가 시작되는 시간을 나타냅니다.</p>
+            <p><span class="badge badge-order">순서</span> <strong>우선 순위:</strong> 여러 가지 일 중 순서나 서열상 제일 먼저 할 일을 나타냅니다.</p>
+        </div>
+    </section>
+
+    <!-- 예문 -->
+    <section>
+        <h2>2. 예문</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="text-align: center; width: 50%;">담화 예문</th>
+                    <th style="text-align: center; width: 50%;">문장 예문</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top;">
+                        <div class="dialogue">
+                            <span class="badge badge-time">시간</span><br>
+                            <span class="speaker">가:</span> 선생님, 수업은 언제 시작해요?<br>
+                            <span class="speaker">나:</span> 수업은 9시<span class="grammar-point">부터</span> 시작해요.
+                        </div>
+                        <div class="dialogue">
+                            <span class="badge badge-time">시간</span><br>
+                            <span class="speaker">가:</span> 흐엉 씨, 여름방학이 언제예요?<br>
+                            <span class="speaker">나:</span> 여름방학은 6월<span class="grammar-point">부터</span> 8월까지예요.
+                        </div>
+                        <hr style="border: 0; border-top: 1px dashed #ddd; margin: 15px 0;">
+                        <div class="dialogue">
+                            <span class="badge badge-order">순서</span><br>
+                            <span class="speaker">가:</span> 앤디 씨, 집에 가면 제일 먼저 무엇을 할 거예요?<br>
+                            <span class="speaker">나:</span> 저는 잠<span class="grammar-point">부터</span> 잘 거예요.
+                        </div>
+                        <div class="dialogue">
+                            <span class="badge badge-order">순서</span><br>
+                            <span class="speaker">가:</span> 맛있는 음식이 많아서 뭐 <span class="grammar-point">부터</span> 먹어야 할지 모르겠어요.<br>
+                            <span class="speaker">나:</span> 가까이에 있는 것<span class="grammar-point">부터</span> 차례로 드세요.
+                        </div>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <strong>[시간의 시작]</strong>
+                        <ul>
+                            <li>저는 오늘<span class="grammar-point">부터</span> 도서관에서 공부할 거예요.</li>
+                            <li>흐엉 씨가 아침<span class="grammar-point">부터</span> 삼겹살을 먹어요.</li>
+                            <li>현우 씨가 내일<span class="grammar-point">부터</span> 다음 주까지 아르바이트를 해요.</li>
+                            <li>수지 씨는 그 약을 먹고<span class="grammar-point">부터</span> 몸이 좋아졌어요.</li>
+                        </ul>
+                        <br>
+                        <strong>[순서/우선]</strong>
+                        <ul>
+                            <li>저는 아침에 신문<span class="grammar-point">부터</span> 읽어요.</li>
+                            <li>철수<span class="grammar-point">부터</span> 청소를 하기 시작했다.</li>
+                            <li>저는 다음<span class="grammar-point">부터</span> 혼자 여행 가지 않을 거예요.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 형태 정보 -->
+    <section>
+        <h2>3. 형태 정보</h2>
+        <p>명사의 끝음절 받침 유무에 관계없이 항상 <strong>'부터'</strong>를 씁니다.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>조건</th>
+                    <th>형태</th>
+                    <th>예시</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>받침 O</strong></td>
+                    <td rowspan="2" style="vertical-align: middle; text-align: center;"><span class="grammar-point">부터</span></td>
+                    <td>
+                        오늘 + 부터 → <strong>오늘부터</strong><br>
+                        동생 + 부터 → <strong>동생부터</strong><br>
+                        아침 + 부터 → <strong>아침부터</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>받침 X</strong></td>
+                    <td>
+                        어제 + 부터 → <strong>어제부터</strong><br>
+                        언니 + 부터 → <strong>언니부터</strong><br>
+                        식사 + 부터 → <strong>식사부터</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 문장 구성 정보 -->
+    <section>
+        <h2>4. 문장 구성 정보</h2>
+        <div class="info-box">
+            <h3>'부터' ~ '까지'</h3>
+            <p>어떤 행위나 상태의 <strong>시작(부터)</strong>과 <strong>끝(까지)</strong>을 나타내는 범위 표현으로 자주 쓰입니다.</p>
+            <ul>
+                <li>저는 9시<span class="grammar-point">부터</span> 12시<strong>까지</strong> 한국어를 배웁니다.</li>
+                <li>시험은 월요일<span class="grammar-point">부터</span> 목요일<strong>까지</strong>입니다.</li>
+                <li>철수는 아침<span class="grammar-point">부터</span> 저녁<strong>까지</strong> 일을 합니다.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 유사 문법 -->
+    <section>
+        <h2>5. 유사 문법 비교</h2>
+        
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'tab1')">① 부터 vs 에</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab2')">② 부터 vs 에서</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab3')">③ 부터 vs 에서 vs 에서부터</button>
+            </div>
+
+            <!-- Tab 1 -->
+            <div id="tab1" class="tab-content active">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>부터</th>
+                            <th>에</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>의미</strong></td>
+                            <td>시간의 <strong>시작점</strong> (지속됨)</td>
+                            <td>행위가 일어나는 <strong>특정 시점</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>예시</strong></td>
+                            <td>토요일 오후 4시<span class="grammar-point">부터</span> (시작해서 계속) 우리 집에 오세요. (X)<br>
+                            <em>* 오다(Come)는 순간적인 행위이므로 '부터'와 어색함</em></td>
+                            <td>토요일 오후 4시<strong>에</strong> 우리 집에 오세요. (O)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>예시</strong></td>
+                            <td>서울은 겨울<span class="grammar-point">부터</span> 눈이 와요. (X)<br><em>(겨울이 시작되면서 눈이 온다는 의미면 가능하나, 보통 '겨울에' 사용)</em></td>
+                            <td>서울은 겨울<strong>에</strong> 눈이 와요. (O)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab 2 -->
+            <div id="tab2" class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>부터 (~까지)</th>
+                            <th>에서 (~까지)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>주 사용</strong></td>
+                            <td>주로 <strong>시간</strong>의 시작점</td>
+                            <td>주로 <strong>장소</strong>의 출발점</td>
+                        </tr>
+                        <tr>
+                            <td><strong>시간</strong></td>
+                            <td>수업이 9시<span class="grammar-point">부터</span> 시작합니다. (O)</td>
+                            <td>수업이 9시<strong>에서</strong> 시작합니다. (X)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>장소</strong></td>
+                            <td>수지는 집<span class="grammar-point">부터</span> 걸어왔어요. (??)<br><em>* 장소 단독 사용 시 어색할 수 있음</em></td>
+                            <td>수지는 집<strong>에서</strong> 걸어왔어요. (O)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>범위 (A~B)</strong></td>
+                            <td>6월<span class="grammar-point">부터</span> 9월까지 (O)<br>서울<span class="grammar-point">부터</span> 부산까지 (O)</td>
+                            <td>6월<strong>에서</strong> 9월까지 (O)<br>서울<strong>에서</strong> 부산까지 (O)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="note">* 장소 명사에 따라서는 ‘~부터 ~까지’가 어색한 경우가 많으므로, 장소의 이동 범위는 주로 '에서 ~까지'를 사용합니다.</p>
+            </div>
+
+            <!-- Tab 3 -->
+            <div id="tab3" class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>부터</th>
+                            <th>에서</th>
+                            <th>에서부터</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>특징</strong></td>
+                            <td>시간의 시작점 강조</td>
+                            <td>장소의 출발점 강조</td>
+                            <td>시간/장소의 시작점 강조 (강한 시작)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>시간 예시</strong></td>
+                            <td>9시<span class="grammar-point">부터</span> (O)</td>
+                            <td>9시<strong>에서</strong> (X)</td>
+                            <td>9시<strong>에서부터</strong> (O)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>장소 예시</strong></td>
+                            <td>집<span class="grammar-point">부터</span> (??)</td>
+                            <td>집<strong>에서</strong> (O)</td>
+                            <td>집<strong>에서부터</strong> (O)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // JS Functionality for Tabs
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        
+        // Hide all tab content
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+
+        // Remove active class from all buttons
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab and add active class to button
+        document.getElementById(tabName).style.display = "block";
+        setTimeout(() => {
+            document.getElementById(tabName).classList.add("active");
+        }, 10);
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+</body>
+</html>

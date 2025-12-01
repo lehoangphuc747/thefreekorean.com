@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국어 문법: 이랑/랑</title>
+    <style>
+        /* CSS Styles */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #8e44ad; /* Purple for distinction */
+            --bg-color: #f8f9fa;
+            --table-header-bg: #e9ecef;
+            --border-color: #dee2e6;
+            --highlight-text: #c0392b;
+            --success-color: #27ae60;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            background-color: #f3e5f5; /* Light purple bg */
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            font-weight: bold;
+            color: var(--primary-color);
+            width: 20%;
+        }
+
+        /* Grammar Highlights */
+        .grammar-point {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .bad-example {
+            color: var(--highlight-text);
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .example-box, .info-box {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .dialogue {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        .dialogue:last-child {
+            border-bottom: none;
+        }
+        .dialogue span.speaker {
+            font-weight: bold;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        /* Tabs */
+        .tab-container {
+            margin-top: 20px;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #777;
+        }
+        .tab-btn.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            margin-bottom: -2px;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            th, td { display: block; width: 100%; }
+            th { text-align: center; background-color: #e9ecef; }
+        }
+        
+        .note {
+            font-size: 0.9em;
+            color: #555;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 표제어 정보 -->
+    <h1>문법·표현: 이랑1 (이랑/랑)</h1>
+    
+    <table>
+        <caption>표제어 상세 정보</caption>
+        <colgroup>
+            <col style="width: 15%">
+            <col style="width: 35%">
+            <col style="width: 15%">
+            <col style="width: 35%">
+        </colgroup>
+        <tbody>
+            <tr>
+                <th>문법/표현</th>
+                <td><strong>이랑1</strong></td>
+                <th>품사</th>
+                <td>조사</td>
+            </tr>
+            <tr>
+                <th>토픽 등급</th>
+                <td>초급</td>
+                <th>국제표준모형</th>
+                <td>초급</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 의미와 용법 -->
+    <section>
+        <h2>1. 의미와 용법</h2>
+        <p>
+            여러 사물이나 사람을 <strong class="grammar-point">연결</strong>함을 나타내는 조사.<br>
+            (명사에 붙어) 사물이나 사람을 같은 자격으로 이어 주는 뜻을 나타낸다. 앞뒤 명사 모두를 가리킬 때 사용한다.<br>
+            <strong>* 주로 구어(말하기)에서 많이 사용합니다.</strong>
+        </p>
+    </section>
+
+    <!-- 예문 -->
+    <section>
+        <h2>2. 예문</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="text-align: center; width: 50%;">담화 예문</th>
+                    <th style="text-align: center; width: 50%;">문장 예문</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top;">
+                        <div class="dialogue">
+                            <span class="speaker">가:</span> 교실에 무엇이 있어요?<br>
+                            <span class="speaker">나:</span> 책상<span class="grammar-point">이랑</span> 의자가 있어요.
+                        </div>
+                        <div class="dialogue">
+                            <span class="speaker">가:</span> 편의점에서 무엇을 샀어요?<br>
+                            <span class="speaker">나:</span> 빵<span class="grammar-point">이랑</span> 라면을 샀어요.
+                        </div>
+                        <div class="dialogue">
+                            <span class="speaker">가:</span> 앤디 씨는 생일 선물을 받았어요?<br>
+                            <span class="speaker">나:</span> 네, 꽃<span class="grammar-point">이랑</span> 책을 받았어요.
+                        </div>
+                        <div class="dialogue">
+                            <span class="speaker">가:</span> 식당에서 누구를 만났어요?<br>
+                            <span class="speaker">나:</span> 앤디<span class="grammar-point">랑</span> 수지를 만났어요.
+                        </div>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <ul>
+                            <li>마이클<span class="grammar-point">이랑</span> 앤디는 제 친구예요.</li>
+                            <li>저는 수학<span class="grammar-point">이랑</span> 컴퓨터를 배워요.</li>
+                            <li>저는 수박<span class="grammar-point">이랑</span> 바나나를 좋아해요.</li>
+                            <li>동생은 밥<span class="grammar-point">이랑</span> 김치를 먹어요.</li>
+                            <li>오늘<span class="grammar-point">이랑</span> 내일은 수업이 없어요.</li>
+                            <li>언니<span class="grammar-point">랑</span> 오빠가 중국으로 여행을 가요.</li>
+                            <li>철수<span class="grammar-point">랑</span> 영희가 학교에 가요.</li>
+                            <li>왕밍은 바지<span class="grammar-point">랑</span> 가방을 샀어요.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="note">
+            <strong>참고:</strong><br>
+            1. 순서를 바꾸어 써도 의미가 같습니다. (책상이랑 의자 = 의자랑 책상)<br>
+            2. 셋 이상을 나열해도 됩니다. (옷이랑 구두랑 가방이랑 사요)<br>
+            3. 격 조사(이/가, 을/를)는 맨 뒤에 오는 명사 뒤에 붙습니다.
+        </div>
+    </section>
+
+    <!-- 형태 정보 -->
+    <section>
+        <h2>3. 형태 정보</h2>
+        <p>명사의 끝음절 받침 유무에 따라 <strong>'이랑'</strong> 또는 <strong>'랑'</strong>을 씁니다.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>조건</th>
+                    <th>형태</th>
+                    <th>예시</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>받침 O</strong> (자음)</td>
+                    <td><span class="grammar-point">이랑</span></td>
+                    <td>
+                        가방 + 이랑 → <strong>가방이랑</strong><br>
+                        연필 + 이랑 → <strong>연필이랑</strong><br>
+                        책 + 이랑 → <strong>책이랑</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>받침 X</strong> (모음)</td>
+                    <td><span class="grammar-point">랑</span></td>
+                    <td>
+                        컴퓨터 + 랑 → <strong>컴퓨터랑</strong><br>
+                        학교 + 랑 → <strong>학교랑</strong><br>
+                        의자 + 랑 → <strong>의자랑</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 제약 정보 -->
+    <section>
+        <h2>4. 제약 정보</h2>
+        <div class="example-box">
+            <p><strong>① 문장과 문장을 연결할 때는 사용할 수 없습니다.</strong></p>
+            <p style="color: #c0392b;">(X) 철수는 영어를 공부해요 <strong>랑</strong> 앤디는 한국어를 공부해요.</p>
+            <p style="color: #27ae60;">(O) 철수는 영어를 공부해요. <strong>그리고</strong> 앤디는 한국어를 공부해요.</p>
+            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 10px 0;">
+            <p><em>* 단, 두 문장의 구성이 같고 주어나 목적어만 다를 때는 합쳐서 표현할 수 있습니다.</em></p>
+            <p>철수는 영어를 공부해요. + 철수는 한국어를 공부해요.<br>→ 철수는 영어<span class="grammar-point">랑</span> 한국어를 공부해요.</p>
+        </div>
+    </section>
+
+    <!-- 유사 문법 -->
+    <section>
+        <h2>5. 유사 문법 비교</h2>
+        
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'tab1')">이랑 vs 하고 vs 과</button>
+            </div>
+
+            <!-- Tab 1 -->
+            <div id="tab1" class="tab-content active">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>(이)랑</th>
+                            <th>하고</th>
+                            <th>과/와</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>주 사용 상황</strong></td>
+                            <td><strong>말하기 (구어)</strong><br>비격식적</td>
+                            <td><strong>말하기 (구어)</strong><br>비격식적</td>
+                            <td><strong>말하기 & 글쓰기</strong><br>격식적 (발표, 연설 등)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>마지막 명사 뒤</strong></td>
+                            <td>사용 가능<br>(옷이랑 가방<strong>이랑</strong> 사요 O)</td>
+                            <td>사용 가능<br>(옷하고 가방<strong>하고</strong> 사요 O)</td>
+                            <td>사용 불가<br>(옷과 가방<strong>과</strong> 사요 X)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>예문 (격식)</strong></td>
+                            <td>국민 여러분<strong>이랑</strong>... (?)<br>(어색함)</td>
+                            <td>국민 여러분<strong>하고</strong>... (?)<br>(어색함)</td>
+                            <td>국민 여러분<strong>과</strong>... (O)<br>(자연스러움)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="note" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #333;">
+                    * 세 조사는 의미는 같지만, 한 문장 안에서 섞어서 쓰지 않습니다.<br>
+                    (X) 수박<strong>하고</strong> 딸기<strong>와</strong> 바나나<strong>랑</strong>... <br>
+                    (O) 수박<strong>이랑</strong> 딸기<strong>랑</strong> 바나나<strong>랑</strong>...
+                </p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // JS Functionality for Tabs
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        
+        // Hide all tab content
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+
+        // Remove active class from all buttons
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab and add active class to button
+        document.getElementById(tabName).style.display = "block";
+        setTimeout(() => {
+            document.getElementById(tabName).classList.add("active");
+        }, 10);
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+</body>
+</html>

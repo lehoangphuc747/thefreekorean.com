@@ -351,12 +351,6 @@
   font-weight: 700;
 }
 
-/* Answer placeholder styling (➡ ........) */
-.markdown-content li:has(br),
-.markdown-content p:has(br) {
-  white-space: pre-line;
-}
-
 /* Practice/Exercise section styling */
 .markdown-content li[data-exercise],
 .markdown-content .exercise-item {
