@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "topik_vocabulary"
             }
+          },
+          {
+            "id": "d3799c3c5734e928",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/028.do.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "028.do"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,8 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "772b261196dfe89b",
@@ -170,8 +184,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6b7445db5afce163",
+  "active": "d3799c3c5734e928",
   "lastOpenFiles": [
+    "topik_vocabulary.md",
     "GRAMMAR.md",
     "src/content/grammar/hago2.gv.md",
     "src/content/grammar/hago1.gv.md",
@@ -181,7 +196,6 @@
     "src/content/grammar/kke.gv.md",
     "src/content/grammar/hante.gv.md",
     "src/content/grammar/ege.gv.md",
-    "topik_vocabulary.md",
     "src/content/grammar/에게로.md",
     "src/content/grammar/한테서.md",
     "src/content/grammar/에게서.md",

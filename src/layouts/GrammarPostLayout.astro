@@ -173,8 +173,9 @@ const { title, description, showTOC = true, isTeacherMode = false, alternateUrl 
 
     .grammar-main {
       padding: 1.5rem;
-      box-shadow: none;
-      border: none;
+      /* Mobile: bỏ hoàn toàn viền + bóng đổ để nền phẳng full màn hình */
+      box-shadow: none !important;
+      border: none !important;
       background: transparent; /* Mobile looks cleaner without box on bg */
     }
 
