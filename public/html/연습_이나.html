@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề ôn tập (이)나 - 30 Câu (Có phím tắt)</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Import Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        kr: ['Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#d97706', // Amber 600
+                        primaryDark: '#b45309', // Amber 700
+                        secondary: '#10b981', // Emerald 500
+                        wrong: '#EF4444', // Red 500
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c7c7c7; border-radius: 4px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+            gap: 8px;
+        }
+        
+        /* Keyboard hint style */
+        .kbd {
+            background-color: #eee;
+            border-radius: 3px;
+            border: 1px solid #b4b4b4;
+            box-shadow: 0 1px 1px rgba(0,0,0,.2), 0 2px 0 0 rgba(255,255,255,.7) inset;
+            color: #333;
+            display: inline-block;
+            font-size: 0.85em;
+            font-weight: 700;
+            line-height: 1;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800 p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="max-w-4xl mx-auto bg-primary text-white p-4 rounded-xl shadow-lg mb-6 flex justify-between items-center">
+        <div>
+            <h1 class="text-xl md:text-2xl font-bold uppercase tracking-wide">Ngữ pháp Tiếng Hàn Sơ cấp</h1>
+            <p class="text-amber-100 text-xs md:text-sm">Chuyên đề: (이)나 (30 câu chọn lọc)</p>
+        </div>
+        <div id="header-score" class="hidden text-right">
+            <span class="text-xs text-amber-100 block">Điểm số</span>
+            <span class="text-2xl font-bold" id="current-score-display">0/30</span>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- LEFT COLUMN: Quiz Area -->
+        <div class="lg:col-span-8">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden min-h-[500px] flex flex-col relative">
+                
+                <!-- Progress Bar -->
+                <div id="progress-container" class="w-full bg-gray-200 h-1 hidden">
+                    <div id="progress-bar" class="bg-secondary h-1 transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <main class="flex-1 p-6 flex flex-col justify-center relative">
+                    
+                    <!-- 1. Start Screen -->
+                    <div id="start-screen" class="text-center space-y-6 fade-in py-10">
+                        <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">⚖️</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Ôn tập (이)나</h2>
+                        <div class="max-w-md mx-auto bg-slate-50 p-5 rounded-xl border border-slate-200 text-left text-sm text-gray-600 space-y-3">
+                            <p>✅ <strong>Số lượng:</strong> 30 câu.</p>
+                            <p>✅ <strong>Nội dung:</strong> 3 ý nghĩa của (이)나 và phân biệt với các trợ từ khác.</p>
+                            <p>⌨️ <strong>Phím tắt:</strong> <span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span> chọn đáp án, <span class="kbd">Enter</span> tiếp theo, <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> quay lại.</p>
+                        </div>
+                        <button onclick="app.startQuiz()" class="px-8 py-4 bg-primary hover:bg-primaryDark text-white font-bold rounded-xl shadow-lg transition transform hover:scale-[1.02]">
+                            Bắt đầu làm bài (Enter)
+                        </button>
+                    </div>
+
+                    <!-- 2. Quiz Screen -->
+                    <div id="quiz-screen" class="hidden flex flex-col h-full fade-in">
+                        <div class="flex justify-end items-center mb-4 text-sm font-semibold text-gray-500">
+                            <span id="question-counter">Câu 1/30</span>
+                        </div>
+
+                        <div class="mb-6 min-h-[80px]">
+                            <h3 id="question-text" class="text-xl md:text-2xl font-bold text-gray-800 font-kr leading-relaxed"></h3>
+                        </div>
+
+                        <div id="options-container" class="grid grid-cols-1 gap-3 mb-6"></div>
+
+                        <div id="feedback-area" class="hidden bg-slate-50 border-l-4 p-4 rounded-r-lg shadow-sm mb-6 transition-all">
+                            <div id="feedback-status" class="font-bold text-lg mb-1"></div>
+                            <div class="text-gray-700 text-sm space-y-2">
+                                <p><span class="font-semibold text-primary">Dịch nghĩa:</span> <span id="feedback-translation"></span></p>
+                                <p><span class="font-semibold text-primary">Giải thích:</span> <span id="feedback-explanation"></span></p>
+                                <div class="bg-white p-2 rounded border border-gray-200 mt-2">
+                                    <span class="text-xs font-bold text-gray-500 uppercase block mb-1">Từ vựng & Nguồn gốc</span>
+                                    <p id="feedback-hanviet" class="text-gray-600"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto flex gap-3 pt-4 border-t border-gray-100">
+                            <button id="prev-btn" onclick="app.prevQuestion()" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">⬅ Câu trước (Ctrl+Z)</button>
+                            <button id="next-btn" onclick="app.nextQuestion()" class="flex-1 py-3 bg-primary hover:bg-primaryDark text-white font-bold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">Câu sau (Enter) ➡</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Result Screen -->
+                    <div id="result-screen" class="hidden text-center space-y-6 fade-in py-10">
+                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center text-5xl shadow-lg bg-white" id="result-icon">🏅</div>
+                        <h2 class="text-3xl font-bold text-gray-800">Kết quả</h2>
+                        <div class="text-6xl font-black text-primary" id="final-score">0/30</div>
+                        <p class="text-gray-600 text-lg" id="result-message">Đang tải...</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm max-w-xs mx-auto">
+                            <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+                                <span class="block text-green-600 font-bold text-2xl" id="correct-count">0</span>
+                                <span class="text-gray-500">Câu đúng</span>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                                <span class="block text-red-600 font-bold text-2xl" id="wrong-count">0</span>
+                                <span class="text-gray-500">Câu sai</span>
+                            </div>
+                        </div>
+                        <button onclick="app.restartQuiz()" class="px-8 py-4 bg-gray-800 hover:bg-gray-900 text-white font-bold rounded-xl shadow-lg transition mt-6">Làm lại từ đầu (Enter)</button>
+                    </div>
+
+                </main>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Question Palette -->
+        <div class="lg:col-span-4" id="sidebar-container">
+            <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-6">
+                <h3 class="font-bold text-gray-700 mb-4 flex items-center"><span class="mr-2">🧩</span> Danh sách câu hỏi</h3>
+                <div class="flex gap-2 text-xs mb-4 flex-wrap">
+                    <div class="flex items-center"><span class="w-3 h-3 bg-gray-100 border border-gray-300 rounded mr-1"></span> Chưa làm</div>
+                    <div class="flex items-center"><span class="w-3 h-3 bg-primary text-white rounded mr-1"></span> Đang chọn</div>
+                    <div class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded mr-1"></span> Đúng</div>
+                    <div class="flex items-center"><span class="w-3 h-3 bg-red-500 rounded mr-1"></span> Sai</div>
+                </div>
+                <div id="palette-grid" class="palette-grid max-h-[400px] lg:max-h-[calc(100vh-250px)] overflow-y-auto pr-2">
+                    <div class="text-gray-400 text-sm italic">Bắt đầu bài thi để xem...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // DỮ LIỆU 30 CÂU HỎI (ĐÃ SỬA LỖI NGỮ PHÁP & TỪ VỰNG)
+        const questionData = [
+            // --- NGHĨA 1: LỰA CHỌN (HOẶC) ---
+            { q: "아침에 빵_______ 밥을 먹어요.", options: ["이나", "나", "도", "은"], a: 0, trans: "Buổi sáng tôi ăn bánh mì hoặc cơm.", expl: "Lựa chọn A hoặc B. '빵' có patchim -> dùng '이나'.", hv: "빵 → Bánh mì (Gốc Pháp)." },
+            { q: "커피_______ 차를 마셔요.", options: ["나", "이나", "를", "가"], a: 0, trans: "Tôi uống cà phê hoặc trà.", expl: "Lựa chọn đồ uống. '커피' không patchim -> dùng '나'.", hv: "차 [Trà] → Trà." },
+            { q: "사과_______ 배를 주세요.", options: ["나", "이나", "를", "가"], a: 0, trans: "Cho tôi táo hoặc lê.", expl: "'사과' không patchim -> dùng '나'.", hv: "배 → Lê (Từ thuần Hàn)." },
+            { q: "산_______ 바다에 가고 싶어요.", options: ["이나", "나", "에", "에서"], a: 0, trans: "Tôi muốn đi núi hoặc đi biển.", expl: "Lựa chọn địa điểm. '산' có patchim -> dùng '이나'.", hv: "산 [Sơn] → Núi." },
+            { q: "버스_______ 지하철을 타요.", options: ["나", "이나", "가", "를"], a: 0, trans: "Tôi đi xe buýt hoặc tàu điện ngầm.", expl: "Lựa chọn phương tiện. '버스' không patchim -> dùng '나'.", hv: "버스 → Xe buýt (Gốc Anh)." },
+            { q: "토요일_______ 일요일에 만나요.", options: ["이나", "나", "에", "도"], a: 0, trans: "Gặp nhau vào thứ Bảy hoặc Chủ Nhật nhé.", expl: "Lựa chọn thời gian. '토요일' có patchim -> dùng '이나'.", hv: "토요일 [Thổ Diệu Nhật] → Thứ Bảy." },
+            { q: "볼펜_______ 연필 있어요?", options: ["이나", "나", "은", "이"], a: 0, trans: "Bạn có bút bi hoặc bút chì không?", expl: "Lựa chọn đồ vật. '볼펜' có patchim -> dùng '이나'.", hv: "볼펜 → Bút bi (Gốc Anh)." },
+            { q: "영어_______ 한국어를 공부해요.", options: ["나", "이나", "를", "가"], a: 0, trans: "Tôi học tiếng Anh hoặc tiếng Hàn.", expl: "'영어' không patchim -> dùng '나'.", hv: "영어 [Anh Ngữ] → Tiếng Anh." },
+            { q: "문자_______ 전화를 하세요.", options: ["나", "이나", "를", "가"], a: 0, trans: "Hãy nhắn tin hoặc gọi điện.", expl: "'문자' không patchim -> dùng '나'.", hv: "문자 [Văn Tự] → Tin nhắn." },
+            { q: "바지_______ 치마를 입어요.", options: ["나", "이나", "를", "도"], a: 0, trans: "Tôi mặc quần hoặc váy.", expl: "'바지' không patchim -> dùng '나'.", hv: "바지 → Quần (Từ thuần Hàn)." },
+
+            // --- NGHĨA 2: SỐ LƯỢNG (TẬN/NHỮNG - NGẠC NHIÊN) vs BẮT BUỘC PHỦ ĐỊNH (BẮC KÊ) ---
+            { q: "어제 술을 5병_______ 마셨어요. (너무 많아요)", options: ["이나", "밖에", "만", "도"], a: 0, trans: "Hôm qua tôi đã uống TẬN 5 chai rượu.", expl: "Nhấn mạnh số lượng nhiều hơn mong đợi -> dùng '이나'.", hv: "병 [Bình] → Chai." },
+            { q: "친구를 2시간_______ 기다렸어요. (화가 나요)", options: ["이나", "밖에", "만", "도"], a: 0, trans: "Tôi đã đợi bạn TẬN 2 tiếng đồng hồ.", expl: "Thời gian chờ đợi lâu -> dùng '이나'.", hv: "시간 [Thời Gian] → Tiếng." },
+            { q: "어제 12시간_______ 잤어요.", options: ["이나", "밖에", "만", "도"], a: 0, trans: "Hôm qua tôi ngủ TẬN 12 tiếng.", expl: "Ngủ nhiều -> dùng '이나'.", hv: "자다 → Ngủ (Từ thuần Hàn)." },
+            { q: "사과가 한 개에 5천 원_______ 해요. (비싸요)", options: ["이나", "밖에", "만", "도"], a: 0, trans: "Táo giá TẬN 5.000 won một quả.", expl: "Giá cả đắt đỏ -> dùng '이나'.", hv: "원 [Won] → Won." },
+            { q: "파티에 사람이 100명_______ 왔어요.", options: ["이나", "밖에", "만", "도"], a: 0, trans: "Có TẬN 100 người đến bữa tiệc.", expl: "Số lượng người đông bất ngờ -> dùng '이나'.", hv: "명 [Danh] → Người (đơn vị đếm)." },
+            { q: "시간이 5분_______ 안 남았어요.", options: ["밖에", "이나", "만", "도"], a: 0, trans: "Thời gian chỉ còn 5 phút.", expl: "Số lượng ít + phủ định (안) -> dùng '밖에'.", hv: "분 [Phân] → Phút." },
+            { q: "교실에 학생이 한 명_______ 안 왔어요.", options: ["밖에", "이나", "만", "도"], a: 0, trans: "Trong lớp chỉ có 1 học sinh đến.", expl: "Số lượng ít + phủ định (안 왔다) -> dùng '밖에'.", hv: "학생 [Học Sinh] → Học sinh." },
+            { q: "어제 3시간_______ 못 잤어요.", options: ["밖에", "이나", "만", "도"], a: 0, trans: "Hôm qua tôi ngủ được có 3 tiếng.", expl: "Ngủ ít + phủ định (못) -> dùng '밖에'.", hv: "시간 [Thời Gian] → Tiếng." },
+            { q: "돈이 천 원_______ 없어요.", options: ["밖에", "이나", "만", "도"], a: 0, trans: "Tiền chỉ còn mỗi 1.000 won.", expl: "Số lượng ít + đuôi phủ định (없다) -> dùng '밖에'.", hv: "천 [Thiên] → Nghìn." },
+            { q: "저는 한국어를 조금_______ 못해요.", options: ["밖에", "이나", "만", "도"], a: 0, trans: "Tôi chỉ nói được một chút tiếng Hàn thôi.", expl: "Khả năng giới hạn + phủ định (못하다) -> dùng '밖에'.", hv: "조금 → Một chút (Từ thuần Hàn)." },
+
+            // --- NGHĨA 3: GỢI Ý (HAY LÀ... TẠM) vs CÂU TRẦN THUẬT ---
+            { q: "심심해요. 영화_______ 볼까요?", options: ["나", "를", "가", "도"], a: 0, trans: "Buồn chán quá. Hay là xem phim đi?", expl: "Gợi ý giải tỏa sự chán chường -> dùng '나'.", hv: "영화 [Ánh Họa] → Phim." },
+            { q: "시간이 있어요. 서점_______ 가요.", options: ["이나", "에", "에서", "부터"], a: 0, trans: "Có thời gian rảnh. Hay là đi hiệu sách đi.", expl: "Gợi ý địa điểm giết thời gian -> dùng '이나'.", hv: "서점 [Thư Điếm] → Hiệu sách." },
+            { q: "배가 고파요. 라면_______ 먹어요.", options: ["이나", "을", "이", "도"], a: 0, trans: "Đói bụng quá. Hay là ăn mì gói đỡ đi.", expl: "Gợi ý món ăn thay thế/đơn giản -> dùng '이나'.", hv: "라면 → Mì gói." },
+            { q: "목이 말라요. 물_______ 마십시다.", options: ["이나", "을", "가", "는"], a: 0, trans: "Khát nước quá. Uống nước tạm nhé.", expl: "Gợi ý giải khát -> dùng '이나'.", hv: "물 → Nước (Từ thuần Hàn)." },
+            { q: "밥이 없어요. 빵_______ 드세요.", options: ["이나", "을", "를", "도"], a: 0, trans: "Hết cơm rồi. Ăn tạm bánh mì đi ạ.", expl: "Phương án thay thế -> dùng '이나'.", hv: "밥 → Cơm (Từ thuần Hàn)." },
+            { q: "할 일이 없어요. 잠_______ 자요.", options: ["이나", "을", "이", "가"], a: 0, trans: "Không có việc gì làm. Ngủ đại đi.", expl: "Gợi ý hành động khi rảnh -> dùng '이나'.", hv: "잠 → Giấc ngủ (Từ thuần Hàn)." },
+            { q: "피곤해요. 찜질방_______ 가요.", options: ["이나", "에", "에서", "을"], a: 0, trans: "Mệt quá. Hay là đi phòng xông hơi đi.", expl: "Gợi ý giải pháp cho sự mệt mỏi -> dùng '이나'.", hv: "피곤하다 [Bì Khốn -] → Mệt mỏi." },
+            { q: "돈이 없어요. 공원_______ 갑시다.", options: ["이나", "에", "에서", "로"], a: 0, trans: "Không có tiền. Hay là ra công viên đi.", expl: "Lựa chọn phù hợp hoàn cảnh -> dùng '이나'.", hv: "공원 [Công Viên] → Công viên." },
+            { q: "저는 어제 하루 종일 게임_______ 했어요.", options: ["을", "이나", "이", "가"], a: 0, trans: "Hôm qua tôi đã chơi game cả ngày.", expl: "Tường thuật hành động cụ thể đã làm -> dùng tân ngữ '을'.", hv: "하루 종일 → Cả ngày (Từ thuần Hàn)." },
+            { q: "저는 내일 서점_______ 가요. (계획)", options: ["에", "이나", "에서", "부터"], a: 0, trans: "Ngày mai tôi đi hiệu sách.", expl: "Kế hoạch/Đích đến cụ thể -> dùng '에'.", hv: "내일 [Lai Nhật] → Ngày mai." }
+        ];
+
+        const app = {
+            currentIndex: 0,
+            score: 0,
+            shuffledQuestions: [],
+            userAnswers: [], 
+            answerStatus: [], 
+
+            startQuiz: function() {
+                // VI: RANDOM (XÁO TRỘN) THỨ TỰ CÂU HỎI MỖI LẦN BẮT ĐẦU
+                // VI: Mỗi lần bấm "Bắt đầu", danh sách câu sẽ được trộn lại để luyện tập đa dạng hơn.
+                this.shuffledQuestions = [...questionData].sort(() => Math.random() - 0.5);
+                this.currentIndex = 0;
+                this.score = 0;
+                this.userAnswers = new Array(this.shuffledQuestions.length).fill(null);
+                this.answerStatus = new Array(this.shuffledQuestions.length).fill(null);
+
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('quiz-screen').classList.remove('hidden');
+                document.getElementById('progress-container').classList.remove('hidden');
+                document.getElementById('header-score').classList.remove('hidden');
+                document.getElementById('sidebar-container').classList.remove('hidden');
+                
+                this.renderPalette();
+                this.showQuestion();
+            },
+
+            showQuestion: function() {
+                const qData = this.shuffledQuestions[this.currentIndex];
+                const total = this.shuffledQuestions.length;
+                
+                document.getElementById('question-counter').innerText = `Câu ${this.currentIndex + 1}/${total}`;
+                document.getElementById('question-text').innerText = qData.q;
+                
+                const progressPercent = ((this.currentIndex + 1) / total) * 100;
+                document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+                document.getElementById('current-score-display').innerText = `${this.score}/${total}`;
+
+                const optionsContainer = document.getElementById('options-container');
+                optionsContainer.innerHTML = '';
+
+                const hasAnswered = this.userAnswers[this.currentIndex] !== null;
+
+                qData.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-amber-400 hover:bg-amber-50 font-medium text-lg transition-all duration-200 flex items-center";
+                    btn.innerHTML = `<span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mr-3 text-sm font-bold">${String.fromCharCode(65+index)}</span> ${opt}`;
+                    
+                    if (hasAnswered) {
+                        btn.disabled = true;
+                        btn.classList.add('cursor-not-allowed', 'opacity-80');
+                        btn.classList.remove('hover:border-amber-400', 'hover:bg-amber-50');
+                        
+                        if (index === qData.a) {
+                            this.applyCorrectStyle(btn);
+                        } else if (index === this.userAnswers[this.currentIndex]) {
+                            this.applyWrongStyle(btn);
+                        }
+                    } else {
+                        btn.onclick = () => this.selectAnswer(index, btn);
+                    }
+                    
+                    optionsContainer.appendChild(btn);
+                });
+
+                const feedbackArea = document.getElementById('feedback-area');
+                if (hasAnswered) {
+                    feedbackArea.classList.remove('hidden');
+                    const isCorrect = this.answerStatus[this.currentIndex] === 'correct';
+                    const statusDiv = document.getElementById('feedback-status');
+                    
+                    if (isCorrect) {
+                        statusDiv.innerHTML = "<span class='text-green-600'>✅ Chính xác!</span>";
+                        feedbackArea.classList.remove('border-l-red-500');
+                        feedbackArea.classList.add('border-l-green-500');
+                    } else {
+                        statusDiv.innerHTML = "<span class='text-red-600'>❌ Sai rồi!</span>";
+                        feedbackArea.classList.remove('border-l-green-500');
+                        feedbackArea.classList.add('border-l-red-500');
+                    }
+                    
+                    document.getElementById('feedback-translation').innerText = qData.trans;
+                    document.getElementById('feedback-explanation').innerText = qData.expl;
+                    document.getElementById('feedback-hanviet').innerText = qData.hv;
+                } else {
+                    feedbackArea.classList.add('hidden');
+                }
+
+                document.getElementById('prev-btn').disabled = (this.currentIndex === 0);
+                document.getElementById('next-btn').disabled = (this.currentIndex === total - 1);
+                
+                this.updatePaletteHighlight();
+            },
+
+            applyCorrectStyle: function(btn) {
+                btn.classList.remove('border-gray-200');
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                btn.querySelector('span').classList.add('bg-green-200', 'text-green-800');
+            },
+
+            applyWrongStyle: function(btn) {
+                btn.classList.remove('border-gray-200');
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                btn.querySelector('span').classList.add('bg-red-200', 'text-red-800');
+            },
+
+            selectAnswer: function(selectedIndex, btnElement) {
+                const qData = this.shuffledQuestions[this.currentIndex];
+                this.userAnswers[this.currentIndex] = selectedIndex;
+                
+                const allButtons = document.getElementById('options-container').children;
+                for (let btn of allButtons) {
+                    btn.disabled = true;
+                    btn.classList.add('cursor-not-allowed');
+                    btn.classList.remove('hover:border-amber-400', 'hover:bg-amber-50');
+                }
+
+                if (selectedIndex === qData.a) {
+                    this.score++;
+                    this.answerStatus[this.currentIndex] = 'correct';
+                    this.applyCorrectStyle(btnElement);
+                } else {
+                    this.answerStatus[this.currentIndex] = 'wrong';
+                    this.applyWrongStyle(btnElement);
+                    this.applyCorrectStyle(allButtons[qData.a]);
+                }
+
+                document.getElementById('current-score-display').innerText = `${this.score}/${this.shuffledQuestions.length}`;
+                this.renderPalette();
+
+                const feedbackArea = document.getElementById('feedback-area');
+                const statusDiv = document.getElementById('feedback-status');
+                
+                feedbackArea.classList.remove('hidden');
+                if (this.answerStatus[this.currentIndex] === 'correct') {
+                    statusDiv.innerHTML = "<span class='text-green-600'>✅ Chính xác!</span>";
+                    feedbackArea.classList.remove('border-l-red-500');
+                    feedbackArea.classList.add('border-l-green-500');
+                } else {
+                    statusDiv.innerHTML = "<span class='text-red-600'>❌ Sai rồi!</span>";
+                    feedbackArea.classList.remove('border-l-green-500');
+                    feedbackArea.classList.add('border-l-red-500');
+                }
+
+                document.getElementById('feedback-translation').innerText = qData.trans;
+                document.getElementById('feedback-explanation').innerText = qData.expl;
+                document.getElementById('feedback-hanviet').innerText = qData.hv;
+                
+                if (this.currentIndex === this.shuffledQuestions.length - 1 && this.userAnswers.every(a => a !== null)) {
+                    setTimeout(() => this.showResults(), 1500);
+                }
+            },
+
+            renderPalette: function() {
+                const paletteContainer = document.getElementById('palette-grid');
+                paletteContainer.innerHTML = '';
+
+                this.shuffledQuestions.forEach((_, index) => {
+                    const status = this.answerStatus[index];
+                    const btn = document.createElement('button');
+                    btn.innerText = index + 1;
+                    btn.className = "h-9 w-full rounded font-bold text-sm transition flex items-center justify-center border ";
+                    
+                    if (index === this.currentIndex) {
+                        btn.classList.add('ring-2', 'ring-amber-400', 'ring-offset-1');
+                    }
+
+                    if (status === 'correct') {
+                        btn.classList.add('bg-green-500', 'text-white', 'border-green-600');
+                    } else if (status === 'wrong') {
+                        btn.classList.add('bg-red-500', 'text-white', 'border-red-600');
+                    } else {
+                        btn.classList.add('bg-gray-100', 'text-gray-500', 'border-gray-200', 'hover:bg-gray-200');
+                    }
+
+                    btn.onclick = () => this.jumpToQuestion(index);
+                    paletteContainer.appendChild(btn);
+                });
+            },
+
+            updatePaletteHighlight: function() {
+                this.renderPalette();
+            },
+
+            prevQuestion: function() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.showQuestion();
+                }
+            },
+
+            nextQuestion: function() {
+                if (this.currentIndex < this.shuffledQuestions.length - 1) {
+                    this.currentIndex++;
+                    this.showQuestion();
+                } else if (this.userAnswers.every(a => a !== null)) {
+                    this.showResults();
+                }
+            },
+
+            jumpToQuestion: function(index) {
+                this.currentIndex = index;
+                this.showQuestion();
+            },
+
+            showResults: function() {
+                document.getElementById('quiz-screen').classList.add('hidden');
+                document.getElementById('result-screen').classList.remove('hidden');
+                document.getElementById('sidebar-container').classList.add('hidden');
+                document.getElementById('header-score').classList.add('hidden');
+                document.getElementById('progress-container').classList.add('hidden');
+
+                const total = this.shuffledQuestions.length;
+                const percent = Math.round((this.score / total) * 100);
+
+                document.getElementById('final-score').innerText = `${this.score}/${total}`;
+                document.getElementById('correct-count').innerText = this.score;
+                document.getElementById('wrong-count').innerText = total - this.score;
+
+                let message = "";
+                if (percent === 100) message = "Tuyệt đối! Bạn đã nắm vững ngữ pháp (이)나!";
+                else if (percent >= 80) message = "Xuất sắc! Bạn phân biệt rất tốt các ngữ cảnh.";
+                else if (percent >= 60) message = "Khá tốt! Hãy chú ý hơn đến các câu phủ định.";
+                else message = "Cần cố gắng hơn! Hãy ôn lại sự khác biệt giữa (이)나 và 밖에.";
+                
+                document.getElementById('result-message').innerText = message;
+            },
+
+            restartQuiz: function() {
+                document.getElementById('result-screen').classList.add('hidden');
+                this.startQuiz();
+            }
+        };
+
+        // KEYBOARD SHORTCUTS
+        document.addEventListener('keydown', function(event) {
+            const startScreen = document.getElementById('start-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultScreen = document.getElementById('result-screen');
+
+            if (!startScreen.classList.contains('hidden')) {
+                if (event.key === 'Enter') app.startQuiz();
+            } else if (!resultScreen.classList.contains('hidden')) {
+                if (event.key === 'Enter') app.restartQuiz();
+            } else if (!quizScreen.classList.contains('hidden')) {
+                const hasAnswered = app.userAnswers[app.currentIndex] !== null;
+
+                if (event.key === '1' && !hasAnswered) app.selectAnswer(0, document.getElementById('options-container').children[0]);
+                if (event.key === '2' && !hasAnswered) app.selectAnswer(1, document.getElementById('options-container').children[1]);
+                if (event.key === '3' && !hasAnswered) app.selectAnswer(2, document.getElementById('options-container').children[2]);
+                if (event.key === '4' && !hasAnswered) app.selectAnswer(3, document.getElementById('options-container').children[3]);
+
+                if (event.key === 'Enter') app.nextQuestion();
+                if (event.ctrlKey && (event.key === 'z' || event.key === 'Z')) {
+                    event.preventDefault();
+                    app.prevQuestion();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
