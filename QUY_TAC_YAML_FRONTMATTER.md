@@ -1,0 +1,246 @@
+# Quy Tắc Viết YAML Frontmatter cho Grammar Files
+
+## 📋 Tổng Quan
+
+Tất cả các file trong folder `src/content/grammar` đều phải có YAML frontmatter ở đầu file, được bao quanh bởi dấu `---` (ba dấu gạch ngang).
+
+## 🔧 Cấu Trúc Bắt Buộc
+
+Mỗi file grammar phải có **7 trường bắt buộc** sau:
+
+```yaml
+---
+slug: "ten-ngu-phap"
+title: "Tên ngữ pháp"
+meaning: "Nghĩa tiếng Việt"
+level: "beginner"
+description: "Mô tả ngắn gọn về ngữ pháp"
+tags: ["tag1", "tag2"]
+order: 1
+---
+```
+
+## 📝 Chi Tiết Từng Trường
+
+### 1. `slug` (Bắt buộc)
+- **Kiểu dữ liệu:** String (chuỗi)
+- **Định dạng:** Kebab-case (chữ thường, nối bằng dấu gạch ngang)
+- **Ví dụ:**
+  - `slug: "ida"`
+  - `slug: "eseo1"`
+  - `slug: "irang-1"`
+  - `slug: "eseobuteo"`
+- **Lưu ý:** 
+  - Không có khoảng trắng
+  - Không có ký tự đặc biệt (trừ dấu gạch ngang)
+  - Thường trùng với tên file (không bao gồm số thứ tự và phần mở rộng)
+
+### 2. `title` (Bắt buộc)
+- **Kiểu dữ liệu:** String (chuỗi)
+- **Nội dung:** Tên ngữ pháp bằng tiếng Hàn hoặc tiếng Việt
+- **Ví dụ:**
+  - `title: "이다"`
+  - `title: "N이/가 아니다"`
+  - `title: "에서 (1)"`
+  - `title: "이랑/랑 (1)"`
+  - `title: "N에서부터"`
+- **Lưu ý:** 
+  - Có thể chứa ký tự tiếng Hàn
+  - Có thể có số trong ngoặc đơn để phân biệt các phần của cùng một ngữ pháp
+  - Có thể có ký tự đặc biệt như `/`, `(`, `)`
+
+### 3. `meaning` (Bắt buộc)
+- **Kiểu dữ liệu:** String (chuỗi)
+- **Nội dung:** Nghĩa tiếng Việt của ngữ pháp, ngắn gọn
+- **Ví dụ:**
+  - `meaning: "là"`
+  - `meaning: "không phải"`
+  - `meaning: "Trợ từ chỉ nơi hành động diễn ra"`
+  - `meaning: "Và (Liệt kê)"`
+  - `meaning: "Từ, bắt đầu từ (đâu đó)"`
+- **Lưu ý:** 
+  - Viết bằng tiếng Việt
+  - Ngắn gọn, dễ hiểu
+  - Có thể có giải thích ngắn trong ngoặc đơn
+
+### 4. `level` (Bắt buộc)
+- **Kiểu dữ liệu:** String (chuỗi)
+- **Giá trị:** Hiện tại chỉ thấy `"beginner"`
+- **Ví dụ:**
+  - `level: "beginner"`
+- **Lưu ý:** 
+  - Có thể có các giá trị khác như `"intermediate"`, `"advanced"` trong tương lai
+
+### 5. `description` (Bắt buộc)
+- **Kiểu dữ liệu:** String (chuỗi)
+- **Nội dung:** Mô tả chi tiết hơn về ngữ pháp, cách dùng
+- **Ví dụ:**
+  - `description: "<strong>조사</strong> cơ bản làm cho danh từ trở thành <strong>vị ngữ</strong>"`
+  - `description: "Biểu hiện phủ định của '이다' bằng cấu trúc 'N이/가 아니다'"`
+  - `description: "Gắn sau danh từ chỉ địa điểm để nói 'Làm gì ở đâu?'"`
+  - `description: "Dùng để nối hai danh từ trở lên, thường dùng trong văn nói (thân mật)."`
+- **Lưu ý:** 
+  - Có thể chứa HTML tags như `<strong>`, `<em>` để nhấn mạnh
+  - Có thể chứa ký tự đặc biệt như dấu nháy đơn `'`
+  - Viết bằng tiếng Việt
+
+### 6. `tags` (Bắt buộc)
+- **Kiểu dữ liệu:** Array (mảng) các string
+- **Nội dung:** Các tag phân loại ngữ pháp
+- **Ví dụ:**
+  - `tags: ["giới thiệu"]`
+  - `tags: ["phủ định"]`
+  - `tags: ["trợ từ"]`
+  - `tags: ["tiểu từ", "vị trí", "phạm vi"]`
+  - `tags: ["tiểu từ", "so sánh"]`
+- **Lưu ý:** 
+  - Luôn là mảng, dù chỉ có 1 tag
+  - Viết bằng tiếng Việt, không dấu
+  - Các tag phổ biến: `"trợ từ"`, `"tiểu từ"`, `"phủ định"`, `"so sánh"`, `"vị trí"`, `"phạm vi"`, `"giới thiệu"`
+
+### 7. `order` (Bắt buộc)
+- **Kiểu dữ liệu:** Number (số nguyên)
+- **Nội dung:** Thứ tự bài học
+- **Ví dụ:**
+  - `order: 1`
+  - `order: 2`
+  - `order: 10`
+  - `order: 25`
+  - `order: 37`
+- **Lưu ý:** 
+  - Số nguyên dương
+  - Không có số 0
+  - Thường trùng với số thứ tự trong tên file (ví dụ: `001.ida.md` có `order: 1`)
+
+## 📐 Thứ Tự Các Trường
+
+Thứ tự các trường **không bắt buộc**, nhưng để nhất quán, nên sắp xếp theo thứ tự sau:
+
+```yaml
+---
+slug: "..."
+title: "..."
+meaning: "..."
+level: "..."
+description: "..."
+tags: [...]
+order: ...
+---
+```
+
+## ✅ Ví Dụ Hoàn Chỉnh
+
+### Ví dụ 1: Ngữ pháp đơn giản
+```yaml
+---
+slug: "ida"
+title: "이다"
+meaning: "là"
+level: "beginner"
+description: "<strong>조사</strong> cơ bản làm cho danh từ trở thành <strong>vị ngữ</strong>"
+tags: ["giới thiệu"]
+order: 1
+---
+```
+
+### Ví dụ 2: Ngữ pháp có số thứ tự
+```yaml
+---
+slug: "eseo1"
+title: "에서 (1)"
+meaning: "Trợ từ chỉ nơi hành động diễn ra"
+level: "beginner"
+description: "Gắn sau danh từ chỉ địa điểm để nói 'Làm gì ở đâu?'"
+tags: ["trợ từ"]
+order: 10
+---
+```
+
+### Ví dụ 3: Ngữ pháp có nhiều tags
+```yaml
+---
+slug: "eseobuteo"
+title: "N에서부터"
+meaning: "Từ, bắt đầu từ (đâu đó)"
+level: "beginner"
+description: "Sự kết hợp giữa '에서' và '부터', dùng để nhấn mạnh điểm xuất phát của một hành động, trạng thái hay phạm vi (thường là địa điểm hoặc nguồn gốc)."
+tags: ["tiểu từ", "vị trí", "phạm vi"]
+order: 37
+---
+```
+
+## ⚠️ Lưu Ý Quan Trọng
+
+1. **Dấu `---`:** Phải có **đúng 3 dấu gạch ngang** ở đầu và cuối frontmatter
+2. **Khoảng trắng:** Sau dấu `:` phải có **một khoảng trắng** trước giá trị
+3. **Dấu ngoặc kép:** Tất cả string phải được đặt trong dấu ngoặc kép `"`
+4. **Mảng:** Mảng phải được đặt trong dấu ngoặc vuông `[]`, các phần tử cách nhau bởi dấu phẩy và khoảng trắng
+5. **Số:** Số không cần dấu ngoặc kép
+6. **Khoảng trắng sau frontmatter:** Sau dấu `---` cuối cùng phải có **một dòng trống** trước khi bắt đầu nội dung markdown
+
+## 🚫 Các Lỗi Thường Gặp
+
+### ❌ Sai: Thiếu dấu ngoặc kép cho string
+```yaml
+---
+slug: ida  # SAI - thiếu dấu ngoặc kép
+---
+```
+
+### ✅ Đúng:
+```yaml
+---
+slug: "ida"
+---
+```
+
+### ❌ Sai: Thiếu khoảng trắng sau dấu hai chấm
+```yaml
+---
+slug:"ida"  # SAI - thiếu khoảng trắng
+---
+```
+
+### ✅ Đúng:
+```yaml
+---
+slug: "ida"
+---
+```
+
+### ❌ Sai: Mảng không đúng định dạng
+```yaml
+---
+tags: trợ từ  # SAI - phải là mảng
+---
+```
+
+### ✅ Đúng:
+```yaml
+---
+tags: ["trợ từ"]
+---
+```
+
+### ❌ Sai: Thiếu dòng trống sau frontmatter
+```yaml
+---
+slug: "ida"
+---
+## Nội dung  # SAI - thiếu dòng trống
+```
+
+### ✅ Đúng:
+```yaml
+---
+slug: "ida"
+---
+
+## Nội dung
+```
+
+## 📚 Tài Liệu Tham Khảo
+
+- [YAML Specification](https://yaml.org/spec/)
+- [Frontmatter trong Markdown](https://jekyllrb.com/docs/front-matter/)
+
