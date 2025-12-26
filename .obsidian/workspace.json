@@ -22,21 +22,7 @@
             }
           },
           {
-            "id": "e9a77c6b2cf160ff",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/040.thi-qua-khu-았-었-했.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "040.thi-qua-khu-았-었-했"
-            }
-          },
-          {
-            "id": "cc9ff6df651e5616",
+            "id": "008b40461eb72312",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -48,9 +34,22 @@
               "icon": "lucide-file",
               "title": "041.phu-dinh-dai-ji-an-ta"
             }
+          },
+          {
+            "id": "b8a0f6e6e01d610c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/042.phu-dinh-ngan-안.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "042.phu-dinh-ngan-안"
+            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -107,7 +106,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "772b261196dfe89b",
@@ -198,14 +198,21 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "cc9ff6df651e5616",
+  "active": "6b7445db5afce163",
   "lastOpenFiles": [
-    "src/content/grammar/040.thi-qua-khu-았-었-했.md",
     "src/content/grammar/041.phu-dinh-dai-ji-an-ta.md",
-    "src/content/grammar/042.v-ji-mothada-khong-the.md",
+    "src/content/grammar/042.phu-dinh-ngan-안.md",
+    "src/content/grammar/043.v-ji-mothada-khong-the.md",
     "GRAMMAR.md",
+    "src/content/grammar/040.thi-qua-khu-았-었-했.md",
+    "src/content/grammar/035.mada.md",
+    "src/content/grammar/036.boda.md",
+    "src/content/grammar/042.v-ji-mothada-khong-the.md",
     "src/content/grammar/039.duoi-cau-nghi-van-trang-trong.md",
     "src/content/grammar/038.duoi-cau-tran-thuat-trang-trong.md",
+    "src/content/grammar/037.eseobuteo.md",
+    "src/content/grammar/034.cheoreom.md",
+    "src/content/grammar/033.ina-3.md",
     "QUY_TAC_YAML_FRONTMATTER.md",
     "topik_vocabulary.md",
     "src/content/grammar/028.do.md",
@@ -219,13 +226,6 @@
     "src/content/grammar/ege.gv.md",
     "src/content/grammar/에게로.md",
     "src/content/grammar/한테서.md",
-    "src/content/grammar/에게서.md",
-    "docs/께.md",
-    "docs/한테.md",
-    "docs/에게.md",
-    "src/content/grammar/hago2.hs.md",
-    "src/content/grammar/하고2.md",
-    "src/content/grammar/hago1.hs.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",

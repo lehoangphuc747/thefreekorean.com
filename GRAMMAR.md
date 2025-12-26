@@ -174,81 +174,85 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 22. [하고2](src/content/grammar/하고2.md) cùng, với
 23. 과1 và - done
 24. 이랑1 và done
-25. 부터 
-26. 까지
+25. 이랑2  cùng, với
+26. 부터 
+27. 까지
 
 ### Lộ Trình Giảng Dạy Tiếng Hàn (Phân Tách Chi Tiết Theo Số Thứ Tự)
 
-| TT | Cấu trúc Ngữ pháp | Ý nghĩa/Chức năng cụ thể | Lý do & Logic sắp xếp |
-| :--- | :--- | :--- | :--- |
-| **27** | **N + 도** | Cũng, cả | Tiểu từ bổ trợ cơ bản nhất, học ngay sau chủ ngữ/tân ngữ. |
-| **28** | **N + 만** | Chỉ (duy nhất) | Đối lập với "cũng", dùng để giới hạn phạm vi. |
-| **29** | **N + 밖에** | Chỉ... (ngoài ra không còn gì) | **Lưu ý:** Luôn đi với đuôi phủ định. Dạy ngay sau "만" để so sánh sắc thái. |
-| **30** | **N + (이)나 1** | Hoặc là (Lựa chọn) | Dùng cho Danh từ. (Ví dụ: Ăn cơm hoặc phở). |
-| **31** | **N + (이)나 2** | Những/Tận (Ngạc nhiên về số lượng) | *Nghĩa mở rộng:* Nhấn mạnh số lượng nhiều hơn mong đợi (Ví dụ: Đợi tận 1 tiếng). |
-| **32** | **N + 처럼** | Giống như | So sánh ví von hình ảnh. |
-| **33** | **N + 마다** | Mỗi, mọi | Chỉ sự lặp lại hoặc toàn thể. |
-| **34** | **N + 보다** | Hơn (So sánh) | Dùng để so sánh tính chất giữa 2 danh từ. |
-| **35** | **A/V + 습니다/ㅂ니다** | Đuôi câu trần thuật (Trang trọng) | Chuyển sang phần động từ. Dạy đuôi câu lịch sự dùng trong công việc. |
-| **36** | **A/V + 습니까/ㅂ니까** | Đuôi câu nghi vấn (Trang trọng) | Đi cặp với câu trần thuật ở trên. |
-| **37** | **A/V + 았/었-** | Thì Quá khứ | Cốt lõi để kể chuyện. |
-| **38** | **A/V + 지 않다** | Không (Phủ định dài) | Dạng phủ định trang trọng hơn "안". |
-| **39** | **A/V + 지 못하다** | Không thể (Phủ định dài - Khả năng) | Phân biệt ý chí (không làm) và khả năng (không thể làm). |
-| **40** | **V + (으)시-** | Kính ngữ (Gốc từ) | Yếu tố gốc để tạo nên các đuôi câu kính trọng bên dưới. |
-| **41** | **V + (으)세요 1** | Kính ngữ trần thuật/Nghi vấn | *Nghĩa 1:* Dùng để hỏi/nói về người lớn một cách lịch sự (Ví dụ: Bố đang làm gì?). |
-| **42** | **V + (으)세요 2** | Hãy/Mời (Mệnh lệnh) | *Nghĩa 2:* Yêu cầu người nghe làm gì đó lịch sự (Ví dụ: Hãy ngồi xuống). |
-| **43** | **V + (으)십시오** | Hãy (Mệnh lệnh trang trọng) | Dùng trong bối cảnh công thức hơn "세요". |
-| **44** | **V + 지 말다** | Đừng (Mệnh lệnh phủ định) | Đi với đuôi câu mệnh lệnh (Đừng làm...). |
-| **45** | **V + 읍시다** | Chúng ta hãy (Rủ rê) | Đề nghị người khác cùng làm (Trang trọng). |
-| **46** | **A/V + 고 1¹** | Và (Liệt kê) | Nối 2 vế câu ngang bằng (Ăn cơm và uống nước). |
-| **47** | **A/V + 고 1²** | Rồi (Trình tự) | Hành động trước xảy ra xong rồi đến hành động sau (Tắm rồi ngủ). |
-| **48** | **V + 고 싶다** | Muốn | Mong muốn của ngôi thứ nhất. |
-| **49** | **A/V + 지만** | Nhưng | Nối 2 vế đối lập. |
-| **50** | **V + (으)러** | Để (đi làm gì) | Mục đích của chuyển động (Đi kèm 가다/오다). |
-| **51** | **V + (으)려고** | Định/Để (Mục đích) | Mở rộng của (으)러, dùng được với mọi động từ. |
-| **52** | **A/V + 아/어서 1** | Vì... nên (Nguyên nhân) | Giải thích lý do (Không dùng với mệnh lệnh). |
-| **53** | **V + 아/어서 2** | Rồi... (Trình tự chặt chẽ) | Hành động 1 là tiền đề để hành động 2 xảy ra (Mua táo rồi ăn - phải mua mới ăn được). |
-| **54** | **A/V + (으)니까 1** | Vì... nên (Chủ quan) | Lý do dùng được cho câu mệnh lệnh, rủ rê. |
-| **55** | **A/V + (으)니까 2** | ...nên nhận ra là (Phát hiện) | Sau khi làm V1 thì phát hiện ra V2 (Về nhà thì thấy không có ai). |
-| **56** | **V + (으)면** | Nếu... thì | Giả định. |
-| **57** | **V + (으)면서** | Vừa... vừa... | Hai hành động song song. |
-| **58** | **V + (으)ㄹ 수 있다 1** | Có thể (Năng lực) | Tôi biết bơi, tôi lái được xe. |
-| **59** | **V + (으)ㄹ 수 있다 2** | Có thể (Khả năng xảy ra) | *Nghĩa mở rộng:* Chuyện đó có thể xảy ra (Dự đoán). |
-| **60** | **V + (으)ㄹ 수밖에 없다** | Đành phải/Không thể không | Nhấn mạnh không còn lựa chọn nào khác. |
-| **61** | **V + 아/어 보다 1** | Thử làm gì | Trải nghiệm (Ăn thử, mặc thử). |
-| **62** | **V + 아/어 보다 2** | Đã từng (Kinh nghiệm) | *Thường dùng dạng quá khứ:* Đã từng thử làm gì đó. |
-| **63** | **V + (으)ㄴ 적이 있다** | Đã từng (Kinh nghiệm) | Nhấn mạnh vào việc "có ký ức/trải nghiệm" về việc đó. |
-| **64** | **V + 아/어 주다** | Làm giúp cho | Nhờ vả hoặc làm lợi cho người khác. |
-| **65** | **V + 아/어야 되다** | Phải (Bắt buộc) | Nghĩa vụ cần thực hiện. |
-| **66** | **V + 아/어도 되다** | Được phép làm gì | Cho phép hoặc hỏi xin phép. |
-| **67** | **V + 고 있다 1** | Đang (Hành động) | Hành động đang diễn ra (Ăn, chạy, ngủ). |
-| **68** | **V + 고 있다 2** | Đang (Trạng thái mặc) | *Nghĩa đặc biệt:* Đang mặc áo, đang đeo kính (Trạng thái kết quả của hành động mặc). |
-| **69** | **V + 아/어 있다** | Đang (Trạng thái tồn tại) | Đang ngồi, đang đứng, hoa đang nở (Kết quả hành động còn lưu lại). |
-| **70** | **A/V + (으)ㄴ/는/을 (N)** | Các dạng Định ngữ | **Nhóm lớn:** Gộp định ngữ quá khứ/hiện tại/tương lai vào dạy theo chuỗi. |
-| **71** | **V + 기 / 는 것** | Danh từ hóa | Biến câu thành cụm danh từ. |
-| **72** | **V + 기 전에** | Trước khi | Thời gian. |
-| **73** | **V + (으)ㄴ 후에** | Sau khi | Thời gian. |
-| **74** | **V + (으)ㄹ 때** | Khi | Thời điểm. |
-| **75** | **V + 는 동안** | Trong khi | Khoảng thời gian duy trì. |
-| **76** | **V + 다가 1** | Đang... thì (Chuyển hướng) | Hành động bị ngắt quãng chuyển sang hành động khác. |
-| **77** | **V + (으)ㄹ게요** | Tôi sẽ (Hứa hẹn) | Chủ ngữ là ngôi 1, hứa với người nghe. |
-| **78** | **V + (으)ㄹ래 1** | Nhé? (Hỏi ý kiến) | Hỏi người nghe muốn làm gì (Thân mật). |
-| **79** | **V + (으)ㄹ래 2** | Sẽ (Ý chí) | Nói về ý định của bản thân (Thân mật). |
-| **80** | **V + (으)ㄹ까 1** | Nhỉ? / Nhé? | Rủ rê hoặc tự hỏi (Chúng ta đi nhé?). |
-| **81** | **V + (으)ㄹ까 2** | Có lẽ? (Phỏng đoán) | *Nghĩa 2:* Dự đoán mơ hồ (Liệu trời có mưa không nhỉ?). |
-| **82** | **A/V + (으)ㄹ까 보다 1** | Định/Hay là... | Dự định chưa chắc chắn lắm (Hay là mình đi ngủ?). |
-| **83** | **A/V + (으)ㄹ까 보다 2** | E là/Sợ rằng | Lo lắng về một việc có thể xảy ra. |
-| **84** | **A/V + 겠- 1** | Sẽ (Ý chí/Khách sáo) | Dùng trong công việc hoặc thể hiện quyết tâm (Sẽ làm tốt). |
-| **85** | **A/V + 겠- 2** | Chắc là (Phỏng đoán) | Nhìn tình huống và đoán (Ăn cái này chắc ngon lắm). |
-| **86** | **A/V + (으)ㄹ 것 같다** | Hình như/Có lẽ | Phỏng đoán mềm mỏng, phổ biến nhất. |
-| **87** | **V + 기로 하다** | Quyết định làm gì | Chốt lại kế hoạch. |
-| **88** | **A/V + 게 되다** | Bị/Được/Trở nên | Kết quả khách quan đem lại (Được đi Hàn Quốc). |
-| **89** | **A/V + 게 1¹** | Một cách... (Trạng từ) | Biến tính từ thành trạng từ (Ăn một cách ngon lành). |
-| **90** | **A/V + 게 1²** | Để/Khiến cho | Mục đích hoặc sai khiến (Làm cho mẹ vui). |
-| **91** | **A/V + 는데 1¹** | ...mà... (Bối cảnh) | Dẫn nhập câu chuyện (Trời mưa mà không có ô...). |
-| **92** | **A/V + 는데 1²** | Nhưng (Tương phản nhẹ) | Nhẹ hơn "지만". |
-| **93** | **A/V + 는데 2** | ...đấy (Cuối câu) | Bỏ lửng câu để chờ phản hồi hoặc cảm thán. |
-| **94** | **A/V + 네 / 는군** | Cảm thán | Các đuôi câu biểu lộ cảm xúc ngạc nhiên. |
-| **95** | **A/V + 지 1** | ...chứ/đúng không | Xác nhận thông tin. |
-| **96** | **V + 지 2** | ...đi (Mệnh lệnh nhẹ) | Khuyên bảo nhẹ nhàng (Ăn đi chứ). |
-| **97** | **A/V + 아/어 1,2,3,4** | Cách nói trống không | **Bài cuối:** Tổng hợp các đuôi câu (Trần thuật, Nghi vấn, Mệnh lệnh, Rủ rê) ở dạng thân mật (Banmal). |
+| TT     | Cấu trúc Ngữ pháp      | Ý nghĩa/Chức năng cụ thể            | Lý do & Logic sắp xếp                                                                                  |
+| :----- | :--------------------- | :---------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| **28** | **N + 도**              | Cũng, cả                            | Tiểu từ bổ trợ cơ bản nhất, học ngay sau chủ ngữ/tân ngữ.                                              |
+| **29** | **N + 만**              | Chỉ (duy nhất)                      | Đối lập với "cũng", dùng để giới hạn phạm vi.                                                          |
+| **30** | **N + 밖에**             | Chỉ... (ngoài ra không còn gì)      | **Lưu ý:** Luôn đi với đuôi phủ định. Dạy ngay sau "만" để so sánh sắc thái.                            |
+| **31** | **N + (이)나 1**         | Hoặc là (Lựa chọn)                  | Dùng cho Danh từ. (Ví dụ: Ăn cơm hoặc phở).                                                            |
+| **32** | **N + (이)나 2**         | Những/Tận (Ngạc nhiên về số lượng)  | *Nghĩa mở rộng:* Nhấn mạnh số lượng nhiều hơn mong đợi (Ví dụ: Đợi tận 1 tiếng).                       |
+| 33     | N + (이)나 3             | LÀM TẠM/ĐẠI ĐI                      |                                                                                                        |
+| **34** | **N + 처럼**             | Giống như                           | So sánh ví von hình ảnh.                                                                               |
+| **35** | **N + 마다**             | Mỗi, mọi                            | Chỉ sự lặp lại hoặc toàn thể.                                                                          |
+| **36** | **N + 보다**             | Hơn (So sánh)                       | Dùng để so sánh tính chất giữa 2 danh từ.                                                              |
+| 37     | 에서부터                   |                                     |                                                                                                        |
+| 38     | **A/V + 습니다/ㅂ니다**      | Đuôi câu trần thuật (Trang trọng)   | Chuyển sang phần động từ. Dạy đuôi câu lịch sự dùng trong công việc.                                   |
+| 39     | **A/V + 습니까/ㅂ니까**      | Đuôi câu nghi vấn (Trang trọng)     | Đi cặp với câu trần thuật ở trên.                                                                      |
+| 40     | **A/V + 았/었-**         | Thì Quá khứ                         | Cốt lõi để kể chuyện.                                                                                  |
+| 41     | **A/V + 지 않다**         | Không (Phủ định dài)                | Dạng phủ định trang trọng hơn "안".                                                                     |
+| 42     | 안 V                    | Không (Phủ định ngắn)               |                                                                                                        |
+| **43** | **A/V + 지 못하다**        | Không thể (Phủ định dài - Khả năng) | Phân biệt ý chí (không làm) và khả năng (không thể làm).                                               |
+| **40** | **V + (으)시-**          | Kính ngữ (Gốc từ)                   | Yếu tố gốc để tạo nên các đuôi câu kính trọng bên dưới.                                                |
+| **41** | **V + (으)세요 1**        | Kính ngữ trần thuật/Nghi vấn        | *Nghĩa 1:* Dùng để hỏi/nói về người lớn một cách lịch sự (Ví dụ: Bố đang làm gì?).                     |
+| **42** | **V + (으)세요 2**        | Hãy/Mời (Mệnh lệnh)                 | *Nghĩa 2:* Yêu cầu người nghe làm gì đó lịch sự (Ví dụ: Hãy ngồi xuống).                               |
+| **43** | **V + (으)십시오**         | Hãy (Mệnh lệnh trang trọng)         | Dùng trong bối cảnh công thức hơn "세요".                                                                |
+| **44** | **V + 지 말다**           | Đừng (Mệnh lệnh phủ định)           | Đi với đuôi câu mệnh lệnh (Đừng làm...).                                                               |
+| **45** | **V + 읍시다**            | Chúng ta hãy (Rủ rê)                | Đề nghị người khác cùng làm (Trang trọng).                                                             |
+| **46** | **A/V + 고 1¹**         | Và (Liệt kê)                        | Nối 2 vế câu ngang bằng (Ăn cơm và uống nước).                                                         |
+| **47** | **A/V + 고 1²**         | Rồi (Trình tự)                      | Hành động trước xảy ra xong rồi đến hành động sau (Tắm rồi ngủ).                                       |
+| **48** | **V + 고 싶다**           | Muốn                                | Mong muốn của ngôi thứ nhất.                                                                           |
+| **49** | **A/V + 지만**           | Nhưng                               | Nối 2 vế đối lập.                                                                                      |
+| **50** | **V + (으)러**           | Để (đi làm gì)                      | Mục đích của chuyển động (Đi kèm 가다/오다).                                                               |
+| **51** | **V + (으)려고**          | Định/Để (Mục đích)                  | Mở rộng của (으)러, dùng được với mọi động từ.                                                           |
+| **52** | **A/V + 아/어서 1**       | Vì... nên (Nguyên nhân)             | Giải thích lý do (Không dùng với mệnh lệnh).                                                           |
+| **53** | **V + 아/어서 2**         | Rồi... (Trình tự chặt chẽ)          | Hành động 1 là tiền đề để hành động 2 xảy ra (Mua táo rồi ăn - phải mua mới ăn được).                  |
+| **54** | **A/V + (으)니까 1**      | Vì... nên (Chủ quan)                | Lý do dùng được cho câu mệnh lệnh, rủ rê.                                                              |
+| **55** | **A/V + (으)니까 2**      | ...nên nhận ra là (Phát hiện)       | Sau khi làm V1 thì phát hiện ra V2 (Về nhà thì thấy không có ai).                                      |
+| **56** | **V + (으)면**           | Nếu... thì                          | Giả định.                                                                                              |
+| **57** | **V + (으)면서**          | Vừa... vừa...                       | Hai hành động song song.                                                                               |
+| **58** | **V + (으)ㄹ 수 있다 1**    | Có thể (Năng lực)                   | Tôi biết bơi, tôi lái được xe.                                                                         |
+| **59** | **V + (으)ㄹ 수 있다 2**    | Có thể (Khả năng xảy ra)            | *Nghĩa mở rộng:* Chuyện đó có thể xảy ra (Dự đoán).                                                    |
+| **60** | **V + (으)ㄹ 수밖에 없다**    | Đành phải/Không thể không           | Nhấn mạnh không còn lựa chọn nào khác.                                                                 |
+| **61** | **V + 아/어 보다 1**       | Thử làm gì                          | Trải nghiệm (Ăn thử, mặc thử).                                                                         |
+| **62** | **V + 아/어 보다 2**       | Đã từng (Kinh nghiệm)               | *Thường dùng dạng quá khứ:* Đã từng thử làm gì đó.                                                     |
+| **63** | **V + (으)ㄴ 적이 있다**     | Đã từng (Kinh nghiệm)               | Nhấn mạnh vào việc "có ký ức/trải nghiệm" về việc đó.                                                  |
+| **64** | **V + 아/어 주다**         | Làm giúp cho                        | Nhờ vả hoặc làm lợi cho người khác.                                                                    |
+| **65** | **V + 아/어야 되다**        | Phải (Bắt buộc)                     | Nghĩa vụ cần thực hiện.                                                                                |
+| **66** | **V + 아/어도 되다**        | Được phép làm gì                    | Cho phép hoặc hỏi xin phép.                                                                            |
+| **67** | **V + 고 있다 1**         | Đang (Hành động)                    | Hành động đang diễn ra (Ăn, chạy, ngủ).                                                                |
+| **68** | **V + 고 있다 2**         | Đang (Trạng thái mặc)               | *Nghĩa đặc biệt:* Đang mặc áo, đang đeo kính (Trạng thái kết quả của hành động mặc).                   |
+| **69** | **V + 아/어 있다**         | Đang (Trạng thái tồn tại)           | Đang ngồi, đang đứng, hoa đang nở (Kết quả hành động còn lưu lại).                                     |
+| **70** | **A/V + (으)ㄴ/는/을 (N)** | Các dạng Định ngữ                   | **Nhóm lớn:** Gộp định ngữ quá khứ/hiện tại/tương lai vào dạy theo chuỗi.                              |
+| **71** | **V + 기 / 는 것**        | Danh từ hóa                         | Biến câu thành cụm danh từ.                                                                            |
+| **72** | **V + 기 전에**           | Trước khi                           | Thời gian.                                                                                             |
+| **73** | **V + (으)ㄴ 후에**        | Sau khi                             | Thời gian.                                                                                             |
+| **74** | **V + (으)ㄹ 때**         | Khi                                 | Thời điểm.                                                                                             |
+| **75** | **V + 는 동안**           | Trong khi                           | Khoảng thời gian duy trì.                                                                              |
+| **76** | **V + 다가 1**           | Đang... thì (Chuyển hướng)          | Hành động bị ngắt quãng chuyển sang hành động khác.                                                    |
+| **77** | **V + (으)ㄹ게요**         | Tôi sẽ (Hứa hẹn)                    | Chủ ngữ là ngôi 1, hứa với người nghe.                                                                 |
+| **78** | **V + (으)ㄹ래 1**        | Nhé? (Hỏi ý kiến)                   | Hỏi người nghe muốn làm gì (Thân mật).                                                                 |
+| **79** | **V + (으)ㄹ래 2**        | Sẽ (Ý chí)                          | Nói về ý định của bản thân (Thân mật).                                                                 |
+| **80** | **V + (으)ㄹ까 1**        | Nhỉ? / Nhé?                         | Rủ rê hoặc tự hỏi (Chúng ta đi nhé?).                                                                  |
+| **81** | **V + (으)ㄹ까 2**        | Có lẽ? (Phỏng đoán)                 | *Nghĩa 2:* Dự đoán mơ hồ (Liệu trời có mưa không nhỉ?).                                                |
+| **82** | **A/V + (으)ㄹ까 보다 1**   | Định/Hay là...                      | Dự định chưa chắc chắn lắm (Hay là mình đi ngủ?).                                                      |
+| **83** | **A/V + (으)ㄹ까 보다 2**   | E là/Sợ rằng                        | Lo lắng về một việc có thể xảy ra.                                                                     |
+| **84** | **A/V + 겠- 1**         | Sẽ (Ý chí/Khách sáo)                | Dùng trong công việc hoặc thể hiện quyết tâm (Sẽ làm tốt).                                             |
+| **85** | **A/V + 겠- 2**         | Chắc là (Phỏng đoán)                | Nhìn tình huống và đoán (Ăn cái này chắc ngon lắm).                                                    |
+| **86** | **A/V + (으)ㄹ 것 같다**    | Hình như/Có lẽ                      | Phỏng đoán mềm mỏng, phổ biến nhất.                                                                    |
+| **87** | **V + 기로 하다**          | Quyết định làm gì                   | Chốt lại kế hoạch.                                                                                     |
+| **88** | **A/V + 게 되다**         | Bị/Được/Trở nên                     | Kết quả khách quan đem lại (Được đi Hàn Quốc).                                                         |
+| **89** | **A/V + 게 1¹**         | Một cách... (Trạng từ)              | Biến tính từ thành trạng từ (Ăn một cách ngon lành).                                                   |
+| **90** | **A/V + 게 1²**         | Để/Khiến cho                        | Mục đích hoặc sai khiến (Làm cho mẹ vui).                                                              |
+| **91** | **A/V + 는데 1¹**        | ...mà... (Bối cảnh)                 | Dẫn nhập câu chuyện (Trời mưa mà không có ô...).                                                       |
+| **92** | **A/V + 는데 1²**        | Nhưng (Tương phản nhẹ)              | Nhẹ hơn "지만".                                                                                          |
+| **93** | **A/V + 는데 2**         | ...đấy (Cuối câu)                   | Bỏ lửng câu để chờ phản hồi hoặc cảm thán.                                                             |
+| **94** | **A/V + 네 / 는군**       | Cảm thán                            | Các đuôi câu biểu lộ cảm xúc ngạc nhiên.                                                               |
+| **95** | **A/V + 지 1**          | ...chứ/đúng không                   | Xác nhận thông tin.                                                                                    |
+| **96** | **V + 지 2**            | ...đi (Mệnh lệnh nhẹ)               | Khuyên bảo nhẹ nhàng (Ăn đi chứ).                                                                      |
+| **97** | **A/V + 아/어 1,2,3,4**  | Cách nói trống không                | **Bài cuối:** Tổng hợp các đuôi câu (Trần thuật, Nghi vấn, Mệnh lệnh, Rủ rê) ở dạng thân mật (Banmal). |
