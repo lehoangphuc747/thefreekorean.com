@@ -198,6 +198,7 @@ Trình tự này vẫn tuân theo nguyên tắc từ cơ bản đến nâng cao:
 | 41     | **A/V + 지 않다**         | Không (Phủ định dài)                | Dạng phủ định trang trọng hơn "안".                                                                     |
 | 42     | 안 V                    | Không (Phủ định ngắn)               |                                                                                                        |
 | **43** | **A/V + 지 못하다**        | Không thể (Phủ định dài - Khả năng) | Phân biệt ý chí (không làm) và khả năng (không thể làm).                                               |
+| 44     | 못                      |                                     |                                                                                                        |
 | **40** | **V + (으)시-**          | Kính ngữ (Gốc từ)                   | Yếu tố gốc để tạo nên các đuôi câu kính trọng bên dưới.                                                |
 | **41** | **V + (으)세요 1**        | Kính ngữ trần thuật/Nghi vấn        | *Nghĩa 1:* Dùng để hỏi/nói về người lớn một cách lịch sự (Ví dụ: Bố đang làm gì?).                     |
 | **42** | **V + (으)세요 2**        | Hãy/Mời (Mệnh lệnh)                 | *Nghĩa 2:* Yêu cầu người nghe làm gì đó lịch sự (Ví dụ: Hãy ngồi xuống).                               |
