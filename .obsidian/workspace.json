@@ -22,63 +22,63 @@
             }
           },
           {
-            "id": "008b40461eb72312",
+            "id": "c406b1d10fb34916",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/grammar/041.phu-dinh-dai-ji-an-ta.md",
+                "file": "src/content/grammar/046.euseyo-1.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "041.phu-dinh-dai-ji-an-ta"
+              "title": "046.euseyo-1"
             }
           },
           {
-            "id": "b8a0f6e6e01d610c",
+            "id": "75be7c3963e294f4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/grammar/042.phu-dinh-ngan-안.md",
+                "file": "src/content/grammar/047.euseyo-2.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "042.phu-dinh-ngan-안"
+              "title": "047.euseyo-2"
             }
           },
           {
-            "id": "28bb18fb5163fa74",
+            "id": "389404cfcf4009f3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/grammar/044.phu-dinh-ngan-mot.md",
+                "file": "src/content/grammar/048.euseyo-3.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "044.phu-dinh-ngan-mot"
+              "title": "048.euseyo-3"
             }
           },
           {
-            "id": "da8e5382db3a00fe",
+            "id": "ab5843a11cb15644",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/grammar/045.eusi-ton-kinh.md",
+                "file": "src/content/grammar/049.eusibsio.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "045.eusi-ton-kinh"
+              "title": "049.eusibsio"
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -227,16 +227,18 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "da8e5382db3a00fe",
+  "active": "c406b1d10fb34916",
   "lastOpenFiles": [
-    "src/content/grammar/044.phu-dinh-ngan-mot.md",
-    "src/content/grammar/Untitled 1.md",
-    "src/content/grammar/Untitled.md",
+    "src/content/grammar/049.eusibsio.md",
+    "src/content/grammar/048.euseyo-3.md",
+    "src/content/grammar/046.euseyo-1.md",
+    "src/content/grammar/047.euseyo-2.md",
     "GRAMMAR.md",
     "src/content/grammar/045.eusi-ton-kinh.md",
+    "src/content/grammar/044.phu-dinh-ngan-mot.md",
+    "src/content/grammar/043.v-ji-mothada-khong-the.md",
     "src/content/grammar/042.phu-dinh-ngan-안.md",
     "src/content/grammar/041.phu-dinh-dai-ji-an-ta.md",
-    "src/content/grammar/043.v-ji-mothada-khong-the.md",
     "src/content/grammar/040.thi-qua-khu-았-었-했.md",
     "src/content/grammar/035.mada.md",
     "src/content/grammar/036.boda.md",
@@ -253,8 +255,6 @@
     "src/content/grammar/hago1.gv.md",
     "src/content/grammar/egero.hs.md",
     "src/content/grammar/hanteseo.hs.md",
-    "src/content/grammar/egeseo.hs.md",
-    "src/content/grammar/kke.gv.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
