@@ -129,14 +129,15 @@ Lộ trình học được xây dựng theo nguyên tắc **từ cơ bản đế
 
 ### C. Kính ngữ & Mệnh lệnh [45-50]
 
-|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
-|---|---|---|---|---|
-|45|**V + (으)시-**|Kính ngữ (gốc từ)|Yếu tố gốc tạo đuôi câu kính trọng|🔄 Cần tạo|
-|46|**V + (으)세요¹**|Kính ngữ trần thuật/Nghi vấn|Hỏi/nói về người lớn lịch sú|🔄 Cần tạo|
-|47|**V + (으)세요²**|Hãy/Mời (mệnh lệnh lịch sự)|Yêu cầu lịch sự|🔄 Cần tạo|
-|48|**V + (으)십시오**|Hãy (mệnh lệnh trang trọng)|Công thức hơn "세요"|🔄 Cần tạo|
-|49|**V + 지 말다**|Đừng (mệnh lệnh phủ định)|Đi với đuôi câu mệnh lệnh|🔄 Cần tạo|
-|50|**V + (으)ㅂ시다**|Chúng ta hãy (rủ rê)|Đề nghị cùng làm (trang trọng)|🔄 Cần tạo|
+| STT | Ngữ pháp        | Ý nghĩa                     | Lý do sắp xếp                      | Trạng thái |
+| --- | --------------- | --------------------------- | ---------------------------------- | ---------- |
+| 45  | **V + (으)시-**   | Kính ngữ (gốc từ)           | Yếu tố gốc tạo đuôi câu kính trọng | 🔄 Cần tạo |
+| 46  | **V + (으)세요¹**  | Kính ngữ trần thuật         | Hỏi/nói về người lớn lịch sú       | 🔄 Cần tạo |
+| 47  | **V + (으)세요²**? | Nghi vấn                    |                                    | 🔄 Cần tạo |
+| 48  | V 으세요 3         | Hãy/Mời (mệnh lệnh lịch sự) | Yêu cầu lịch sự                    |            |
+| 48  | **V + (으)십시오**  | Hãy (mệnh lệnh trang trọng) | Công thức hơn "세요"                 | 🔄 Cần tạo |
+| 49  | **V + 지 말다**    | Đừng (mệnh lệnh phủ định)   | Đi với đuôi câu mệnh lệnh          | 🔄 Cần tạo |
+| 50  | **V + (으)ㅂ시다**  | Chúng ta hãy (rủ rê)        | Đề nghị cùng làm (trang trọng)     | 🔄 Cần tạo |
 
 ### D. Động từ & Tính từ cơ bản - **THIẾU QUAN TRỌNG**
 

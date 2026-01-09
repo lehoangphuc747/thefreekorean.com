@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import GrammarPostLayout from '../../../layouts/GrammarPostLayout.astro';
 import ImageViewer from '../../../components/common/ImageViewer.astro';
 import PDFGenerator from '../../../components/common/PDFGenerator.astro';
@@ -6,69 +7,43 @@ import ShareButton from '../../../components/common/ShareButton.astro';
 import NavigationButtons from '../../../components/grammar/NavigationButtons.astro';
 import RelatedGrammar from '../../../components/grammar/RelatedGrammar.astro';
 import TableOfContents from '../../../components/grammar/TableOfContents.astro';
-import { getCollection } from 'astro:content';
 import '../../../styles/markdown.css';
 
+/**
+ * Grammar Post Page
+ * 
+ * Dynamic route: /grammar/[level]/[slug]
+ * Renders individual grammar articles.
+ */
+
+// 1. Static Paths
 export async function getStaticPaths() {
   const grammarEntries = await getCollection('grammar');
   
-  const paths = await Promise.all(
+  return Promise.all(
     grammarEntries.map(async (entry) => {
       const rendered = await entry.render();
-      // Sử dụng frontmatter slug nếu có, nếu không thì dùng filename slug
       const slug = entry.data.slug || entry.slug;
+      
       return {
-        params: {
-          level: entry.data.level,
-          slug: slug
-        },
-        props: { 
-          entry,
-          content: rendered,
-          markdownBody: entry.body // Get raw markdown for PDF
-        }
+        params: { level: entry.data.level, slug: slug },
+        props: { entry, content: rendered }
       };
     })
   );
-  
-  return paths;
 }
 
-const { entry, content, markdownBody } = Astro.props as any;
+// 2. Props & Data
+const { entry, content } = Astro.props;
+const { Content, headings } = content;
 const { title, meaning, level, description, tags } = entry.data;
 
-// Get the rendered content
-const { Content } = content;
-
-// Lấy tất cả ngữ pháp để tạo sidebar và navigation
+// 3. Context Data
 const allGrammar = await getCollection('grammar');
+const cleanGrammar = allGrammar.filter(g => !g.slug.endsWith('-draft') && !g.slug.endsWith('-original'));
 
-// --- Teacher/Student Mode Logic ---
-const isTeacherMode = entry.slug.endsWith('-gv');
-let alternateEntry = null;
-
-// Find the alternate version
-if (isTeacherMode) {
-  // Current is Teacher (e.g. "e3-gv"), find Student ("e3")
-  const studentSlug = entry.slug.replace(/-gv$/, '');
-  alternateEntry = allGrammar.find(g => g.slug === studentSlug);
-} else {
-  // Current is Student (e.g. "e3"), find Teacher ("e3-gv")
-  const teacherSlug = `${entry.slug}-gv`;
-  alternateEntry = allGrammar.find(g => g.slug === teacherSlug);
-}
-
-const alternateUrl = alternateEntry 
-  ? `/grammar/${alternateEntry.data.level}/${alternateEntry.slug}`
-  : undefined;
-// ---------------------------------
-
-const sortedGrammar = allGrammar
-  // Filter out "draft" or "original" duplicates if necessary, 
-  // but for now we just keep them but ensure navigation skips them if needed.
-  // A better way is to filter out entries that end in '-draft' or similar if we add them.
-  .filter(g => !g.slug.endsWith('-draft') && !g.slug.endsWith('-original')) 
-  .sort((a, b) => {
+// Sort for navigation context
+const sortedGrammar = cleanGrammar.sort((a, b) => {
   const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
   if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
     return levelOrder[a.data.level] - levelOrder[b.data.level];
@@ -76,804 +51,309 @@ const sortedGrammar = allGrammar
   return a.data.order - b.data.order;
 });
 
-// Tìm ngữ pháp trước và sau
-const currentIndex = sortedGrammar.findIndex(g => g.slug === entry.slug);
+// Previous/Next
+const currentIndex = sortedGrammar.findIndex(g => {
+  const gSlug = g.data.slug || g.slug;
+  const entrySlug = entry.data.slug || entry.slug;
+  return gSlug === entrySlug;
+});
 const prevGrammar = currentIndex > 0 ? sortedGrammar[currentIndex - 1] : null;
 const nextGrammar = currentIndex < sortedGrammar.length - 1 ? sortedGrammar[currentIndex + 1] : null;
 
-// Tìm ngữ pháp liên quan
+// Related
 const relatedGrammar = allGrammar
   .filter(g => g.slug !== entry.slug)
   .filter(g => {
-    // Ưu tiên cùng tags
-    const commonTags = tags.filter(tag => g.data.tags.includes(tag));
+    const commonTags = tags?.filter((tag: string) => g.data.tags?.includes(tag)) || [];
     if (commonTags.length > 0) return true;
-    // Sau đó cùng level
     return g.data.level === level;
   })
   .slice(0, 3);
 
-// Level mapping cho breadcrumb
-const levelMap = {
-  beginner: 'Sơ cấp',
-  intermediate: 'Trung cấp', 
-  advanced: 'Cao cấp'
+// Mappings
+const levelMap = { beginner: 'Sơ cấp', intermediate: 'Trung cấp', advanced: 'Cao cấp' };
+const levelColorMap = {
+  beginner: 'bg-emerald-100 text-emerald-700',
+  intermediate: 'bg-amber-100 text-amber-700',
+  advanced: 'bg-rose-100 text-rose-700'
 };
 
-// Extract headings from content for TOC and map to expected shape
-const headings = (content?.headings || []).map((h: any) => ({
+// Formatted Headings for TOC
+const tocHeadings = headings.map((h: any) => ({
   id: h.slug,
   text: h.text,
   level: h.depth
 }));
-
-// DEBUG: Log markdown content
-console.log('=== DEBUG MARKDOWN CONTENT ===');
-console.log('Entry slug:', entry.slug);
-console.log('Entry data:', entry.data);
-console.log('Content has render?:', !!content);
-console.log('Headings extracted:', headings);
-console.log('Number of headings:', headings.length);
-console.log('================================');
 ---
 
-<GrammarPostLayout 
-  title={title} 
-  description={description}
-  isTeacherMode={isTeacherMode}
-  alternateUrl={alternateUrl}
->
+<GrammarPostLayout title={title} description={description} showTOC={tocHeadings.length > 0}>
   
-  
-  <div class="grammar-post">
-    
-    
-    <!-- Grammar Info -->
-    <div class="grammar-info">
-      <h1 class="grammar-title">{title}</h1>
-      <p class="grammar-meaning">{meaning}</p>
-      <div class="grammar-badges">
-        <span class="level-badge {level}">{levelMap[level]}</span>
-        {tags.map(tag => (
-          <span class="tag-badge">{tag}</span>
-        ))}
-      </div>
-      <p class="grammar-description" set:html={description}></p>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-      <a href="/grammar" class="action-btn back-link">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 19l-7-7 7-7"/>
-        </svg>
-        Quay lại
-      </a>
-      <ShareButton />
-      <button class="action-btn print-btn" onclick="window.print()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 6,2 18,2 18,9"/>
-          <path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"/>
-          <rect x="6" y="14" width="12" height="8"/>
-        </svg>
-        In bài viết
-      </button>
-      <PDFGenerator 
-        markdown={markdownBody || ''}
-        slug={entry.slug}
-        title={title}
-        meaning={meaning}
-        level={level}
-        description={description}
-        tags={tags}
-      />
-    </div>
-
-    <!-- Main Content -->
-    <div class="grammar-content markdown-content">
-      <Content />
-    </div>
-    
-    <!-- Image Viewer Component -->
-    <ImageViewer />
-
-    <!-- Navigation Buttons (Top) -->
-    <NavigationButtons 
-      prevGrammar={prevGrammar ? {
-        level: prevGrammar.data.level,
-        slug: prevGrammar.slug
-      } : undefined}
-      nextGrammar={nextGrammar ? {
-        level: nextGrammar.data.level,
-        slug: nextGrammar.slug
-      } : undefined}
-      showBackButton={false}
-      position="top"
-    />
-
-    <!-- Related Grammar -->
-    <RelatedGrammar 
-      relatedGrammar={relatedGrammar.map(grammar => ({
-        title: grammar.data.title,
-        meaning: grammar.data.meaning,
-        level: grammar.data.level,
-        slug: grammar.slug
-      }))}
-    />
+  <!-- TOC Slot -->
+  <div slot="toc" class="h-full">
+    <TableOfContents headings={tocHeadings} />
   </div>
 
-  <!-- Table of Contents in slot -->
-  <TableOfContents slot="toc" headings={headings} />
+  <!-- Main Content Article -->
+  <article class="prose prose-slate max-w-none">
+    
+    <!-- 1. Header Section -->
+    <header class="border-b border-slate-100 pb-8 mb-8 text-center sm:text-left">
+      <!-- Back Link (Mobile only) -->
+      <a href="/grammar" class="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-6 lg:hidden group">
+        <svg class="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        Quay lại danh sách
+      </a>
+
+      <!-- Badges -->
+      <div class="flex flex-wrap items-center gap-3 mb-4 justify-center sm:justify-start">
+        <span class={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${levelColorMap[level]}`}>
+          {levelMap[level]}
+        </span>
+        {tags?.map((tag: string) => (
+          <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      <!-- Title & Meaning -->
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2 leading-tight">
+        {title} 
+      </h1>
+      <p class="text-xl sm:text-2xl text-indigo-600 font-medium mb-6">
+        {meaning}
+      </p>
+
+      <!-- Description -->
+      {description && (
+        <div class="bg-indigo-50/50 rounded-xl p-4 sm:p-6 border border-indigo-100 text-slate-600 leading-relaxed italic">
+          <span set:html={description} />
+        </div>
+      )}
+    </header>
+
+    <!-- 2. Utility Bar -->
+    <div class="flex items-center justify-between gap-4 mb-8 py-4 border-y border-slate-50 not-prose">
+      <div class="flex gap-2">
+        <ShareButton />
+        <button onclick="window.print()" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg transition-colors" title="In bài viết">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+        </button>
+      </div>
+      <div>
+         <!-- PDF Generator can be placed here -->
+         <PDFGenerator 
+            markdown={entry.body}
+            slug={entry.slug}
+            title={title}
+            meaning={meaning}
+            level={level}
+            description={description}
+            tags={tags}
+         />
+      </div>
+    </div>
+
+    <!-- 3. Markdown Body -->
+    <div class="grammar-content markdown-content min-h-[300px]">
+      <div class="prose-headings:scroll-mt-28">
+        <Content />
+      </div>
+    </div>
+
+    <!-- 4. Image Viewer (Hidden by default, triggered by JS) -->
+    <ImageViewer />
+
+    <!-- 5. Navigation Footer -->
+    <footer class="mt-16 pt-8 border-t border-slate-100 not-prose">
+      <NavigationButtons 
+        prevGrammar={prevGrammar ? { level: prevGrammar.data.level, slug: prevGrammar.data.slug || prevGrammar.slug } : undefined}
+        nextGrammar={nextGrammar ? { level: nextGrammar.data.level, slug: nextGrammar.data.slug || nextGrammar.slug } : undefined}
+        showBackButton={false}
+      />
+
+      <div class="mt-12">
+        <h3 class="text-lg font-bold text-slate-800 mb-6">Ngữ pháp liên quan</h3>
+        <RelatedGrammar 
+          relatedGrammar={relatedGrammar.map(g => ({
+            title: g.data.title,
+            meaning: g.data.meaning,
+            level: g.data.level,
+            slug: g.data.slug || g.slug
+          }))} 
+        />
+      </div>
+    </footer>
+
+  </article>
+
 </GrammarPostLayout>
 
-<style>
-  .grammar-post {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    position: relative;
-  }
-
-  .action-buttons { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-
-  .action-btn.back-link { color: #3b82f6; }
-  .action-btn.back-link:hover { border-color: #3b82f6; }
-
-  .toc-floating-btn { display: none; }
-
-  /* Heading link icon */
-  .markdown-content .heading-anchor {
-    margin-left: 0.5rem;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    color: #94a3b8;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    line-height: 1;
-  }
-  .markdown-content .heading-anchor svg {
-    display: inline-block;
-    vertical-align: middle;
-    flex-shrink: 0;
-  }
-  .markdown-content h1:hover .heading-anchor,
-  .markdown-content h2:hover .heading-anchor,
-  .markdown-content h3:hover .heading-anchor,
-  .markdown-content h4:hover .heading-anchor { opacity: 1; }
-  .heading-anchor:hover { color: #3b82f6; }
-
-  /* Đảm bảo icon nằm cùng hàng với heading */
-  .markdown-content h1,
-  .markdown-content h2,
-  .markdown-content h3,
-  .markdown-content h4,
-  .markdown-content h5,
-  .markdown-content h6 {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: nowrap;
-  }
-
-  /* Toast */
-  .copy-toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #10b981;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
-    box-shadow: 0 6px 20px rgba(16,185,129,0.3);
-    z-index: 9999;
-    font-size: 14px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.25s ease;
-  }
-  .copy-toast.show { opacity: 1; transform: translateY(0); }
-
-  .grammar-post { /* keep spacing */ }
-
-  .toc-floating-btn:hover { background: #2563eb; }
-
-  .back-button {
-    margin-bottom: 1.5rem;
-  }
-
-  @media (min-width: 1024px) {
-    .back-button {
-      display: none;
-    }
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #3b82f6;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    transition: all 0.2s;
-  }
-
-  .back-link:hover {
-    background-color: #f8fafc;
-    border-color: #3b82f6;
-  }
-
-  .grammar-info {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #e2e8f0;
-    text-align: center;
-  }
-
-  .grammar-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-  }
-
-  .grammar-meaning {
-    font-size: 1.25rem;
-    color: #3b82f6;
-    font-weight: 500;
-    margin-bottom: 1rem;
-  }
-
-  .grammar-badges {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .level-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    background: #f1f5f9;
-    color: #475569;
-  }
-
-  .level-badge.beginner {
-    background: #dcfce7;
-    color: #166534;
-  }
-
-  .level-badge.intermediate {
-    background: #fef3c7;
-    color: #92400e;
-  }
-
-  .level-badge.advanced {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-
-  .tag-badge {
-    padding: 0.25rem 0.5rem;
-    background: #f1f5f9;
-    color: #475569;
-    border-radius: 4px;
-    font-size: 0.75rem;
-  }
-
-  .grammar-description {
-    color: #64748b;
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .action-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-
-  .action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid #e2e8f0;
-    background: white;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s;
-    color: #374151;
-  }
-
-  .action-btn:hover {
-    border-color: #3b82f6;
-    color: #3b82f6;
-  }
-
-  .grammar-content {
-    margin-bottom: 2rem;
-  }
-
-  /* Ordered list default numbering */
-  .markdown-content ol {
-    list-style: decimal outside;
-    padding-left: 1.5rem;
-    margin: 0.25rem 0 0.5rem 0;
-  }
-
-  .markdown-content ol > li {
-    margin: 0.25rem 0;
-    line-height: 1.6;
-  }
-
-  /* Unordered lists keep disc bullets */
-  .markdown-content ul {
-    list-style: disc outside;
-    padding-left: 1.5rem;
-    margin: 0.25rem 0 0.5rem 0;
-  }
-
-  .markdown-content ul > li {
-    margin: 0.25rem 0;
-    line-height: 1.6;
-  }
-
-  .markdown-content ol li ul {
-    list-style: disc outside;
-    padding-left: 1.5rem;
-    margin: 0.25rem 0 0.5rem 0;
-  }
-
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-    .grammar-post {
-      padding: 1rem;
-    }
-
-    .grammar-title {
-      font-size: 2rem;
-    }
-
-    .action-buttons {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .action-buttons .action-btn {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .navigation-buttons {
-      flex-direction: column;
-    }
-
-    .nav-btn {
-      justify-content: center;
-    }
-  }
-</style>
-
 <script>
-  // DEBUG: Check markdown content in DOM
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== DEBUG CLIENT-SIDE ===');
+/**
+ * Grammar Post Client Logic
+ * 
+ * Responsibilities:
+ * 1. Syntax Highlighting: Automatically highlights grammar terms.
+ * 2. Visual Indicators: Styles (O), (X), (?) markers.
+ * 3. Copy-to-clipboard: Interactions for headings.
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
     
-    const grammarContent = document.querySelector('.grammar-content');
-    console.log('Grammar content element:', grammarContent);
-    console.log('Has content?:', grammarContent ? 'YES' : 'NO');
-    
-    if (grammarContent) {
-      console.log('Content innerHTML length:', grammarContent.innerHTML.length);
-      console.log('Content text length:', grammarContent.textContent?.length);
-      console.log('First 200 chars:', grammarContent.textContent?.substring(0, 200));
-      console.log('All headings found:', grammarContent.querySelectorAll('h1, h2, h3, h4, h5, h6'));
-      console.log('Number of headings:', grammarContent.querySelectorAll('h1, h2, h3, h4, h5, h6').length);
-      
-      // Check if markdown CSS is applied
-      const styles = window.getComputedStyle(grammarContent);
-      console.log('Max-width:', styles.maxWidth);
-      console.log('Line-height:', styles.lineHeight);
-    } else {
-      console.error('❌ Grammar content element NOT FOUND!');
-    }
-    
-    console.log('========================');
-    
-    // Grammar keyword highlighting
-    function highlightGrammarKeywords() {
-      const content = document.querySelector('.grammar-content');
-      if (!content) return;
+    // --- Configuration ---
+    // List of grammar terms to highlight.
+    // ORDER MATTERS: Longer terms first to prevent partial matching.
+    const GRAMMAR_KEYWORDS = [
+      '목적격조사', '부사격조사', '서술격조사', '선어말어미', '연결어미', '종결어미',
+      '어말어미', '존칭어',
+      '주격조사', '보격조사', '접속조사', '서술어', '형용사', '관형사',
+      '대명사', '형태소', '높임말', '낮춤말', '표준어',
+      '조사', '명사', '동사', '어미', '받침', '부사', '수사',
+      '감탄사', '체언', '용언', '단어', '문장', '문법', '활용',
+      '어간', '반말', '방언'
+    ];
 
-      // Common grammar keywords to highlight
-      // IMPORTANT: Sắp xếp theo độ dài từ dài đến ngắn để tránh highlight trùng lặp
-      // (ví dụ: highlight "격조사" trước "조사" để tránh highlight sai)
-      const keywords = [
-        // Từ dài trước (4-5 ký tự)
-        '목적격조사', '부사격조사', '서술격조사', '선어말어미', '연결어미', '종결어미',
-        '어말어미', '존칭어',
-        // Từ trung bình (3 ký tự)
-        '주격조사', '보격조사', '접속조사', '서술어', '형용사', '관형사',
-        '대명사', '형태소', '높임말', '낮춤말', '표준어',
-        // Từ ngắn (2 ký tự) - chỉ highlight khi không nằm trong từ dài hơn
-        '조사', '명사', '동사', '어미', '받침', '부사', '수사',
-        '감탄사', '체언', '용언', '단어', '문장', '문법', '활용',
-        '어간', '반말', '방언'
-      ];
-
-      // Function to highlight text - sắp xếp từ dài đến ngắn và chỉ highlight các từ chưa nằm trong span
-      function highlightKeywordsInElement(element) {
-        let html = element.innerHTML;
-        
-        // Sắp xếp keywords theo độ dài từ dài đến ngắn (quan trọng: từ dài trước)
-        const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
-        
-        // Duyệt qua từng keyword từ dài đến ngắn
-        sortedKeywords.forEach(keyword => {
-          const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const regex = new RegExp(escapedKeyword, 'gi');
-          const grammarKeywordRegex = /<span[^>]*class=["']grammar-keyword["'][^>]*>/gi;
-          
-          // Tìm tất cả matches - xử lý từ cuối lên đầu
-          const replacements: Array<{ start: number; end: number; text: string }> = [];
-          
-          // Tạo một bản copy HTML để tìm match mà không bị ảnh hưởng bởi các thay đổi
-          let searchHTML = html;
-          let offset = 0;
-          
-          while (true) {
-            // Tìm match tiếp theo trong cleanText
-            const cleanText = searchHTML.replace(/<[^>]*>/g, '');
-            regex.lastIndex = 0;
-            const match = regex.exec(cleanText);
-            
-            if (!match) break; // Không còn match nào
-            
-            const textIndex = match.index;
-            const textEnd = textIndex + keyword.length;
-            
-            // Tìm vị trí tương ứng trong HTML
-            let htmlStart = -1;
-            let htmlEnd = -1;
-            let currentTextIndex = 0;
-            let inTag = false;
-            
-            // Tìm vị trí bắt đầu và kết thúc của text trong HTML
-            for (let j = 0; j < searchHTML.length; j++) {
-              if (searchHTML[j] === '<') {
-                inTag = true;
-              } else if (searchHTML[j] === '>') {
-                inTag = false;
-              } else if (!inTag) {
-                if (currentTextIndex === textIndex && htmlStart === -1) {
-                  htmlStart = j + offset;
-                }
-                if (currentTextIndex === textEnd - 1) {
-                  htmlEnd = j + 1 + offset;
-                  break;
-                }
-                currentTextIndex++;
-              }
-            }
-            
-            // Bỏ qua nếu không tìm thấy vị trí hợp lệ
-            if (htmlStart === -1 || htmlEnd === -1) break;
-            
-            // Kiểm tra xem vị trí này có nằm trong span grammar-keyword đã highlight không
-            const beforeHTML = html.substring(0, htmlStart);
-            const openSpans = (beforeHTML.match(grammarKeywordRegex) || []).length;
-            const closeSpans = (beforeHTML.match(/<\/span>/gi) || []).length;
-            
-            // Nếu số span mở > số span đóng, nghĩa là đang nằm trong một span đã highlight
-            if (openSpans > closeSpans) {
-              // Tìm vị trí kết thúc của span này để tiếp tục tìm từ đó
-              let spanEnd = htmlEnd;
-              let depth = openSpans - closeSpans;
-              for (let j = htmlEnd; j < html.length && depth > 0; j++) {
-                if (html[j] === '<' && html.substring(j, j + 8) === '</span>') {
-                  depth--;
-                  if (depth === 0) {
-                    spanEnd = html.indexOf('>', j) + 1;
-                    break;
-                  }
-                } else if (html[j] === '<') {
-                  const tagMatch = html.substring(j + 1).match(/^span[^>]*class=["']grammar-keyword["']/);
-                  if (tagMatch) {
-                    depth++;
-                  }
-                }
-              }
-              // Cập nhật searchHTML để tìm từ vị trí sau span
-              const textAfterSpan = html.substring(spanEnd).replace(/<[^>]*>/g, '');
-              if (textAfterSpan.length === 0) break;
-              searchHTML = html.substring(spanEnd);
-              offset = spanEnd;
-              continue;
-            }
-            
-            // Tìm các thẻ HTML bao quanh text này để giữ nguyên formatting
-            let actualHtmlStart = htmlStart;
-            let actualHtmlEnd = htmlEnd;
-            
-            // Tìm thẻ mở bao quanh (nếu có, nhưng không phải span grammar-keyword)
-            for (let j = htmlStart - 1; j >= 0; j--) {
-              if (html[j] === '>') {
-                let tagStart = j;
-                while (tagStart >= 0 && html[tagStart] !== '<') tagStart--;
-                if (tagStart >= 0) {
-                  const tagContent = html.substring(tagStart + 1, j);
-                  // Bỏ qua nếu là span grammar-keyword
-                  if (tagContent.includes('class="grammar-keyword"') || tagContent.includes("class='grammar-keyword'")) {
-                    break;
-                  }
-                  const tagName = tagContent.split(/\s/)[0];
-                  if (tagName && tagName !== 'span') {
-                    // Tìm thẻ đóng tương ứng
-                    let depth = 1;
-                    for (let k = j + 1; k < html.length && depth > 0; k++) {
-                      if (html[k] === '<') {
-                        const tagEnd = html.indexOf('>', k);
-                        if (tagEnd > k) {
-                          const closeTag = html.substring(k + 1, tagEnd).trim();
-                          if (closeTag === '/' + tagName || closeTag.startsWith('/' + tagName)) {
-                            depth--;
-                            if (depth === 0 && tagEnd >= htmlEnd - 1) {
-                              actualHtmlStart = tagStart;
-                              actualHtmlEnd = tagEnd + 1;
-                              break;
-                            }
-                          } else if (closeTag.split(/\s/)[0] === tagName) {
-                            depth++;
-                          }
-                        }
-                      }
-                    }
-                    if (actualHtmlStart < htmlStart) break;
-                  }
-                }
-                break;
-              } else if (html[j] === '<') {
-                break;
-              }
-            }
-            
-            // Lấy text trong khoảng này
-            const matchText = html.substring(actualHtmlStart, actualHtmlEnd);
-            const cleanMatchText = matchText.replace(/<[^>]*>/g, '').trim();
-            
-            // Chỉ highlight nếu text khớp chính xác với keyword
-            if (cleanMatchText.toLowerCase() === keyword.toLowerCase()) {
-              // Kiểm tra lại một lần nữa để đảm bảo không nằm trong span
-              const checkBefore = html.substring(0, actualHtmlStart);
-              const checkOpen = (checkBefore.match(grammarKeywordRegex) || []).length;
-              const checkClose = (checkBefore.match(/<\/span>/gi) || []).length;
-              
-              if (checkOpen === checkClose) {
-                // Lưu lại replacement (từ cuối lên đầu)
-                replacements.unshift({
-                  start: actualHtmlStart,
-                  end: actualHtmlEnd,
-                  text: matchText
-                });
-                // Cập nhật searchHTML để tiếp tục tìm
-                searchHTML = html.substring(actualHtmlEnd);
-                offset = actualHtmlEnd;
-              } else {
-                // Nằm trong span, bỏ qua và tiếp tục tìm từ sau span
-                let spanEnd = actualHtmlEnd;
-                let depth = checkOpen - checkClose;
-                for (let j = actualHtmlEnd; j < html.length && depth > 0; j++) {
-                  if (html[j] === '<' && html.substring(j, j + 8) === '</span>') {
-                    depth--;
-                    if (depth === 0) {
-                      spanEnd = html.indexOf('>', j) + 1;
-                      break;
-                    }
-                  } else if (html[j] === '<') {
-                    const tagMatch = html.substring(j + 1).match(/^span[^>]*class=["']grammar-keyword["']/);
-                    if (tagMatch) {
-                      depth++;
-                    }
-                  }
-                }
-                searchHTML = html.substring(spanEnd);
-                offset = spanEnd;
-              }
-            } else {
-              // Không khớp, có thể do đã bị thay đổi
-              break;
-            }
-          }
-          
-          // Thực hiện replacements từ cuối lên đầu
-          for (const replacement of replacements) {
-            const before = html.substring(0, replacement.start);
-            const after = html.substring(replacement.end);
-            html = before + `<span class="grammar-keyword">${replacement.text}</span>` + after;
-          }
-        });
-        
-        element.innerHTML = html;
-      }
-
-      // Apply highlighting to paragraphs, list items, and table cells
-      const elements = content.querySelectorAll('p, li, td, blockquote');
-      elements.forEach(element => {
-        highlightKeywordsInElement(element);
-      });
-    }
-
-    // Highlight correctness indicators
-    function highlightCorrectnessIndicators() {
-      const content = document.querySelector('.grammar-content');
-      if (!content) return;
-
-      const indicators = [
-        { pattern: /\(O\)/g, className: 'correct' },
-        { pattern: /\(X\)/g, className: 'incorrect' },
-        { pattern: /\(\?\)/g, className: 'warning' }
-      ];
-
-      const tableCells = content.querySelectorAll('td');
-      tableCells.forEach(cell => {
-        indicators.forEach(indicator => {
-          const text = cell.textContent;
-          const highlighted = text.replace(indicator.pattern,
-            (match) => `<span class="${indicator.className}">${match}</span>`
-          );
-          if (highlighted !== text) {
-            cell.innerHTML = highlighted;
-          }
-        });
-      });
-    }
-
-    // Apply highlighting after content loads
-    // highlightGrammarKeywords();
-    // highlightCorrectnessIndicators();
-
-    // Heading link anchors + copy on click
-    (function enableHeadingAnchorsAndCopy() {
+    /**
+     * Highlights predefined grammar keywords within text nodes of the content.
+     * Uses a tree walker to safely modify text without breaking HTML structure.
+     */
+    function highlightKeywords() {
       const contentRoot = document.querySelector('.grammar-content');
       if (!contentRoot) return;
 
-      const slugify = (text) => {
-        return text
-          .toString()
-          .trim()
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^\w\s-가-힣]+/g, '')
-          .replace(/\s+/g, '-')
-          .replace(/-+/g, '-')
-          .replace(/^-|-$/g, '');
+      // Helper to process a single text node
+      const processTextNode = (node: Text) => {
+        const text = node.textContent || '';
+        if (!text.trim()) return null;
+
+        let modified = false;
+        let html = text;
+
+        // Sort keywords for greedy matching (longest first)
+        // Note: Ideally this should be done once outside, but for safety in the loop...
+        // Actually, let's just do a simple replace, but we need to be careful not to replace inside tags if we were operating on HTML strings.
+        // Since we are operating on a TextNode, we are safe from HTML tag collision, BUT we need to return HTML to replace the TextNode.
+        
+        // We will construct a regex that matches ANY of the keywords
+        // Optimized: Create regex once
+        const regex = new RegExp(`(${GRAMMAR_KEYWORDS.join('|')})`, 'g'); // Simple match, case-sensitive usually ok for Korean
+        
+        if (regex.test(text)) {
+           const fragment = document.createDocumentFragment();
+           let lastIndex = 0;
+           regex.lastIndex = 0; // Reset
+           
+           let match;
+           while ((match = regex.exec(text)) !== null) {
+             // Text before match
+             const before = text.slice(lastIndex, match.index);
+             if (before) fragment.appendChild(document.createTextNode(before));
+             
+             // Highlighted Match
+             const span = document.createElement('span');
+             span.className = 'text-indigo-600 font-medium bg-indigo-50 px-1 rounded mx-0.5'; // Tailwind Highlight
+             span.textContent = match[0];
+             fragment.appendChild(span);
+             
+             lastIndex = regex.lastIndex;
+             modified = true;
+           }
+           
+           // Text after last match
+           const after = text.slice(lastIndex);
+           if (after) fragment.appendChild(document.createTextNode(after));
+           
+           return modified ? fragment : null;
+        }
+        return null;
       };
 
-      const showToast = (message) => {
-        let toast = document.querySelector('.copy-toast');
-        if (!toast) {
-          toast = document.createElement('div');
-          toast.className = 'copy-toast';
-          document.body.appendChild(toast);
-        }
-        toast.textContent = message;
-        requestAnimationFrame(() => {
-          toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 1600);
-        });
-      };
-
-      const copyLink = (id) => {
-        const url = `${location.origin}${location.pathname}#${id}`;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(() => {
-            history.replaceState(null, '', `#${id}`);
-            showToast('Đã sao chép liên kết heading');
-          }).catch(() => {
-            // Fallback
-            const input = document.createElement('input');
-            input.value = url;
-            document.body.appendChild(input);
-            input.select();
-            document.execCommand('copy');
-            document.body.removeChild(input);
-            history.replaceState(null, '', `#${id}`);
-            showToast('Đã sao chép liên kết heading');
-          });
-        } else {
-          history.replaceState(null, '', `#${id}`);
-          showToast('Đã cập nhật liên kết heading');
-        }
-      };
-
-      const ensureAnchorSpacing = (anchor) => {
-        if (!(anchor instanceof HTMLElement)) return;
-        const prev = anchor.previousSibling;
-        const next = anchor.nextSibling;
-
-        if (!(prev && prev.nodeType === Node.TEXT_NODE && /\s$/.test(prev.textContent || ''))) {
-          anchor.before(document.createTextNode(' '));
-        }
-
-        if (!(next && next.nodeType === Node.TEXT_NODE && /^\s/.test(next.textContent || ''))) {
-          anchor.after(document.createTextNode(' '));
-        }
-      };
-
-      const headings = contentRoot.querySelectorAll('h1, h2, h3, h4, h5, h6');
-      headings.forEach((h) => {
-        const level = parseInt(h.tagName.substring(1), 10);
-        // Bỏ qua h1 tiêu đề bài (đã có phần header riêng), chỉ xử lý nội dung markdown
-        if (level === 1 && h.closest('.grammar-info')) return;
-
-        if (!h.id || h.id === 'undefined') {
-          const text = h.textContent || '';
-          const gen = slugify(text) || 'section';
-          // Tránh trùng id
-          let candidate = gen;
-          let i = 2;
-          while (document.getElementById(candidate)) {
-            candidate = `${gen}-${i++}`;
+      // Traverse text nodes
+      // Restrict to p, li, td to avoid active elements or headings if desired. 
+      // Current design targets 'p, li, td, blockquote'
+      const walker = document.createTreeWalker(
+        contentRoot,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: (node) => {
+             const parent = node.parentElement;
+             if (!parent) return NodeFilter.FILTER_REJECT;
+             // Skip if already highlighted or in protected tags
+             if (parent.tagName === 'SPAN' || parent.tagName === 'CODE' || parent.tagName === 'PRE' || parent.tagName === 'A') {
+               return NodeFilter.FILTER_REJECT;
+             }
+             return NodeFilter.FILTER_ACCEPT;
           }
-          h.id = candidate;
         }
+      );
 
-        // Nếu đã có anchor nằm trước heading (do SSR hoặc plugin), di chuyển vào trong heading
-        const prevSibling = h.previousElementSibling;
-        if (prevSibling instanceof HTMLElement && prevSibling.classList.contains('heading-anchor')) {
-          h.appendChild(prevSibling);
-          ensureAnchorSpacing(prevSibling);
-        }
+      const nodesToReplace: { node: Text, fragment: DocumentFragment }[] = [];
+      
+      while(walker.nextNode()) {
+         const node = walker.currentNode as Text;
+         const fragment = processTextNode(node);
+         if (fragment) {
+           nodesToReplace.push({ node, fragment });
+         }
+      }
 
-        // Chỉ thêm anchor 1 lần
-        if (!h.querySelector('.heading-anchor')) {
-          const a = document.createElement('a');
-          a.href = `#${h.id}`;
-          a.className = 'heading-anchor';
-          a.setAttribute('aria-label', 'Sao chép liên kết heading');
-          a.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.07 0l1.76-1.76a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5.17 12.76a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>';
-          a.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            copyLink(h.id);
-          });
-          h.appendChild(a);
-          ensureAnchorSpacing(a);
-        }
-
-        // Chỉ h1, h2, h3 có cursor pointer và click để copy link
-        // h4, h5, h6 chỉ có anchor icon, không có cursor pointer
-        if (level <= 3) {
-          h.style.cursor = 'pointer';
-          h.addEventListener('click', (e) => {
-            // Nếu click vào anchor icon đã xử lý ở trên
-            if ((e.target instanceof HTMLElement) && e.target.closest('.heading-anchor')) return;
-            copyLink(h.id);
-          });
-        }
-      });
-    })();
-
-    // PDF functionality
-    const pdfBtn = document.getElementById('pdfBtn');
-    if (pdfBtn) {
-      pdfBtn.addEventListener('click', function() {
-        // TODO: Implement PDF generation
-        alert('Tính năng tải PDF đang được phát triển!');
+      // Batch replace
+      nodesToReplace.forEach(({ node, fragment }) => {
+         node.replaceWith(fragment);
       });
     }
-  });
+
+    /**
+     * Styles (O), (X), (?) indicators better.
+     */
+     function styleIndicators() {
+        const content = document.querySelector('.grammar-content');
+        if (!content) return;
+        
+        // Targeting table cells mostly
+        const cells = content.querySelectorAll('td, li, p');
+        cells.forEach(el => {
+           // Simple HTML replace is risky but effective for specific symbols
+           // Using function to ensure we don't break tags
+           // But here we just want to wrap strict strings like (O)
+           
+           let html = el.innerHTML;
+           let changed = false;
+           
+           if (html.includes('(O)')) {
+             html = html.replace(/\(O\)/g, '<span class="text-emerald-600 font-bold bg-emerald-50 px-1.5 rounded mr-1">Correct</span>');
+             changed = true;
+           }
+           if (html.includes('(X)')) {
+             html = html.replace(/\(X\)/g, '<span class="text-rose-600 font-bold bg-rose-50 px-1.5 rounded mr-1">Incorrect</span>');
+             changed = true;
+           }
+           
+           // If we changed innerHTML, update element
+           if (changed) el.innerHTML = html;
+        });
+     }
+
+     // --- Run Enhancements ---
+     highlightKeywords();
+     styleIndicators();
+
+     // --- Heading Copy Logic ---
+     document.querySelectorAll('.grammar-content h2, .grammar-content h3').forEach(h => {
+        h.classList.add('group', 'cursor-pointer', 'relative');
+        h.addEventListener('click', () => {
+           const id = h.id;
+           if(id) {
+             const url = window.location.origin + window.location.pathname + '#' + id;
+             navigator.clipboard.writeText(url).then(() => {
+                // Could show toast here
+                alert('Đã sao chép liên kết!');
+             });
+             history.pushState(null, '', '#' + id);
+           }
+        });
+     });
+
+});
 </script>

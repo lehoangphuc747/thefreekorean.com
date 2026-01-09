@@ -4,489 +4,136 @@ import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import PrintStyles from '../components/common/PrintStyles.astro';
 import '../styles/global.css';
 
+/**
+ * GrammarPostLayout
+ * 
+ * Layout for individual grammar posts.
+ * Layout: [Sidebar] [Content] [TOC]
+ * Responsive:
+ * - Desktop: 3 columns
+ * - Tablet: Sidebar collapses, Content expands
+ * - Mobile: Stacked, Sidebar hidden in drawer
+ */
+
 export interface Props {
   title: string;
   description?: string;
   showTOC?: boolean;
-  isTeacherMode?: boolean;
-  alternateUrl?: string;
 }
 
-const { title, description, showTOC = true, isTeacherMode = false, alternateUrl } = Astro.props as Props;
+const { title, description, showTOC = true } = Astro.props;
 ---
 
 <Layout title={`${title} - Ngữ pháp tiếng Hàn`} description={description || `Học ngữ pháp ${title} tiếng Hàn miễn phí với The Free Korean.`}>
-  <!-- Print-friendly CSS -->
+  <!-- Print Styles -->
   <PrintStyles />
 
-  <!-- Print Header (Hidden on screen) -->
-  <div class="print-header">
-    <div class="print-brand">📚 THE FREE KOREAN</div>
-    <div class="print-subtitle">Ngữ pháp tiếng Hàn</div>
-  </div>
+  <!-- Main Container -->
+  <div class="bg-slate-50 min-h-screen">
+    
+    <!-- Mobile Overlay (Fixed) -->
+    <div id="mobile-panel-overlay" class="fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
 
-  <!-- Watermark (Hidden on screen) -->
-  <div class="print-watermark">THE FREE KOREAN</div>
-  
-  <div class="grammar-post-container">
-    <!-- Sidebar bên trái -->
-    <GrammarSidebar />
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col lg:flex-row gap-8 relative items-start">
+        
+        <!-- Sidebar (Left) -->
+        <!-- Fixed width on desktop, drawer on mobile handled by component logic -->
+        <aside class="hidden lg:block shrink-0 sticky top-24">
+          <GrammarSidebar />
+        </aside>
 
-    <!-- Nội dung chính -->
-    <main class="grammar-main">
-      <div class="role-switch-container" style={!alternateUrl ? 'display: none;' : ''}>
-        <span class="role-label">Chế độ xem:</span>
-        <label class="switch">
-          <input type="checkbox" id="role-toggle" checked={isTeacherMode} data-alternate-url={alternateUrl}>
-          <span class="slider round"></span>
-        </label>
-        <span class="status-text" id="role-status">{isTeacherMode ? 'Giáo viên' : 'Học sinh'}</span>
+        <!-- Main Content (Center) -->
+        <main class="flex-1 min-w-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10 lg:p-12 relative">
+          
+          <!-- Mobile Sidebar Toggle Trigger (Visible only on mobile/tablet) -->
+          <div class="lg:hidden mb-6 flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-100">
+             <span class="text-sm font-medium text-slate-500">Danh sách ngữ pháp</span>
+             <button id="mobile-sidebar-trigger" class="text-indigo-600 font-bold text-sm hover:underline">
+               Mở danh sách
+             </button>
+          </div>
+
+          <slot />
+        </main>
+
+        <!-- TOC (Right) -->
+        {showTOC && (
+          <aside class="hidden xl:block w-64 shrink-0 sticky top-24">
+            <slot name="toc" />
+          </aside>
+        )}
+
       </div>
-
-      <div id="mobile-panel-overlay" aria-hidden="true"></div>
-
-      <slot />
-    </main>
-
-    <!-- TOC bên phải - slot cho TableOfContents component -->
-    {showTOC && (
-      <slot name="toc" />
-    )}
+    </div>
   </div>
 
-  <!-- Print Footer (Hidden on screen) -->
-  <div class="print-footer">
-    © The Free Korean - thefreekorean.com
+  <!-- Mobile Sidebar Container (Injected into via Sidebar component logic, but we need a placeholder or ensure Sidebar handles itself) -->
+  <!-- Note: GrammarSidebar component handles its own fixed positioning on mobile via CSS classes '.open' -->
+  <div class="lg:hidden">
+    <GrammarSidebar />
   </div>
+
 </Layout>
 
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  :root {
-    --sidebar-width: 300px;
-    --sidebar-collapsed-width: 70px;
-    --toc-width: 260px;
-    --content-gap: 1.5rem;
-  }
-
-  .grammar-post-container {
-    display: grid;
-    /* Sidebar | Main Content | TOC */
-    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--toc-width);
-    min-height: calc(100vh - 80px); /* Adjusted for header */
-    gap: var(--content-gap);
-    padding: 2rem;
-    max-width: 1500px; /* Increased max-width for better reading */
-    margin: 0 auto;
-    transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: #f8fafc; /* Background sáng cho light mode */
-  }
-
-  /* Khi sidebar thu gọn */
-  .grammar-post-container:has(.grammar-sidebar.collapsed) {
-    grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr) var(--toc-width);
-  }
-
-  /* Khi TOC slide-out/collapsed */
-  .grammar-post-container:has(#toc-container.slide-out),
-  .grammar-post-container:has(#toc-container.collapsed) {
-    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 48px;
-  }
-
-  /* Khi cả hai thu gọn */
-  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) {
-    grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr) 48px;
-  }
-
-  .grammar-main {
-    background: white;
-    border-radius: 16px; /* Bo góc khớp với sidebar */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Nhẹ nhàng hơn */
-    border: 1px solid #e2e8f0;
-    padding: 2.5rem; /* Tăng padding để thoáng */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 0; /* Cho phép co lại trong grid */
-  }
-
-  /* Khi chỉ sidebar thu gọn - tận dụng không gian bên trái */
-  .grammar-post-container:has(.grammar-sidebar.collapsed):not(:has(#toc-container.collapsed)) .grammar-main {
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: 0;
-  }
-
-  /* Khi chỉ TOC thu gọn - tận dụng không gian bên phải */
-  .grammar-post-container:has(#toc-container.collapsed):not(:has(.grammar-sidebar.collapsed)) .grammar-main,
-  .grammar-post-container:has(#toc-container.slide-out):not(:has(.grammar-sidebar.collapsed)) .grammar-main {
-    max-width: 900px;
-    margin-left: 0;
-    margin-right: auto;
-  }
-
-  /* Khi CẢ HAI thu gọn - content mở rộng tối đa, căn giữa */
-  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) .grammar-main,
-  .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.slide-out) .grammar-main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 3rem 4rem; /* Tăng padding khi có nhiều không gian */
-  }
-
-  /* Responsive Adjustments */
-  
-  /* Tablet Landscape / Small Desktop */
-  @media (max-width: 1280px) {
-    :root {
-      --sidebar-width: 260px;
-      --toc-width: 220px;
-      --content-gap: 1rem;
-    }
-    .grammar-post-container {
-      padding: 1.5rem;
-    }
-    
-    /* Giảm max-width cho màn hình nhỏ hơn */
-    .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.collapsed) .grammar-main,
-    .grammar-post-container:has(.grammar-sidebar.collapsed):has(#toc-container.slide-out) .grammar-main {
-      max-width: 900px;
-      padding: 2.5rem 3rem;
-    }
-    
-    .grammar-post-container:has(.grammar-sidebar.collapsed):not(:has(#toc-container.collapsed)) .grammar-main,
-    .grammar-post-container:has(#toc-container.collapsed):not(:has(.grammar-sidebar.collapsed)) .grammar-main {
-      max-width: 800px;
-    }
-  }
-
-  /* Tablet Portrait */
-  @media (max-width: 1024px) {
-    .grammar-post-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      padding: 1rem 1rem 3rem;
-    }
-
-    .grammar-main {
-      padding: 1.5rem;
-      /* Mobile: bỏ hoàn toàn viền + bóng đổ để nền phẳng full màn hình */
-      box-shadow: none !important;
-      border: none !important;
-      background: transparent; /* Mobile looks cleaner without box on bg */
-    }
-
-    /* Mobile Actions Bar */
-    .mobile-panel-actions {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      background: white;
-      padding: 0.75rem;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-      position: sticky;
-      top: 1rem;
-      z-index: 30;
-    }
-
-    .mobile-panel-actions button {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.6rem;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      color: #475569;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .mobile-panel-actions button:active {
-      transform: translateY(1px);
-      background: #e2e8f0;
-    }
-
-    :global(.grammar-sidebar),
-    :global(#toc-container) {
-      display: none !important; /* Hide initially on mobile */
-    }
-  }
-
-  @media (max-width: 640px) {
-    .grammar-main {
-      padding: 1rem 0.5rem;
-    }
-    .role-switch-container {
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-    }
-  }
-
-  /* ... (Keep existing animations) ... */
-
-  :global(.mobile-highlight) {
-    animation: mobilePulse 2.4s ease-in-out;
-  }
-
-  @keyframes mobilePulse {
-    0% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.35); }
-    50% { box-shadow: 0 0 0 9px rgba(33, 150, 243, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0); }
-  }
-
-  /* Role Switch Styles (Refined) */
-  .role-switch-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px dashed #cbd5e1;
-  }
-
-  .role-label {
-    font-weight: 600;
-    color: #64748b;
-    font-size: 0.95rem;
-  }
-
-  .status-text {
-    font-weight: 700;
-    color: #3b82f6;
-    min-width: 80px;
-    text-align: center;
-  }
-
-  body.teacher-mode .status-text {
-    color: #ec4899;
-  }
-
-  /* Toggle Switch UI */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 52px;
-    height: 28px;
-  }
-
-  .switch input { opacity: 0; width: 0; height: 0; }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #3b82f6;
-    transition: .4s;
-    border-radius: 34px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-
-  input:checked + .slider {
-    background-color: #ec4899;
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(24px);
-  }
-
-  /* Teacher Only Content */
-  :global(.teacher-only) { display: none; }
-
-  :global(body.teacher-mode .teacher-only) {
-    display: block;
-    border: 2px dashed #fbcfe8;
-    padding: 1.5rem;
-    margin: 2rem 0;
-    border-radius: 12px;
-    background-color: #fdf2f8;
-    position: relative;
-  }
-
-  :global(body.teacher-mode .teacher-only::before) {
-    content: "Giáo viên";
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background: #db2777;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 10px;
-    border-radius: 99px;
-    text-transform: uppercase;
-  }
-</style>
-
 <script>
-  // ... (Keep existing script logic, it works fine) ...
-  type RoleMode = 'teacher' | 'student';
-  const MODE_STORAGE_KEY = 'grammar_view_mode';
+  /**
+   * Layout specific logic for mobile interactions
+   */
+  
+  // Mobile Overlay Logic
+  const overlay = document.getElementById('mobile-panel-overlay');
+  const sidebar = document.getElementById('grammar-sidebar'); // GrammarSidebar component ID
+  const mobileTrigger = document.getElementById('mobile-sidebar-trigger');
 
-  const toggle = document.getElementById('role-toggle') as HTMLInputElement | null;
-  const statusText = document.getElementById('role-status');
-  const mobilePanelButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-scroll-target]'));
-  const grammarSidebar = document.getElementById('grammar-sidebar');
-  const tocContainer = document.getElementById('toc-container');
-  const mobilePanelOverlay = document.getElementById('mobile-panel-overlay');
-  const isMobileLayout = () => window.matchMedia('(max-width: 1024px)').matches;
-  const serverMode: RoleMode = toggle?.checked ? 'teacher' : 'student';
-  const alternateUrl = toggle?.dataset.alternateUrl;
-
-  const applyModeToUI = (mode: RoleMode) => {
-    const isTeacher = mode === 'teacher';
-    document.body.classList.toggle('teacher-mode', isTeacher);
-    if (statusText) {
-      statusText.textContent = isTeacher ? 'Giáo viên' : 'Học sinh';
-    }
-    if (toggle) {
-      toggle.checked = isTeacher;
-    }
-  };
-
-  const readStoredMode = (): RoleMode | null => {
-    const stored = localStorage.getItem(MODE_STORAGE_KEY) || localStorage.getItem('user_role');
-    if (stored === 'teacher' || stored === 'student') {
-      return stored;
-    }
-    return null;
-  };
-
-  const preferredMode = readStoredMode() ?? serverMode;
-
-  if (!readStoredMode()) {
-    localStorage.setItem(MODE_STORAGE_KEY, preferredMode);
-  }
-
-  if (alternateUrl) {
-    if (preferredMode === 'teacher' && serverMode !== 'teacher') {
-      localStorage.setItem(MODE_STORAGE_KEY, 'teacher');
-      localStorage.setItem('user_role', 'teacher');
-      window.location.replace(alternateUrl);
-    } else if (preferredMode === 'student' && serverMode !== 'student') {
-      localStorage.setItem(MODE_STORAGE_KEY, 'student');
-      localStorage.setItem('user_role', 'student');
-      window.location.replace(alternateUrl);
+  function updateOverlay() {
+    if (sidebar && sidebar.classList.contains('open')) {
+      overlay?.classList.add('opacity-100', 'pointer-events-auto');
+      overlay?.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'hidden';
     } else {
-      applyModeToUI(preferredMode);
+      overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+      overlay?.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
     }
-  } else {
-    applyModeToUI(preferredMode);
   }
 
-  if (toggle) {
-    toggle.addEventListener('change', (e) => {
-      const isTeacherMode = (e.target as HTMLInputElement).checked;
-      const nextMode: RoleMode = isTeacherMode ? 'teacher' : 'student';
+  // Listen for sidebar state changes
+  window.addEventListener('tfk:panel-state-change', updateOverlay);
 
-      localStorage.setItem(MODE_STORAGE_KEY, nextMode);
-      localStorage.setItem('user_role', nextMode);
-      applyModeToUI(nextMode);
-
-      if (alternateUrl) {
-        window.location.href = alternateUrl;
-      }
-    });
-  }
-
-  const removeHighlight = (element: HTMLElement) => {
-    element.classList.remove('mobile-highlight');
-  };
-
-  const updatePanelOverlayState = () => {
-    const hasOpenPanel = Boolean(
-      grammarSidebar?.classList.contains('open') || tocContainer?.classList.contains('open')
-    );
-    mobilePanelOverlay?.classList.toggle('visible', hasOpenPanel);
-    document.body.classList.toggle('panel-open', hasOpenPanel);
-  };
-
-  const scrollPanelIntoView = (panel: HTMLElement) => {
-    const headerOffset = 72;
-    const rect = panel.getBoundingClientRect();
-    const targetTop = rect.top + window.scrollY - headerOffset;
-    window.scrollTo({
-      top: Math.max(targetTop, 0),
-      behavior: 'smooth',
-    });
-  };
-
-  const tryOpenPanelForMobile = (panel: HTMLElement) => {
-    if (!isMobileLayout()) {
-      return false;
-    }
-
-    if (panel === grammarSidebar) {
-      panel.classList.remove('collapsed');
-      panel.classList.add('open');
-      window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
-      updatePanelOverlayState();
-      return true;
-    }
-
-    if (panel === tocContainer) {
-      panel.classList.remove('collapsed');
-      panel.classList.remove('slide-out');
-      panel.classList.add('open');
-      window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
-      updatePanelOverlayState();
-      return true;
-    }
-
-    return false;
-  };
-
-  mobilePanelButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const selector = button.dataset.scrollTarget;
-      if (!selector) return;
-      const target = document.querySelector<HTMLElement>(selector);
-      if (!target) return;
-
-      target.classList.add('mobile-highlight');
-
-      const openedPanel = tryOpenPanelForMobile(target);
-      if (!openedPanel) {
-        scrollPanelIntoView(target);
-      } else if (!isMobileLayout()) {
-        window.requestAnimationFrame(() => scrollPanelIntoView(target));
-      }
-
-      window.setTimeout(() => removeHighlight(target), 2400);
-    });
-  });
-
-  window.addEventListener('tfk:panel-state-change', updatePanelOverlayState);
-  updatePanelOverlayState();
-
-  mobilePanelOverlay?.addEventListener('click', () => {
-    grammarSidebar?.classList.remove('open');
-    tocContainer?.classList.remove('open');
+  // Mobile trigger click
+  mobileTrigger?.addEventListener('click', () => {
+    sidebar?.classList.add('open');
     window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
-    updatePanelOverlayState();
   });
+
+  // Overlay click to close
+  overlay?.addEventListener('click', () => {
+    sidebar?.classList.remove('open');
+    window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
+  });
+
 </script>
 
+<style>
+  /* Custom utility for keeping sidebar on top on mobile */
+  @media (max-width: 1024px) {
+    :global(.grammar-sidebar) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      max-height: 100vh;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 50; /* Above overlay (z-20) */
+      width: 85%;
+      max-width: 320px;
+      border-radius: 0;
+      border: none;
+    }
+    :global(.grammar-sidebar.open) {
+      transform: translateX(0);
+    }
+  }
+</style>

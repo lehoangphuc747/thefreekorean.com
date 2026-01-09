@@ -5,145 +5,78 @@ export interface Props {
   level: 'beginner' | 'intermediate' | 'advanced';
   slug: string;
   href: string;
+  description?: string; // Optional short description
+  tags?: string[];
 }
 
-const { title, meaning, level, slug, href } = Astro.props;
+const { title, meaning, level, href, description, tags = [] } = Astro.props;
 
+/**
+ * Mapping for display text of levels.
+ */
 const levelMap = {
   beginner: 'Sơ cấp',
-  intermediate: 'Trung cấp',
+  intermediate: 'Trung cấp', 
   advanced: 'Cao cấp'
+};
+
+/**
+ * Color mapping for levels to apply consistent styling.
+ * Using Tailwind CSS classes logic.
+ */
+const levelColorMap = {
+  beginner: 'text-emerald-600 bg-emerald-50 border-emerald-100',
+  intermediate: 'text-amber-600 bg-amber-50 border-amber-100',
+  advanced: 'text-rose-600 bg-rose-50 border-rose-100'
 };
 ---
 
-<a href={href} class="grammar-card">
-  <div class="card-header">
-    <h3 class="card-title">{title}</h3>
-    <span class="level-badge {level}">{levelMap[level]}</span>
-  </div>
-  <p class="card-meaning">{meaning}</p>
+<a href={href} class="group block h-full">
+  <article class="h-full bg-white rounded-2xl border border-slate-200 p-6 transition-all duration-300 hover:shadow-lg hover:border-indigo-300 hover:-translate-y-1 relative overflow-hidden">
+    <!-- Level Badge -->
+    <div class="flex items-center justify-between mb-4">
+      <span class={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide ${levelColorMap[level]}`}>
+        {levelMap[level]}
+      </span>
+      
+      <!-- Arrow Icon -->
+      <span class="text-slate-300 group-hover:text-indigo-500 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </span>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">
+        {title}
+      </h3>
+      <p class="text-indigo-500 font-medium mb-3 text-lg">
+        {meaning}
+      </p>
+      
+      {description && (
+        <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed mb-4">
+          <span set:html={description} />
+        </p>
+      )}
+    </div>
+
+    <!-- Tags (if any) -->
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-slate-100">
+        {tags.slice(0, 3).map(tag => (
+          <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#{tag}</span>
+        ))}
+        {tags.length > 3 && (
+          <span class="text-xs text-slate-400 px-1">+{tags.length - 3}</span>
+        )}
+      </div>
+    )}
+
+    <!-- Interactive Splash Background (Optional visual flair) -->
+    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-gradient-to-br from-indigo-50 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+  </article>
 </a>
-
-<style>
-  .grammar-card {
-    display: block;
-    padding: 1.5rem;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .grammar-card:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-    transform: translateY(-2px);
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-    gap: 1rem;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0;
-    line-height: 1.4;
-    flex: 1;
-  }
-
-  .level-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .level-badge.beginner {
-    background: #dcfce7;
-    color: #166534;
-  }
-
-  .level-badge.intermediate {
-    background: #fef3c7;
-    color: #92400e;
-  }
-
-  .level-badge.advanced {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-
-  .card-meaning {
-    color: #64748b;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  /* Grid layout adjustments */
-  .grammar-card.grid-view {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .grammar-card.grid-view .card-header {
-    flex-shrink: 0;
-  }
-
-  .grammar-card.grid-view .card-meaning {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  /* List layout adjustments */
-  .grammar-card.list-view {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-  }
-
-  .grammar-card.list-view .card-header {
-    margin-bottom: 0;
-    flex: 1;
-  }
-
-  .grammar-card.list-view .card-title {
-    font-size: 1.125rem;
-  }
-
-  .grammar-card.list-view .card-meaning {
-    color: #64748b;
-    font-size: 0.875rem;
-    margin: 0;
-  }
-
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-    .grammar-card {
-      padding: 1rem;
-    }
-
-    .card-title {
-      font-size: 1.125rem;
-    }
-
-    .grammar-card.list-view {
-      padding: 0.75rem 1rem;
-    }
-  }
-</style>

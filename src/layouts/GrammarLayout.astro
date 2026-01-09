@@ -1,6 +1,13 @@
 ---
 import Layout from './Layout.astro';
 
+/**
+ * GrammarLayout
+ * 
+ * Base layout for the Grammar List page.
+ * Keeps it simple, inheriting from the main Layout.
+ */
+
 export interface Props {
   title?: string;
   description?: string;
@@ -10,9 +17,12 @@ export interface Props {
 const {
   title = 'Ngữ pháp tiếng Hàn - The Free Korean',
   description = 'Danh sách ngữ pháp tiếng Hàn từ sơ cấp đến cao cấp. Học tiếng Hàn miễn phí với The Free Korean.',
-} = Astro.props as Props;
+  lang = 'vi'
+} = Astro.props;
 ---
 
-<Layout title={title} description={description}>
-  <slot />
+<Layout title={title} description={description} lang={lang}>
+  <div class="bg-slate-50 min-h-screen pb-20">
+    <slot />
+  </div>
 </Layout>

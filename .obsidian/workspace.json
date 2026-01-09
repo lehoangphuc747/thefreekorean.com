@@ -14,71 +14,14 @@
               "type": "markdown",
               "state": {
                 "file": "GRAMMAR.md",
-                "mode": "preview",
-                "source": true
+                "mode": "source",
+                "source": false
               },
               "icon": "lucide-file",
               "title": "GRAMMAR"
             }
-          },
-          {
-            "id": "c406b1d10fb34916",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/046.euseyo-1.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "046.euseyo-1"
-            }
-          },
-          {
-            "id": "75be7c3963e294f4",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/047.euseyo-2.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "047.euseyo-2"
-            }
-          },
-          {
-            "id": "389404cfcf4009f3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/048.euseyo-3.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "048.euseyo-3"
-            }
-          },
-          {
-            "id": "ab5843a11cb15644",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/049.eusibsio.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "049.eusibsio"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -227,12 +170,13 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "c406b1d10fb34916",
+  "active": "6b7445db5afce163",
   "lastOpenFiles": [
+    "src/content/grammar/050.ji-malda-cam-chi.md",
     "src/content/grammar/049.eusibsio.md",
-    "src/content/grammar/048.euseyo-3.md",
-    "src/content/grammar/046.euseyo-1.md",
     "src/content/grammar/047.euseyo-2.md",
+    "src/content/grammar/046.euseyo-1.md",
+    "src/content/grammar/048.euseyo-3.md",
     "GRAMMAR.md",
     "src/content/grammar/045.eusi-ton-kinh.md",
     "src/content/grammar/044.phu-dinh-ngan-mot.md",
@@ -254,7 +198,6 @@
     "src/content/grammar/hago2.gv.md",
     "src/content/grammar/hago1.gv.md",
     "src/content/grammar/egero.hs.md",
-    "src/content/grammar/hanteseo.hs.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",

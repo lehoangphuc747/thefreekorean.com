@@ -2,15 +2,27 @@
 import { getCollection } from 'astro:content';
 import './GrammarSidebar.css';
 
+/**
+ * GrammarSidebar Component
+ * 
+ * Displays a collapsible sidebar with a list of grammar points grouped by level.
+ * Features:
+ * - Search functionality (client-side)
+ * - Accordion-style level grouping
+ * - Active state highlighting
+ * - Auto-scroll to active item
+ */
+
+// 1. Fetch Data
 const allGrammarRaw = await getCollection('grammar');
 
-// Lọc bỏ các bài dành cho giáo viên (-gv) và bài nháp (-draft, -original) khỏi sidebar
+// 2. Filter valid entries (exclude drafts)
 const allGrammar = allGrammarRaw.filter(entry => {
-  return !entry.slug.endsWith('-gv') && 
-         !entry.slug.endsWith('-draft') && 
+  return !entry.slug.endsWith('-draft') && 
          !entry.slug.endsWith('-original');
 });
 
+// 3. Sort entries (Level > Order)
 const sortedGrammar = allGrammar.sort((a, b) => {
   const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
   if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
@@ -19,446 +31,280 @@ const sortedGrammar = allGrammar.sort((a, b) => {
   return a.data.order - b.data.order;
 });
 
+// 4. Data Structures
 const levelMap = {
   beginner: 'Sơ cấp',
   intermediate: 'Trung cấp',
   advanced: 'Cao cấp'
 };
 
-type GrammarEntry = (typeof sortedGrammar)[number];
 type LevelKey = keyof typeof levelMap;
-
 const levelKeys: LevelKey[] = ['beginner', 'intermediate', 'advanced'];
 
-const groupedGrammar: Record<LevelKey, GrammarEntry[]> = {
+const groupedGrammar: Record<LevelKey, typeof sortedGrammar> = {
   beginner: [],
   intermediate: [],
   advanced: []
 };
 
 sortedGrammar.forEach((entry) => {
-  groupedGrammar[entry.data.level as LevelKey].push(entry);
+  const level = entry.data.level as LevelKey;
+  if (groupedGrammar[level]) {
+    groupedGrammar[level].push(entry);
+  }
 });
 
 const totalCount = sortedGrammar.length;
 ---
 
-<aside class="grammar-sidebar" id="grammar-sidebar">
-  <div class="sidebar-header-wrapper">
-    <div class="sidebar-header">
-      <div class="sidebar-heading">
-        <h2 class="sidebar-title">Ngữ pháp</h2>
-        <span class="sidebar-count">{totalCount} mẫu câu</span>
+<aside class="grammar-sidebar w-[300px] bg-white border border-slate-200 rounded-2xl flex flex-col overflow-hidden shadow-sm z-30" id="grammar-sidebar">
+  
+  <!-- Header Section (Fixed) -->
+  <div class="p-5 border-b border-slate-100 bg-white z-10">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-lg font-bold text-slate-800">Ngữ pháp</h2>
+        <span class="text-xs text-slate-500 font-medium">{totalCount} mẫu câu</span>
       </div>
-
-      <!-- Toggle hide/show sidebar -->
-      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Ẩn sidebar" aria-expanded="true" title="Ẩn sidebar (Ctrl+B)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <line x1="9" y1="3" x2="9" y2="21"></line>
+      
+      <!-- Mobile Close Button (Visible only on mobile when open) -->
+      <button id="sidebar-close-mobile" class="lg:hidden p-2 text-slate-400 hover:text-slate-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
 
-    <div class="sidebar-search-wrapper">
-      <svg class="sidebar-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="7" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </svg>
-      <input id="sidebar-search-input" type="text" placeholder="Tìm nhanh..." autocomplete="off" />
-      <button id="sidebar-search-clear" aria-label="Xoá tìm kiếm" title="Xoá">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
+    <!-- Search Box -->
+    <div class="relative group">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      <input 
+        id="sidebar-search-input" 
+        type="text" 
+        class="block w-full pl-9 pr-8 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all outline-none text-slate-700 placeholder:text-slate-400"
+        placeholder="Tìm kiếm..." 
+        autocomplete="off"
+      />
+      <!-- Clear Button -->
+      <button id="sidebar-search-clear" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-rose-500 hidden cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
   </div>
 
-  <div class="sidebar-content" id="sidebar-content">
+  <!-- List Content (Scrollable) -->
+  <div class="sidebar-content flex-1 overflow-y-auto p-3 space-y-4" id="sidebar-content">
     {levelKeys.map((level) => (
-      <div class={['level-section', `level-${level}`].join(' ')} data-level-section={level}>
-        <div class="level-header" data-level-toggle={level} role="button" aria-expanded="true">
-          <div class="level-heading">
-            <div class="level-pill" data-level={level}>{levelMap[level]}</div>
-            <span class="level-count">{groupedGrammar[level].length}</span>
+      <div class="level-section" data-level-section={level}>
+        
+        <!-- Level Header (Accordion Toggle) -->
+        <button 
+          class="level-header w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors group text-left sticky top-0 bg-white/95 backdrop-blur-none z-10" 
+          data-level-toggle={level}
+          aria-expanded="true"
+        >
+          <div class="flex items-center gap-2">
+            <span class={`text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${
+              level === 'beginner' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+              level === 'intermediate' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+              'bg-rose-50 text-rose-600 border-rose-100'
+            }`}>
+              {levelMap[level]}
+            </span>
+            <span class="text-xs text-slate-400 font-medium">({groupedGrammar[level].length})</span>
           </div>
+          <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 level-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
 
-          <button class="level-toggle" type="button" tabindex="-1">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-        </div>
-
-        <ul class="grammar-list" data-level-list={level}>
+        <!-- Grammar Items List -->
+        <ul class="grammar-list mt-1 space-y-0.5" data-level-list={level}>
           {groupedGrammar[level].map((grammar) => {
             const slug = grammar.data.slug || grammar.slug;
             return (
-            <li>
-              <a
-                href={`/grammar/${grammar.data.level}/${slug}`}
-                class="grammar-item"
-                data-level={grammar.data.level}
-                data-slug={slug}
-              >
-                <span class="item-title" data-original-text={grammar.data.title}>{grammar.data.title}</span>
-                <span class="item-meta">
-                  <span class="item-meaning" data-original-text={grammar.data.meaning}>{grammar.data.meaning}</span>
-                  {grammar.data.tags && grammar.data.tags.length > 0 && (
-                    <span class="item-tags">
-                      {grammar.data.tags.map((tag) => (
-                        <span class="item-tag">{tag}</span>
-                      ))}
-                    </span>
-                  )}
-                </span>
-              </a>
-            </li>
+              <li>
+                <a
+                  href={`/grammar/${grammar.data.level}/${slug}`}
+                  class="grammar-item block px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-all border-l-2 border-transparent hover:border-indigo-200 group"
+                  data-level={grammar.data.level}
+                  data-slug={slug}
+                >
+                  <div class="item-title font-medium group-hover:translate-x-1 transition-transform" data-original-text={grammar.data.title}>{grammar.data.title}</div>
+                  <div class="item-meaning text-xs text-slate-400 truncate mt-0.5 group-hover:text-indigo-400" data-original-text={grammar.data.meaning}>{grammar.data.meaning}</div>
+                  
+                  {/* Hidden metadata for search */}
+                  <span class="hidden item-tags">{grammar.data.tags?.join(' ')}</span>
+                </a>
+              </li>
             );
           })}
         </ul>
       </div>
     ))}
 
-    <div class="sidebar-empty" data-empty-state hidden>
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto; display: block; opacity: 0.3;">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <p data-empty-text>Không tìm thấy ngữ pháp phù hợp.</p>
+    <!-- Empty State -->
+    <div class="hidden flex-col items-center justify-center py-10 text-center" data-empty-state>
+      <div class="text-4xl mb-2">🔍</div>
+      <p class="text-sm text-slate-500 font-medium">Không tìm thấy kết quả</p>
+      <p class="text-xs text-slate-400 mt-1">Thử tìm bằng từ khoá khác xem sao</p>
     </div>
   </div>
 </aside>
 
 <script>
+  /**
+   * GrammarSidebar Client-side Logic
+   * Handles:
+   * 1. Search filtering
+   * 2. Accordion toggling
+   * 3. Active item highlighting
+   * 4. Mobile responsive behavior
+   */
+
   document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('grammar-sidebar');
     if (!sidebar) return;
 
-    const sidebarContainer = sidebar.closest('.grammar-container');
-    const sidebarContent = document.getElementById('sidebar-content');
-    const toggle = document.getElementById('sidebar-toggle');
-    const searchInput = document.getElementById('sidebar-search-input') as HTMLInputElement | null;
+    // Elements
+    const searchInput = document.getElementById('sidebar-search-input') as HTMLInputElement;
     const clearButton = document.getElementById('sidebar-search-clear');
-    const emptyState = sidebar.querySelector('[data-empty-state]') as HTMLElement | null;
-    const emptyText = sidebar.querySelector('[data-empty-text]') as HTMLElement | null;
-    const levelHeaders = Array.from(sidebar.querySelectorAll('[data-level-toggle]'));
+    const emptyState = sidebar.querySelector('[data-empty-state]');
     
-    // State Management
-    const SIDEBAR_STATE_KEY = 'tfk:grammarSidebarCollapsed';
-    const EXPANDED_LEVELS_KEY = 'tfk:grammarExpandedLevels';
-
-    // --- Helper Functions ---
-
-    const syncSidebarLayout = () => {
-      const collapsed = sidebar.classList.contains('collapsed');
-      sidebarContainer?.classList.toggle('sidebar-collapsed', collapsed);
-      return collapsed;
-    };
-
-    const saveState = (key: string, value: string) => {
-      try { window.localStorage.setItem(key, value); } catch {}
-    };
-
-    const readState = (key: string) => {
-      try { return window.localStorage.getItem(key); } catch { return null; }
-    };
-
-    // --- Collapsible Sidebar Logic ---
-    
-    const initSidebarState = () => {
-      const stored = readState(SIDEBAR_STATE_KEY);
-      if (stored === '1') {
-        sidebar.classList.add('collapsed');
-      } else {
-        sidebar.classList.remove('collapsed');
-      }
-      syncSidebarLayout();
-      updateToggleA11y();
-    };
-
-    const updateToggleA11y = () => {
-      const collapsed = sidebar.classList.contains('collapsed');
-      if (toggle) {
-        toggle.setAttribute('aria-expanded', String(!collapsed));
-        toggle.setAttribute('title', collapsed ? 'Hiện sidebar (Ctrl+B)' : 'Ẩn sidebar (Ctrl+B)');
-      }
-    };
-
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        // Mobile logic
-        if (window.matchMedia('(max-width: 1024px)').matches) {
-          const willOpen = !sidebar.classList.contains('open');
-          sidebar.classList.toggle('open', willOpen);
-          if (willOpen) sidebar.classList.remove('collapsed');
-          window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
-          return;
-        }
-        // Desktop logic
-        sidebar.classList.toggle('collapsed');
-        const collapsed = syncSidebarLayout();
-        saveState(SIDEBAR_STATE_KEY, collapsed ? '1' : '0');
-        updateToggleA11y();
-      });
-    }
-
-    // Keyboard Shortcut (Ctrl+B)
-    document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        toggle?.click();
-      }
-    });
-
-    // Close on Click Outside (Mobile)
-    document.addEventListener('click', (e) => {
-      if (sidebar.classList.contains('open') && 
-          e.target instanceof Node && 
-          !sidebar.contains(e.target) && 
-          e.target !== toggle) {
-        sidebar.classList.remove('open');
-        window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
-      }
-    });
-
-    // --- Level Accordion Logic ---
-
+    // --- 1. Accordion Logic ---
     const toggleLevel = (level: string, show: boolean) => {
-      const section = sidebar.querySelector(`[data-level-section="${level}"]`);
-      const list = section?.querySelector('[data-level-list]');
-      const header = section?.querySelector('[data-level-toggle]');
-      const toggleIcon = header?.querySelector('.level-toggle');
-
-      if (show) {
-        list?.removeAttribute('hidden');
-        header?.setAttribute('aria-expanded', 'true');
-        toggleIcon?.setAttribute('aria-expanded', 'true');
-      } else {
-        list?.setAttribute('hidden', 'true');
-        header?.setAttribute('aria-expanded', 'false');
-        toggleIcon?.setAttribute('aria-expanded', 'false');
+      const list = sidebar.querySelector(`[data-level-list="${level}"]`);
+      const header = sidebar.querySelector(`[data-level-toggle="${level}"]`);
+      const chevron = header?.querySelector('.level-chevron');
+      
+      if (list && list instanceof HTMLElement) {
+        list.style.display = show ? 'block' : 'none';
+        header?.setAttribute('aria-expanded', String(show));
+        
+        if (chevron) {
+          chevron.style.transform = show ? 'rotate(0deg)' : 'rotate(-90deg)';
+        }
       }
     };
 
-    // Click header to toggle
-    levelHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const level = (header as HTMLElement).dataset.levelToggle;
+    sidebar.querySelectorAll('[data-level-toggle]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const header = e.currentTarget as HTMLElement;
+        const level = header.dataset.levelToggle;
         const isExpanded = header.getAttribute('aria-expanded') === 'true';
         if (level) toggleLevel(level, !isExpanded);
       });
     });
 
-
-    // --- Active Item & Auto-Scroll ---
-
-    const highlightActiveAndAutoCollapse = () => {
-      // Normalize path: remove trailing slash for comparison
-      let currentPath = window.location.pathname.replace(/\/$/, '');
+    // --- 2. Active Item Highlighting ---
+    const highlightActiveItem = () => {
+      const currentPath = window.location.pathname.replace(/\/$/, '');
+      const items = sidebar.querySelectorAll('.grammar-item');
       
-      // If viewing teacher version (-gv), match with student version
-      // e.g., /grammar/beginner/hante-gv -> /grammar/beginner/hante
-      if (currentPath.endsWith('-gv')) {
-        currentPath = currentPath.replace(/-gv$/, '');
-      }
-      
-      const items = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('.grammar-item'));
-      let activeLevel: string | null = null;
-      let foundActive = false;
-      let activeItem: HTMLAnchorElement | null = null;
+      let activeFound = false;
+      let activeLevel = null;
 
-      console.log('[Sidebar Debug] Current path (normalized):', currentPath);
-      console.log('[Sidebar Debug] Total items found:', items.length);
-
-      items.forEach((item, index) => {
-        // Remove old highlights
-        item.classList.remove('active');
-        
-        // Normalize href for comparison
-        const itemHref = (item.getAttribute('href') || '').replace(/\/$/, '');
-        
-        if (itemHref === currentPath && !foundActive) {
-          console.log('[Sidebar Debug] ✅ MATCH FOUND at index', index);
-          console.log('[Sidebar Debug] Item href:', itemHref);
-          console.log('[Sidebar Debug] Item level:', item.dataset.level);
-          console.log('[Sidebar Debug] Item slug:', item.dataset.slug);
+      items.forEach(item => {
+        const href = item.getAttribute('href')?.replace(/\/$/, '');
+        if (href === currentPath) {
+          item.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-500', 'font-semibold');
+          item.classList.remove('text-slate-600', 'border-transparent');
+          activeFound = true;
+          activeLevel = (item as HTMLElement).dataset.level;
           
-          item.classList.add('active');
-          activeLevel = item.dataset.level || null;
-          foundActive = true;
-          activeItem = item;
-        }
-      });
-
-      if (!foundActive) {
-        console.log('[Sidebar Debug] ❌ No matching item found for path:', currentPath);
-        console.log('[Sidebar Debug] Sample hrefs:', items.slice(0, 5).map(i => i.getAttribute('href')));
-      }
-
-      // Smart Collapse: Only open the active level on load, unless user searching
-      const allLevels = Array.from(sidebar.querySelectorAll('[data-level-section]')).map(el => (el as HTMLElement).dataset.levelSection);
-      
-      // If we are on a grammar page, collapse others. If on index, maybe open all or first?
-      // Let's default to: Open Active Level, Close Others.
-      if (activeLevel) {
-        console.log('[Sidebar Debug] Active level:', activeLevel);
-        allLevels.forEach(level => {
-            if (level) toggleLevel(level, level === activeLevel);
-        });
-        
-        // Auto scroll active item AFTER level is expanded
-        if (activeItem) {
-          console.log('[Sidebar Debug] Scrolling to active item...');
+          // Scroll active item into view
           setTimeout(() => {
-            activeItem?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            console.log('[Sidebar Debug] ✅ Scroll complete. Active item:', activeItem?.querySelector('.item-title')?.textContent);
-          }, 150);
+            item.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          }, 200);
+        } else {
+          // Reset styles
+          item.classList.remove('bg-indigo-50', 'text-indigo-700', 'border-indigo-500', 'font-semibold');
+          item.classList.add('text-slate-600', 'border-transparent');
         }
-      } else {
-        console.log('[Sidebar Debug] No active level, opening all levels');
-        // If no active item (e.g. home page), open all for exploration
-        allLevels.forEach(level => {
-            if (level) toggleLevel(level, true);
-        });
+      });
+
+      // Expand the level containing the active item
+      if (activeLevel) {
+        toggleLevel(activeLevel, true);
+        // Collapse others (optional, maybe keep all open for exploration?)
+        // For now: keep others as is, only ensure active is open.
       }
     };
 
+    highlightActiveItem(); // Run on load
 
-    // --- Search & Highlighting Logic ---
+    // --- 3. Search Logic ---
+    const normalizeText = (text: string) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-    const highlightText = (element: HTMLElement, text: string, keyword: string) => {
-      if (!keyword) {
-        element.textContent = text;
-        return;
-      }
-      // Simple regex replace for highlighting
-      const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-      const parts = text.split(regex);
-      
-      element.innerHTML = parts.map(part => {
-        if (part.toLowerCase() === keyword) {
-          return `<span class="highlight-text">${part}</span>`;
-        }
-        return part; // Escape html if needed, but title/meaning are trusted
-      }).join('');
-    };
+    const handleSearch = () => {
+      const query = normalizeText(searchInput.value.trim());
+      const hasQuery = query.length > 0;
+      let hasResults = false;
 
-    const filterItems = () => {
-      if (!searchInput) return;
-      const keyword = searchInput.value.trim().toLowerCase();
-      const isSearching = keyword.length > 0;
-      let globalMatchCount = 0;
+      // Show/Hide clear button
+      if (clearButton) clearButton.classList.toggle('hidden', !hasQuery);
 
-      // Handle clear button visibility
-      if (clearButton) {
-        if (isSearching) clearButton.classList.add('active');
-        else clearButton.classList.remove('active');
-      }
+      sidebar.querySelectorAll('[data-level-section]').forEach(section => {
+        const items = section.querySelectorAll('.grammar-item');
+        let hasVisibleItems = false;
+        const level = (section as HTMLElement).dataset.levelSection;
 
-      const sections = sidebar.querySelectorAll('[data-level-section]');
+        items.forEach(item => {
+          const el = item as HTMLElement;
+          const title = normalizeText(el.querySelector('.item-title')?.textContent || '');
+          const meaning = normalizeText(el.querySelector('.item-meaning')?.textContent || '');
+          const tags = normalizeText(el.querySelector('.item-tags')?.textContent || '');
 
-      sections.forEach(section => {
-        const sectionEl = section as HTMLElement;
-        const level = sectionEl.dataset.levelSection;
-        const list = sectionEl.querySelector('[data-level-list]');
-        const items = list?.querySelectorAll('.grammar-item');
-        let sectionMatchCount = 0;
-
-        items?.forEach(item => {
-          const itemEl = item as HTMLElement;
-          const titleEl = itemEl.querySelector('.item-title') as HTMLElement;
-          const meaningEl = itemEl.querySelector('.item-meaning') as HTMLElement;
+          const matches = !hasQuery || title.includes(query) || meaning.includes(query) || tags.includes(query);
           
-          const originalTitle = titleEl.dataset.originalText || titleEl.textContent || '';
-          const originalMeaning = meaningEl.dataset.originalText || meaningEl.textContent || '';
-          const tags = Array.from(itemEl.querySelectorAll('.item-tag')).map(t => t.textContent?.toLowerCase()).join(' ');
-
-          const match = !isSearching || 
-                        originalTitle.toLowerCase().includes(keyword) || 
-                        originalMeaning.toLowerCase().includes(keyword) ||
-                        tags.includes(keyword);
-
-          itemEl.parentElement?.toggleAttribute('hidden', !match);
-          
-          if (match) {
-            sectionMatchCount++;
-            globalMatchCount++;
-            if (isSearching) {
-              highlightText(titleEl, originalTitle, keyword);
-              highlightText(meaningEl, originalMeaning, keyword);
-            } else {
-              // Restore original text
-              titleEl.textContent = originalTitle;
-              meaningEl.textContent = originalMeaning;
-            }
-          }
+          el.parentElement!.style.display = matches ? 'block' : 'none';
+          if (matches) hasVisibleItems = true;
         });
 
-        // Hide section if no matches
-        sectionEl.style.display = (sectionMatchCount === 0 && isSearching) ? 'none' : '';
+        // Toggle section visibility based on items
+        (section as HTMLElement).style.display = (hasVisibleItems || !hasQuery) ? 'block' : 'none';
         
-        // If searching, force expand matched sections
-        if (isSearching && sectionMatchCount > 0 && level) {
-           toggleLevel(level, true);
+        // Auto expand if researching
+        if (hasQuery && hasVisibleItems && level) {
+          toggleLevel(level, true);
         }
+
+        if (hasVisibleItems) hasResults = true;
       });
 
-      // Empty State
-      if (emptyState) {
-        emptyState.hidden = globalMatchCount > 0;
-        if (emptyText && isSearching) {
-          emptyText.textContent = `Không tìm thấy kết quả cho "${keyword}"`;
-        }
+      // Empty state
+      if (emptyState && emptyState instanceof HTMLElement) {
+        emptyState.classList.toggle('hidden', hasResults);
+        emptyState.classList.toggle('flex', !hasResults);
       }
     };
 
-    // --- Event Listeners ---
-
-    if (searchInput) {
-      searchInput.addEventListener('input', filterItems);
-      searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          searchInput.value = '';
-          filterItems();
-          searchInput.blur();
-        }
-      });
-    }
-
+    searchInput.addEventListener('input', handleSearch);
+    
     if (clearButton) {
       clearButton.addEventListener('click', () => {
-        if (searchInput) {
-          searchInput.value = '';
-          searchInput.focus();
-        }
-        filterItems();
-        // Reset view to active item state logic
-        highlightActiveAndAutoCollapse();
+        searchInput.value = '';
+        handleSearch();
+        searchInput.focus();
       });
     }
 
-    // Add visual scroll indicator for header border
-    if (sidebarContent) {
-      sidebarContent.addEventListener('scroll', () => {
-        if (sidebarContent.scrollTop > 10) {
-          sidebar.classList.add('has-scroll');
-        } else {
-          sidebar.classList.remove('has-scroll');
-        }
+    // --- 4. Mobile Close Button ---
+    const closeBtn = document.getElementById('sidebar-close-mobile');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
       });
     }
-
-
-    // Initialize
-    initSidebarState();
-    highlightActiveAndAutoCollapse();
-
-    // Re-run on view transitions
-    window.addEventListener('astro:after-swap', () => {
-      initSidebarState();
-      highlightActiveAndAutoCollapse();
-    });
   });
 </script>

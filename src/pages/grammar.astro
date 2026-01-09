@@ -1,20 +1,33 @@
 ---
-import GrammarLayout from '../layouts/GrammarLayout.astro';
-import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import { getCollection } from 'astro:content';
+import GrammarLayout from '../layouts/GrammarLayout.astro';
+import GrammarCard from '../components/grammar/GrammarCard.astro';
+import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
+import '../styles/global.css';
 
-// Lấy tất cả ngữ pháp từ content collection
+/**
+ * Grammar List Page
+ * 
+ * Displays all grammar points in a searchable, filterable grid.
+ * 
+ * Features:
+ * - Hero filters (Level tabs)
+ * - Text search (Client-side)
+ * - Grid/List view toggle
+ * - Responsive layout with Sidebar
+ */
+
+// 1. Fetch Data
 const allGrammarRaw = await getCollection('grammar');
 
-// Lọc bỏ các bài dành cho giáo viên (-gv) và bài nháp (-draft, -original) khỏi danh sách chính
+// 2. Filter & Sort
 const allGrammar = allGrammarRaw.filter(entry => {
-  return !entry.slug.endsWith('-gv') && 
-         !entry.slug.endsWith('-draft') && 
-         !entry.slug.endsWith('-original');
+  return !entry.slug.endsWith('-draft') && 
+         !entry.slug.endsWith('-original'); // Ensure clean list
 });
 
-// Sắp xếp theo level và order
 const sortedGrammar = allGrammar.sort((a, b) => {
+  // Sort by Level first, then Order
   const levelOrder = { beginner: 1, intermediate: 2, advanced: 3 };
   if (levelOrder[a.data.level] !== levelOrder[b.data.level]) {
     return levelOrder[a.data.level] - levelOrder[b.data.level];
@@ -22,667 +35,356 @@ const sortedGrammar = allGrammar.sort((a, b) => {
   return a.data.order - b.data.order;
 });
 
-// Nhóm theo level
-const grammarByLevel = {
-  all: sortedGrammar,
-  beginner: sortedGrammar.filter(g => g.data.level === 'beginner'),
-  intermediate: sortedGrammar.filter(g => g.data.level === 'intermediate'),
-  advanced: sortedGrammar.filter(g => g.data.level === 'advanced')
-};
+const totalCount = sortedGrammar.length;
+const bgCount = sortedGrammar.filter(g => g.data.level === 'beginner').length;
+const intCount = sortedGrammar.filter(g => g.data.level === 'intermediate').length;
+const advCount = sortedGrammar.filter(g => g.data.level === 'advanced').length;
 ---
 
-<GrammarLayout>
-  <div class="grammar-page">
-    <div class="grammar-container">
-      <!-- Sidebar bên trái -->
-      <GrammarSidebar />
+<GrammarLayout title="Thư viện Ngữ pháp - The Free Korean">
+  
+  <!-- Mobile Overlay (Managed by Page Script) -->
+  <div id="mobile-panel-overlay" class="fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
 
-      <!-- Nội dung chính -->
-      <main class="grammar-main">
-        <div class="grammar-header">
-          <h1>NGỮ PHÁP</h1>
-          <p class="grammar-description">Học ngữ pháp tiếng Hàn từ sơ cấp đến cao cấp</p>
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col lg:flex-row gap-8 relative items-start">
+      
+      <!-- Left Sidebar (Desktop) -->
+      <aside class="hidden lg:block shrink-0 sticky top-24">
+        <GrammarSidebar />
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 min-w-0">
+        
+        <!-- Mobile Header & Toggle -->
+        <div class="lg:hidden mb-6 flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+           <div>
+             <h1 class="font-bold text-slate-800 text-lg">Ngữ pháp</h1>
+             <p class="text-xs text-slate-500">{totalCount} công thức</p>
+           </div>
+           <button id="mobile-sidebar-trigger" class="px-4 py-2 bg-indigo-50 text-indigo-700 font-medium rounded-lg text-sm hover:bg-indigo-100 transition-colors">
+             Mục lục
+           </button>
         </div>
 
-        <!-- Level Filter -->
-        <div class="level-filter">
-          <button class="filter-btn active" data-level="all">TẤT CẢ</button>
-          <button class="filter-btn" data-level="beginner">SƠ CẤP</button>
-          <button class="filter-btn" data-level="intermediate">TRUNG CẤP</button>
-          <button class="filter-btn" data-level="advanced">CAO CẤP</button>
-        </div>
+        <!-- Hero / Filter Section -->
+        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-3xl p-6 sm:p-10 text-white mb-8 shadow-lg relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          
+          <div class="relative z-10 w-full max-w-3xl">
+            <h1 class="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tight">
+              Thư viện Ngữ pháp
+            </h1>
+            <p class="text-indigo-100 text-lg mb-8 max-w-xl leading-relaxed">
+              Tổng hợp {totalCount} ngữ pháp tiếng Hàn được phân loại chi tiết. Tra cứu nhanh chóng, giải thích dễ hiểu.
+            </p>
 
-        <!-- Search Box -->
-        <div class="search-container">
-          <div class="search-input-wrapper">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input 
-              type="text" 
-              id="searchInput" 
-              placeholder="Tìm kiếm ngữ pháp..." 
-              class="search-input"
-            />
-            <button id="clearSearch" class="clear-button" style="display: none;" aria-label="Xoá tìm kiếm">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <!-- Search Bar -->
+            <div class="relative max-w-xl group">
+              <input 
+                type="text" 
+                id="main-search-input"
+                placeholder="Tìm kiếm ngữ pháp (ví dụ: đang, sẽ, vì...)" 
+                class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-indigo-200 focus:bg-white focus:text-slate-900 focus:placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/30 transition-all shadow-xl"
+              />
+              <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-200 group-focus-within:text-indigo-500 transition-colors pointer-events-none type-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <circle cx="11" cy="11" r="8"></circle>
+                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-            </button>
-          </div>
-          <div class="search-stats" id="searchStats" style="display: none;">
-            <span id="searchStatsText">0 kết quả</span>
-          </div>
-        </div>
-
-        <!-- View Mode Toggle -->
-        <div class="view-controls">
-          <div class="view-toggle">
-            <button class="view-btn active" data-view="grid">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-              Grid
-            </button>
-            <button class="view-btn" data-view="list">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="8" y1="6" x2="21" y2="6"/>
-                <line x1="8" y1="12" x2="21" y2="12"/>
-                <line x1="8" y1="18" x2="21" y2="18"/>
-                <line x1="3" y1="6" x2="3.01" y2="6"/>
-                <line x1="3" y1="12" x2="3.01" y2="12"/>
-                <line x1="3" y1="18" x2="3.01" y2="18"/>
-              </svg>
-              List
-            </button>
-          </div>
-        </div>
-
-        <!-- Grammar Cards -->
-        <div class="grammar-cards" id="grammar-cards">
-          {sortedGrammar.map((grammar) => {
-            const slug = grammar.data.slug || grammar.slug;
-            return (
-            <div class="grammar-card" data-level={grammar.data.level} data-slug={slug}>
-              <div class="card-header">
-                <h3 class="card-title">{grammar.data.title}</h3>
-                <span class="card-level">{grammar.data.level}</span>
-              </div>
-              <div class="card-content">
-                <p class="card-meaning">{grammar.data.meaning}</p>
-                <p class="card-description" set:html={grammar.data.description}></p>
-              </div>
-              <div class="card-tags">
-                {grammar.data.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
             </div>
-            );
-          })}
+          </div>
         </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sticky top-20 z-10 py-2 sm:py-0 bg-slate-50/95 backdrop-blur sm:bg-transparent sm:backdrop-blur-none sm:static">
+          
+          <!-- Level Filters -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto no-scrollbar" id="level-filters">
+            <button 
+              class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white border border-slate-200 text-slate-600 hover:border-indigo-300 hover:text-indigo-600 active" 
+              data-filter="all"
+            >
+              Tất cả <span class="ml-1 text-xs opacity-60 bg-slate-100 px-1.5 py-0.5 rounded-full">{totalCount}</span>
+            </button>
+            
+            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white border border-slate-200 text-slate-600 hover:border-emerald-300 hover:text-emerald-600" data-filter="beginner">
+              Sơ cấp <span class="ml-1 text-xs opacity-60 bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-full">{bgCount}</span>
+            </button>
+            
+            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white border border-slate-200 text-slate-600 hover:border-amber-300 hover:text-amber-600" data-filter="intermediate">
+              Trung cấp <span class="ml-1 text-xs opacity-60 bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded-full">{intCount}</span>
+            </button>
+            
+            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white border border-slate-200 text-slate-600 hover:border-rose-300 hover:text-rose-600" data-filter="advanced">
+              Cao cấp <span class="ml-1 text-xs opacity-60 bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded-full">{advCount}</span>
+            </button>
+          </div>
+
+          <!-- View Toggle (Desktop only) -->
+          <div class="hidden sm:flex bg-white rounded-lg p-1 border border-slate-200 shadow-sm">
+            <button class="view-btn p-1.5 rounded text-slate-400 hover:text-indigo-600 active-view" data-view="grid" title="Lưới">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </button>
+            <button class="view-btn p-1.5 rounded text-slate-400 hover:text-indigo-600" data-view="list" title="Danh sách">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Search Results Count -->
+        <div id="search-stats" class="hidden mb-4 text-sm text-slate-500 font-medium px-1">
+          Tìm thấy <span id="search-count" class="text-indigo-600 font-bold">0</span> kết quả
+        </div>
+
+        <!-- Grid Container -->
+        <div id="grammar-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 pb-10">
+          {sortedGrammar.map((entry) => (
+            <div 
+              class="grammar-card-wrapper transition-all duration-300" 
+              data-level={entry.data.level}
+              data-title={entry.data.title.toLowerCase()}
+              data-meaning={entry.data.meaning.toLowerCase()}
+              data-tags={entry.data.tags?.join(' ').toLowerCase() || ''}
+            >
+              <GrammarCard 
+                title={entry.data.title}
+                meaning={entry.data.meaning}
+                level={entry.data.level}
+                slug={entry.slug}
+                href={`/grammar/${entry.data.level}/${entry.slug}`}
+                tags={entry.data.tags}
+              />
+            </div>
+          ))}
+        </div>
+
+        <!-- Empty State -->
+        <div id="main-empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+            <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl mb-4">
+                🤔
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Không tìm thấy kết quả nào</h3>
+            <p class="text-slate-500 max-w-sm mx-auto">
+                Không có ngữ pháp nào phù hợp với bộ lọc hoặc từ khoá tìm kiếm của bạn. Hãy thử lại xem!
+            </p>
+            <button id="reset-filters" class="mt-6 px-6 py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-colors shadow-sm">
+                Xoá bộ lọc
+            </button>
+        </div>
+
       </main>
     </div>
   </div>
+
+  <!-- Mobile Sidebar Container (For list page too) -->
+  <div class="lg:hidden">
+    <GrammarSidebar />
+  </div>
+
 </GrammarLayout>
 
 <style>
-  .grammar-page {
-    min-height: calc(100vh - 120px);
-    background-color: #f8fafc;
-    padding: 2rem 0;
-  }
-
-  .grammar-container {
-    --sidebar-column-width: 280px;
-    display: grid;
-    grid-template-columns: minmax(56px, var(--sidebar-column-width)) 1fr;
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-
-  .grammar-container.sidebar-collapsed {
-    --sidebar-column-width: 72px;
-    gap: 1rem;
-  }
-
-
-
-  .grammar-main {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-  }
-
-  .grammar-header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .grammar-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-  }
-
-  .grammar-description {
-    color: #64748b;
-    font-size: 1.125rem;
-  }
-
-  .level-filter {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .filter-btn {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid #e2e8f0;
-    background: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s;
-    color: #334155;
-  }
-
-  .filter-btn:hover {
-    border-color: #3b82f6;
-    color: #3b82f6;
-  }
-
+  /* Active filter button styles */
   .filter-btn.active {
-    background: #3b82f6;
+    background-color: #3b82f6; /* Indigo-500ish fallback */
+    color: white;
     border-color: #3b82f6;
+  }
+  .filter-btn.active span {
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
   }
+  
+  /* Filter specific active colors */
+  .filter-btn[data-filter="beginner"].active { background-color: #059669; border-color: #059669; } /* Emerald */
+  .filter-btn[data-filter="intermediate"].active { background-color: #d97706; border-color: #d97706; } /* Amber */
+  .filter-btn[data-filter="advanced"].active { background-color: #e11d48; border-color: #e11d48; } /* Rose */
 
-  .search-container {
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  /* View switch active */
+  .view-btn.active-view {
+    background-color: #eff6ff;
+    color: #4f46e5;
   }
 
-  .search-input-wrapper {
-    position: relative;
-    max-width: 700px;
-    width: 100%;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
-    color: #64748b;
-  }
-
-  .search-input {
-    width: 100%;
-    padding: 0.875rem 1rem 0.875rem 3rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: white;
-    transition: border-color 0.2s;
-    color: #0f172a;
-  }
-
-  .search-input::placeholder {
-    color: #94a3b8;
-  }
-
-  .search-input:focus {
-    outline: none;
-    border-color: #3b82f6;
-  }
-
-  .clear-button {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #94a3b8;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
-  .clear-button.active {
-    color: #dc2626;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .clear-button.active:hover {
-    color: #b91c1c;
-  }
-
-  .search-stats {
-    margin-top: 0.5rem;
-    color: #64748b;
-    font-size: 0.875rem;
-    text-align: center;
-  }
-
-  .view-controls {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1.5rem;
-  }
-
-  .view-toggle {
-    display: flex;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .view-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    background: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background-color 0.2s;
-    color: #334155;
-  }
-
-  .view-btn:hover {
-    background: #f8fafc;
-    color: #0f172a;
-  }
-
-  .view-btn.active {
-    background: #3b82f6;
-    color: white;
-  }
-
-  .grammar-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .grammar-cards.list {
-    grid-template-columns: 1fr;
-  }
-
-  .grammar-cards.list .grammar-card {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "header"
-      "description"
-      "tags";
-    gap: 0.75rem;
-    padding: 1.25rem 1.5rem;
-  }
-
-  .grammar-cards.list .card-header {
-    grid-area: header;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 0;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .grammar-cards.list .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0;
-    order: 1;
-  }
-
-  .grammar-cards.list .card-meaning {
-    color: #3b82f6;
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-    order: 2;
-  }
-
-  .grammar-cards.list .card-meaning::before {
-    content: "- ";
-    color: #94a3b8;
-  }
-
-  .grammar-cards.list .card-level {
-    order: 3;
-    margin-left: auto;
-  }
-
-  .grammar-cards.list .card-content {
-    grid-area: description;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .grammar-cards.list .card-description {
-    margin: 0;
-    color: #64748b;
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-
-  /* Hide meaning in content when in list mode (it's moved to header) */
-  .grammar-cards.list .card-content .card-meaning {
-    display: none;
-  }
-
-  .grammar-cards.list .card-tags {
-    grid-area: tags;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .grammar-card {
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: white;
-  }
-
-  .grammar-card:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-    transform: translateY(-2px);
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0;
-  }
-
-  .card-level {
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .card-level.beginner {
-    background: #dcfce7;
-    color: #166534;
-  }
-
-  .card-level.intermediate {
-    background: #fef3c7;
-    color: #92400e;
-  }
-
-  .card-level.advanced {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-
-  .card-meaning {
-    font-size: 1rem;
-    color: #3b82f6;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  .card-description {
-    color: #64748b;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
-
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    padding: 0.25rem 0.5rem;
-    background: #f1f5f9;
-    color: #475569;
-    border-radius: 4px;
-    font-size: 0.75rem;
-  }
-
-  .grammar-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-
-
-  /* Mobile responsive */
-  @media (max-width: 1024px) {
-    .grammar-container {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .grammar-cards {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .grammar-page {
-      padding: 1rem 0;
-    }
-
-    .grammar-container {
-      padding: 0 0.5rem;
-    }
-
-    .grammar-main {
-      padding: 1rem;
-    }
-
-    .grammar-cards {
-      grid-template-columns: 1fr;
-    }
-
-    .level-filter {
-      justify-content: center;
-    }
-
-    .filter-btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-    }
+  /* List view transforms grid */
+  :global(#grammar-grid.list-view) {
+    grid-template-columns: 1fr !important;
   }
 </style>
 
-<script define:vars={{ sortedGrammar }}>
-  document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const clearButton = document.getElementById('clearSearch');
-    const searchStats = document.getElementById('searchStats');
-    const searchStatsText = document.getElementById('searchStatsText');
-    const grammarCards = document.getElementById('grammar-cards');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const viewButtons = document.querySelectorAll('.view-btn');
+<script>
+  /**
+   * Main Grammar List Logic
+   * Handles filtering, searching, and UI interactions.
+   */
 
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- Elements ---
+    const grid = document.getElementById('grammar-grid');
+    const cards = document.querySelectorAll('.grammar-card-wrapper');
+    const searchInput = document.getElementById('main-search-input') as HTMLInputElement;
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const viewBtns = document.querySelectorAll('.view-btn');
+    const emptyState = document.getElementById('main-empty-state');
+    const searchStats = document.getElementById('search-stats');
+    const searchCount = document.getElementById('search-count');
+    const resetBtn = document.getElementById('reset-filters');
+    const typeIcon = document.querySelector('.type-icon');
+
+    // State
     let currentFilter = 'all';
-    let currentView = 'grid';
+    let searchQuery = '';
 
-    // Load view preference from localStorage
-    const savedView = localStorage.getItem('grammar-view');
-    if (savedView) {
-      currentView = savedView;
-      updateViewMode();
-    }
-
-    // Filter functionality
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentFilter = this.dataset.level;
-        filterAndSearch();
-      });
-    });
-
-    // View mode toggle
-    viewButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        viewButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentView = this.dataset.view;
-        updateViewMode();
-        localStorage.setItem('grammar-view', currentView);
-      });
-    });
-
-    function updateViewMode() {
-      const cards = document.querySelectorAll('.grammar-card');
-      
-      if (currentView === 'list') {
-        grammarCards.classList.add('list');
-        
-        // Move meaning to header for list view
-        cards.forEach(card => {
-          const header = card.querySelector('.card-header');
-          const meaning = card.querySelector('.card-meaning');
-          if (header && meaning && !header.contains(meaning)) {
-            header.appendChild(meaning);
-          }
-        });
-      } else {
-        grammarCards.classList.remove('list');
-        
-        // Move meaning back to content for grid view
-        cards.forEach(card => {
-          const content = card.querySelector('.card-content');
-          const meaning = card.querySelector('.card-meaning');
-          const description = card.querySelector('.card-description');
-          if (content && meaning && !content.contains(meaning)) {
-            content.insertBefore(meaning, description);
-          }
-        });
-      }
-    }
-
-    // Search functionality
-    searchInput.addEventListener('input', function() {
-      const query = this.value.trim();
-      
-      if (query.length > 0) {
-        clearButton.style.display = 'block';
-        clearButton.classList.add('active');
-        performSearch(query);
-      } else {
-        clearButton.style.display = 'none';
-        clearButton.classList.remove('active');
-        clearSearch();
-      }
-    });
-
-    clearButton.addEventListener('click', function() {
-      searchInput.value = '';
-      this.style.display = 'none';
-      this.classList.remove('active');
-      clearSearch();
-    });
-
-    function performSearch(query) {
-      const searchQuery = query.toLowerCase();
+    // --- 1. Filtering Logic ---
+    function applyFilters() {
       let visibleCount = 0;
+      
+      cards.forEach(card => {
+        const el = card as HTMLElement;
+        const level = el.dataset.level;
+        const title = el.dataset.title || '';
+        const meaning = el.dataset.meaning || '';
+        const tags = el.dataset.tags || '';
+        
+        // 1. Check Level Filter
+        const matchesLevel = currentFilter === 'all' || level === currentFilter;
+        
+        // 2. Check Search (Normalized)
+        const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const query = normalize(searchQuery);
+        const matchesSearch = !searchQuery || 
+                              normalize(title).includes(query) || 
+                              normalize(meaning).includes(query) || 
+                              normalize(tags).includes(query);
 
-      document.querySelectorAll('.grammar-card').forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const meaning = card.querySelector('.card-meaning').textContent.toLowerCase();
-        const description = card.querySelector('.card-description').textContent.toLowerCase();
-        const level = card.dataset.level;
-
-        const matchesSearch = title.includes(searchQuery) || 
-                             meaning.includes(searchQuery) || 
-                             description.includes(searchQuery);
-
-        const matchesFilter = currentFilter === 'all' || level === currentFilter;
-
-        if (matchesSearch && matchesFilter) {
-          card.style.display = 'block';
+        if (matchesLevel && matchesSearch) {
+          el.style.display = ''; // Show
           visibleCount++;
         } else {
-          card.style.display = 'none';
+          el.style.display = 'none'; // Hide
         }
       });
 
-      // Update search stats
-      searchStats.style.display = 'block';
+      // Update UI Stats
       if (visibleCount === 0) {
-        searchStatsText.textContent = `Không tìm thấy kết quả cho "${query}"`;
+        grid?.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+        emptyState?.classList.add('flex');
+        searchStats?.classList.add('hidden');
       } else {
-        searchStatsText.textContent = `${visibleCount} kết quả cho "${query}"`;
+        grid?.classList.remove('hidden');
+        emptyState?.classList.add('hidden');
+        emptyState?.classList.remove('flex');
+        
+        // Show stats only if searching
+        if (searchQuery) {
+          searchStats?.classList.remove('hidden');
+          if (searchCount) searchCount.textContent = visibleCount.toString();
+        } else {
+          searchStats?.classList.add('hidden');
+        }
       }
     }
 
-    function clearSearch() {
-      document.querySelectorAll('.grammar-card').forEach(card => {
-        card.style.display = 'block';
-      });
-      searchStats.style.display = 'none';
-      filterAndSearch();
-    }
-
-    function filterAndSearch() {
-      const query = searchInput.value.trim();
-      if (query) {
-        performSearch(query);
-      } else {
-        document.querySelectorAll('.grammar-card').forEach(card => {
-          const level = card.dataset.level;
-          if (currentFilter === 'all' || level === currentFilter) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-        searchStats.style.display = 'none';
-      }
-    }
-
-    // Card click navigation
-    document.querySelectorAll('.grammar-card').forEach(card => {
-      card.addEventListener('click', function() {
-        const slug = this.dataset.slug;
-        const level = this.dataset.level;
-        window.location.href = `/grammar/${level}/${slug}`;
+    // --- 2. Event Listeners ---
+    
+    // Filter Buttons
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update State & Apply
+        currentFilter = btn.getAttribute('data-filter') || 'all';
+        applyFilters();
       });
     });
 
+    // Search Input
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = (e.target as HTMLInputElement).value.trim();
+      
+      // Visual feedback on icon
+      if (typeIcon) {
+          typeIcon.classList.toggle('text-indigo-500', searchQuery.length > 0);
+          typeIcon.classList.toggle('text-indigo-200', searchQuery.length === 0);
+      }
+      
+      applyFilters();
+    });
+
+    // Reset Button
+    resetBtn?.addEventListener('click', () => {
+      currentFilter = 'all';
+      searchQuery = '';
+      if (searchInput) searchInput.value = '';
+      
+      filterBtns.forEach(b => {
+        if (b.getAttribute('data-filter') === 'all') b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      
+      applyFilters();
+    });
+
+    // View Toggle
+    viewBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-view');
+        
+        viewBtns.forEach(b => b.classList.remove('active-view'));
+        btn.classList.add('active-view');
+        
+        if (view === 'list') {
+          grid?.classList.add('list-view');
+        } else {
+          grid?.classList.remove('list-view');
+        }
+      });
+    });
+
+    // --- 3. Mobile Sidebar Overlay Integration ---
+    // Re-implementing the overlay logic specifically for this page structure
+    const mobileOverlay = document.getElementById('mobile-panel-overlay');
+    const mobileTrigger = document.getElementById('mobile-sidebar-trigger');
+    const sidebarElement = document.getElementById('grammar-sidebar');
+
+    const toggleSidebar = (show: boolean) => {
+      if (!sidebarElement) return;
+      
+      if (show) {
+        sidebarElement.classList.add('open');
+        mobileOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+        mobileOverlay?.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+      } else {
+        sidebarElement.classList.remove('open');
+        mobileOverlay?.classList.add('opacity-0', 'pointer-events-none');
+        mobileOverlay?.classList.remove('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = '';
+      }
+    };
+
+    mobileTrigger?.addEventListener('click', () => toggleSidebar(true));
+    mobileOverlay?.addEventListener('click', () => toggleSidebar(false));
+
+    // Listen to sidebar's internal close events (from GrammarSidebar.astro script)
+    window.addEventListener('tfk:panel-state-change', () => {
+        // Just sync overlay state with sidebar class
+        const isOpen = sidebarElement?.classList.contains('open');
+        if (isOpen) {
+            mobileOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+            mobileOverlay?.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'hidden';
+        } else {
+            mobileOverlay?.classList.add('opacity-0', 'pointer-events-none');
+            mobileOverlay?.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = '';
+        }
+    });
 
   });
 </script>
