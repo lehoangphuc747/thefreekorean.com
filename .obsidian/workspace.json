@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "GRAMMAR"
             }
+          },
+          {
+            "id": "6576d24f236e999a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/048.euseyo-3.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "048.euseyo-3"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -170,15 +185,16 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6b7445db5afce163",
+  "active": "6576d24f236e999a",
   "lastOpenFiles": [
+    "src/content/grammar/045.eusi-ton-kinh.md",
+    "GRAMMAR.md",
+    "src/content/grammar/Untitled.md",
     "src/content/grammar/050.ji-malda-cam-chi.md",
     "src/content/grammar/049.eusibsio.md",
     "src/content/grammar/047.euseyo-2.md",
     "src/content/grammar/046.euseyo-1.md",
     "src/content/grammar/048.euseyo-3.md",
-    "GRAMMAR.md",
-    "src/content/grammar/045.eusi-ton-kinh.md",
     "src/content/grammar/044.phu-dinh-ngan-mot.md",
     "src/content/grammar/043.v-ji-mothada-khong-the.md",
     "src/content/grammar/042.phu-dinh-ngan-안.md",
@@ -197,7 +213,6 @@
     "src/content/grammar/028.do.md",
     "src/content/grammar/hago2.gv.md",
     "src/content/grammar/hago1.gv.md",
-    "src/content/grammar/egero.hs.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
