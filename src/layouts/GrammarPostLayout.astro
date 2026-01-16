@@ -1,12 +1,12 @@
 ---
-import Layout from './Layout.astro';
-import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
-import PrintStyles from '../components/common/PrintStyles.astro';
-import '../styles/global.css';
+import Layout from "./Layout.astro";
+import GrammarSidebar from "../components/grammar/GrammarSidebar.astro";
+import PrintStyles from "../components/common/PrintStyles.astro";
+import "../styles/global.css";
 
 /**
  * GrammarPostLayout
- * 
+ *
  * Layout for individual grammar posts.
  * Layout: [Sidebar] [Content] [TOC]
  * Responsive:
@@ -24,19 +24,26 @@ export interface Props {
 const { title, description, showTOC = true } = Astro.props;
 ---
 
-<Layout title={`${title} - Ngữ pháp tiếng Hàn`} description={description || `Học ngữ pháp ${title} tiếng Hàn miễn phí với The Free Korean.`}>
+<Layout
+  title={`${title} - Ngữ pháp tiếng Hàn`}
+  description={description ||
+    `Học ngữ pháp ${title} tiếng Hàn miễn phí với The Free Korean.`}
+>
   <!-- Print Styles -->
   <PrintStyles />
 
   <!-- Main Container -->
   <div class="bg-slate-50 min-h-screen">
-    
     <!-- Mobile Overlay (Fixed) -->
-    <div id="mobile-panel-overlay" class="fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
+    <div
+      id="mobile-panel-overlay"
+      class="fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300"
+      aria-hidden="true"
+    >
+    </div>
 
     <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-col lg:flex-row gap-8 relative items-start">
-        
         <!-- Sidebar (Left) -->
         <!-- Fixed width on desktop, drawer on mobile handled by component logic -->
         <aside class="hidden lg:block shrink-0 sticky top-24">
@@ -44,26 +51,38 @@ const { title, description, showTOC = true } = Astro.props;
         </aside>
 
         <!-- Main Content (Center) -->
-        <main class="flex-1 min-w-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10 lg:p-12 relative">
-          
+        <main
+          class="flex-1 min-w-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10 lg:p-12 relative"
+        >
           <!-- Mobile Sidebar Toggle Trigger (Visible only on mobile/tablet) -->
-          <div class="lg:hidden mb-6 flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-100">
-             <span class="text-sm font-medium text-slate-500">Danh sách ngữ pháp</span>
-             <button id="mobile-sidebar-trigger" class="text-indigo-600 font-bold text-sm hover:underline">
-               Mở danh sách
-             </button>
+          <div
+            class="lg:hidden mb-6 flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-100"
+          >
+            <span class="text-sm font-medium text-slate-500"
+              >Danh sách ngữ pháp</span
+            >
+            <button
+              id="mobile-sidebar-trigger"
+              class="text-indigo-600 font-bold text-sm hover:underline"
+            >
+              Mở danh sách
+            </button>
           </div>
 
           <slot />
         </main>
 
         <!-- TOC (Right) -->
-        {showTOC && (
-          <aside class="hidden xl:block w-64 shrink-0 sticky top-24">
-            <slot name="toc" />
-          </aside>
-        )}
-
+        {
+          showTOC && (
+            <aside
+              id="right-sidebar"
+              class="hidden xl:block w-64 shrink-0 sticky top-24 transition-all duration-300 ease-in-out"
+            >
+              <slot name="toc" />
+            </aside>
+          )
+        }
       </div>
     </div>
   </div>
@@ -73,46 +92,44 @@ const { title, description, showTOC = true } = Astro.props;
   <div class="lg:hidden">
     <GrammarSidebar />
   </div>
-
 </Layout>
 
 <script>
   /**
    * Layout specific logic for mobile interactions
    */
-  
+
   // Mobile Overlay Logic
-  const overlay = document.getElementById('mobile-panel-overlay');
-  const sidebar = document.getElementById('grammar-sidebar'); // GrammarSidebar component ID
-  const mobileTrigger = document.getElementById('mobile-sidebar-trigger');
+  const overlay = document.getElementById("mobile-panel-overlay");
+  const sidebar = document.getElementById("grammar-sidebar"); // GrammarSidebar component ID
+  const mobileTrigger = document.getElementById("mobile-sidebar-trigger");
 
   function updateOverlay() {
-    if (sidebar && sidebar.classList.contains('open')) {
-      overlay?.classList.add('opacity-100', 'pointer-events-auto');
-      overlay?.classList.remove('opacity-0', 'pointer-events-none');
-      document.body.style.overflow = 'hidden';
+    if (sidebar && sidebar.classList.contains("open")) {
+      overlay?.classList.add("opacity-100", "pointer-events-auto");
+      overlay?.classList.remove("opacity-0", "pointer-events-none");
+      document.body.style.overflow = "hidden";
     } else {
-      overlay?.classList.remove('opacity-100', 'pointer-events-auto');
-      overlay?.classList.add('opacity-0', 'pointer-events-none');
-      document.body.style.overflow = '';
+      overlay?.classList.remove("opacity-100", "pointer-events-auto");
+      overlay?.classList.add("opacity-0", "pointer-events-none");
+      document.body.style.overflow = "";
     }
   }
 
   // Listen for sidebar state changes
-  window.addEventListener('tfk:panel-state-change', updateOverlay);
+  window.addEventListener("tfk:panel-state-change", updateOverlay);
 
   // Mobile trigger click
-  mobileTrigger?.addEventListener('click', () => {
-    sidebar?.classList.add('open');
-    window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
+  mobileTrigger?.addEventListener("click", () => {
+    sidebar?.classList.add("open");
+    window.dispatchEvent(new CustomEvent("tfk:panel-state-change"));
   });
 
   // Overlay click to close
-  overlay?.addEventListener('click', () => {
-    sidebar?.classList.remove('open');
-    window.dispatchEvent(new CustomEvent('tfk:panel-state-change'));
+  overlay?.addEventListener("click", () => {
+    sidebar?.classList.remove("open");
+    window.dispatchEvent(new CustomEvent("tfk:panel-state-change"));
   });
-
 </script>
 
 <style>

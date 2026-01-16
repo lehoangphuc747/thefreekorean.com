@@ -1,7 +1,7 @@
 ---
 /**
  * TableOfContents Component
- * 
+ *
  * Displays a sticky table of contents for the grammar post.
  * Features:
  * - Nested levels (h2, h3)
@@ -20,52 +20,106 @@ export interface Props {
 const { headings } = Astro.props;
 ---
 
-<!-- TOC Container -->
-<nav 
-  id="toc-container" 
-  class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all duration-300 w-full"
+<nav
+  id="toc-container"
+  class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all duration-300 w-full h-full flex flex-col"
   aria-label="Table of Contents"
 >
-  <!-- Header -->
-  <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
-    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Mục lục</h3>
-    <button 
-      id="toc-toggle" 
-      class="text-slate-400 hover:text-indigo-600 transition-colors p-1 rounded-md hover:bg-slate-50"
-      title="Thu gọn/Mở rộng"
+  <!-- 1. Collapsed State View (Hidden by default) -->
+  <div
+    id="toc-collapsed-view"
+    class="hidden h-full flex-col items-center py-4 cursor-pointer hover:bg-slate-50 transition-colors"
+    title="Mở mục lục"
+  >
+    <button
+      class="p-2 mb-4 text-slate-400 hover:text-indigo-600 transition-colors"
     >
-      <svg class="w-4 h-4 transform transition-transform duration-300" id="toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        ><path d="m13 17 5-5-5-5"></path><path d="m6 17 5-5-5-5"></path></svg
+      >
     </button>
+    <div class="grow flex items-center justify-center">
+      <span
+        class="[writing-mode:vertical-rl] text-xs font-bold text-slate-400 tracking-widest whitespace-nowrap uppercase"
+        >Mục lục</span
+      >
+    </div>
   </div>
 
-  <!-- List -->
-  <div id="toc-content" class="max-h-[calc(100vh-200px)] overflow-y-auto overflow-x-hidden p-3 transition-all duration-300">
-    <ul class="space-y-1">
-      {headings.map(heading => (
-        <li 
-          class:list={[
-            'transition-colors duration-200 rounded-lg',
-            heading.level === 2 ? 'pl-0' : 'pl-4',
-            heading.level === 3 ? 'pl-8' : '',
-            'toc-item'
-          ]}
+  <!-- 2. Expanded State View -->
+  <div id="toc-expanded-view" class="flex flex-col h-full">
+    <!-- Header -->
+    <div
+      class="p-4 border-b border-slate-100 flex items-center justify-between bg-white shrink-0"
+    >
+      <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">
+        Mục lục
+      </h3>
+      <button
+        id="toc-toggle-btn"
+        class="text-slate-400 hover:text-indigo-600 transition-colors p-1 rounded-md hover:bg-slate-50"
+        title="Thu gọn"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg
         >
-          <a
-            href={`#${heading.id}`}
-            class="block py-1.5 px-3 text-sm text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-md transition-all truncate border-l-2 border-transparent"
-            data-heading-link={heading.id}
-          >
-            {heading.text}
-          </a>
-        </li>
-      ))}
-    </ul>
-    
-    {headings.length === 0 && (
-      <p class="text-xs text-slate-400 text-center py-4">Bài viết chưa có mục lục</p>
-    )}
+      </button>
+    </div>
+
+    <!-- List -->
+    <div
+      id="toc-content"
+      class="overflow-y-auto overflow-x-hidden p-3 transition-all duration-300 flex-1"
+    >
+      <ul class="space-y-1">
+        {
+          headings.map((heading) => (
+            <li
+              class:list={[
+                "transition-colors duration-200 rounded-lg",
+                heading.level === 2 ? "pl-0" : "pl-4",
+                heading.level === 3 ? "pl-8" : "",
+                "toc-item",
+              ]}
+            >
+              <a
+                href={`#${heading.id}`}
+                class="block py-1.5 px-3 text-sm text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-md transition-all truncate border-l-2 border-transparent"
+                data-heading-link={heading.id}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      {
+        headings.length === 0 && (
+          <p class="text-xs text-slate-400 text-center py-4">
+            Bài viết chưa có mục lục
+          </p>
+        )
+      }
+    </div>
   </div>
 </nav>
 
@@ -74,68 +128,109 @@ const { headings } = Astro.props;
    * TOC Client Logic
    * Handles scrollspy active state and collapse toggling.
    */
-  document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('toc-container');
-    const content = document.getElementById('toc-content');
-    const toggleBtn = document.getElementById('toc-toggle');
-    const chevron = document.getElementById('toc-chevron');
-    const links = document.querySelectorAll('[data-heading-link]');
-    
-    // --- 1. Collapse Logic ---
-    let isCollapsed = false;
+  document.addEventListener("DOMContentLoaded", () => {
+    // Parent Elements
+    const rightSidebar = document.getElementById("right-sidebar");
 
-    const toggleToc = () => {
-      isCollapsed = !isCollapsed;
-      
-      if (isCollapsed) {
-        content?.classList.add('hidden');
-        if (chevron) chevron.style.transform = 'rotate(-90deg)';
+    // TOC Elements
+    const container = document.getElementById("toc-container");
+    const expandedView = document.getElementById("toc-expanded-view");
+    const collapsedView = document.getElementById("toc-collapsed-view");
+    const toggleBtn = document.getElementById("toc-toggle-btn");
+    const expandTrigger = document.getElementById("toc-collapsed-view"); // Clicking anywhere on the strip
+
+    // Links for scrollspy
+    const links = document.querySelectorAll("[data-heading-link]");
+
+    // --- 1. Collapse Logic ---
+    const setCollapsed = (collapsed) => {
+      if (!rightSidebar) return;
+
+      if (collapsed) {
+        // Layout (Parent)
+        rightSidebar.classList.remove("w-64");
+        rightSidebar.classList.add("w-12");
+
+        // Component (Local)
+        expandedView?.classList.add("hidden");
+        collapsedView?.classList.remove("hidden");
+        collapsedView?.classList.add("flex");
       } else {
-        content?.classList.remove('hidden');
-        if (chevron) chevron.style.transform = 'rotate(0deg)';
+        // Layout (Parent)
+        rightSidebar.classList.add("w-64");
+        rightSidebar.classList.remove("w-12");
+
+        // Component (Local)
+        collapsedView?.classList.add("hidden");
+        collapsedView?.classList.remove("flex");
+        expandedView?.classList.remove("hidden");
       }
+      // Save preference
+      localStorage.setItem("tfk:toc-collapsed", String(collapsed));
     };
 
-    toggleBtn?.addEventListener('click', toggleToc);
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => setCollapsed(true));
+    }
+
+    if (expandTrigger) {
+      expandTrigger.addEventListener("click", () => setCollapsed(false));
+    }
+
+    // Restore preference
+    const savedState = localStorage.getItem("tfk:toc-collapsed");
+    if (savedState === "true") {
+      setCollapsed(true);
+    }
 
     // --- 2. Scrollspy (Active State) ---
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
-          
+
           // Remove active from all
-          links.forEach(link => {
-            link.classList.remove('text-indigo-600', 'bg-indigo-50', 'font-medium', 'border-indigo-500');
-            link.classList.add('text-slate-500', 'border-transparent');
+          links.forEach((link) => {
+            link.classList.remove(
+              "text-indigo-600",
+              "bg-indigo-50",
+              "font-medium",
+              "border-indigo-500",
+            );
+            link.classList.add("text-slate-500", "border-transparent");
           });
 
           // Add active to current
-          const activeLink = document.querySelector(`[data-heading-link="${id}"]`);
+          const activeLink = document.querySelector(
+            `[data-heading-link="${id}"]`,
+          );
           if (activeLink) {
-            activeLink.classList.remove('text-slate-500', 'border-transparent');
-            activeLink.classList.add('text-indigo-600', 'bg-indigo-50', 'font-medium', 'border-indigo-500');
-            
+            activeLink.classList.remove("text-slate-500", "border-transparent");
+            activeLink.classList.add(
+              "text-indigo-600",
+              "bg-indigo-50",
+              "font-medium",
+              "border-indigo-500",
+            );
+
             // Auto scroll TOC
-            activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
           }
         }
       });
     };
 
     const observer = new IntersectionObserver(observerCallback, {
-      rootMargin: '-100px 0px -66% 0px', // Trigger when heading is near top
-      threshold: 0.1
+      rootMargin: "-100px 0px -66% 0px", // Trigger when heading is near top
+      threshold: 0.1,
     });
 
     // Observe all headings
-    headings.forEach(h => {
-      const el = document.getElementById(h.id);
-      if (el) observer.observe(el);
-    });
+    // Combined selector approach for robustness
+    const headings = Array.from(document.querySelectorAll("h2, h3, h4")).filter(
+      (h) => h.id && (h.closest("article") || h.closest("main")),
+    ); // Limit scope if possible, but global is fine for now
 
-    // Manual list of headings for observer context
-    const headings = Array.from(document.querySelectorAll('h2, h3, h4')).filter(h => h.id);
-    headings.forEach(h => observer.observe(h));
+    headings.forEach((h) => observer.observe(h));
   });
 </script>

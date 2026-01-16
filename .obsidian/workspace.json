@@ -22,17 +22,59 @@
             }
           },
           {
-            "id": "6576d24f236e999a",
+            "id": "dd9d0d695770a1c9",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/grammar/048.euseyo-3.md",
-                "mode": "preview",
+                "file": "src/content/grammar/057.euryeogo.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "048.euseyo-3"
+              "title": "057.euryeogo"
+            }
+          },
+          {
+            "id": "73dee36aeae9a05a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/058.eoseo-1.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "058.eoseo-1"
+            }
+          },
+          {
+            "id": "c9b1b80cb7456a97",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/059.eoseo-2.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "059.eoseo-2"
+            }
+          },
+          {
+            "id": "6d4e403000b4dccb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/056.eureo.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "056.eureo"
             }
           }
         ],
@@ -185,16 +227,27 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6576d24f236e999a",
+  "active": "dd9d0d695770a1c9",
   "lastOpenFiles": [
-    "src/content/grammar/045.eusi-ton-kinh.md",
+    "src/content/grammar/059.eoseo-2.md",
+    "src/content/grammar/058.eoseo-1.md",
+    "src/content/grammar/057.euryeogo.md",
     "GRAMMAR.md",
-    "src/content/grammar/Untitled.md",
+    "src/content/grammar/056.eureo.md",
+    "src/content/grammar/051.go-1-conjunction.md",
+    "src/content/grammar/053.go-sipda.md",
+    "src/content/grammar/055.jiman.md",
+    "src/content/grammar/054.go-sipeo-hada.md",
+    "src/content/grammar/052.go-2-sequence.md",
+    "src/content/topik/052.go-2-sequence.md",
+    "052.go-2-sequence.md",
+    "public/images/topik-52.svg",
     "src/content/grammar/050.ji-malda-cam-chi.md",
     "src/content/grammar/049.eusibsio.md",
+    "src/content/grammar/048.euseyo-3.md",
+    "src/content/grammar/045.eusi-ton-kinh.md",
     "src/content/grammar/047.euseyo-2.md",
     "src/content/grammar/046.euseyo-1.md",
-    "src/content/grammar/048.euseyo-3.md",
     "src/content/grammar/044.phu-dinh-ngan-mot.md",
     "src/content/grammar/043.v-ji-mothada-khong-the.md",
     "src/content/grammar/042.phu-dinh-ngan-안.md",
@@ -203,16 +256,6 @@
     "src/content/grammar/035.mada.md",
     "src/content/grammar/036.boda.md",
     "src/content/grammar/042.v-ji-mothada-khong-the.md",
-    "src/content/grammar/039.duoi-cau-nghi-van-trang-trong.md",
-    "src/content/grammar/038.duoi-cau-tran-thuat-trang-trong.md",
-    "src/content/grammar/037.eseobuteo.md",
-    "src/content/grammar/034.cheoreom.md",
-    "src/content/grammar/033.ina-3.md",
-    "QUY_TAC_YAML_FRONTMATTER.md",
-    "topik_vocabulary.md",
-    "src/content/grammar/028.do.md",
-    "src/content/grammar/hago2.gv.md",
-    "src/content/grammar/hago1.gv.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
@@ -231,7 +274,6 @@
     "dist/images/topik-60.svg",
     "dist/images/topik-52.svg",
     "dist/images/topik-2-96.svg",
-    "dist/images/tieng-han-tong-hop-2.jpg",
-    "dist/images/tieng-han-tong-hop-1.svg"
+    "dist/images/tieng-han-tong-hop-2.jpg"
   ]
 }
