@@ -20,34 +20,6 @@
               "icon": "lucide-file",
               "title": "GRAMMAR"
             }
-          },
-          {
-            "id": "fb3b500e6eab2837",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/054.go-sipeo-hada.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "054.go-sipeo-hada"
-            }
-          },
-          {
-            "id": "e4076649e1e238eb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/grammar/63.eumyeonseo.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "63.eumyeonseo"
-            }
           }
         ]
       }
@@ -200,18 +172,20 @@
   },
   "active": "6b7445db5afce163",
   "lastOpenFiles": [
-    "src/content/grammar/054.go-sipeo-hada.md",
-    "GRAMMAR.md",
-    "THTH2-bai-01.md.backup",
     "src/content/grammar/63.eumyeonseo.md",
-    "src/content/grammar/61.eunikka-2.md",
-    "THTH2-bai-01.md",
-    "src/content/grammar/055.jiman.md",
-    "src/content/grammar/60.eunikka-1.md",
+    "src/content/grammar/64.eul-su-itda-1.md",
+    "src/content/grammar/65.eul-su-itda-2.md",
     "src/content/grammar/62.eumyeon.md",
-    "src/content/grammar/056.eureo.md",
+    "src/content/grammar/61.eunikka-2.md",
+    "src/content/grammar/60.eunikka-1.md",
+    "GRAMMAR.md",
     "src/content/grammar/059.eoseo-2.md",
     "src/content/grammar/058.eoseo-1.md",
+    "src/content/grammar/054.go-sipeo-hada.md",
+    "THTH2-bai-01.md.backup",
+    "THTH2-bai-01.md",
+    "src/content/grammar/055.jiman.md",
+    "src/content/grammar/056.eureo.md",
     "src/content/grammar/057.euryeogo.md",
     "src/content/grammar/051.go-1-conjunction.md",
     "src/content/grammar/053.go-sipda.md",
@@ -226,7 +200,6 @@
     "src/content/grammar/047.euseyo-2.md",
     "src/content/grammar/046.euseyo-1.md",
     "src/content/grammar/044.phu-dinh-ngan-mot.md",
-    "src/content/grammar/043.v-ji-mothada-khong-the.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
