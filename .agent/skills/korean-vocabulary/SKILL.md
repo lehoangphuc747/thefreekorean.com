@@ -155,6 +155,25 @@ Từ mượn tiếng [Anh/Pháp/Việt] "[gốc]".
 
 ---
 
+## Phân Biệt Từ Đồng Nghĩa (Differentiating Similar Words)
+
+Khi có từ có nghĩa tiếng Việt giống/gần nhau, **BẮT BUỘC** phải có phần **"Phân biệt:"**
+
+**Format:**
+```
+**[Từ]**: [Nghĩa chính]
+**Phân biệt:** Dùng cho [bối cảnh cụ thể]
+```
+
+**Ví dụ: 사용하다 vs 이용하다**
+
+| Từ | Nghĩa | Phân biệt | Ví dụ |
+|----|-------|-----------|-------|
+| 사용하다 | sử dụng | **Đồ vật hữu hình** (cầm/chạm vào) | 컴퓨터를 사용하다, 휴대폰을 사용하다 |
+| 이용하다 | sử dụng | **Dịch vụ/hệ thống** | 버스를 이용하다, 도서관을 이용하다 |
+
+---
+
 ## Quy Trình Tạo File Từ Vựng (Workflow)
 
 ### Bước 1: Phân Loại Từ Vựng
@@ -167,11 +186,26 @@ Nhóm từ vựng theo chủ đề logic:
 
 ### Bước 2: Sắp Xếp Thứ Tự
 
-**Nguyên tắc cốt lõi:** Các từ **có độ liên quan** thì đặt **gần nhau**, theo **logic** (flow tự nhiên).
+### ⚠️ QUY TẮC TUYỆT ĐỐI #2: Nhóm Biểu Hiện Với Từ Gốc
+
+**LUÔN LUÔN** đặt biểu hiện **NGAY SAU** từ gốc của nó:
+
+✅ **ĐÚNG:**
+```
+넣다 (từ gốc)
+가방에 넣다 (biểu hiện đơn giản)
+가방에 휴대폰을 넣다 (biểu hiện cụ thể)
+커피에 설탕을 넣다 (biểu hiện khác)
+꺼내다 (từ gốc antonym)
+가방에서 꺼내다
+```
+
+❌ **SAI:** Đặt tất cả biểu hiện ở cuối file
 
 **Trong mỗi nhóm:**
-- Từ gốc chính nằm trên → biểu hiện/ từ phụ liên quan nằm ngay dưới
-- Sắp theo **logic** (ví dụ: hành trình đi lại): xuất phát → lên xe → đổi xe → xuống xe → đến nơi → lái xe → đỗ xe → thời gian/ sự cố → thanh toán
+- Từ gốc chính → Biểu hiện đơn giản → Biểu hiện phức tạp
+- Nếu có antonym, đặt sau hết biểu hiện của từ đầu tiên
+- Sắp theo **logic** (ví dụ: hành trình đi lại): xuất phát → lên xe → đổi xe → xuống xe → đến nơi
 
 ### Bước 3: Viết Giải Thích
 
@@ -183,8 +217,11 @@ Nhóm từ vựng theo chủ đề logic:
 - [ ] Có "→ Nghĩa: [tổng hợp]" ở cuối?
 - [ ] KHÔNG có phiên âm Latinh?
 - [ ] Cột "Tiếng Hàn", "Phiên âm", "Tiếng Việt" KHÔNG in đậm?
+- [ ] 🔴 Nếu có từ đồng nghĩa, đã thêm phần "**Phân biệt:**"?
+- [ ] 🔴 Cột "Tiếng Hàn" và "Ví dụ" KHÔNG chứa tiếng Việt?
 
 **Checklist cho BIỂU HIỆN:**
+- [ ] 🔴 Đã đặt **NGAY SAU** từ gốc (không đặt ở cuối file)?
 - [ ] Đã phân tích **CẤU TRÚC (3 BƯỚC)**?
 - [ ] Đã **in đậm** phần "**[Động từ]: nghĩa**" ở đầu?
 - [ ] Có `<br><br>` sau phần động từ, sau cấu trúc, sau giải thích cấu trúc?
@@ -192,6 +229,7 @@ Nhóm từ vựng theo chủ đề logic:
 - [ ] Có "Cấu trúc này có nghĩa là: **[...]**" và đã **in đậm** phần nghĩa?
 - [ ] Có "Trong câu **[biểu hiện]** có nghĩa là: **[...]**" và đã **in đậm** phần nghĩa?
 - [ ] Cột "Tiếng Hàn", "Phiên âm", "Tiếng Việt" KHÔNG in đậm?
+- [ ] 🔴 Cột "Tiếng Hàn" và "Ví dụ" KHÔNG chứa tiếng Việt?
 
 ---
 
@@ -218,8 +256,33 @@ Nhóm từ vựng theo chủ đề logic:
 | Thiếu 3 bước biểu hiện | Chỉ viết nghĩa cấu trúc | Phải đủ: Động từ -> Cấu trúc -> Ý nghĩa trong ví dụ |
 | Thiếu `<br><br>` | "**타다**: lên<br>Cấu trúc: ..." | "**타다**: lên<br><br>Cấu trúc: ..." |
 
+## Lỗi Nghiêm Trọng Cần Tránh (Critical Pitfalls)
+
+### 1. Tiếng Việt Lẫn Vào Tiếng Hàn
+
+| Lỗi | Sai | Đúng |
+|-----|-----|------|
+| Danh từ | `가방에 túi을 넣다` | `가방에 핸드폰을 넣다` |
+| Động từ | `부모님은 con을 걱정하세요` | `부모님은 자식을 걱정하세요` |
+| Ví dụ | `xe를 조심하세요` | `차를 조심하세요` |
+
+**Nguyên nhân:** Copy/paste từ phần tiếng Việt mà không sửa lại
+
+### 2. Biểu Hiện Đặt Sai Vị Trí
+
+❌ Thêm tất cả biểu hiện mới xuống cuối file
+✅ Ngay khi thêm biểu hiện, đặt LUÔN sau từ gốc
+
+### 3. Từ Đồng Nghĩa Không Phân Biệt
+
+❌ 사용하다 và 이용하다 đều dịch "sử dụng" nhưng không giải thích khác biệt
+✅ Luôn thêm phần "**Phân biệt:**" khi có từ gần nghĩa
+
+---
+
 ## Ghi Chú Bổ Sung
 
 - Skill này sẽ được tối ưu dần theo phản hồi của người dùng
 - Ưu tiên tính tự chứa đựng (self-contained) hơn là tính ngắn gọn
 - Giải thích chi tiết > Giản lược
+- 📁 Xem thêm: `examples/` folder để tham khảo mẫu thực tế

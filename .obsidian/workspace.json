@@ -20,8 +20,33 @@
               "icon": "lucide-file",
               "title": "GRAMMAR"
             }
+          },
+          {
+            "id": "7f7135425919aa07",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/66.eul-subakke-eopda.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "66.eul-subakke-eopda"
+            }
+          },
+          {
+            "id": "0c5d51c0d2250779",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -170,15 +195,16 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6b7445db5afce163",
+  "active": "0c5d51c0d2250779",
   "lastOpenFiles": [
+    "GRAMMAR.md",
+    "src/content/grammar/66.eul-subakke-eopda.md",
     "src/content/grammar/63.eumyeonseo.md",
     "src/content/grammar/64.eul-su-itda-1.md",
     "src/content/grammar/65.eul-su-itda-2.md",
     "src/content/grammar/62.eumyeon.md",
     "src/content/grammar/61.eunikka-2.md",
     "src/content/grammar/60.eunikka-1.md",
-    "GRAMMAR.md",
     "src/content/grammar/059.eoseo-2.md",
     "src/content/grammar/058.eoseo-1.md",
     "src/content/grammar/054.go-sipeo-hada.md",
@@ -199,7 +225,6 @@
     "src/content/grammar/045.eusi-ton-kinh.md",
     "src/content/grammar/047.euseyo-2.md",
     "src/content/grammar/046.euseyo-1.md",
-    "src/content/grammar/044.phu-dinh-ngan-mot.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
