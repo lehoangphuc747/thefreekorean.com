@@ -22,6 +22,20 @@
             }
           },
           {
+            "id": "7459601bb2a47d53",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/69.eun-jeogi-itda.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "69.eun-jeogi-itda"
+            }
+          },
+          {
             "id": "7f7135425919aa07",
             "type": "leaf",
             "state": {
@@ -36,17 +50,35 @@
             }
           },
           {
-            "id": "0c5d51c0d2250779",
+            "id": "79f5c6e35ba753e4",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/67.eo-boda-1.md",
+                "mode": "source",
+                "source": true
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "67.eo-boda-1"
+            }
+          },
+          {
+            "id": "8fa9664d20db6da4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/grammar/68.eo-boda-2.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "68.eo-boda-2"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -195,9 +227,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "0c5d51c0d2250779",
+  "active": "7459601bb2a47d53",
   "lastOpenFiles": [
     "GRAMMAR.md",
+    "src/content/grammar/69.eun-jeogi-itda.md",
+    "src/content/grammar/68.eo-boda-2.md",
+    "src/content/grammar/67.eo-boda-1.md",
     "src/content/grammar/66.eul-subakke-eopda.md",
     "src/content/grammar/63.eumyeonseo.md",
     "src/content/grammar/64.eul-su-itda-1.md",
@@ -222,9 +257,6 @@
     "src/content/grammar/050.ji-malda-cam-chi.md",
     "src/content/grammar/049.eusibsio.md",
     "src/content/grammar/048.euseyo-3.md",
-    "src/content/grammar/045.eusi-ton-kinh.md",
-    "src/content/grammar/047.euseyo-2.md",
-    "src/content/grammar/046.euseyo-1.md",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터/index.html",
     "dist/topik/luyen-tap/topik2-reading-dang-02/index.html",
     "dist/topik/on-luyen/on-luyen-002/reading-dang-1-고객센터",
