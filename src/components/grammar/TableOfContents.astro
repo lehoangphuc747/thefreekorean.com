@@ -138,6 +138,7 @@ const { headings } = Astro.props;
     const collapsedView = document.getElementById("toc-collapsed-view");
     const toggleBtn = document.getElementById("toc-toggle-btn");
     const expandTrigger = document.getElementById("toc-collapsed-view"); // Clicking anywhere on the strip
+    const tocScrollContainer = document.getElementById("toc-content");
 
     // Links for scrollspy
     const links = document.querySelectorAll("[data-heading-link]");
@@ -205,7 +206,10 @@ const { headings } = Astro.props;
             `[data-heading-link="${id}"]`,
           );
           if (activeLink) {
-            activeLink.classList.remove("text-slate-500", "border-transparent");
+            activeLink.classList.remove(
+              "text-slate-500",
+              "border-transparent",
+            );
             activeLink.classList.add(
               "text-indigo-600",
               "bg-indigo-50",
@@ -213,8 +217,26 @@ const { headings } = Astro.props;
               "border-indigo-500",
             );
 
-            // Auto scroll TOC
-            activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            // Auto scroll TOC only inside its own scroll container
+            if (tocScrollContainer && activeLink instanceof HTMLElement) {
+              const containerRect =
+                tocScrollContainer.getBoundingClientRect();
+              const linkRect = activeLink.getBoundingClientRect();
+
+              const isAbove = linkRect.top < containerRect.top + 16; // small padding
+              const isBelow = linkRect.bottom > containerRect.bottom - 16;
+
+              if (isAbove || isBelow) {
+                const offset =
+                  activeLink.offsetTop -
+                  tocScrollContainer.clientHeight / 2 +
+                  activeLink.offsetHeight / 2;
+                tocScrollContainer.scrollTo({
+                  top: offset,
+                  behavior: "smooth",
+                });
+              }
+            }
           }
         }
       });
