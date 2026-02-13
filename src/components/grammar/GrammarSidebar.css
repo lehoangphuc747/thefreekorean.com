@@ -33,11 +33,3 @@
 .grammar-sidebar {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-/* Ensure sticky positioning works within the layout context */
-.grammar-sidebar {
-  position: sticky;
-  top: 100px;
-  /* Adjust based on navbar height */
-  max-height: calc(100vh - 120px);
-}

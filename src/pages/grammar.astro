@@ -50,7 +50,7 @@ const advCount = sortedGrammar.filter(g => g.data.level === 'advanced').length;
     <div class="flex flex-col lg:flex-row gap-8 relative items-start">
       
       <!-- Left Sidebar (Desktop) -->
-      <aside class="hidden lg:block shrink-0 sticky top-24">
+      <aside class="hidden lg:block shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-hidden">
         <GrammarSidebar />
       </aside>
 

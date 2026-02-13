@@ -46,7 +46,7 @@ const { title, description, showTOC = true } = Astro.props;
       <div class="flex flex-col lg:flex-row gap-8 relative items-start">
         <!-- Sidebar (Left) -->
         <!-- Fixed width on desktop, drawer on mobile handled by component logic -->
-        <aside class="hidden lg:block shrink-0 sticky top-24">
+        <aside class="hidden lg:block shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-hidden">
           <GrammarSidebar />
         </aside>
 

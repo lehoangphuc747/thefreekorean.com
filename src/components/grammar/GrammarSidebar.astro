@@ -126,7 +126,7 @@ const totalCount = sortedGrammar.length;
     </div>
   
     <!-- List Content (Scrollable) -->
-    <div class="sidebar-content flex-1 overflow-y-auto p-3 space-y-4" id="sidebar-content">
+    <div class="sidebar-content flex-1 overflow-y-auto p-3 space-y-4 min-h-0" id="sidebar-content">
       {levelKeys.map((level) => (
         <div class="level-section" data-level-section={level}>
           
@@ -247,8 +247,15 @@ const totalCount = sortedGrammar.length;
           activeLevel = (item as HTMLElement).dataset.level;
           
           // Scroll active item into view
+          // Dùng block: 'nearest' để chỉ cuộn vừa đủ trong container scroll,
+          // tránh kéo cả sidebar xuống làm mất header + ô search trên các trang slug.
           setTimeout(() => {
-            item.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            try {
+              item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            } catch (e) {
+              // Fallback an toàn nếu browser không hỗ trợ options
+              item.scrollIntoView();
+            }
           }, 200);
         } else {
           // Reset styles
@@ -357,9 +364,19 @@ const totalCount = sortedGrammar.length;
     expandTrigger?.addEventListener('click', () => setCollapsed(false));
 
     // Restore preference
-    const savedState = localStorage.getItem('tfk:grammar-sidebar-collapsed');
-    if (savedState === 'true') {
-      setCollapsed(true);
+    // Chỉ áp dụng trạng thái "thu gọn" đã lưu cho trang danh sách /grammar
+    // Các trang bài viết slug sẽ luôn mở đầy đủ để luôn thấy header + ô tìm kiếm
+    const path = window.location.pathname.replace(/\/$/, '');
+    const isGrammarListPage = path === '/grammar';
+
+    if (isGrammarListPage) {
+      const savedState = localStorage.getItem('tfk:grammar-sidebar-collapsed');
+      if (savedState === 'true') {
+        setCollapsed(true);
+      }
+    } else {
+      // Đảm bảo sidebar luôn mở trên các trang khác (ví dụ: /grammar/[level]/[slug])
+      setCollapsed(false);
     }
   });
 </script>
