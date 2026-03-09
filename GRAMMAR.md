@@ -179,7 +179,7 @@ Lộ trình học được xây dựng theo nguyên tắc **từ cơ bản đế
 
 ---
 
-## Giai đoạn 5: Biểu hiện cốt lõi (표현) [64-75]
+## Giai đoạn 5: Biểu hiện cốt lõi (표현) [64-74]
 
 ### A. Khả năng & Bắt buộc [64-66]
 
@@ -195,94 +195,93 @@ Lộ trình học được xây dựng theo nguyên tắc **từ cơ bản đế
 | --- | ------------------ | --------------------- | ---------------------------------- | ---------- |
 | 67  | **V + 아/어 보다¹**    | Thử làm gì            | Trải nghiệm                        | 🔄 Cần tạo |
 | 68  | **V + 아/어 보다²**    | Đã từng (kinh nghiệm) | Dạng quá khứ: đã từng thử          | 🔄 Cần tạo |
-| 69  | **V + (으)ㄴ 적이 있다** | Đã từng (kinh nghiệm) | Nhấn mạnh ký ức/trải nghiệm        | 🔄 Cần tạo |
-| 70  | **V + 아/어 주다**     | Làm giúp cho          | Nhờ vả hoặc làm lợi cho người khác | 🔄 Cần tạo |
-| 71  | **V + 아/어야 되다**    | Phải (bắt buộc)       | Nghĩa vụ cần thực hiện             | 🔄 Cần tạo |
-| 72  | **V + 아/어도 되다**    | Được phép làm gì      | Cho phép hoặc hỏi xin phép         | 🔄 Cần tạo |
+| 69  | **V + (으)ㄴ 적이 있다** | Đã từng (kinh nghiệm) | Nhấn mạnh ký ức/trải nghiệm        | ✅ |
+| 70  | **V + 아/어 주다**     | Làm giúp cho          | Nhờ vả hoặc làm lợi cho người khác | ✅ |
+| 71  | **V + 아/어야 되다**    | Phải (bắt buộc)       | Nghĩa vụ cần thực hiện             | ✅ |
+| 72  | **V + 아/어도 되다**    | Được phép làm gì      | Cho phép hoặc hỏi xin phép         | ✅ |
 
-### C. Trạng thái tiếp diễn [73-75]
+### C. Trạng thái tiếp diễn [73-74]
 
 | STT | Ngữ pháp       | Ý nghĩa                   | Lý do sắp xếp                         | Trạng thái |
 | --- | -------------- | ------------------------- | ------------------------------------- | ---------- |
-| 73  | **V + 고 있다¹**  | Đang (hành động)          | Hành động đang diễn ra                | 🔄 Cần tạo |
-| 74  | **V + 고 있다²**  | Đang (trạng thái mặc)     | Đang mặc áo, đeo kính                 | 🔄 Cần tạo |
-| 75  | **V + 아/어 있다** | Đang (trạng thái tồn tại) | Đang ngồi, đứng (kết quả còn lưu lại) | 🔄 Cần tạo |
+| 73  | **V + 고 있다**   | Đang (hành động / trạng thái kết quả) | Gộp cả 2 cách dùng vào cùng một bài | ✅ |
+| 74  | **V + 아/어 있다** | Đang (trạng thái tồn tại) | Đang ngồi, đứng (kết quả còn lưu lại) | ✅ |
 
 ---
 
-## Giai đoạn 6: Định ngữ & Danh từ hóa (전성어미) [76-82]
+## Giai đoạn 6: Định ngữ & Danh từ hóa (전성어미) [75-81]
 
-### A. Định ngữ [76]
-
-|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
-|---|---|---|---|---|
-|76|**A/V + (으)ㄴ/는/을 + N**|Các dạng định ngữ|Gộp định ngữ quá khứ/hiện tại/tương lai|🔄 Cần tạo|
-
-### B. Danh từ hóa [77]
+### A. Định ngữ [75]
 
 |STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
 |---|---|---|---|---|
-|77|**V + 기 / 는 것**|Danh từ hóa|Biến câu thành cụm danh từ|🔄 Cần tạo|
+|75|**A/V + (으)ㄴ/는/을 + N**|Các dạng định ngữ|Gộp định ngữ quá khứ/hiện tại/tương lai|🔄 Cần tạo|
 
-### C. Thời gian [78-82]
+### B. Danh từ hóa [76]
 
 |STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
 |---|---|---|---|---|
-|78|**V + 기 전에**|Trước khi|Thời gian|🔄 Cần tạo|
-|79|**V + (으)ㄴ 후에**|Sau khi|Thời gian|🔄 Cần tạo|
-|80|**V + (으)ㄹ 때**|Khi|Thời điểm|🔄 Cần tạo|
-|81|**V + 는 동안**|Trong khi|Khoảng thời gian duy trì|🔄 Cần tạo|
-|82|**V + 다가¹**|Đang... thì (chuyển hướng)|Hành động bị ngắt quãng|🔄 Cần tạo|
+|76|**V + 기 / 는 것**|Danh từ hóa|Biến câu thành cụm danh từ|🔄 Cần tạo|
+
+### C. Thời gian [77-81]
+
+|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
+|---|---|---|---|---|
+|77|**V + 기 전에**|Trước khi|Thời gian|🔄 Cần tạo|
+|78|**V + (으)ㄴ 후에**|Sau khi|Thời gian|🔄 Cần tạo|
+|79|**V + (으)ㄹ 때**|Khi|Thời điểm|🔄 Cần tạo|
+|80|**V + 는 동안**|Trong khi|Khoảng thời gian duy trì|🔄 Cần tạo|
+|81|**V + 다가¹**|Đang... thì (chuyển hướng)|Hành động bị ngắt quãng|🔄 Cần tạo|
 
 ---
 
-## Giai đoạn 7: Đuôi câu nâng cao (종결어미 & 표현) [83-103]
+## Giai đoạn 7: Đuôi câu nâng cao (종결어미 & 표현) [82-102]
 
-### A. Ý định & Hứa hẹn [83-89]
-
-|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
-|---|---|---|---|---|
-|83|**V + (으)ㄹ게요**|Tôi sẽ (hứa hẹn)|Chủ ngữ ngôi 1, hứa với người nghe|🔄 Cần tạo|
-|84|**V + (으)ㄹ래¹**|Nhé? (hỏi ý kiến)|Hỏi người nghe muốn làm gì (thân mật)|🔄 Cần tạo|
-|85|**V + (으)ㄹ래²**|Sẽ (ý chí)|Ý định của bản thân (thân mật)|🔄 Cần tạo|
-|86|**V + (으)ㄹ까¹**|Nhỉ? / Nhé?|Rủ rê hoặc tự hỏi|🔄 Cần tạo|
-|87|**V + (으)ㄹ까²**|Có lẽ? (phỏng đoán)|Dự đoán mơ hồ|🔄 Cần tạo|
-|88|**A/V + (으)ㄹ까 보다¹**|Định/Hay là...|Dự định chưa chắc chắn|🔄 Cần tạo|
-|89|**A/V + (으)ㄹ까 보다²**|E là/Sợ rằng|Lo lắng về việc có thể xảy ra|🔄 Cần tạo|
-
-### B. Phỏng đoán [90-92]
+### A. Ý định & Hứa hẹn [82-88]
 
 |STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
 |---|---|---|---|---|
-|90|**A/V + 겠-¹**|Sẽ (ý chí/khách sáo)|Công việc hoặc quyết tâm|🔄 Cần tạo|
-|91|**A/V + 겠-²**|Chắc là (phỏng đoán)|Nhìn tình huống và đoán|🔄 Cần tạo|
-|92|**A/V + (으)ㄹ 것 같다**|Hình như/Có lẽ|Phỏng đoán mềm mỏng, phổ biến nhất|🔄 Cần tạo|
+|82|**V + (으)ㄹ게요**|Tôi sẽ (hứa hẹn)|Chủ ngữ ngôi 1, hứa với người nghe|🔄 Cần tạo|
+|83|**V + (으)ㄹ래¹**|Nhé? (hỏi ý kiến)|Hỏi người nghe muốn làm gì (thân mật)|🔄 Cần tạo|
+|84|**V + (으)ㄹ래²**|Sẽ (ý chí)|Ý định của bản thân (thân mật)|🔄 Cần tạo|
+|85|**V + (으)ㄹ까¹**|Nhỉ? / Nhé?|Rủ rê hoặc tự hỏi|🔄 Cần tạo|
+|86|**V + (으)ㄹ까²**|Có lẽ? (phỏng đoán)|Dự đoán mơ hồ|🔄 Cần tạo|
+|87|**A/V + (으)ㄹ까 보다¹**|Định/Hay là...|Dự định chưa chắc chắn|🔄 Cần tạo|
+|88|**A/V + (으)ㄹ까 보다²**|E là/Sợ rằng|Lo lắng về việc có thể xảy ra|🔄 Cần tạo|
 
-### C. Quyết định & Thay đổi [93-96]
-
-|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
-|---|---|---|---|---|
-|93|**V + 기로 하다**|Quyết định làm gì|Chốt lại kế hoạch|🔄 Cần tạo|
-|94|**A/V + 게 되다**|Bị/Được/Trở nên|Kết quả khách quan|🔄 Cần tạo|
-|95|**A/V + 게¹** (Trạng từ)|Một cách...|Biến tính từ thành trạng từ|🔄 Cần tạo|
-|96|**A/V + 게²** (Mục đích)|Để/Khiến cho|Mục đích hoặc sai khiến|🔄 Cần tạo|
-
-### D. Bối cảnh & Cảm thán [97-100]
+### B. Phỏng đoán [89-91]
 
 |STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
 |---|---|---|---|---|
-|97|**A/V + 는데¹** (Bối cảnh)|...mà...|Dẫn nhập câu chuyện|🔄 Cần tạo|
-|98|**A/V + 는데²** (Tương phản)|Nhưng|Tương phản nhẹ hơn "지만"|🔄 Cần tạo|
-|99|**A/V + 는데³** (Cuối câu)|...đấy|Bỏ lửng câu chờ phản hồi|🔄 Cần tạo|
-|100|**A/V + 네 / 는군**|Cảm thán|Biểu lộ cảm xúc ngạc nhiên|🔄 Cần tạo|
+|89|**A/V + 겠-¹**|Sẽ (ý chí/khách sáo)|Công việc hoặc quyết tâm|🔄 Cần tạo|
+|90|**A/V + 겠-²**|Chắc là (phỏng đoán)|Nhìn tình huống và đoán|🔄 Cần tạo|
+|91|**A/V + (으)ㄹ 것 같다**|Hình như/Có lẽ|Phỏng đoán mềm mỏng, phổ biến nhất|🔄 Cần tạo|
 
-### E. Xác nhận & Khuyên bảo [101-103]
+### C. Quyết định & Thay đổi [92-95]
 
 |STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
 |---|---|---|---|---|
-|101|**A/V + 지¹**|...chứ/đúng không|Xác nhận thông tin|🔄 Cần tạo|
-|102|**V + 지²**|...đi (mệnh lệnh nhẹ)|Khuyên bảo nhẹ nhàng|🔄 Cần tạo|
-|103|**A/V + 아/어** (1,2,3,4)|Cách nói trống không (Banmal)|Tổng hợp đuôi câu thân mật|🔄 Cần tạo|
+|92|**V + 기로 하다**|Quyết định làm gì|Chốt lại kế hoạch|🔄 Cần tạo|
+|93|**A/V + 게 되다**|Bị/Được/Trở nên|Kết quả khách quan|🔄 Cần tạo|
+|94|**A/V + 게¹** (Trạng từ)|Một cách...|Biến tính từ thành trạng từ|🔄 Cần tạo|
+|95|**A/V + 게²** (Mục đích)|Để/Khiến cho|Mục đích hoặc sai khiến|🔄 Cần tạo|
+
+### D. Bối cảnh & Cảm thán [96-99]
+
+|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
+|---|---|---|---|---|
+|96|**A/V + 는데¹** (Bối cảnh)|...mà...|Dẫn nhập câu chuyện|🔄 Cần tạo|
+|97|**A/V + 는데²** (Tương phản)|Nhưng|Tương phản nhẹ hơn "지만"|🔄 Cần tạo|
+|98|**A/V + 는데³** (Cuối câu)|...đấy|Bỏ lửng câu chờ phản hồi|🔄 Cần tạo|
+|99|**A/V + 네 / 는군**|Cảm thán|Biểu lộ cảm xúc ngạc nhiên|🔄 Cần tạo|
+
+### E. Xác nhận & Khuyên bảo [100-102]
+
+|STT|Ngữ pháp|Ý nghĩa|Lý do sắp xếp|Trạng thái|
+|---|---|---|---|---|
+|100|**A/V + 지¹**|...chứ/đúng không|Xác nhận thông tin|🔄 Cần tạo|
+|101|**V + 지²**|...đi (mệnh lệnh nhẹ)|Khuyên bảo nhẹ nhàng|🔄 Cần tạo|
+|102|**A/V + 아/어** (1,2,3,4)|Cách nói trống không (Banmal)|Tổng hợp đuôi câu thân mật|🔄 Cần tạo|
 
 ---
 
@@ -290,10 +289,10 @@ Lộ trình học được xây dựng theo nguyên tắc **từ cơ bản đế
 
 ### Tổng quan
 
-- **Tổng số ngữ pháp**: 107 (đã bổ sung 5 ngữ pháp sơ cấp thiếu)
-- **Đã hoàn thành**: 65 ✅
-- **Cần tạo**: 42 🔄
-- **Tiến độ**: 61.3%
+- **Tổng số ngữ pháp**: 106 (đã bổ sung 5 ngữ pháp sơ cấp thiếu)
+- **Đã hoàn thành**: 71 ✅
+- **Cần tạo**: 35 🔄
+- **Tiến độ**: 67.0%
 
 ### Theo giai đoạn
 
@@ -303,9 +302,9 @@ Lộ trình học được xây dựng theo nguyên tắc **từ cơ bản đế
 |**2. Tiểu từ bổ trợ** (28-37)|10|10|0|100% ✅|
 |**3. Đuôi câu & Thì** (38-50b)|17|13|4|76.5%|
 |**4. Từ nối** (51-63)|13|13|0|100% ✅|
-|**5. Biểu hiện cốt lõi** (64-75)|12|2|10|16.7%|
-|**6. Định ngữ & Danh từ hóa** (76-82)|7|0|7|0%|
-|**7. Đuôi câu nâng cao** (83-103)|21|0|21|0%|
+|**5. Biểu hiện cốt lõi** (64-74)|11|8|3|72.7%|
+|**6. Định ngữ & Danh từ hóa** (75-81)|7|0|7|0%|
+|**7. Đuôi câu nâng cao** (82-102)|21|0|21|0%|
 
 ### ⚠️ CẦN TẠO NGAY (Ưu tiên cao nhất)
 

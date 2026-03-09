@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import GrammarLayout from '../layouts/GrammarLayout.astro';
 import GrammarCard from '../components/grammar/GrammarCard.astro';
-import GrammarSidebar from '../components/grammar/GrammarSidebar.astro';
 import '../styles/global.css';
 
 /**
@@ -43,31 +42,10 @@ const advCount = sortedGrammar.filter(g => g.data.level === 'advanced').length;
 
 <GrammarLayout title="Thư viện Ngữ pháp - The Free Korean">
   
-  <!-- Mobile Overlay (Managed by Page Script) -->
-  <div id="mobile-panel-overlay" class="fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
-
   <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex flex-col lg:flex-row gap-8 relative items-start">
-      
-      <!-- Left Sidebar (Desktop) -->
-      <aside class="hidden lg:block shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-hidden">
-        <GrammarSidebar />
-      </aside>
-
       <!-- Main Content Area -->
       <main class="flex-1 min-w-0">
-        
-        <!-- Mobile Header & Toggle -->
-        <div class="lg:hidden mb-6 flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-           <div>
-             <h1 class="font-bold text-slate-800 text-lg">Ngữ pháp</h1>
-             <p class="text-xs text-slate-500">{totalCount} công thức</p>
-           </div>
-           <button id="mobile-sidebar-trigger" class="px-4 py-2 bg-indigo-50 text-indigo-700 font-medium rounded-lg text-sm hover:bg-indigo-100 transition-colors">
-             Mục lục
-           </button>
-        </div>
-
         <!-- Hero / Filter Section -->
         <div class="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-3xl p-6 sm:p-10 text-white mb-8 shadow-lg relative overflow-hidden">
           <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -177,12 +155,6 @@ const advCount = sortedGrammar.filter(g => g.data.level === 'advanced').length;
       </main>
     </div>
   </div>
-
-  <!-- Mobile Sidebar Container (For list page too) -->
-  <div class="lg:hidden">
-    <GrammarSidebar />
-  </div>
-
 </GrammarLayout>
 
 <style>
@@ -344,46 +316,6 @@ const advCount = sortedGrammar.filter(g => g.data.level === 'advanced').length;
           grid?.classList.remove('list-view');
         }
       });
-    });
-
-    // --- 3. Mobile Sidebar Overlay Integration ---
-    // Re-implementing the overlay logic specifically for this page structure
-    const mobileOverlay = document.getElementById('mobile-panel-overlay');
-    const mobileTrigger = document.getElementById('mobile-sidebar-trigger');
-    const sidebarElement = document.getElementById('grammar-sidebar');
-
-    const toggleSidebar = (show: boolean) => {
-      if (!sidebarElement) return;
-      
-      if (show) {
-        sidebarElement.classList.add('open');
-        mobileOverlay?.classList.remove('opacity-0', 'pointer-events-none');
-        mobileOverlay?.classList.add('opacity-100', 'pointer-events-auto');
-        document.body.style.overflow = 'hidden';
-      } else {
-        sidebarElement.classList.remove('open');
-        mobileOverlay?.classList.add('opacity-0', 'pointer-events-none');
-        mobileOverlay?.classList.remove('opacity-100', 'pointer-events-auto');
-        document.body.style.overflow = '';
-      }
-    };
-
-    mobileTrigger?.addEventListener('click', () => toggleSidebar(true));
-    mobileOverlay?.addEventListener('click', () => toggleSidebar(false));
-
-    // Listen to sidebar's internal close events (from GrammarSidebar.astro script)
-    window.addEventListener('tfk:panel-state-change', () => {
-        // Just sync overlay state with sidebar class
-        const isOpen = sidebarElement?.classList.contains('open');
-        if (isOpen) {
-            mobileOverlay?.classList.remove('opacity-0', 'pointer-events-none');
-            mobileOverlay?.classList.add('opacity-100', 'pointer-events-auto');
-            document.body.style.overflow = 'hidden';
-        } else {
-            mobileOverlay?.classList.add('opacity-0', 'pointer-events-none');
-            mobileOverlay?.classList.remove('opacity-100', 'pointer-events-auto');
-            document.body.style.overflow = '';
-        }
     });
 
   });

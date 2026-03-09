@@ -1,0 +1,10 @@
+{
+  "default_topik": "TOPIK II",
+  "default_format_type": "ĐỌC",
+  "default_question_type": "DẠNG 01",
+  "default_question_form": "( )에 들어갈 가장 알맞은 것을 고르십시오.",
+  "default_question_instruction": "<h3>🚀 Mẹo giải nhanh Dạng 1 (Ngữ pháp điền khuyết)</h3><br/><p><strong>⏱️ Tối ưu thời gian:</strong> Mục tiêu giải nhanh &lt; 30 giây/câu.</p><br/><p><strong>🎯 Trọng tâm:</strong> Xác định chính xác mối quan hệ ngữ pháp (Điều kiện, nguyên nhân, lựa chọn...) giữa hai vế câu.</p><br/><p><strong>💡 Các bước làm nhanh:</strong></p><br/><ol><br/>  <li><strong>Phân tích:</strong> Chỉ cần đọc và xem từ loại (động từ/tính từ) ngay trước khoảng trống và hành động/kết quả ở vế sau.</li><br/>  <li><strong>Loại trừ (Tense/Rule):</strong> Bỏ ngay các cấu trúc sai về thì (quá khứ/hiện tại) hoặc sai về nguyên tắc chia (dùng cho A/V).</li><br/>  <li><strong>Kiểm tra:</strong> Dịch nhẩm nhanh để đảm bảo cấu trúc đã chọn mang lại ý nghĩa logic cho cả câu.</li><br/></ol>",
+  "default_test": "",
+  "id_prefix": "topik-reading-dang-01-id",
+  "skip_errors": true
+}

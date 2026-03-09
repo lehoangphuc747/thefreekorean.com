@@ -1,0 +1,46 @@
+{
+  "name": "Anki Standardizer",
+  "id": "anki-standardizer",
+  "version": "1.0.0",
+  "description": "Tự động chuyển đổi bất kỳ file JSON nào thành format chuẩn Anki flashcard",
+  "type": "skill",
+  "main": "main.py",
+  "config": "config.json",
+  "readme": "README.md",
+  "inputs": {
+    "input_file": {
+      "type": "file",
+      "description": "JSON file cần chuyển đổi"
+    },
+    "output_file": {
+      "type": "file",
+      "description": "Tên file output sau khi chuẩn hóa"
+    },
+    "config": {
+      "type": "file",
+      "optional": true,
+      "description": "File config tùy chỉnh (tùy chọn)"
+    }
+  },
+  "outputs": {
+    "standardized_json": {
+      "type": "file",
+      "description": "JSON file đã chuẩn hóa"
+    },
+    "stats": {
+      "type": "object",
+      "description": "Thống kê về quá trình chuyển đổi"
+    }
+  },
+  "features": [
+    "Flexible input detection (nested objects, arrays, any structure)",
+    "18-field Anki flashcard standardization",
+    "HTML formatting with color-coded answers",
+    "Validation and error handling",
+    "Configuration-driven customization",
+    "Batch processing"
+  ],
+  "tags": ["anki", "flashcard", "json", "standardization", "import"],
+  "keywords": ["json", "anki", "standardize", "format", "convert"],
+  "author": "AI Agent"
+}

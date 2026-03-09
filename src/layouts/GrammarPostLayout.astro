@@ -1,6 +1,5 @@
 ---
 import Layout from "./Layout.astro";
-import GrammarSidebar from "../components/grammar/GrammarSidebar.astro";
 import PrintStyles from "../components/common/PrintStyles.astro";
 import "../styles/global.css";
 
@@ -34,123 +33,18 @@ const { title, description, showTOC = true } = Astro.props;
 
   <!-- Main Container -->
   <div class="bg-slate-50 min-h-screen">
-    <!-- Mobile Overlay (Fixed) -->
-    <div
-      id="mobile-panel-overlay"
-      class="fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300"
-      aria-hidden="true"
-    >
-    </div>
-
     <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-col lg:flex-row gap-8 relative items-start">
-        <!-- Sidebar (Left) -->
-        <!-- Fixed width on desktop, drawer on mobile handled by component logic -->
-        <aside class="hidden lg:block shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-hidden">
-          <GrammarSidebar />
-        </aside>
-
-        <!-- Main Content (Center) -->
+        <!-- Main Content (Center) - không còn sidebar & TOC -->
         <main
           class="flex-1 min-w-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10 lg:p-12 relative"
         >
-          <!-- Mobile Sidebar Toggle Trigger (Visible only on mobile/tablet) -->
-          <div
-            class="lg:hidden mb-6 flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-100"
-          >
-            <span class="text-sm font-medium text-slate-500"
-              >Danh sách ngữ pháp</span
-            >
-            <button
-              id="mobile-sidebar-trigger"
-              class="text-indigo-600 font-bold text-sm hover:underline"
-            >
-              Mở danh sách
-            </button>
+          <div class="w-full lg:max-w-5xl xl:max-w-6xl mx-auto">
+            <slot />
           </div>
-
-          <slot />
         </main>
 
-        <!-- TOC (Right) -->
-        {
-          showTOC && (
-            <aside
-              id="right-sidebar"
-              class="hidden xl:block w-64 shrink-0 sticky top-24 transition-all duration-300 ease-in-out"
-            >
-              <slot name="toc" />
-            </aside>
-          )
-        }
       </div>
     </div>
   </div>
-
-  <!-- Mobile Sidebar Container (Injected into via Sidebar component logic, but we need a placeholder or ensure Sidebar handles itself) -->
-  <!-- Note: GrammarSidebar component handles its own fixed positioning on mobile via CSS classes '.open' -->
-  <div class="lg:hidden">
-    <GrammarSidebar />
-  </div>
 </Layout>
-
-<script>
-  /**
-   * Layout specific logic for mobile interactions
-   */
-
-  // Mobile Overlay Logic
-  const overlay = document.getElementById("mobile-panel-overlay");
-  const sidebar = document.getElementById("grammar-sidebar"); // GrammarSidebar component ID
-  const mobileTrigger = document.getElementById("mobile-sidebar-trigger");
-
-  function updateOverlay() {
-    if (sidebar && sidebar.classList.contains("open")) {
-      overlay?.classList.add("opacity-100", "pointer-events-auto");
-      overlay?.classList.remove("opacity-0", "pointer-events-none");
-      document.body.style.overflow = "hidden";
-    } else {
-      overlay?.classList.remove("opacity-100", "pointer-events-auto");
-      overlay?.classList.add("opacity-0", "pointer-events-none");
-      document.body.style.overflow = "";
-    }
-  }
-
-  // Listen for sidebar state changes
-  window.addEventListener("tfk:panel-state-change", updateOverlay);
-
-  // Mobile trigger click
-  mobileTrigger?.addEventListener("click", () => {
-    sidebar?.classList.add("open");
-    window.dispatchEvent(new CustomEvent("tfk:panel-state-change"));
-  });
-
-  // Overlay click to close
-  overlay?.addEventListener("click", () => {
-    sidebar?.classList.remove("open");
-    window.dispatchEvent(new CustomEvent("tfk:panel-state-change"));
-  });
-</script>
-
-<style>
-  /* Custom utility for keeping sidebar on top on mobile */
-  @media (max-width: 1024px) {
-    :global(.grammar-sidebar) {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      max-height: 100vh;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      z-index: 50; /* Above overlay (z-20) */
-      width: 85%;
-      max-width: 320px;
-      border-radius: 0;
-      border: none;
-    }
-    :global(.grammar-sidebar.open) {
-      transform: translateX(0);
-    }
-  }
-</style>
