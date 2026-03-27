@@ -48,8 +48,8 @@
   <line x1="80" y1="290" x2="220" y2="290" stroke="white" stroke-width="2" opacity="0.4"/>
   
   <!-- Stats -->
-  <text x="150" y="320" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.9">14 Bài học</text>
-  <text x="150" y="340" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.9">1,486 Thẻ từ vựng</text>
+  <text x="150" y="320" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.9">1 Bài học</text>
+  <text x="150" y="340" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.9">1,584 Thẻ từ vựng</text>
   
   <!-- Bottom accent -->
   <rect x="100" y="360" width="100" height="3" fill="white" opacity="0.5" rx="1.5"/>

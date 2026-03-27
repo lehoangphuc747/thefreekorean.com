@@ -4,28 +4,21 @@ const books = [
   {
     id: "tieng-han-tong-hop-1",
     title: "Tiếng Hàn Tổng Hợp Sơ cấp 1",
-    description: "Giáo trình tiếng Hàn cơ bản với 15 bài học",
+    description: "Bộ deck Anki Từ vựng Tiếng Hàn Tổng Hợp 1 (gộp 15 bài)",
     image: "/images/tieng-han-tong-hop-1.jpg",
-    totalLessons: 15,
-    totalCards: 1200,
+    totalLessons: 1,
+    totalCards: 1584,
     level: "Sơ cấp",
     language: "Tiếng Hàn",
+    downloadUrl: "https://docs.google.com/uc?export=download&id=16fk2bJDNdbW6Cw8KKwvrJhQCZnXdcFMA",
     lessons: [
-      { number: 1, title: "Bài 1", cards: 55, available: true },
-      { number: 2, title: "Bài 2", cards: 124, available: true },
-      { number: 3, title: "Bài 3", cards: 130, available: true },
-      { number: 4, title: "Bài 4", cards: 85, available: true },
-      { number: 5, title: "Bài 5", cards: 90, available: true },
-      { number: 6, title: "Bài 6", cards: 78, available: true },
-      { number: 7, title: "Bài 7", cards: 95, available: true },
-      { number: 8, title: "Bài 8", cards: 68, available: true },
-      { number: 9, title: "Bài 9", cards: 110, available: true },
-      { number: 10, title: "Bài 10", cards: 140, available: true },
-      { number: 11, title: "Bài 11", cards: 88, available: true },
-      { number: 12, title: "Bài 12", cards: 120, available: true },
-      { number: 13, title: "Bài 13", cards: 140, available: true },
-      { number: 14, title: "Bài 14", cards: 163, available: true },
-      { number: 15, title: "Bài 15", cards: 150, available: false }
+      {
+        number: 1,
+        title: "Từ vựng Tiếng Hàn Tổng Hợp 1",
+        cards: 1584,
+        available: true,
+        downloadUrl: "https://docs.google.com/uc?export=download&id=16fk2bJDNdbW6Cw8KKwvrJhQCZnXdcFMA"
+      }
     ]
   },
   {
@@ -291,8 +284,9 @@ const books = [
                     </div>
                     {lesson.available ? (
                       <a 
-                        href={`/tai-lieu/anki/books/${book.id}/bai-${lesson.number}`}
+                        href={lesson.downloadUrl ? lesson.downloadUrl : `/tai-lieu/anki/books/${book.id}/bai-${lesson.number}`}
                         class="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors"
+                        rel="noopener noreferrer"
                       >
                         Tải xuống
                       </a>
