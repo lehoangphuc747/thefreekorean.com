@@ -1,114 +1,22 @@
 ---
 export const prerender = true;
 import TopikLayout from '../../../layouts/TopikLayout.astro';
-import { readdirSync, readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { getCollection, render } from 'astro:content';
 import { marked } from 'marked';
 
 export async function getStaticPaths() {
-  // Đọc tất cả file markdown trong thư mục topik/kien-thuc
-  const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'kien-thuc');
-  let paths: any[] = [];
-  
-  try {
-    const files = readdirSync(contentDir).filter((file: string) => 
-      file.endsWith('.md') || file.endsWith('.mdx')
-    );
-    
-    paths = files.map((file: string) => {
-      const slug = file.replace(/\.(md|mdx)$/, '');
-      return {
-        params: { slug }
-      };
-    });
-  } catch (error) {
-    console.error('Error reading kien-thuc directory:', error);
-  }
-  
-  return paths;
+  const articles = await getCollection('kien-thuc');
+  return articles.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 }
 
-interface Props {
-  slug: string;
-}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
 
-const { slug } = Astro.params;
-
-// Hàm parse frontmatter thủ công
-const parseFrontmatter = (content: string) => {
-  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
-  const match = content.match(frontmatterRegex);
-  
-  if (!match) {
-    return { data: {}, content };
-  }
-  
-  const frontmatterText = match[1];
-  const body = match[2];
-  const data: any = {};
-  
-  // Parse YAML đơn giản
-  frontmatterText.split('\n').forEach((line: string) => {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex > 0) {
-      const key = line.substring(0, colonIndex).trim();
-      let value = line.substring(colonIndex + 1).trim();
-      
-      // Xử lý giá trị có dấu ngoặc kép
-      if (value.startsWith('"') && value.endsWith('"')) {
-        value = value.slice(1, -1);
-      } else if (value.startsWith("'") && value.endsWith("'")) {
-        value = value.slice(1, -1);
-      }
-      
-      // Xử lý mảng
-      if (value.startsWith('[') && value.endsWith(']')) {
-        const arrayContent = value.slice(1, -1);
-        data[key] = arrayContent.split(',').map((item: string) => item.trim().replace(/^["']|["']$/g, ''));
-      } else {
-        data[key] = value;
-      }
-    }
-  });
-  
-  return { data, content: body };
-};
-
-// Đọc file markdown
-const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'kien-thuc');
-let frontmatter: any = {};
-let content = '';
-let notFound = false;
-
-// Thử đọc file .md trước, nếu không có thì thử .mdx
-const mdPath = join(contentDir, `${slug}.md`);
-const mdxPath = join(contentDir, `${slug}.mdx`);
-
-let filePath = '';
-if (existsSync(mdPath)) {
-  filePath = mdPath;
-} else if (existsSync(mdxPath)) {
-  filePath = mdxPath;
-} else {
-  notFound = true;
-}
-
-if (!notFound) {
-  try {
-    const fileContent = readFileSync(filePath, 'utf-8');
-    const parsed = parseFrontmatter(fileContent);
-    frontmatter = parsed.data;
-    // Convert markdown to HTML
-    content = marked.parse(parsed.content) as string;
-  } catch (error) {
-    console.error(`Error reading ${filePath}:`, error);
-    notFound = true;
-  }
-}
-
-if (notFound) {
-  Astro.redirect('/topik/kien-thuc');
-}
+const frontmatter = entry.data;
+const htmlContent = entry.body ? marked.parse(entry.body) : '';
 ---
 
 <TopikLayout 
@@ -174,8 +82,8 @@ if (notFound) {
 
       <!-- Article content -->
       <div class="prose prose-lg max-w-none">
-        {content && (
-          <div set:html={content} />
+        {htmlContent && (
+          <div set:html={htmlContent} />
         )}
       </div>
     </article>
@@ -189,7 +97,7 @@ if (notFound) {
     line-height: 1.75;
   }
   
-  /* Headings - Tăng specificity để override Tailwind */
+  /* Headings */
   .prose h1,
   div.prose h1 {
     font-size: 2.25rem !important;
@@ -478,4 +386,3 @@ if (notFound) {
     margin-bottom: 0;
   }
 </style>
-

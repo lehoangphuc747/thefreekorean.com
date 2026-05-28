@@ -1,97 +1,28 @@
 ---
 export const prerender = true;
 import TopikLayout from '../../../layouts/TopikLayout.astro';
-import { readdirSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { getCollection } from 'astro:content';
 
-// Hàm parse frontmatter thủ công
-const parseFrontmatter = (content: string) => {
-  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
-  const match = content.match(frontmatterRegex);
-  
-  if (!match) {
-    return { data: {}, content };
-  }
-  
-  const frontmatterText = match[1];
-  const body = match[2];
-  const data: any = {};
-  
-  // Parse YAML đơn giản
-  frontmatterText.split('\n').forEach((line: string) => {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex > 0) {
-      const key = line.substring(0, colonIndex).trim();
-      let value = line.substring(colonIndex + 1).trim();
-      
-      // Xử lý giá trị có dấu ngoặc kép
-      if (value.startsWith('"') && value.endsWith('"')) {
-        value = value.slice(1, -1);
-      } else if (value.startsWith("'") && value.endsWith("'")) {
-        value = value.slice(1, -1);
-      }
-      
-      // Xử lý mảng
-      if (value.startsWith('[') && value.endsWith(']')) {
-        const arrayContent = value.slice(1, -1);
-        data[key] = arrayContent.split(',').map((item: string) => item.trim().replace(/^["']|["']$/g, ''));
-      } else {
-        data[key] = value;
-      }
+const articles = (await getCollection('kien-thuc'))
+  .map(entry => ({
+    slug: entry.id,
+    title: entry.data.title,
+    description: entry.data.description || '',
+    category: entry.data.category || 'Khác',
+    level: entry.data.level || '',
+    tags: entry.data.tags || [],
+    date: entry.data.date || null,
+  }))
+  .sort((a, b) => {
+    if (a.date && b.date) {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
     }
+    return a.title.localeCompare(b.title);
   });
-  
-  return { data, content: body };
-};
-
-// Đọc tất cả file markdown trong thư mục topik/kien-thuc
-const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'kien-thuc');
-let articles: any[] = [];
-
-try {
-  const files = readdirSync(contentDir).filter((file: string) => 
-    file.endsWith('.md') || file.endsWith('.mdx')
-  );
-
-  // Đọc và parse từng file để lấy frontmatter
-  articles = files
-    .map((file: string) => {
-      try {
-        const filePath = join(contentDir, file);
-        const content = readFileSync(filePath, 'utf-8');
-        const { data } = parseFrontmatter(content);
-        const slug = file.replace(/\.(md|mdx)$/, '');
-        
-        return {
-          slug,
-          title: data.title || slug,
-          description: data.description || '',
-          category: data.category || 'Khác',
-          level: data.level || '',
-          tags: Array.isArray(data.tags) ? data.tags : (data.tags ? [data.tags] : []),
-          date: data.date || null
-        };
-      } catch (error) {
-        console.error(`Error reading ${file}:`, error);
-        return null;
-      }
-    })
-    .filter(Boolean)
-    .sort((a: any, b: any) => {
-      // Sắp xếp theo date nếu có, nếu không thì theo title
-      if (a.date && b.date) {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      }
-      return a.title.localeCompare(b.title);
-    });
-} catch (error) {
-  console.error('Error reading kien-thuc directory:', error);
-  articles = [];
-}
 
 // Nhóm theo category
 const groupedArticles: Record<string, typeof articles> = {};
-articles.forEach((article: any) => {
+articles.forEach(article => {
   const key = article.category;
   if (!groupedArticles[key]) {
     groupedArticles[key] = [];
@@ -99,7 +30,6 @@ articles.forEach((article: any) => {
   groupedArticles[key].push(article);
 });
 
-// Sắp xếp các nhóm
 const sortedCategories = Object.keys(groupedArticles).sort();
 ---
 
@@ -163,7 +93,7 @@ const sortedCategories = Object.keys(groupedArticles).sort();
               class="space-y-3 collapse-content mt-6"
               data-collapse-target={`category-${category.replace(/\s+/g, '-').toLowerCase()}`}
             >
-              {groupedArticles[category].map((article: any) => (
+              {groupedArticles[category].map((article) => (
                 <li>
                   <a 
                     href={`/topik/kien-thuc/${article.slug}`}
@@ -185,7 +115,7 @@ const sortedCategories = Object.keys(groupedArticles).sort();
                               {article.level}
                             </span>
                           )}
-                          {article.tags && article.tags.length > 0 && (
+                          {article.tags.length > 0 && (
                             <div class="flex gap-2 flex-wrap">
                               {article.tags.slice(0, 3).map((tag: string) => (
                                 <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
@@ -232,14 +162,12 @@ const sortedCategories = Object.keys(groupedArticles).sort();
         const isExpanded = target.classList.contains('expanded');
         
         if (isExpanded) {
-          // Collapse
           target.classList.remove('expanded');
           target.classList.add('collapsed');
           if (icon) {
             icon.style.transform = 'rotate(0deg)';
           }
         } else {
-          // Expand
           target.classList.remove('collapsed');
           target.classList.add('expanded');
           if (icon) {
@@ -281,4 +209,3 @@ const sortedCategories = Object.keys(groupedArticles).sort();
     opacity: 0.8;
   }
 </style>
-

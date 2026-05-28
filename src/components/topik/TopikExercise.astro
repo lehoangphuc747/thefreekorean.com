@@ -52,13 +52,12 @@
  * - Listening: Đang phát triển
  * - Writing: Đang phát triển
  */
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import ReadingQuestion from './ReadingQuestion.astro';
 import SettingsPanel from './SettingsPanel.astro';
 import ProgressBar from './ProgressBar.astro';
 import ExamFilter from './ExamFilter.astro';
 import TopikPrintStyles from './TopikPrintStyles.astro';
+import { getCollection } from 'astro:content';
 
 export interface Props {
   slug: string;
@@ -66,29 +65,34 @@ export interface Props {
 
 const { slug } = Astro.props;
 
-// Bước 1: Đọc và kiểm tra JSON
-const jsonPath = join(process.cwd(), 'src', 'content', 'topik', 'dang-de', `${slug}.json`);
+// Bước 1: Đọc dữ liệu từ Content Collections
 let exerciseData: any = null;
 let isValid = false;
 let errorMessage = '';
 
 try {
-  const fileContent = readFileSync(jsonPath, 'utf-8');
-  exerciseData = JSON.parse(fileContent);
+  const exercises = await getCollection('dang-de');
+  const entry = exercises.find(e => e.id === slug);
   
-  // Kiểm tra cấu trúc JSON
-  if (!exerciseData.meta) {
-    errorMessage = 'Thiếu meta trong JSON';
-  } else if (!exerciseData.questions) {
-    errorMessage = 'Thiếu questions trong JSON';
-  } else if (!Array.isArray(exerciseData.questions)) {
-    errorMessage = 'questions phải là mảng';
+  if (entry) {
+    exerciseData = entry.data;
+    
+    // Kiểm tra cấu trúc JSON
+    if (!exerciseData.meta) {
+      errorMessage = 'Thiếu meta trong JSON';
+    } else if (!exerciseData.questions) {
+      errorMessage = 'Thiếu questions trong JSON';
+    } else if (!Array.isArray(exerciseData.questions)) {
+      errorMessage = 'questions phải là mảng';
+    } else {
+      isValid = true;
+    }
   } else {
-    isValid = true;
+    errorMessage = `Không tìm thấy bài tập: ${slug}`;
   }
 } catch (error: any) {
-  console.error('Error reading exercise file:', error);
-  errorMessage = error.message || 'Không thể đọc file JSON';
+  console.error('Error reading exercise:', error);
+  errorMessage = error.message || 'Không thể đọc dữ liệu bài tập';
 }
 
 const meta = isValid ? exerciseData.meta : null;

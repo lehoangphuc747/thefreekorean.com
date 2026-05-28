@@ -1,42 +1,20 @@
 ---
 export const prerender = true;
 import TopikLayout from '../../../layouts/TopikLayout.astro';
-import { readdirSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { getCollection } from 'astro:content';
 
-// Đọc tất cả file JSON trong thư mục dang-de
-const contentDir = join(process.cwd(), 'src', 'content', 'topik', 'dang-de');
-const files = readdirSync(contentDir).filter((file: string) => file.endsWith('.json'));
-
-// Đọc và parse từng file để lấy meta
-const exercises = files
-  .map((file: string) => {
-    try {
-      const filePath = join(contentDir, file);
-      const content = readFileSync(filePath, 'utf-8');
-      const data = JSON.parse(content);
-      const slug = file.replace('.json', '');
-      
-      if (data.meta) {
-        return {
-          slug,
-          title: data.meta.title,
-          range: data.meta.range,
-          level: data.meta.level,
-          type: data.meta.type
-        };
-      }
-      return null;
-    } catch (error) {
-      console.error(`Error reading ${file}:`, error);
-      return null;
-    }
-  })
-  .filter(Boolean);
+const exercises = (await getCollection('dang-de'))
+  .map(entry => ({
+    slug: entry.id,
+    title: entry.data.meta.title,
+    range: entry.data.meta.range,
+    level: entry.data.meta.level,
+    type: entry.data.meta.type,
+  }));
 
 // Nhóm theo type và level
 const groupedExercises: Record<string, typeof exercises> = {};
-exercises.forEach((exercise: any) => {
+exercises.forEach(exercise => {
   const key = `${exercise.type} (${exercise.level})`;
   if (!groupedExercises[key]) {
     groupedExercises[key] = [];
@@ -47,12 +25,10 @@ exercises.forEach((exercise: any) => {
 // Sắp xếp các nhóm và các exercise trong nhóm
 const sortedGroups = Object.keys(groupedExercises).sort();
 sortedGroups.forEach(key => {
-  groupedExercises[key].sort((a: any, b: any) => {
-    // Lấy số từ slug để sắp xếp (ví dụ: topik2-reading-dang-01 -> 1)
+  groupedExercises[key].sort((a, b) => {
     const getNumber = (slug: string) => {
       const match = slug.match(/dang-(\d+)/);
       if (match) return parseInt(match[1]);
-      // Xử lý trường hợp dang-03-a, dang-03-b
       const matchAlpha = slug.match(/dang-(\d+)-([a-z])/);
       if (matchAlpha) return parseFloat(`${matchAlpha[1]}.${matchAlpha[2].charCodeAt(0) - 96}`);
       return 0;
@@ -64,9 +40,20 @@ sortedGroups.forEach(key => {
 
 <TopikLayout 
   title="Luyện tập TOPIK"
-  description="Luyện tập từng dạng bài thi TOPIK"
+  description="Luyện tập từng dạng bài thi TOPIK với các câu hỏi có giải thích chi tiết"
 >
   <div class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Back to TOPIK button -->
+    <a 
+      href="/topik"
+      class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 transition-colors"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      <span>Quay lại trang TOPIK</span>
+    </a>
+
     <div class="text-center mb-12">
       <h1 class="text-4xl font-bold text-gray-900 mb-4">
         Luyện tập TOPIK
@@ -76,156 +63,56 @@ sortedGroups.forEach(key => {
       </p>
     </div>
 
-    <!-- Danh sách các dạng bài -->
-    <div class="max-w-4xl mx-auto">
-      {sortedGroups.map((groupKey) => {
-        // Format heading: "reading (TOPIK II)" -> "Reading (TOPIK II)"
-        const formatHeading = (key: string) => {
-          const match = key.match(/(\w+)\s*\((.+)\)/);
-          if (match) {
-            const type = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
-            const level = match[2];
-            return `${type} (${level})`;
-          }
-          return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
-        };
-        
-        return (
-        <div class="bg-white rounded-xl shadow-lg p-8 mb-6">
-          <button 
-            class="w-full flex items-center justify-between text-left group"
-            data-collapse-toggle={`group-${groupKey.replace(/\s+/g, '-').toLowerCase()}`}
-          >
-            <h2 class="text-2xl font-bold text-gray-900">
-              {formatHeading(groupKey)}
+    {exercises.length === 0 ? (
+      <div class="max-w-4xl mx-auto text-center py-16">
+        <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8">
+          <p class="text-lg text-gray-700 mb-4">
+            📝 Chưa có bài luyện tập nào.
+          </p>
+          <p class="text-gray-600">
+            Các bài luyện tập sẽ được thêm vào thư mục <code class="bg-gray-100 px-2 py-1 rounded">src/content/topik/dang-de/</code>
+          </p>
+        </div>
+      </div>
+    ) : (
+      <div class="max-w-4xl mx-auto">
+        {sortedGroups.map((group) => (
+          <div class="bg-white rounded-xl shadow-lg p-8 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 capitalize">
+              {group}
             </h2>
-            <svg 
-              class="w-6 h-6 text-gray-500 transform transition-transform duration-200 group-hover:text-gray-700 collapse-icon"
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <ul 
-            class="space-y-3 collapse-content mt-6"
-            data-collapse-target={`group-${groupKey.replace(/\s+/g, '-').toLowerCase()}`}
-          >
-            {groupedExercises[groupKey].map((exercise: any) => {
-              // Lấy tên dạng từ title (ví dụ: "Reading – Dạng 01" -> "Dạng 01", "Reading – Dạng 03A" -> "Dạng 03A")
-              const formatName = (title: string) => {
-                // Tìm phần sau dấu "–" hoặc "-"
-                const parts = title.split(/[–-]/);
-                if (parts.length > 1) {
-                  const dangPart = parts[parts.length - 1].trim();
-                  // Nếu có "Dạng" thì lấy phần sau "Dạng"
-                  const match = dangPart.match(/Dạng\s+(.+)/i);
-                  if (match) return `Dạng ${match[1].trim()}`;
-                  return dangPart;
-                }
-                return title;
-              };
-              
-              return (
+            <ul class="space-y-3">
+              {groupedExercises[group].map((exercise) => (
                 <li>
                   <a 
                     href={`/topik/luyen-tap/${exercise.slug}`}
                     class="block p-4 border-2 border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
                   >
-                    <div class="flex items-center justify-between">
-                      <div>
-                        <span class="text-lg font-semibold text-gray-900">
-                          {formatName(exercise.title)}
-                        </span>
-                        <span class="text-gray-600 ml-3">
-                          ({exercise.range})
-                        </span>
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1">
+                          {exercise.title}
+                        </h3>
+                        <div class="flex items-center gap-3">
+                          <span class="text-sm text-gray-500">
+                            {exercise.range}
+                          </span>
+                          <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">
+                            {exercise.level}
+                          </span>
+                        </div>
                       </div>
-                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-5 h-5 text-gray-400 ml-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   </a>
                 </li>
-              );
-            })}
-          </ul>
-        </div>
-        );
-      })}
-    </div>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    )}
   </div>
 </TopikLayout>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const collapseButtons = document.querySelectorAll('[data-collapse-toggle]');
-    
-    collapseButtons.forEach((button) => {
-      const targetId = button.getAttribute('data-collapse-toggle');
-      const target = document.querySelector(`[data-collapse-target="${targetId}"]`);
-      const icon = button.querySelector('.collapse-icon');
-      
-      if (!target) return;
-      
-      // Mặc định mở (expanded)
-      target.classList.add('expanded');
-      if (icon) {
-        icon.style.transform = 'rotate(180deg)';
-      }
-      
-      button.addEventListener('click', () => {
-        const isExpanded = target.classList.contains('expanded');
-        
-        if (isExpanded) {
-          // Collapse
-          target.classList.remove('expanded');
-          target.classList.add('collapsed');
-          if (icon) {
-            icon.style.transform = 'rotate(0deg)';
-          }
-        } else {
-          // Expand
-          target.classList.remove('collapsed');
-          target.classList.add('expanded');
-          if (icon) {
-            icon.style.transform = 'rotate(180deg)';
-          }
-        }
-      });
-    });
-  });
-</script>
-
-<style>
-  .collapse-content {
-    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
-    overflow: hidden;
-  }
-  
-  .collapse-content.expanded {
-    max-height: 2000px;
-    opacity: 1;
-  }
-  
-  .collapse-content.collapsed {
-    max-height: 0;
-    opacity: 0;
-    margin-top: 0 !important;
-  }
-  
-  .collapse-icon {
-    transition: transform 0.2s ease;
-  }
-  
-  [data-collapse-toggle] {
-    cursor: pointer;
-    padding: 0.5rem 0;
-  }
-  
-  [data-collapse-toggle]:hover {
-    opacity: 0.8;
-  }
-</style>
-
