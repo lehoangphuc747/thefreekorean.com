@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "description": "Danh mục script tiện ích (Anki/JSON). Đọc scripts/README.md để biết chi tiết.",
+  "scripts": [
+    {
+      "id": "update-question-instruction",
+      "file": "update_question_instruction.py",
+      "title": "Ghi đè question_instruction trong JSON Anki",
+      "summary": "Đọc id-13-82-new.json, gán cùng một khối hướng dẫn giải nhanh cho mọi item, ghi lại file.",
+      "tags": ["anki", "json", "batch"],
+      "language": "python",
+      "run": "python scripts/update_question_instruction.py",
+      "inputs": ["id-13-82-new.json (ở thư mục gốc repo)"],
+      "outputs": ["id-13-82-new.json"]
+    },
+    {
+      "id": "optimize-explain",
+      "file": "optimize_explain.py",
+      "title": "Chuyển explain Markdown → HTML trong JSON Anki",
+      "summary": "Đọc id-13-82-new.json, tối ưu trường explain (bold, heading, div style), ghi lại file.",
+      "tags": ["anki", "json", "html"],
+      "language": "python",
+      "run": "python scripts/optimize_explain.py",
+      "inputs": ["id-13-82-new.json (ở thư mục gốc repo)"],
+      "outputs": ["id-13-82-new.json"]
+    },
+    {
+      "id": "csv-vocab-seoul-1b-sheet9-to-json",
+      "file": "csv_vocab_seoul_1b_sheet9_to_json.py",
+      "title": "CSV từ vựng Seoul 1B (Sheet 9) → JSON",
+      "summary": "Đọc CSV SpreadsheetImportPlus, xuất mảng JSON note Anki; __deck__/__tags__ theo cột bài + khoá (nhiều 제…과 trong một sheet).",
+      "tags": ["vocabulary", "csv", "json", "pandas"],
+      "language": "python",
+      "run": "python scripts/csv_vocab_seoul_1b_sheet9_to_json.py",
+      "deps": "pip install -r scripts/requirements-tools.txt",
+      "inputs": ["src/content/vocabulary/anki-seoul_1b-dpk48hqb_2 - Sheet 9.csv"],
+      "outputs": ["src/content/vocabulary/seoul-korean/vol-1b/lesson-09.json (và 10, 11…); deck/tag quyển 1B; --output để gộp 1 file"]
+    }
+  ]
+}
