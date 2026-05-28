@@ -21,8 +21,8 @@ const allGrammarRaw = await getCollection('grammar');
 
 // 2. Filter & Sort
 const allGrammar = allGrammarRaw.filter(entry => {
-  return !entry.slug.endsWith('-draft') && 
-         !entry.slug.endsWith('-original'); // Ensure clean list
+  return !entry.id.endsWith('-draft') && 
+         !entry.id.endsWith('-original'); // Ensure clean list
 });
 
 const sortedGrammar = allGrammar.sort((a, b) => {
@@ -130,8 +130,8 @@ const advCount = sortedGrammar.filter(g => g.data.level === 'advanced').length;
                 title={entry.data.title}
                 meaning={entry.data.meaning}
                 level={entry.data.level}
-                slug={entry.slug}
-                href={`/grammar/${entry.data.level}/${entry.slug}`}
+                slug={entry.id}
+                href={`/grammar/${entry.data.level}/${entry.id}`}
                 tags={entry.data.tags}
               />
             </div>

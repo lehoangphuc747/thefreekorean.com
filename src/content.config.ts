@@ -1,7 +1,9 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
+import { glob } from 'astro/loaders';
 
 const grammar = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/grammar' }),
   schema: z.object({
     title: z.string(),
     meaning: z.string(),
@@ -13,6 +15,4 @@ const grammar = defineCollection({
   })
 });
 
-export const collections = {
-  grammar
-};
+export const collections = { grammar };

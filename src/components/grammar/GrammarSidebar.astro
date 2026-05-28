@@ -18,8 +18,8 @@ const allGrammarRaw = await getCollection('grammar');
 
 // 2. Filter valid entries (exclude drafts)
 const allGrammar = allGrammarRaw.filter(entry => {
-  return !entry.slug.endsWith('-draft') && 
-         !entry.slug.endsWith('-original');
+  return !entry.id.endsWith('-draft') && 
+         !entry.id.endsWith('-original');
 });
 
 // 3. Sort entries (Level > Order)
@@ -154,7 +154,7 @@ const totalCount = sortedGrammar.length;
           <!-- Grammar Items List -->
           <ul class="grammar-list mt-1 space-y-0.5" data-level-list={level}>
             {groupedGrammar[level].map((grammar) => {
-              const slug = grammar.data.slug || grammar.slug;
+              const slug = grammar.data.slug || grammar.id;
               return (
                 <li>
                   <a

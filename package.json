@@ -6,18 +6,21 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "tool:update-question-instruction": "python scripts/update_question_instruction.py",
+    "tool:optimize-explain": "python scripts/optimize_explain.py",
+    "tool:vocab-csv-to-json": "python scripts/csv_vocab_seoul_1b_sheet9_to_json.py"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@astrojs/mdx": "^4.3.9",
-    "@astrojs/node": "^9.5.0",
-    "@astrojs/react": "^4.4.1",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/node": "^10.1.1",
+    "@astrojs/react": "^5.0.5",
     "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/vite": "^4.3.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "astro": "^5.15.2",
+    "astro": "^6.3.8",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
     "markdown-it": "^14.1.0",
@@ -26,7 +29,7 @@
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.3.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {

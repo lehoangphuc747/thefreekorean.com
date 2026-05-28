@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import GrammarPostLayout from '../../../layouts/GrammarPostLayout.astro';
 import ImageViewer from '../../../components/common/ImageViewer.astro';
 import PDFGenerator from '../../../components/common/PDFGenerator.astro';
@@ -22,8 +22,8 @@ export async function getStaticPaths() {
   
   return Promise.all(
     grammarEntries.map(async (entry) => {
-      const rendered = await entry.render();
-      const slug = entry.data.slug || entry.slug;
+      const rendered = await render(entry);
+      const slug = entry.data.slug || entry.id;
       
       return {
         params: { level: entry.data.level, slug: slug },
@@ -40,7 +40,7 @@ const { title, meaning, level, description, tags } = entry.data;
 
 // 3. Context Data
 const allGrammar = await getCollection('grammar');
-const cleanGrammar = allGrammar.filter(g => !g.slug.endsWith('-draft') && !g.slug.endsWith('-original'));
+const cleanGrammar = allGrammar.filter(g => !g.id.endsWith('-draft') && !g.id.endsWith('-original'));
 
 // Sort for navigation context
 const sortedGrammar = cleanGrammar.sort((a, b) => {
@@ -53,8 +53,8 @@ const sortedGrammar = cleanGrammar.sort((a, b) => {
 
 // Previous/Next
 const currentIndex = sortedGrammar.findIndex(g => {
-  const gSlug = g.data.slug || g.slug;
-  const entrySlug = entry.data.slug || entry.slug;
+  const gSlug = g.data.slug || g.id;
+  const entrySlug = entry.data.slug || entry.id;
   return gSlug === entrySlug;
 });
 const prevGrammar = currentIndex > 0 ? sortedGrammar[currentIndex - 1] : null;
@@ -62,7 +62,7 @@ const nextGrammar = currentIndex < sortedGrammar.length - 1 ? sortedGrammar[curr
 
 // Related
 const relatedGrammar = allGrammar
-  .filter(g => g.slug !== entry.slug)
+  .filter(g => g.id !== entry.id)
   .filter(g => {
     const commonTags = tags?.filter((tag: string) => g.data.tags?.includes(tag)) || [];
     if (commonTags.length > 0) return true;
@@ -144,7 +144,7 @@ const tocHeadings = headings.map((h: any) => ({
          <!-- PDF Generator can be placed here -->
          <PDFGenerator 
             markdown={entry.body}
-            slug={entry.slug}
+             slug={entry.id}
             title={title}
             meaning={meaning}
             level={level}
@@ -167,8 +167,8 @@ const tocHeadings = headings.map((h: any) => ({
     <!-- 5. Navigation Footer -->
     <footer class="mt-16 pt-8 border-t border-slate-100 not-prose">
       <NavigationButtons 
-        prevGrammar={prevGrammar ? { level: prevGrammar.data.level, slug: prevGrammar.data.slug || prevGrammar.slug } : undefined}
-        nextGrammar={nextGrammar ? { level: nextGrammar.data.level, slug: nextGrammar.data.slug || nextGrammar.slug } : undefined}
+        prevGrammar={prevGrammar ? { level: prevGrammar.data.level, slug: prevGrammar.data.slug || prevGrammar.id } : undefined}
+        nextGrammar={nextGrammar ? { level: nextGrammar.data.level, slug: nextGrammar.data.slug || nextGrammar.id } : undefined}
         showBackButton={false}
       />
 
@@ -179,7 +179,7 @@ const tocHeadings = headings.map((h: any) => ({
             title: g.data.title,
             meaning: g.data.meaning,
             level: g.data.level,
-            slug: g.data.slug || g.slug
+            slug: g.data.slug || g.id
           }))} 
         />
       </div>
