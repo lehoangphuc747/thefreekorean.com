@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "Đề thi thử TOPIK II - Kỳ 91",
+    "level": "TOPIK II",
+    "duration": 110,
+    "totalQuestions": 54,
+    "description": "Đề thi thử TOPIK II dựa trên kỳ thi lần thứ 91"
+  },
+  "sections": [
+    {
+      "type": "listening",
+      "title": "듣기 (Nghe)",
+      "duration": 60,
+      "questions": [
+        {
+          "id": 1,
+          "question_ko": "다음을 듣고 알맞은 것을 고르십시오.",
+          "question_vi": "Nghe đoạn sau và chọn đáp án đúng.",
+          "choices": [
+            { "type": "image", "text": "A", "image": "/images/topik/listening-1-a.jpg" },
+            { "type": "image", "text": "B", "image": "/images/topik/listening-1-b.jpg" },
+            { "type": "image", "text": "C", "image": "/images/topik/listening-1-c.jpg" },
+            { "type": "image", "text": "D", "image": "/images/topik/listening-1-d.jpg" }
+          ],
+          "answer": 2
+        },
+        {
+          "id": 2,
+          "question_ko": "이 대화의 내용으로 알맞은 것을 고르십시오.",
+          "question_vi": "Theo nội dung hội thoại, điều nào đúng?",
+          "choices": [
+            "남자는 어제 영화를 봤습니다.",
+            "여자는 오늘 학교에 갔습니다.",
+            "남자는 내일 여행을 갑니다.",
+            "여자는 어제 책을 읽었습니다."
+          ],
+          "answer": 3
+        }
+      ]
+    },
+    {
+      "type": "reading",
+      "title": "읽기 (Đọc)",
+      "duration": 50,
+      "questions": [
+        {
+          "id": 1,
+          "group_instruction": "다음을 읽고 물음에 답하십시오.",
+          "group_instruction_vi": "Đọc đoạn văn sau và trả lời câu hỏi.",
+          "question_ko": "이 글의 목적은 무엇입니까?",
+          "question_vi": "Mục đích của bài viết này là gì?",
+          "choices": [
+            "새로운 제품을 소개합니다.",
+            "감사의 마음을 전합니다.",
+            "사과의 편지를 씁니다.",
+            "초대장을 보냅니다."
+          ],
+          "answer": 1
+        },
+        {
+          "id": 2,
+          "question_ko": "빈칸에 알맞은 것을 고르십시오.",
+          "question_vi": "Chọn đáp án phù hợp vào chỗ trống.",
+          "choices": [
+            "보다가",
+            "보든지",
+            "보려면",
+            "보고서"
+          ],
+          "answer": 1
+        }
+      ]
+    }
+  ]
+}

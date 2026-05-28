@@ -45,4 +45,41 @@ const dangDe = defineCollection({
   }),
 });
 
-export const collections = { 'kien-thuc': kienThuc, 'dang-de': dangDe };
+// Thi-thu collection (exam simulation)
+const thiThu = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/topik/thi-thu' }),
+  schema: z.object({
+    meta: z.object({
+      title: z.string(),
+      level: z.enum(['TOPIK I', 'TOPIK II']),
+      duration: z.number(), // phút
+      totalQuestions: z.number(),
+      description: z.string().optional(),
+    }),
+    sections: z.array(z.object({
+      type: z.enum(['listening', 'reading']),
+      title: z.string(),
+      duration: z.number(), // phút
+      questions: z.array(z.object({
+        id: z.number(),
+        group_instruction: z.string().optional(),
+        group_instruction_vi: z.string().optional(),
+        question_ko: z.string(),
+        question_vi: z.string().optional(),
+        image: z.string().optional(),
+        audio: z.string().optional(),
+        choices: z.array(z.union([
+          z.string(),
+          z.object({
+            type: z.string(),
+            text: z.string(),
+            image: z.string().optional(),
+          })
+        ])),
+        answer: z.union([z.number(), z.string()]),
+      })),
+    })),
+  }),
+});
+
+export const collections = { 'kien-thuc': kienThuc, 'dang-de': dangDe, 'thi-thu': thiThu };
