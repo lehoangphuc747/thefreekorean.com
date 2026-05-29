@@ -1,0 +1,267 @@
+---
+export const prerender = true;
+import TopikLayout from '../../../../layouts/TopikLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const exams = await getCollection('thi-thu');
+  return exams.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const slug = entry.id;
+---
+
+<TopikLayout title="듣기 (Listening) - TOPIK">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Back -->
+    <a href={`/topik/thi-thu/${slug}`} class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      <span>Quay lại</span>
+    </a>
+
+    <!-- Header -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 mb-2">듣기 Listening</h1>
+      <p class="text-gray-600">50 câu hỏi • 60 phút</p>
+    </div>
+
+    <!-- Timer -->
+    <div id="timer-bar" class="sticky z-40 bg-white shadow-md rounded-lg px-4 py-3 mb-4 flex items-center justify-between" style="top: 0.5rem;">
+      <div class="flex items-center gap-4">
+        <span class="font-bold text-gray-800">🎧 Listening</span>
+        <span id="timer" class="text-xl font-mono text-red-600 font-bold">60:00</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="progress-text" class="text-sm text-gray-500">0/50 câu</span>
+        <button id="btn-submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors">Nộp bài</button>
+      </div>
+    </div>
+
+    <!-- Audio -->
+    <div class="bg-gray-50 rounded-xl p-4 mb-6">
+      <audio id="audio-player" controls class="w-full">
+        <source src="" type="audio/mpeg" />
+      </audio>
+    </div>
+
+    <!-- Questions -->
+    <div id="questions-area" class="space-y-4"></div>
+
+    <!-- Results -->
+    <div id="results-area" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
+      <h2 class="text-2xl font-bold mb-4">Kết quả</h2>
+      <div id="results-content" class="text-lg"></div>
+      <a href={`/topik/thi-thu/${slug}/listening`} class="mt-6 inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">Làm lại</a>
+    </div>
+  </div>
+</TopikLayout>
+
+<script is:inline>
+const slug = window.location.pathname.split('/').filter(Boolean).pop();
+
+fetch(`/topik2-thi-thu-35-listening.json`)
+  .then(r => r.json())
+  .then(data => initListening(data))
+  .catch(err => console.error('Failed to load:', err));
+
+function initListening(data) {
+  const questions = data.questions;
+  const audio = data.audio;
+  let answers = {};
+  let submitted = false;
+  let timeLeft = data.meta.duration * 60;
+  let timerInterval = null;
+
+  const audioPlayer = document.getElementById('audio-player');
+  const timerEl = document.getElementById('timer');
+  const progressText = document.getElementById('progress-text');
+  const questionsArea = document.getElementById('questions-area');
+  const resultsArea = document.getElementById('results-area');
+  const resultsContent = document.getElementById('results-content');
+  const btnSubmit = document.getElementById('btn-submit');
+
+  // Set audio
+  if (audio) audioPlayer.src = audio;
+
+  // Start timer
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    timerEl.className = timeLeft < 60 ? 'text-xl font-mono text-red-700 font-bold animate-pulse' : 'text-xl font-mono text-red-600 font-bold';
+    
+    const answered = Object.keys(answers).length;
+    progressText.textContent = `${answered}/${questions.length} câu`;
+    
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      submit();
+    }
+  }, 1000);
+
+  // Render questions
+  function render() {
+    let html = '';
+    let lastGroup = '';
+
+    questions.forEach((q, qi) => {
+      const key = `listening-${q.id}`;
+      const selected = answers[key];
+
+      // Group instruction
+      if (q.group_instruction && q.group_instruction !== lastGroup) {
+        lastGroup = q.group_instruction;
+        html += `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-yellow-800">${q.group_instruction}</p>
+        </div>`;
+      }
+
+      // Question card
+      html += `<div class="bg-white rounded-xl shadow-md p-5">`;
+      html += `<div class="flex items-start gap-3 mb-3">
+        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold text-sm flex items-center justify-center">${q.id}</span>
+        <div class="flex-1">`;
+
+      // Show transcript only after submit
+      if (submitted && q.question_ko) {
+        html += `<div class="bg-gray-50 p-3 rounded-lg mb-3">
+          <p class="text-xs text-gray-500 mb-1">Transcript:</p>
+          <p class="text-sm text-gray-700 whitespace-pre-line">${q.question_ko}</p>
+        </div>`;
+      }
+
+      html += `</div></div>`;
+
+      // Choices
+      if (q.choices && q.choices.length > 0) {
+        // Check if image choices
+        const hasImages = q.choices.some(c => typeof c === 'object' && c.type === 'image');
+        
+        if (hasImages) {
+          // Image choices - grid 2x2
+          html += `<div class="grid grid-cols-2 gap-3 mt-3 ml-11">`;
+          q.choices.forEach((choice, ci) => {
+            const choiceNum = ci + 1;
+            const choiceImg = choice.image;
+
+            let borderClass = 'border-gray-200 hover:border-purple-400';
+            if (submitted) {
+              if (choiceNum === q.answer) borderClass = 'border-green-500 bg-green-50';
+              else if (choiceNum === selected && choiceNum !== q.answer) borderClass = 'border-red-500 bg-red-50';
+            } else if (choiceNum === selected) {
+              borderClass = 'border-purple-500 bg-purple-50 ring-2 ring-purple-300';
+            }
+
+            html += `<button class="choice-btn flex flex-col items-center p-3 rounded-lg border-2 transition-all ${borderClass}" 
+              data-key="listening-${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
+              <span class="mb-2 text-sm font-bold
+                ${choiceNum === selected ? 'text-purple-600' : 'text-gray-500'}
+                ${submitted && choiceNum === q.answer ? 'text-green-600' : ''}
+                ${submitted && choiceNum === selected && choiceNum !== q.answer ? 'text-red-600' : ''}
+              ">${['①','②','③','④'][ci]}</span>
+              <img src="${choiceImg}" alt="Choice ${choiceNum}" class="w-full h-40 object-contain rounded" />
+            </button>`;
+          });
+          html += `</div>`;
+        } else {
+          // Text choices - list
+          html += `<div class="grid grid-cols-1 gap-2 mt-3 ml-11">`;
+          q.choices.forEach((choice, ci) => {
+            const choiceNum = ci + 1;
+            const choiceText = choice;
+
+            let borderClass = 'border-gray-200 hover:border-purple-400 hover:bg-purple-50';
+            if (submitted) {
+              if (choiceNum === q.answer) borderClass = 'border-green-500 bg-green-50';
+              else if (choiceNum === selected && choiceNum !== q.answer) borderClass = 'border-red-500 bg-red-50';
+            } else if (choiceNum === selected) {
+              borderClass = 'border-purple-500 bg-purple-50 ring-2 ring-purple-300';
+            }
+
+            html += `<button class="choice-btn flex items-center gap-3 p-3 rounded-lg border-2 text-left transition-all ${borderClass}" 
+              data-key="listening-${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
+              <span class="flex-shrink-0 w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold
+                ${choiceNum === selected ? 'bg-purple-600 text-white border-purple-600' : 'border-gray-300 text-gray-500'}
+                ${submitted && choiceNum === q.answer ? 'bg-green-600 text-white border-green-600' : ''}
+                ${submitted && choiceNum === selected && choiceNum !== q.answer ? 'bg-red-600 text-white border-red-600' : ''}
+              ">${['①','②','③','④'][ci]}</span>
+              <span class="text-gray-700 text-sm">${choiceText}</span>
+            </button>`;
+          });
+          html += `</div>`;
+        }
+      }
+
+      // Result
+      if (submitted) {
+        const isCorrect = selected === q.answer;
+        html += `<div class="ml-11 mt-3 flex items-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}">
+          ${isCorrect 
+            ? '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>'
+            : '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>'
+          }
+          <span class="text-sm font-semibold">${isCorrect ? 'Đúng!' : `Sai. Đáp án: ${['①','②','③','④'][q.answer-1]}`}</span>
+        </div>`;
+      }
+
+      html += `</div>`;
+    });
+
+    questionsArea.innerHTML = html;
+
+    // Click handlers
+    questionsArea.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (submitted) return;
+        answers[btn.dataset.key] = parseInt(btn.dataset.choice);
+        render();
+      });
+    });
+  }
+
+  // Submit
+  function submit() {
+    submitted = true;
+    clearInterval(timerInterval);
+    audioPlayer.pause();
+    render();
+
+    let correct = 0;
+    questions.forEach(q => {
+      if (answers[`listening-${q.id}`] === q.answer) correct++;
+    });
+
+    const percent = Math.round(correct / questions.length * 100);
+    const color = percent >= 70 ? 'green' : percent >= 50 ? 'yellow' : 'red';
+
+    resultsArea.classList.remove('hidden');
+    resultsContent.innerHTML = `
+      <div class="bg-${color}-50 rounded-lg p-6 inline-block">
+        <p class="text-4xl font-bold text-${color}-700">${correct}/${questions.length}</p>
+        <p class="text-lg text-${color}-600">${percent}%</p>
+      </div>
+    `;
+
+    btnSubmit.textContent = 'Đã nộp bài';
+    btnSubmit.disabled = true;
+    btnSubmit.classList.add('opacity-50');
+  }
+
+  btnSubmit.addEventListener('click', () => {
+    if (!submitted && confirm('Bạn có chắc muốn nộp bài?')) submit();
+  });
+
+  render();
+}
+</script>
+
+<style>
+  .choice-btn:disabled { cursor: default; }
+  .animate-pulse { animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+</style>

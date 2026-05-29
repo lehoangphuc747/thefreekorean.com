@@ -409,19 +409,8 @@ import '../styles/navbar.css';
       }
     }
 
-    // Chỉ enable scroll hide trên mobile
-    if (isMobile()) {
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
-    
-    mobileQuery.addEventListener('change', function() {
-      if (isMobile()) {
-        window.addEventListener('scroll', onScroll, { passive: true });
-      } else {
-        window.removeEventListener('scroll', onScroll);
-        navbar.classList.remove('nav-hidden');
-      }
-    });
+    // Enable scroll hide trên cả desktop và mobile
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     function isMobile() {
       return mobileQuery.matches;

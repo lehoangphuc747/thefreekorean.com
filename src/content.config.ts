@@ -57,9 +57,10 @@ const thiThu = defineCollection({
       description: z.string().optional(),
     }),
     sections: z.array(z.object({
-      type: z.enum(['listening', 'reading']),
+      type: z.enum(['listening', 'reading', 'writing']),
       title: z.string(),
       duration: z.number(), // phút
+      audio: z.string().optional(),
       questions: z.array(z.object({
         id: z.number(),
         group_instruction: z.string().optional(),
@@ -77,6 +78,10 @@ const thiThu = defineCollection({
           })
         ])),
         answer: z.union([z.number(), z.string()]),
+        model_answer: z.string().optional(),
+        points: z.number().optional(),
+        minChars: z.number().optional(),
+        maxChars: z.number().optional(),
       })),
     })),
   }),
