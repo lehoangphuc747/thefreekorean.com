@@ -89,6 +89,15 @@ if (readingSection) {
 
 function initReading(data) {
   const questions = data.questions;
+  console.log('[Reading] init', {
+    exam: slug,
+    questionCount: questions.length,
+    durationMin: data.meta.duration
+  });
+  const dataIssues = questions.filter(q => !q.question_ko && !q.image && !q.choices?.some(c => typeof c === 'object'));
+  if (dataIssues.length) {
+    console.warn('[Reading] questions with no text AND no image:', dataIssues.map(q => q.id));
+  }
   let answers = {};
   let submitted = false;
   let activeQuestionId = questions[0]?.id;
@@ -165,9 +174,18 @@ function initReading(data) {
     let html = '';
     let lastGroup = '';
 
+    console.log('[Reading] render start', { total: questions.length });
     questions.forEach((q) => {
       const key = `reading-${q.id}`;
       const selected = answers[key];
+      if (q.id <= 5 || q.id % 10 === 0) {
+        console.log(`[Reading] Q${q.id}`, {
+          hasText: !!q.question_ko,
+          hasImage: !!q.image,
+          choices: q.choices?.length,
+          answer: q.answer
+        });
+      }
 
       // Group instruction
       if (q.group_instruction && q.group_instruction !== lastGroup) {
@@ -275,6 +293,13 @@ function initReading(data) {
     });
 
     const pct = Math.round(correct / questions.length * 100);
+    console.log('[Reading] submit', { correct, total: questions.length, pct });
+    questions.forEach(q => {
+      const chosen = answers[`reading-${q.id}`];
+      if (chosen !== q.answer) {
+        console.log(`[Reading] Q${q.id} wrong: selected=${chosen ?? '—'}, correct=${q.answer}`);
+      }
+    });
     const grade = pct >= 70 ? 'pass' : pct >= 50 ? 'mid' : 'fail';
 
     resultsArea.classList.remove('hidden');
