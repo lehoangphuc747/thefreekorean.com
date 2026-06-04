@@ -11,7 +11,7 @@
       "type": "listening",
       "title": "듣기 (Nghe)",
       "duration": 60,
-      "audio": "/audio/topik/TOPIK-2-35-audio.mp3",
+      "audio": "/api/topik-audio/TOPIK-2-35-audio.mp3",
       "questions": [
         {
           "id": 1,
@@ -80,22 +80,22 @@
             {
               "type": "image",
               "text": "①",
-              "image": "/images/topik/35/page3-img9.jpeg"
+              "image": "/images/topik/35/page4-img1.jpeg"
             },
             {
               "type": "image",
               "text": "②",
-              "image": "/images/topik/35/page3-img10.jpeg"
+              "image": "/images/topik/35/page4-img2.jpeg"
             },
             {
               "type": "image",
               "text": "③",
-              "image": "/images/topik/35/page3-img11.jpeg"
+              "image": "/images/topik/35/page4-img3.jpeg"
             },
             {
               "type": "image",
               "text": "④",
-              "image": "/images/topik/35/page3-img12.jpeg"
+              "image": "/images/topik/35/page4-img4.jpeg"
             }
           ],
           "answer": 1
