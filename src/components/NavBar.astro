@@ -1,6 +1,5 @@
 ---
 // Component: NavBar nâng cấp UI
-import '../styles/navbar.css';
 ---
 
 <nav class="navbar">
@@ -54,9 +53,8 @@ import '../styles/navbar.css';
   z-index: 3000;
   width: 100%;
   background: #ffffff;
-  box-shadow: 0 4px 24px 0 rgba(50,69,255,0.12);
-  border-bottom: 1px solid rgba(226,232,240,0.8);
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  border-bottom: 1px solid #eaeaea;
+  transition: background 0.3s ease, transform 0.3s ease;
   height: 70px;
 }
 
@@ -82,28 +80,22 @@ import '../styles/navbar.css';
   gap: 0.5rem;
   font-weight: 800;
   font-size: 1.35rem;
-  color: #3245ff;
+  color: #111111;
   text-decoration: none;
-  letter-spacing: 1px;
+  letter-spacing: -0.03em;
   transition: color 0.2s;
   white-space: nowrap; /* giữ logo trên một dòng */
 }
-.logo-icon {
-  font-size: 1.6rem;
-  filter: drop-shadow(0 2px 6px #3245ff33);
-}
 .logo-text {
-  background: linear-gradient(90deg, #3245ff, #bc52ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #111111;
+  font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 .navbar-toggle {
   display: none;
   background: none;
-  border: none;
+  border: 1px solid #eaeaea;
   cursor: pointer;
-  color: #3245ff;
+  color: #111111;
   position: relative;
   z-index: 3200;
   width: 48px;
@@ -114,12 +106,12 @@ import '../styles/navbar.css';
   -webkit-tap-highlight-color: transparent;
   pointer-events: auto;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: 8px;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.navbar-toggle:active {
-  background-color: rgba(50, 69, 255, 0.1);
+  .navbar-toggle:active {
+  background-color: #f7f6f3;
   transform: scale(0.95);
 }
 
@@ -148,11 +140,11 @@ import '../styles/navbar.css';
   position: relative;
   font-weight: 600;
   font-size: 1.08rem;
-  color: #1f2a8b;
+  color: #787774;
   text-decoration: none;
   padding: 0.55rem 0.85rem;
-  border-radius: 999px;
-  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 6px;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 .nav-link::after {
   content: '';
@@ -160,26 +152,24 @@ import '../styles/navbar.css';
   left: 50%;
   bottom: 0.25rem;
   width: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #3245ff, #bc52ee);
-  border-radius: 999px;
+  height: 1px;
+  background: #111111;
+  border-radius: 0;
   transform: translateX(-50%);
   transition: width 0.25s ease;
 }
 .nav-link:hover,
 .nav-link:focus {
-  background: rgba(50, 69, 255, 0.08);
-  color: #2430c5;
-  box-shadow: 0 8px 20px rgba(50, 69, 255, 0.12);
+  background: #f7f6f3;
+  color: #111111;
 }
 .nav-link:hover::after,
 .nav-link:focus::after {
   width: 60%;
 }
 .nav-link.active, .nav-link[aria-current="page"] {
-  background: linear-gradient(90deg, #3245ff, #bc52ee);
+  background: #111111;
   color: #fff;
-  box-shadow: 0 4px 16px #3245ff33;
 }
 .nav-auth-link {
   display: flex;
@@ -236,7 +226,7 @@ import '../styles/navbar.css';
     left: 0;
     width: min(300px, 85vw);
     background: #ffffff;
-    box-shadow: 8px 0 32px rgba(17, 24, 39, 0.15);
+    border-right: 1px solid #eaeaea;
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.25rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 0));
@@ -289,25 +279,23 @@ import '../styles/navbar.css';
     align-items: center;
   }
   
-  .nav-link:hover,
+    .nav-link:hover,
   .nav-link:focus {
-    background: rgba(50, 69, 255, 0.06);
-    color: #1f2a8b;
-    box-shadow: none;
+    background: #f7f6f3;
+    color: #111111;
     transform: none;
   }
   
   .nav-link:active {
-    background: linear-gradient(90deg, rgba(50,69,255,0.15), rgba(188,82,238,0.12));
-    color: #10175c;
+    background: #eaeaea;
+    color: #111111;
   }
   
   .nav-link.active,
   .nav-link[aria-current="page"] {
-    background: linear-gradient(90deg, rgba(50,69,255,0.12), rgba(188,82,238,0.08));
-    color: #3245ff;
+    background: #111111;
+    color: #ffffff;
     font-weight: 700;
-    box-shadow: inset 3px 0 0 #3245ff;
   }
   
   .nav-link::after {

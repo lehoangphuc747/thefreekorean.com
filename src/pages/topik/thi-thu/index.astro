@@ -15,80 +15,388 @@ const exams = (await getCollection('thi-thu'))
   .sort((a, b) => a.title.localeCompare(b.title));
 ---
 
-<TopikLayout 
+<TopikLayout
   title="Thi thử TOPIK"
-  description="Làm đề thi thử TOPIK đầy đủ để kiểm tra trình độ và làm quen với format thi"
+  description="Làm đề thi thử TOPIK đầy đủ để kiểm tra trình độ và làm quen với cấu trúc bài thi."
 >
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    <!-- Back to TOPIK button -->
-    <a 
-      href="/topik"
-      class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 transition-colors"
-    >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span>Quay lại trang TOPIK</span>
-    </a>
+  <main class="exam-library">
+    <div class="ambient-grid" aria-hidden="true"></div>
 
-    <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">
-        Thi thử TOPIK
-      </h1>
-      <p class="text-xl text-gray-600">
-        Làm đề thi thử TOPIK đầy đủ để kiểm tra trình độ và làm quen với format thi
-      </p>
-    </div>
+    <section class="library-shell reveal-block">
+      <a href="/topik" class="back-link" aria-label="Quay lại trang TOPIK">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Quay lại TOPIK</span>
+      </a>
 
-    {exams.length === 0 ? (
-      <div class="max-w-4xl mx-auto text-center py-16">
-        <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8">
-          <p class="text-lg text-gray-700 mb-4">
-            📝 Chưa có đề thi thử nào.
-          </p>
-          <p class="text-gray-600">
-            Các đề thi thử sẽ được thêm vào thư mục <code class="bg-gray-100 px-2 py-1 rounded">src/content/topik/thi-thu/</code>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">TOPIK Practice Archive</p>
+          <h1>Thi thử TOPIK</h1>
+          <p class="hero-lead">
+            Làm bài thi theo từng kỹ năng, theo dõi tiến độ và xem lại đáp án trong một giao diện gọn như tài liệu ôn tập.
           </p>
         </div>
+
+        <aside class="stat-panel" aria-label="Thông tin kho đề">
+          <div class="stat-row">
+            <span class="stat-label">Đề khả dụng</span>
+            <strong>{exams.length}</strong>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Hình thức</span>
+            <strong>Listening · Reading · Writing</strong>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Giao diện</span>
+            <strong>Mô phỏng phòng thi</strong>
+          </div>
+        </aside>
       </div>
-    ) : (
-      <div class="max-w-4xl mx-auto grid gap-6">
-        {exams.map((exam) => (
-          <a 
-            href={`/topik/thi-thu/${exam.slug}`}
-            class="block bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-green-200 hover:border-green-400 transform hover:-translate-y-1"
-          >
-            <div class="p-6">
-              <div class="flex items-start justify-between">
-                <div class="flex-1">
-                  <h3 class="text-xl font-bold text-gray-900 mb-2">
-                    {exam.title}
-                  </h3>
-                  {exam.description && (
-                    <p class="text-gray-600 mb-4">
-                      {exam.description}
-                    </p>
-                  )}
-                  <div class="flex items-center gap-4 flex-wrap">
-                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                      {exam.level}
-                    </span>
-                    <span class="text-sm text-gray-500">
-                      ⏱️ {exam.duration} phút
-                    </span>
-                    <span class="text-sm text-gray-500">
-                      📝 {exam.totalQuestions} câu hỏi
-                    </span>
-                  </div>
-                </div>
-                <svg class="w-6 h-6 text-gray-400 ml-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+
+      {exams.length === 0 ? (
+        <div class="empty-state reveal-block">
+          <div class="empty-card">
+            <p class="empty-title">Chưa có đề thi thử.</p>
+            <p>
+              Các đề thi thử sẽ được thêm vào thư mục <kbd>src/content/topik/thi-thu</kbd>.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div class="exam-grid" aria-label="Danh sách đề thi thử TOPIK">
+          {exams.map((exam, index) => (
+            <a
+              href={`/topik/thi-thu/${exam.slug}`}
+              class="exam-card reveal-block"
+              style={`--index: ${index}`}
+            >
+              <div class="card-topline">
+                <span class="level-badge">{exam.level}</span>
+                <span class="exam-index">{String(index + 1).padStart(2, '0')}</span>
+              </div>
+
+              <div class="card-body">
+                <h2>{exam.title}</h2>
+                {exam.description && <p>{exam.description}</p>}
+              </div>
+
+              <div class="card-meta">
+                <span>
+                  <span class="meta-label">TIME</span>
+                  {exam.duration} phút
+                </span>
+                <span>
+                  <span class="meta-label">ITEMS</span>
+                  {exam.totalQuestions} câu hỏi
+                </span>
+              </div>
+
+              <div class="card-action">
+                <span>Bắt đầu đề thi</span>
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6" />
                 </svg>
               </div>
-            </div>
-          </a>
-        ))}
-      </div>
-    )}
-  </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  </main>
+
+  <script is:inline>
+    const revealTargets = document.querySelectorAll('.reveal-block');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealTargets.forEach((target) => revealObserver.observe(target));
+  </script>
+
+  <style is:global>
+    .exam-library {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #f7f6f3;
+      color: #111111;
+      font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .ambient-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background:
+        linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px);
+      background-size: 56px 56px, 56px 56px;
+      z-index: 0;
+    }
+
+    .library-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 6rem 1.25rem 7rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: #787774;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 180ms ease;
+    }
+
+    .back-link:hover { color: #111111; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 2rem;
+      align-items: end;
+      margin-top: 3.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .hero-copy { max-width: 720px; }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-copy h1 {
+      margin: 0;
+      max-width: 680px;
+      color: #111111;
+      font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(3rem, 7vw, 6.75rem);
+      line-height: 0.96;
+      letter-spacing: -0.045em;
+      font-weight: 500;
+    }
+
+    .hero-lead {
+      max-width: 640px;
+      margin: 1.5rem 0 0;
+      color: #2f3437;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.68;
+    }
+
+    .stat-panel {
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.84);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-row {
+      display: grid;
+      gap: 0.4rem;
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat-row:last-child { border-bottom: 0; }
+
+    .stat-label {
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stat-row strong {
+      color: #111111;
+      font-size: 0.95rem;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .exam-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+      padding: 1.5rem;
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      background: #ffffff;
+      color: inherit;
+      text-decoration: none;
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    .exam-card:hover {
+      border-color: rgba(0,0,0,0.22);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transform: translateY(-1px);
+    }
+
+    .exam-card:active { transform: scale(0.99); }
+
+    .card-topline,
+    .card-meta,
+    .card-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .level-badge {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 8px;
+      background: #edf3ec;
+      color: #346538;
+      padding: 0.32rem 0.65rem;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .exam-index {
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+    }
+
+    .card-body {
+      flex: 1;
+      padding: 2.3rem 0 2rem;
+    }
+
+    .card-body h2 {
+      margin: 0;
+      color: #111111;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      font-weight: 680;
+    }
+
+    .card-body p {
+      margin: 0.85rem 0 0;
+      color: #787774;
+      font-size: 0.94rem;
+      line-height: 1.62;
+    }
+
+    .card-meta {
+      padding-top: 1rem;
+      border-top: 1px solid #eaeaea;
+      color: #2f3437;
+      font-size: 0.85rem;
+    }
+
+    .card-meta span {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .meta-label {
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card-action {
+      margin-top: 1.3rem;
+      color: #111111;
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    .empty-state {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .empty-card {
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 2rem;
+      text-align: center;
+      color: #787774;
+      line-height: 1.6;
+    }
+
+    .empty-title {
+      margin: 0 0 0.5rem;
+      color: #111111;
+      font-size: 1.1rem;
+      font-weight: 650;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #eaeaea;
+      border-radius: 4px;
+      background: #f7f6f3;
+      padding: 0.12rem 0.35rem;
+      color: #2f3437;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.78em;
+    }
+
+    .reveal-block {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: calc(var(--index, 0) * 80ms);
+    }
+
+    .reveal-block.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .library-shell { padding: 4rem 1rem 5rem; }
+      .hero-grid { grid-template-columns: 1fr; margin-top: 2.75rem; }
+      .stat-panel { max-width: 520px; }
+      .exam-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .library-shell { padding: 3rem 0.85rem 4rem; }
+      .hero-grid { margin-bottom: 2rem; }
+      .exam-card { min-height: 250px; padding: 1.2rem; }
+      .card-meta { align-items: flex-start; flex-direction: column; gap: 0.8rem; }
+    }
+  </style>
 </TopikLayout>

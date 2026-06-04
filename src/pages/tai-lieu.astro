@@ -3,167 +3,252 @@ import Layout from '../layouts/Layout.astro';
 import DocumentFilter from '../components/tai-lieu/DocumentFilter.astro';
 import DocumentGrid from '../components/tai-lieu/DocumentGrid.astro';
 
-// Get all .astro files using import.meta.glob() (new syntax)
-const ankiSummaryModule = import.meta.glob('./tai-lieu/anki/books/tieng-han-tong-hop/*.astro', { eager: true });
-const textbookFilesModule = import.meta.glob('./tai-lieu/textbooks/*.astro', { eager: true });
+const ankiSummarySources = import.meta.glob('./tai-lieu/anki/books/tieng-han-tong-hop/*.astro', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
+const textbookSources = import.meta.glob('./tai-lieu/textbooks/*.astro', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
 
-// Convert module objects to array format compatible with old Astro.glob
-const ankiSummaryFiles = Object.entries(ankiSummaryModule).map(([path, module]) => ({
-  ...module,
-  url: path.replace('./tai-lieu', '/tai-lieu').replace('.astro', ''),
-  file: path
-}));
-
-const textbookFiles = Object.entries(textbookFilesModule).map(([path, module]) => ({
-  ...module,
-  url: path.replace('./tai-lieu', '/tai-lieu').replace('.astro', ''),
-  file: path
-}));
-
-console.log('=== DEBUG ASTRO.GLOB ===');
-console.log('Anki Summary files found:', ankiSummaryFiles.length);
-console.log('Textbook files found:', textbookFiles.length);
-
-// Sample debug for first file
-if (ankiSummaryFiles.length > 0) {
-  const sample = ankiSummaryFiles[0];
-  console.log('Sample Anki Summary file keys:', Object.keys(sample));
-  console.log('Sample frontmatter:', sample.frontmatter);
-  console.log('Sample default export:', sample.default);
+function readString(source: string, key: string) {
+  const match = source.match(new RegExp(`${key}\\s*:\\s*[\"']([^\"']*)[\"']`));
+  return match?.[1] || '';
 }
 
-// Debug textbook files structure
-if (textbookFiles.length > 0) {
-  const sample = textbookFiles[0];
-  console.log('Sample Textbook file keys:', Object.keys(sample));
-  console.log('Sample textbook frontmatter:', sample.frontmatter);
-  console.log('Sample textbook default export:', sample.default);
-  console.log('Sample textbook postData:', sample.postData);
-  console.log('Sample textbook full structure:', sample);
+function readNumber(source: string, key: string) {
+  const match = source.match(new RegExp(`${key}\\s*:\\s*(\\d+)`));
+  return match ? Number(match[1]) : undefined;
 }
 
-// Helper function to process import.meta.glob results
-function processDocuments(files: any[], defaultCategory: string) {
-  return files
-    .map((file) => {
-      try {
-        // Get data from the module (import.meta.glob structure)
-        const frontmatter = file.frontmatter || {};
-        // For "export const postData", it's available directly on the module
-        const exports = file.postData || file.default?.postData;
-        const data = exports || frontmatter;
-        
-        // Get file path and URL
-        const url = file.url || '';
-        const slug = url.split('/').pop() || '';
-        
-        console.log('Processing file:', slug, 'frontmatter:', frontmatter);
-        console.log('Exports available:', !!exports, 'postData:', exports);
-        console.log('File keys:', Object.keys(file));
-        console.log('Final data:', data);
-        
-        // Skip if no title or if draft
-        if (!data.title || data.draft || slug.includes('index')) {
-          console.log('Skipped:', slug, 'hasTitle:', !!data.title, 'isDraft:', !!data.draft);
-          return null;
-        }
-        
-        const document = {
-          slug,
-          title: data.title,
-          date: data.date || new Date().toISOString(),
-          category: data.category || defaultCategory,
-          subcategory: data.subcategory || '',
-          type: data.type || (defaultCategory === 'Anki' ? 'Anki Deck' : 'PDF'),
-          description: data.description || '',
-          fileSize: data.fileSize,
-          pages: data.pages,
-          cards: data.cards,
-          downloadUrl: data.downloadUrl,
-          cover: data.cover,
-          url: url,
-          draft: data.draft
-        };
-        
-        console.log('Created document:', document);
-        return document;
-        
-      } catch (error) {
-        console.error('Error processing file:', file.url, error);
-        return null;
-      }
+function readBoolean(source: string, key: string) {
+  return new RegExp(`${key}\\s*:\\s*true`).test(source);
+}
+
+function processDocuments(sources: Record<string, string>, defaultCategory: string) {
+  return Object.entries(sources)
+    .map(([path, source]) => {
+      const url = path.replace('./tai-lieu', '/tai-lieu').replace('.astro', '');
+      const slug = url.split('/').pop() || '';
+      const title = readString(source, 'title');
+
+      if (!title || readBoolean(source, 'draft') || slug.includes('index')) return null;
+
+      return {
+        slug,
+        title,
+        date: readString(source, 'date') || new Date().toISOString(),
+        category: readString(source, 'category') || defaultCategory,
+        subcategory: readString(source, 'subcategory') || '',
+        type: readString(source, 'type') || (defaultCategory === 'Anki' ? 'Anki Deck' : 'PDF'),
+        description: readString(source, 'description') || '',
+        fileSize: readString(source, 'fileSize'),
+        pages: readNumber(source, 'pages'),
+        cards: readNumber(source, 'cards'),
+        downloadUrl: readString(source, 'downloadUrl'),
+        cover: readString(source, 'cover'),
+        url,
+        draft: false,
+      };
     })
-    .filter(Boolean); // Remove null entries
+    .filter(Boolean);
 }
 
-// Process documents
-const ankiSummaryDocuments = processDocuments(ankiSummaryFiles, 'Anki');
-const textbookDocuments = processDocuments(textbookFiles, 'Giáo trình');
-
-// Combine all documents
+const ankiSummaryDocuments = processDocuments(ankiSummarySources as Record<string, string>, 'Anki');
+const textbookDocuments = processDocuments(textbookSources as Record<string, string>, 'Giáo trình');
 const allDocuments = [...ankiSummaryDocuments, ...textbookDocuments]
   .filter(Boolean)
   .sort((a, b) => new Date(b?.date || 0).getTime() - new Date(a?.date || 0).getTime());
 
-// Debug logs
-console.log('=== FINAL RESULTS ===');
-console.log('Anki Summary documents found:', ankiSummaryDocuments.length);
-console.log('Textbook documents found:', textbookDocuments.length);
-console.log('Sample Anki Summary document:', ankiSummaryDocuments[0]);
-console.log('Sample textbook document:', textbookDocuments[0]);
-
-// Get unique categories
 const categories = [...new Set(allDocuments.map(doc => doc?.category).filter(Boolean))];
+const types = [...new Set(allDocuments.map(doc => doc?.type).filter(Boolean))];
 ---
 
 <Layout title="Tài liệu học tiếng Hàn">
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-    <div class="max-w-7xl mx-auto px-4 py-8">
-      
-      <!-- Header Section -->
-      <header class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          Tài liệu học tiếng Hàn
-        </h1>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Bộ sưu tập tài liệu học tiếng Hàn miễn phí, chất lượng cao dành cho mọi trình độ
-        </p>
-        <div class="flex items-center justify-center gap-4 mt-6 text-sm text-gray-500">
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-            <span>{allDocuments.length} tài liệu</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-            <span>{categories.length} danh mục</span>
-          </div>
+  <main class="docs-library">
+    <div class="docs-grid-pattern" aria-hidden="true"></div>
+
+    <section class="docs-shell">
+      <div class="docs-hero reveal-block">
+        <div class="docs-hero-copy">
+          <p class="docs-eyebrow">Resource Library</p>
+          <h1>Tài liệu học tiếng Hàn</h1>
+          <p>
+            Kho giáo trình và bộ thẻ Anki được sắp xếp gọn để bạn tìm đúng tài liệu học tiếng Hàn cần dùng.
+          </p>
         </div>
-      </header>
 
-      <!-- Filter Section -->
+        <aside class="docs-stats" aria-label="Thống kê tài liệu">
+          <div class="stat-row">
+            <span>Tài liệu</span>
+            <strong>{allDocuments.length}</strong>
+          </div>
+          <div class="stat-row">
+            <span>Danh mục</span>
+            <strong>{categories.length}</strong>
+          </div>
+          <div class="stat-row">
+            <span>Loại</span>
+            <strong>{types.join(' · ') || 'Đang cập nhật'}</strong>
+          </div>
+        </aside>
+      </div>
+
       <DocumentFilter documents={allDocuments} />
-
-      <!-- Documents Grid -->
       <DocumentGrid documents={allDocuments} />
-      
-    </div>
-  </div>
-</Layout>
+    </section>
+  </main>
 
-<style>
-  /* Custom styles for the documents page */
-  .documents-grid {
-    animation: fadeIn 0.5s ease-in-out;
-  }
+  <script is:inline>
+    document.documentElement.classList.add('reveal-ready');
+    const revealTargets = document.querySelectorAll('.reveal-block');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
+    revealTargets.forEach((target) => revealObserver.observe(target));
+  </script>
+
+  <style is:global>
+    .docs-library {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #f7f6f3;
+      color: #111111;
+      font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    to {
+
+    .docs-grid-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.36;
+      background:
+        linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px);
+      background-size: 56px 56px, 56px 56px;
+    }
+
+    .docs-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 6rem 1.25rem 7rem;
+    }
+
+    .docs-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 2rem;
+    }
+
+    .docs-hero-copy { max-width: 760px; }
+
+    .docs-eyebrow {
+      margin: 0 0 1rem;
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .docs-hero h1 {
+      margin: 0;
+      color: #111111;
+      font-size: clamp(2.75rem, 6.2vw, 6rem);
+      font-weight: 720;
+      letter-spacing: -0.05em;
+      line-height: 0.98;
+    }
+
+    .docs-hero p:not(.docs-eyebrow) {
+      max-width: 640px;
+      margin: 1.5rem 0 0;
+      color: #2f3437;
+      font-size: clamp(1rem, 2vw, 1.16rem);
+      line-height: 1.68;
+    }
+
+    .docs-stats {
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.86);
+      backdrop-filter: blur(10px);
+    }
+
+    .docs-stats .stat-row {
+      display: grid;
+      gap: 0.4rem;
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .docs-stats .stat-row:last-child { border-bottom: 0; }
+
+    .docs-stats span {
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .docs-stats strong {
+      color: #111111;
+      font-size: 0.98rem;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .reveal-block {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-ready .reveal-block {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: calc(var(--index, 0) * 80ms);
+    }
+
+    .reveal-ready .reveal-block.is-visible {
       opacity: 1;
       transform: translateY(0);
     }
-  }
-</style>
+
+    @media (max-width: 900px) {
+      .docs-shell { padding: 4rem 1rem 5rem; }
+      .docs-hero { grid-template-columns: 1fr; }
+      .docs-stats { max-width: 520px; }
+    }
+
+    @media (max-width: 560px) {
+      .docs-shell { padding: 3rem 0.85rem 4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-block {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</Layout>

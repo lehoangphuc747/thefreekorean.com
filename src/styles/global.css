@@ -1,5 +1,4 @@
-/* Import Google Fonts first */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Import Korean font first */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
 @import "tailwindcss";
@@ -19,7 +18,7 @@ object {
 
 /* Base styles */
 html {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', system-ui, sans-serif;
 }
 
 /* Korean text styling */
@@ -36,38 +35,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom component styles */
-.document-card-wrapper {
-  transition: all 0.2s ease-in-out;
-}
-
-.document-card {
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  transform-origin: center center;
-}
-
-.document-card:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-
-/* Filter button styles */
-.filter-button.active,
-.subcategory-filter.active {
-  background-color: #3b82f6 !important;
-  color: white !important;
-  border-color: #3b82f6 !important;
-}
-
-/* Smooth transitions for filtered content */
-.documents-grid .grid {
-  transition: all 0.3s ease-in-out;
-}
-
-.document-card-wrapper {
-  transition: all 0.3s ease-in-out;
-}
+/* TOPIK exam focus mode: hide navbar during exam, reclaim top space for timer */
+body.topik-exam-mode .navbar { display: none !important; }
+body.topik-exam-mode { padding-top: 0 !important; }
 
 /* Animation utilities */
 @keyframes fadeIn {

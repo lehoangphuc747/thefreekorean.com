@@ -2,11 +2,18 @@
 	"compatibility_date": "2026-05-28",
 	"compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
 	"name": "the-free-korean",
-	"main": "@astrojs/cloudflare/entrypoints/server",
+	"main": "./src/worker.ts",
 	"assets": {
 		"directory": "./dist",
-		"binding": "ASSETS"
+		"binding": "ASSETS",
+		"html_handling": "auto-trailing-slash"
 	},
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "ankivn-media"
+		}
+	],
 	"observability": {
 		"enabled": true
 	}

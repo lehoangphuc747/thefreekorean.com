@@ -16,47 +16,64 @@ const slug = entry.id;
 ---
 
 <TopikLayout title="쓰기 (Writing) - TOPIK">
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Back -->
-    <a href={`/topik/thi-thu/${slug}`} class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4 transition-colors">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-      <span>Quay lại</span>
-    </a>
+  <div class="exam-root">
 
-    <!-- Header -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-      <h1 class="text-2xl font-bold text-gray-900 mb-2">쓰기 Writing</h1>
-      <p class="text-gray-600">4 câu hỏi • 50 phút</p>
-    </div>
-
-    <!-- Timer -->
-    <div id="timer-bar" class="sticky z-40 bg-white shadow-md rounded-lg px-4 py-3 mb-4 flex items-center justify-between" style="top: 0.5rem;">
-      <div class="flex items-center gap-4">
-        <span class="font-bold text-gray-800">✍️ Writing</span>
-        <span id="timer" class="text-xl font-mono text-red-600 font-bold">50:00</span>
+    <!-- Sticky header bar -->
+    <header id="exam-header">
+      <div class="header-inner">
+        <div class="header-left">
+          <a href={`/topik/thi-thu/${slug}`} class="back-link" id="back-link">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Quay lại
+          </a>
+          <span class="section-label">쓰기 · Writing</span>
+        </div>
+        <div class="header-right">
+          <div class="timer-wrap">
+            <span class="timer-label">TIME</span>
+            <span id="timer" class="timer-text">50:00</span>
+          </div>
+          <span id="progress-text" class="progress-label">0 / 4</span>
+          <button id="btn-submit" class="btn-submit">Nộp bài</button>
+        </div>
       </div>
-      <div class="flex items-center gap-3">
-        <span id="progress-text" class="text-sm text-gray-500">0/4 câu</span>
-        <button id="btn-submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors">Nộp bài</button>
+      <!-- Progress bar thin line -->
+      <div class="header-progress-bg">
+        <div id="header-progress-fill" class="header-progress-fill" style="width:0%"></div>
       </div>
-    </div>
+    </header>
 
-    <!-- Questions -->
-    <div id="questions-area" class="space-y-6"></div>
-
-    <!-- Results -->
-    <div id="results-area" class="hidden bg-white rounded-xl shadow-lg p-8">
-      <h2 class="text-2xl font-bold mb-4 text-center">Kết quả</h2>
-      <p class="text-gray-600 text-center mb-6">Đối chiếu bài làm với mẫu tham khảo bên dưới</p>
-      <div id="results-content"></div>
-      <div class="text-center mt-6">
-        <a href={`/topik/thi-thu/${slug}/writing`} class="inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">Làm lại</a>
+    <!-- Main content -->
+    <main class="exam-main">
+      <div class="exam-shell">
+        <section id="questions-area" class="questions-area" aria-label="Writing questions"></section>
+        <aside class="question-nav" aria-label="Question navigator">
+          <div class="question-nav-card">
+            <div class="question-nav-head">
+              <p class="question-nav-title">Câu hỏi</p>
+              <p id="question-nav-count" class="question-nav-count">0 / 4</p>
+            </div>
+            <div id="question-nav-grid" class="question-nav-grid"></div>
+          </div>
+        </aside>
       </div>
-    </div>
+
+      <!-- Results -->
+      <div id="results-area" class="results-area hidden">
+        <div class="results-card">
+          <p class="results-title">Hoàn thành bài thi Viết</p>
+          <p class="results-desc">Vui lòng đối chiếu bài làm của bạn với bài mẫu tham khảo ở trên từng câu hỏi.</p>
+          <a href={`/topik/thi-thu/${slug}/writing`} class="btn-retry">Làm lại bài thi</a>
+        </div>
+      </div>
+    </main>
+
   </div>
 </TopikLayout>
 
 <script is:inline>
+document.body.classList.add('topik-exam-mode');
+
 fetch(`/topik2-thi-thu-35-writing.json`)
   .then(r => r.json())
   .then(data => initWriting(data))
@@ -66,108 +83,381 @@ function initWriting(data) {
   const questions = data.questions;
   let answers = {};
   let submitted = false;
+  let activeQuestionId = questions[0]?.id;
   let timeLeft = data.meta.duration * 60;
   let timerInterval = null;
 
   const timerEl = document.getElementById('timer');
   const progressText = document.getElementById('progress-text');
+  const progressFill = document.getElementById('header-progress-fill');
   const questionsArea = document.getElementById('questions-area');
+  const questionNavGrid = document.getElementById('question-nav-grid');
+  const questionNavCount = document.getElementById('question-nav-count');
   const resultsArea = document.getElementById('results-area');
-  const resultsContent = document.getElementById('results-content');
   const btnSubmit = document.getElementById('btn-submit');
 
-  // Start timer
+  function countChars(text) {
+    return [...(text || '')].length;
+  }
+
+  function isAnswered(key) {
+    return Boolean(answers[key] && answers[key].trim());
+  }
+
+  function getSheetCols() {
+    if (window.innerWidth <= 360) return 14;
+    if (window.innerWidth <= 600) return 16;
+    if (window.innerWidth <= 900) return 20;
+    return 25;
+  }
+
+  function getCharStatus(q, text) {
+    const length = countChars(text);
+    const min = q.minChars || 0;
+    const max = q.maxChars || Infinity;
+
+    if (min && length < min) {
+      return { state: 'under', label: `Còn thiếu ${min - length} chữ`, length };
+    }
+    if (length > max) {
+      return { state: 'over', label: `Vượt ${length - max} chữ`, length };
+    }
+    return { state: min ? 'ok' : 'neutral', label: min ? 'Đạt yêu cầu' : `${length} chữ`, length };
+  }
+
+  function getLiveCountText(q, text) {
+    const status = getCharStatus(q, text);
+    if (!q.minChars && !q.maxChars) return `${status.length} chữ`;
+    return `${status.length} chữ · ${status.label}`;
+  }
+
+  function getRequirementText(q) {
+    if (q.minChars && q.maxChars) return `Yêu cầu: ${q.minChars} - ${q.maxChars} chữ`;
+    if (q.maxChars) return `Yêu cầu: tối đa ${q.maxChars} chữ`;
+    return 'Gợi ý: trả lời đủ ý';
+  }
+
+  function getCharRangeLabel(q) {
+    if (q.minChars && q.maxChars) return `${q.minChars}-${q.maxChars}`;
+    if (q.maxChars) return `${q.maxChars}`;
+    return '';
+  }
+
+  function buildSheetCells(q, text) {
+    const cols = getSheetCols();
+    // Default config per question type
+    let maxCells = 700;
+    let minCells = 700;
+    
+    if (q.id <= 52) {
+      maxCells = 50; // roughly 2 lines
+      minCells = 50;
+    } else if (q.id === 53) {
+      maxCells = 300;
+      minCells = 300;
+    } else if (q.maxChars) {
+      maxCells = q.maxChars;
+    }
+    const chars = [...(text || '').replace(/\r\n/g, '\n')];
+    const cells = [];
+    let col = 0;
+
+    // Advanced Parser for Wongoji
+    // 1. Group 2 consecutive numbers or lower-case English letters into 1 cell
+    // 2. Pull-back punctuation to prevent it from appearing at the start of a new line
+    // 3. Keep track of source index for caret mapping (to be used later if needed)
+    
+    const parsedTokens = [];
+    let i = 0;
+    while (i < chars.length) {
+      const char = chars[i];
+      if (char === '\n') {
+        parsedTokens.push({ type: 'newline', char });
+        i++;
+      } else if (/[0-9a-z]/.test(char) && i + 1 < chars.length && /[0-9a-z]/.test(chars[i + 1])) {
+        // Group two alphanumeric characters
+        parsedTokens.push({ type: 'group', char: char + chars[i + 1], originalIndices: [i, i + 1] });
+        i += 2;
+      } else if (/[.,?!”)]]/.test(char)) { // Basic punctuation and close brackets/quotes
+        parsedTokens.push({ type: 'punct', char: char, originalIndices: [i] });
+        i++;
+      } else if (/[“(\[]/.test(char)) { // Open brackets/quotes
+         parsedTokens.push({ type: 'open_punct', char: char, originalIndices: [i] });
+         i++;
+      } else {
+        parsedTokens.push({ type: 'char', char: char, originalIndices: [i] });
+        i++;
+      }
+    }
+
+    parsedTokens.forEach((token) => {
+      if (token.type === 'newline') {
+        const fill = col === 0 ? cols : cols - col;
+        for (let j = 0; j < fill; j++) cells.push({ char: '', newline: true });
+        col = 0;
+        return;
+      }
+      
+      // Pull-back logic: if punctuation falls on col 0 (start of line) and we have previous cells,
+      // merge it into the last cell of the previous line.
+      if ((token.type === 'punct' || token.char === '.' || token.char === ',') && col === 0 && cells.length > 0) {
+          // Find the last actual cell
+          let lastCellIndex = cells.length - 1;
+          while(lastCellIndex >= 0 && cells[lastCellIndex].newline) {
+             lastCellIndex--;
+          }
+          if(lastCellIndex >= 0) {
+             cells[lastCellIndex].char += token.char;
+             cells[lastCellIndex].hasPulledPunct = true;
+             return; // Do not consume a new cell
+          }
+      }
+      
+      // Open bracket logic: if open bracket falls on the last column of a line,
+      // it should ideally be pushed to the next line. (leaving current cell empty)
+      // TOPIK Rule: No open bracket at end of line.
+      if (token.type === 'open_punct' && col === cols - 1) {
+          cells.push({ char: '', forcedSpace: true }); // Empty cell at end of line
+          col = 0; // Wrap to next line
+      }
+
+      cells.push({ char: token.char, isPunct: token.type === 'punct', isGroup: token.type === 'group' });
+      col = (col + 1) % cols;
+    });
+
+    while (cells.length < minCells) cells.push({ char: '' });
+
+    return cells.map((cell, index) => {
+      const classes = ['answer-cell'];
+      if (!cell.char && !cell.forcedSpace) classes.push('answer-cell-space');
+      if (cell.forcedSpace) classes.push('answer-cell-space'); // Can style differently if needed
+      if (index >= maxCells) classes.push('answer-cell-over');
+      if (cell.isPunct || cell.hasPulledPunct) classes.push('answer-cell-punct');
+      if (cell.isGroup) classes.push('answer-cell-group');
+      
+      // Thick border logic (5x4 blocks)
+      const colIndex = index % cols;
+      const rowIndex = Math.floor(index / cols);
+      
+      if ((colIndex + 1) % 5 === 0 && colIndex + 1 !== cols) {
+        classes.push('cell-thick-right');
+      }
+      if ((rowIndex + 1) % 4 === 0) {
+        classes.push('cell-thick-bottom');
+      }
+      
+      // Marker logic (every 50 cells)
+      let markerAttr = '';
+      if ((index + 1) % 50 === 0) {
+        classes.push('cell-marker');
+        markerAttr = `data-marker="${index + 1}"`;
+      }
+      
+      const safeChar = cell.char === ' ' ? '' : cell.char;
+      return `<span class="${classes.join(' ')}" ${markerAttr}>${safeChar}</span>`;
+    }).join('');
+  }
+
+  function renderAnswerSheet(q, text) {
+    const status = getCharStatus(q, text);
+    const range = getCharRangeLabel(q);
+    return `
+      <div class="answer-sheet-preview" data-sheet="writing-${q.id}">
+        <div class="answer-sheet-head">
+          <span>Giấy ô TOPIK</span>
+          <span class="answer-sheet-status answer-status-${status.state}">${status.length} / ${range || (q.id <= 52 ? '50' : '700')} chữ · ${status.label}</span>
+        </div>
+        <div class="answer-sheet-grid">${buildSheetCells(q, text)}</div>
+      </div>
+    `;
+  }
+
+  function syncProgress() {
+    const answered = Object.keys(answers).filter(isAnswered).length;
+    progressText.textContent = `${answered} / ${questions.length}`;
+    questionNavCount.textContent = `${answered} / ${questions.length}`;
+    if (progressFill) {
+      progressFill.style.width = `${Math.round(answered / questions.length * 100)}%`;
+    }
+  }
+
+  function renderQuestionNav() {
+    questionNavGrid.innerHTML = questions.map((q) => {
+      const key = `writing-${q.id}`;
+      const answered = isAnswered(key);
+      let stateClass = answered ? 'question-nav-done' : 'question-nav-empty';
+
+      if (!submitted && q.id === activeQuestionId) {
+        stateClass += ' question-nav-current';
+      }
+      if (submitted && !answered) {
+        stateClass = 'question-nav-missing';
+      }
+
+      return `<button class="question-nav-btn ${stateClass}" type="button" data-jump="${q.id}" aria-label="Go to question ${q.id}">${q.id}</button>`;
+    }).join('');
+
+    questionNavGrid.querySelectorAll('[data-jump]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeQuestionId = Number(btn.dataset.jump);
+        renderQuestionNav();
+        const target = document.getElementById(`question-${btn.dataset.jump}`);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  // Timer
   timerInterval = setInterval(() => {
     timeLeft--;
     const m = Math.floor(timeLeft / 60);
     const s = timeLeft % 60;
     timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    timerEl.className = timeLeft < 60 ? 'text-xl font-mono text-red-700 font-bold animate-pulse' : 'text-xl font-mono text-red-600 font-bold';
-    
-    const answered = Object.keys(answers).filter(k => answers[k] && answers[k].trim()).length;
-    progressText.textContent = `${answered}/${questions.length} câu`;
-    
+
+    if (timeLeft < 60) {
+      timerEl.classList.add('timer-urgent');
+    }
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       submit();
     }
+
+    syncProgress();
   }, 1000);
 
   // Render
   function render() {
     let html = '';
 
-    questions.forEach((q, qi) => {
+    questions.forEach((q) => {
       const key = `writing-${q.id}`;
       const text = answers[key] || '';
+      const minChars = q.minChars || 0;
 
-      html += `<div class="bg-white rounded-xl shadow-md p-6">`;
+      html += `<div class="q-card" id="question-${q.id}">`;
       
       // Question header
-      html += `<div class="flex items-start gap-3 mb-4">
-        <span class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 text-orange-700 font-bold text-sm flex items-center justify-center">${q.id}</span>
-        <div class="flex-1">
-          <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded">${q.points} điểm</span>
+      html += `<div class="q-head">
+        <span class="q-num">${q.id}</span>
+        <div class="q-body">
+          <span class="q-points">${q.points} điểm</span>
         </div>
       </div>`;
 
       // Question text
       if (q.question_ko) {
-        html += `<div class="bg-gray-50 p-4 rounded-lg mb-4">
-          <p class="text-gray-800 whitespace-pre-line text-sm leading-relaxed">${q.question_ko}</p>
+        html += `<div class="q-instruction">
+          <p class="q-instruction-text">${q.question_ko}</p>
         </div>`;
       }
 
-      // Textarea
+      // Input area
       if (submitted) {
         // Show user's answer
-        html += `<div class="mb-4">
-          <p class="text-xs text-gray-500 mb-2">Bài làm của bạn:</p>
-          <div class="bg-blue-50 p-4 rounded-lg">
-            <p class="text-sm text-gray-800 whitespace-pre-line">${text || '(Chưa viết)'}</p>
+        html += `
+          <div class="user-answer-box">
+            <p class="box-label">Bài làm của bạn:</p>
+            <div class="user-text-wrap">
+              <p class="user-text">${text || '<span class="empty-answer">(Chưa viết)</span>'}</p>
+            </div>
+            <p class="char-count-final">${countChars(text)} chữ</p>
           </div>
-          <p class="text-xs text-gray-400 mt-1">${text.length} chữ</p>
-        </div>`;
+        `;
+
+        html += renderAnswerSheet(q, text);
 
         // Show model answer
         if (q.model_answer) {
-          html += `<div class="bg-green-50 border border-green-200 rounded-lg p-4">
-            <p class="text-sm font-semibold text-green-700 mb-2">Mẫu tham khảo:</p>
-            <p class="text-sm text-green-800 whitespace-pre-line leading-relaxed">${q.model_answer}</p>
-          </div>`;
+          html += `
+            <div class="model-answer-box">
+              <p class="box-label">Mẫu tham khảo:</p>
+              <p class="model-text">${q.model_answer}</p>
+            </div>
+          `;
         }
       } else {
-        // Textarea for input
-        const minChars = q.minChars || 0;
-        const maxChars = q.maxChars || 999;
-        html += `<textarea 
-          class="writing-input w-full p-4 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none resize-none text-sm" 
-          rows="${q.id <= 52 ? 4 : 10}" 
-          placeholder="${q.id <= 52 ? 'Viết câu trả lời...' : `Viết bài (${minChars}-${maxChars} chữ)...`}" 
-          data-key="${key}"
-        >${text}</textarea>`;
-
-        if (minChars > 0) {
-          html += `<div class="flex justify-between mt-2">
-            <span class="text-xs text-gray-400">Yêu cầu: ${minChars}-${maxChars} chữ</span>
-            <span class="char-count text-xs text-gray-400" data-key="${key}">${text.length} chữ</span>
-          </div>`;
-        }
+        // Faux Cell Editor setup for ALL questions
+        html += `
+          <div class="faux-editor-container">
+            <textarea 
+              class="writing-textarea faux-textarea" 
+              data-key="${key}"
+              data-qid="${q.id}"
+              aria-label="Answer for question ${q.id}"
+              aria-describedby="${key}-count"
+              spellcheck="false"
+            >${text}</textarea>
+            
+            ${renderAnswerSheet(q, text)}
+            
+            <div class="textarea-footer faux-footer">
+              <span class="req-text">${getRequirementText(q)}</span>
+              <span id="${key}-count" class="char-count-live char-status-${getCharStatus(q, text).state}" data-key="${key}">${getLiveCountText(q, text)}</span>
+            </div>
+          </div>
+        `;
       }
 
       html += `</div>`;
     });
 
     questionsArea.innerHTML = html;
+    renderQuestionNav();
+    syncProgress();
 
-    // Input handlers
-    questionsArea.querySelectorAll('.writing-input').forEach(textarea => {
+    // Input handlers for faux textarea
+    questionsArea.querySelectorAll('.faux-textarea').forEach(textarea => {
+      textarea.addEventListener('focus', () => {
+        activeQuestionId = Number(textarea.dataset.qid);
+        renderQuestionNav();
+        // Add active state to container
+        textarea.closest('.faux-editor-container').classList.add('faux-editor-focused');
+      });
+      textarea.addEventListener('blur', () => {
+        textarea.closest('.faux-editor-container').classList.remove('faux-editor-focused');
+      });
+      
       textarea.addEventListener('input', () => {
         const key = textarea.dataset.key;
+        const qid = Number(textarea.dataset.qid);
+        const q = questions.find(item => item.id === qid);
+        activeQuestionId = qid;
         answers[key] = textarea.value;
-        const counter = questionsArea.querySelector(`.char-count[data-key="${key}"]`);
-        if (counter) counter.textContent = `${textarea.value.length} chữ`;
+        const counter = questionsArea.querySelector(`.char-count-live[data-key="${key}"]`);
+        if (counter && q) {
+          const status = getCharStatus(q, textarea.value);
+          counter.textContent = getLiveCountText(q, textarea.value);
+          counter.className = `char-count-live char-status-${status.state}`;
+        }
+        const sheet = questionsArea.querySelector(`.answer-sheet-preview[data-sheet="${key}"]`);
+        if (sheet && q) {
+          const status = getCharStatus(q, textarea.value);
+          const range = getCharRangeLabel(q);
+          const rangeLabel = range || (q.id <= 52 ? '50' : '700');
+          sheet.querySelector('.answer-sheet-status').textContent = `${status.length} / ${rangeLabel} chữ · ${status.label}`;
+          sheet.querySelector('.answer-sheet-status').className = `answer-sheet-status answer-status-${status.state}`;
+          sheet.querySelector('.answer-sheet-grid').innerHTML = buildSheetCells(q, textarea.value);
+        }
+        renderQuestionNav();
+        syncProgress();
       });
+    });
+    
+    // Delegate click from the preview grid to the hidden textarea
+    questionsArea.addEventListener('click', (e) => {
+        const grid = e.target.closest('.answer-sheet-grid');
+        if (grid) {
+            const container = grid.closest('.faux-editor-container');
+            if (container) {
+                const textarea = container.querySelector('.faux-textarea');
+                // Optional: set cursor at end of text for mobile convenience
+                if (textarea) {
+                   textarea.focus();
+                   const len = textarea.value.length;
+                   textarea.setSelectionRange(len, len);
+                }
+            }
+        }
     });
   }
 
@@ -175,14 +465,17 @@ function initWriting(data) {
   function submit() {
     submitted = true;
     clearInterval(timerInterval);
+    document.body.classList.remove('topik-exam-mode');
+    const header = document.getElementById('exam-header');
+    if (header) header.classList.add('header-static');
     render();
 
     resultsArea.classList.remove('hidden');
-    resultsArea.scrollIntoView({ behavior: 'smooth' });
+    resultsArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    btnSubmit.textContent = 'Đã nộp bài';
+    btnSubmit.textContent = 'Đã nộp';
     btnSubmit.disabled = true;
-    btnSubmit.classList.add('opacity-50');
+    btnSubmit.classList.add('submitted');
   }
 
   btnSubmit.addEventListener('click', () => {
@@ -193,7 +486,189 @@ function initWriting(data) {
 }
 </script>
 
-<style>
-  .animate-pulse { animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+<style is:global>
+.exam-root {
+  min-height: 100vh;
+  background: #f7f6f3;
+  color: #111111;
+  font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#exam-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+#exam-header.header-static { position: static; }
+
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; gap: 1rem; }
+.header-left, .header-right { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.back-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: #787774; text-decoration: none; transition: color 0.15s; }
+.back-link:hover { color: #111111; }
+.section-label { font-size: 0.85rem; font-weight: 600; color: #111111; white-space: nowrap; }
+
+.timer-wrap { display: flex; align-items: baseline; gap: 0.35rem; white-space: nowrap; }
+.timer-label { font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; color: #787774; }
+.timer-text { font-variant-numeric: tabular-nums; font-size: 1rem; font-weight: 600; color: #111111; }
+.timer-text.timer-urgent { color: #dc2626; animation: pulse-timer 1s infinite; }
+@keyframes pulse-timer { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.progress-label { font-size: 0.8rem; color: #787774; white-space: nowrap; }
+.btn-submit { padding: 0.45rem 1rem; background: #111111; color: #ffffff; font-size: 0.8rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background 0.15s, opacity 0.15s, transform 0.15s; white-space: nowrap; }
+.btn-submit:hover { background: #333333; }
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit.submitted { opacity: 0.4; cursor: default; }
+
+.header-progress-bg { height: 2px; background: #f1f1ef; }
+.header-progress-fill { height: 100%; background: #111111; transition: width 0.4s; }
+
+.exam-main { max-width: 1180px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; }
+.exam-shell { display: grid; grid-template-columns: minmax(760px, 860px) 200px; align-items: start; justify-content: center; gap: 1.5rem; }
+.questions-area { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+.question-nav { position: sticky; top: 86px; }
+.question-nav-card { border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; padding: 1rem; }
+.question-nav-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.85rem; }
+.question-nav-title { margin: 0; font-size: 0.82rem; font-weight: 650; color: #111111; }
+.question-nav-count { margin: 0; font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace; font-size: 0.68rem; color: #787774; font-variant-numeric: tabular-nums; }
+.question-nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.45rem; }
+.question-nav-btn { height: 34px; border: 1px solid #eaeaea; border-radius: 6px; background: #ffffff; color: #787774; font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace; font-size: 0.72rem; font-variant-numeric: tabular-nums; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s; }
+.question-nav-btn:hover { border-color: rgba(0,0,0,0.16); color: #111111; }
+.question-nav-btn:active { transform: scale(0.98); }
+.question-nav-done { border-color: #111111; background: #111111; color: #ffffff; }
+.question-nav-current { border-color: #111111; background: #ffffff; color: #111111; box-shadow: inset 0 0 0 1px #111111; }
+.question-nav-missing { border-color: #9f2f2d; background: #fdebec; color: #9f2f2d; }
+
+.q-card { background: #ffffff; border: 1px solid #eaeaea; border-radius: 12px; padding: 1.5rem; scroll-margin-top: 96px; }
+.q-head { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+.q-num { flex-shrink: 0; width: 1.8rem; height: 1.8rem; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #787774; border: 1px solid #eaeaea; border-radius: 6px; }
+.q-points { font-size: 0.75rem; font-weight: 600; color: #787774; background: #f9f9f8; border: 1px solid #eaeaea; padding: 0.2rem 0.6rem; border-radius: 4px; }
+
+.q-instruction { background: #f9f9f8; border: 1px solid #eaeaea; padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; }
+.q-instruction-text { font-size: 0.98rem; line-height: 1.75; color: #111111; margin: 0; white-space: pre-line; }
+
+/* Faux Editor Styles */
+.faux-editor-container { position: relative; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; transition: border-color 0.15s, box-shadow 0.15s; overflow: hidden; margin-top: 1rem; }
+.faux-editor-container.faux-editor-focused { border-color: #111111; box-shadow: 0 0 0 1px #111111; }
+.faux-textarea { position: absolute; opacity: 0; width: 1px; height: 1px; top: -100px; left: -100px; padding: 0; margin: 0; border: none; outline: none; resize: none; overflow: hidden; }
+.faux-footer { border-top: 1px solid #eaeaea; background: #f9f9f8; }
+
+.textarea-wrapper { position: relative; border: 1px solid #eaeaea; border-radius: 8px; background: #ffffff; transition: border-color 0.15s; }
+.textarea-wrapper:focus-within { border-color: #111111; }
+.writing-textarea { width: 100%; border: none; background: transparent; padding: 1rem; font-size: 1rem; line-height: 1.7; color: #111111; resize: vertical; outline: none; font-family: inherit; }
+.writing-textarea::placeholder { color: #9b9a97; }
+.textarea-footer { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 1rem; border-top: 1px solid #eaeaea; background: #f9f9f8; border-radius: 0 0 8px 8px; }
+.req-text, .char-count-live { font-size: 0.75rem; color: #787774; }
+.char-status-under, .answer-status-under { color: #956400; }
+.char-status-ok, .answer-status-ok { color: #346538; }
+.char-status-over, .answer-status-over { color: #9f2f2d; }
+
+.answer-sheet-preview { margin-top: 0; border: none; background: #ffffff; cursor: text; }
+.faux-editor-container .answer-sheet-preview { border-radius: 0; }
+.answer-sheet-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.75rem 1rem; border-bottom: 1px solid #eaeaea; background: #f9f9f8; font-size: 0.78rem; font-weight: 600; color: #111111; }
+.answer-sheet-status { font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 500; color: #787774; text-align: right; }
+.answer-sheet-grid { --cols: 25; display: grid; grid-template-columns: repeat(var(--cols), 1fr); border-left: 1px solid transparent; border-top: 1px solid transparent; padding-right: 1.5rem; }
+.answer-cell { aspect-ratio: 1; border-right: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; display: flex; align-items: center; justify-content: center; background: #ffffff; color: #111111; font-size: 0.9rem; line-height: 1; font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif; position: relative; }
+.answer-cell-space { background: #fbfbfa; }
+
+/* Grid block styling for Desktop (5x4) */
+@media (min-width: 901px) {
+  .answer-sheet-grid {
+    border-left: 1px solid #aaa;
+    border-top: 1px solid #aaa;
+    padding-right: 2rem;
+  }
+  .answer-cell {
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .cell-thick-right { border-right: 1.5px solid #aaa !important; }
+  .cell-thick-bottom { border-bottom: 1.5px solid #aaa !important; }
+  
+  /* The outermost right and bottom edges should be thick too */
+  .answer-cell:nth-child(25n) { border-right: 1.5px solid #aaa !important; }
+  .answer-sheet-grid > .answer-cell:nth-last-child(-n+25) { border-bottom: 1.5px solid #aaa !important; }
+  
+  /* Markers */
+  .cell-marker::after {
+    content: attr(data-marker);
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    color: #999;
+  }
+}
+.faux-editor-focused .answer-sheet-grid .answer-cell-space:first-of-type::after { content: ''; position: absolute; width: 1.5px; height: 60%; background-color: #111111; animation: blink 1s step-end infinite; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+@keyframes blink { 50% { opacity: 0; } }
+.answer-cell-over { background: #fdebec; color: #9f2f2d; }
+.answer-cell-punct { align-items: flex-end; justify-content: flex-start; padding: 0 0 10% 10%; font-size: 1.1rem; }
+.answer-cell-group { letter-spacing: -0.05em; }
+
+.box-label { font-size: 0.75rem; font-weight: 600; color: #787774; text-transform: uppercase; margin: 0 0 0.5rem; letter-spacing: 0.05em; }
+.user-answer-box { margin-bottom: 1.5rem; }
+.user-text-wrap { background: #f9f9f8; border: 1px solid #eaeaea; padding: 1rem; border-radius: 8px; }
+.user-text { font-size: 0.98rem; line-height: 1.7; color: #111111; margin: 0; white-space: pre-line; }
+.empty-answer { color: #787774; font-style: italic; }
+.char-count-final { font-size: 0.75rem; color: #787774; margin: 0.5rem 0 0; text-align: right; }
+.model-answer-box { background: #f9f9f8; border: 1px solid #eaeaea; padding: 1.25rem; border-radius: 8px; margin-top: 1rem; }
+.model-text { font-size: 0.98rem; line-height: 1.7; color: #333333; margin: 0; white-space: pre-line; }
+
+.results-area { margin-top: 3rem; }
+.results-card { background: #ffffff; border: 1px solid #eaeaea; border-radius: 12px; padding: 3rem 2rem; text-align: center; }
+.results-title { font-size: 1.25rem; font-weight: 700; color: #111111; margin: 0 0 0.5rem; }
+.results-desc { font-size: 0.9rem; color: #787774; margin: 0 0 2rem; }
+.btn-retry { display: inline-block; padding: 0.6rem 1.75rem; background: #111111; color: #ffffff; font-size: 0.875rem; font-weight: 600; border-radius: 8px; text-decoration: none; }
+.btn-retry:hover { background: #333333; }
+
+.hidden { display: none; }
+
+@media (max-width: 1199px) {
+  .exam-main { max-width: 1040px; }
+  .exam-shell { grid-template-columns: minmax(0, 1fr) 184px; gap: 1rem; }
+}
+
+@media (max-width: 900px) {
+  .exam-main { max-width: 760px; padding: 1.25rem 1rem 3.5rem; }
+  .exam-shell { display: flex; flex-direction: column-reverse; gap: 1rem; }
+  .question-nav { position: sticky; top: 70px; z-index: 20; margin: 0 -1rem; padding: 0.65rem 1rem; background: rgba(247,246,243,0.96); border-bottom: 1px solid #eaeaea; width: calc(100% + 2rem); overflow: hidden; box-sizing: border-box; }
+  .question-nav-card { width: 100%; max-width: 100%; padding: 0.75rem; border-radius: 10px; overflow: hidden; box-sizing: border-box; }
+  .question-nav-grid { display: flex; gap: 0.35rem; overflow-x: auto; width: 100%; padding-bottom: 0.1rem; scrollbar-width: none; }
+  .question-nav-grid::-webkit-scrollbar { display: none; }
+  .question-nav-btn { width: 44px; min-width: 44px; height: 32px; }
+  .q-card { scroll-margin-top: 170px; }
+  .answer-sheet-grid { --cols: 20; padding-right: 0; border-left: 1px solid #eaeaea; border-top: 1px solid #eaeaea; }
+}
+
+@media (max-width: 600px) {
+  .header-inner { padding: 0.65rem 0.75rem; gap: 0.6rem; }
+  .header-left { gap: 0.55rem; min-width: 0; }
+  .header-right { gap: 0.65rem; flex-shrink: 0; }
+  .back-link { font-size: 0.76rem; }
+  .section-label { font-size: 0.8rem; }
+  .timer-label { font-size: 0.56rem; }
+  .timer-text { font-size: 0.92rem; }
+  .progress-label { font-size: 0.74rem; }
+  .btn-submit { padding: 0.42rem 0.72rem; font-size: 0.78rem; }
+  .exam-main { padding: 1rem 0.75rem 3rem; }
+  .question-nav { top: 70px; margin: 0 -0.75rem; padding: 0.65rem 0.75rem; width: calc(100% + 1.5rem); }
+  .q-card { padding: 1rem; }
+  .q-instruction { padding: 1rem; }
+  .q-instruction-text { font-size: 0.94rem; }
+  .textarea-footer { flex-direction: column; gap: 0.25rem; }
+  .answer-sheet-head { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
+  .answer-sheet-grid { --cols: 16; padding-right: 0; }
+  .answer-cell { font-size: 0.76rem; }
+}
+
+@media (max-width: 360px) {
+  .exam-main { padding-left: 0.6rem; padding-right: 0.6rem; }
+  .q-card { padding: 0.85rem; }
+  .question-nav { margin-left: -0.6rem; margin-right: -0.6rem; width: calc(100% + 1.2rem); }
+  .answer-sheet-grid { --cols: 14; padding-right: 0; }
+  .answer-cell { font-size: 0.72rem; }
+}
 </style>

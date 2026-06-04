@@ -1,19 +1,67 @@
 
 ---
 ---
-<!-- Component: Footer
-Description: This component displays the site footer on all pages
-Used in: Layout.astro (appears on all pages)
-Purpose: Shows copyright information and contact details -->
-<footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 text-center">
-    <div class="flex justify-center items-center mb-1">
-      <span class="text-3xl font-bold text-blue-400 mr-2">한</span>
-      <span class="text-xl font-bold">The Free Korean</span>
+<!-- Component: Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-mark">TFK</span>
+      <span>The Free Korean</span>
     </div>
-    <div class="mt-2">
-      Nền tảng học tiếng Hàn miễn phí được tạo ra bởi một kẻ biếng học tiếng Hàn
-    </div>
-    <span class="text-gray-400 text-sm block mt-2">© 2024 The Free Korean by một kẻ biếng học tiếng Hàn.</span>
+    <p>Nền tảng học tiếng Hàn miễn phí được tạo ra bởi một kẻ biếng học tiếng Hàn.</p>
+    <small>© 2024 The Free Korean.</small>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid #eaeaea;
+    background: #ffffff;
+    color: #111111;
+    padding: 3rem 1rem;
+    font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .footer-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #111111;
+    font-weight: 720;
+    letter-spacing: -0.03em;
+  }
+
+  .footer-mark {
+    display: inline-grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    background: #f7f6f3;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  p {
+    margin: 0.9rem auto 0;
+    max-width: 560px;
+    color: #787774;
+    line-height: 1.6;
+  }
+
+  small {
+    display: block;
+    margin-top: 0.75rem;
+    color: #787774;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+</style>

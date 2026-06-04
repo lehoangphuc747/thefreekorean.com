@@ -16,208 +16,353 @@ const slug = entry.id;
 ---
 
 <TopikLayout title="듣기 (Listening) - TOPIK">
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Back -->
-    <a href={`/topik/thi-thu/${slug}`} class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4 transition-colors">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-      <span>Quay lại</span>
-    </a>
+  <div class="exam-root">
 
-    <!-- Header -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-      <h1 class="text-2xl font-bold text-gray-900 mb-2">듣기 Listening</h1>
-      <p class="text-gray-600">50 câu hỏi • 60 phút</p>
-    </div>
-
-    <!-- Timer -->
-    <div id="timer-bar" class="sticky z-40 bg-white shadow-md rounded-lg px-4 py-3 mb-4 flex items-center justify-between" style="top: 0.5rem;">
-      <div class="flex items-center gap-4">
-        <span class="font-bold text-gray-800">🎧 Listening</span>
-        <span id="timer" class="text-xl font-mono text-red-600 font-bold">60:00</span>
+    <!-- Sticky header bar -->
+    <header id="exam-header">
+      <div class="header-inner">
+        <div class="header-left">
+          <a href={`/topik/thi-thu/${slug}`} class="back-link" id="back-link">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Quay lại
+          </a>
+          <span class="section-label">듣기 · Listening</span>
+        </div>
+        <div class="header-audio" aria-label="Listening audio controls">
+          <audio id="audio-player" preload="metadata" class="audio-player">
+            <source src="" type="audio/mpeg" />
+          </audio>
+          <div class="audio-control-bar">
+            <button id="audio-toggle" class="audio-toggle" type="button" aria-label="Play audio">
+              <span id="audio-toggle-icon" class="audio-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <span id="audio-current" class="audio-time">0:00</span>
+            <input
+              id="audio-seek"
+              class="audio-seek"
+              type="range"
+              min="0"
+              max="0"
+              value="0"
+              step="0.01"
+              aria-label="Audio progress"
+            />
+            <span id="audio-duration" class="audio-time">0:00</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="timer-wrap">
+            <span class="timer-label">TIME</span>
+            <span id="timer" class="timer-text">60:00</span>
+          </div>
+          <span id="progress-text" class="progress-label">0 / 50</span>
+          <button id="btn-submit" class="btn-submit">Nộp bài</button>
+        </div>
       </div>
-      <div class="flex items-center gap-3">
-        <span id="progress-text" class="text-sm text-gray-500">0/50 câu</span>
-        <button id="btn-submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors">Nộp bài</button>
+      <!-- Progress bar thin line -->
+      <div class="header-progress-bg">
+        <div id="header-progress-fill" class="header-progress-fill" style="width:0%"></div>
       </div>
-    </div>
+    </header>
 
-    <!-- Audio -->
-    <div class="bg-gray-50 rounded-xl p-4 mb-6">
-      <audio id="audio-player" controls class="w-full">
-        <source src="" type="audio/mpeg" />
-      </audio>
-    </div>
+    <!-- Main content -->
+    <main class="exam-main">
+      <div class="exam-shell">
+        <section id="questions-area" class="questions-area" aria-label="Listening questions"></section>
+        <aside class="question-nav" aria-label="Question navigator">
+          <div class="question-nav-card">
+            <div class="question-nav-head">
+              <p class="question-nav-title">Câu hỏi</p>
+              <p id="question-nav-count" class="question-nav-count">0 / 50</p>
+            </div>
+            <div id="question-nav-grid" class="question-nav-grid"></div>
+          </div>
+        </aside>
+      </div>
 
-    <!-- Questions -->
-    <div id="questions-area" class="space-y-4"></div>
+      <!-- Results -->
+      <div id="results-area" class="results-area hidden">
+        <div class="results-card">
+          <p class="results-title">Kết quả</p>
+          <div id="results-content"></div>
+          <a href={`/topik/thi-thu/${slug}/listening`} class="btn-retry">Làm lại</a>
+        </div>
+      </div>
+    </main>
 
-    <!-- Results -->
-    <div id="results-area" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
-      <h2 class="text-2xl font-bold mb-4">Kết quả</h2>
-      <div id="results-content" class="text-lg"></div>
-      <a href={`/topik/thi-thu/${slug}/listening`} class="mt-6 inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">Làm lại</a>
-    </div>
   </div>
 </TopikLayout>
 
 <script is:inline>
+document.body.classList.add('topik-exam-mode');
+
 const slug = window.location.pathname.split('/').filter(Boolean).pop();
 
 fetch(`/topik2-thi-thu-35-listening.json`)
   .then(r => r.json())
   .then(data => initListening(data))
-  .catch(err => console.error('Failed to load:', err));
+  .catch(err => console.error('Failed to load listening data:', err));
 
 function initListening(data) {
   const questions = data.questions;
   const audio = data.audio;
   let answers = {};
   let submitted = false;
+  let activeQuestionId = questions[0]?.id;
   let timeLeft = data.meta.duration * 60;
   let timerInterval = null;
 
   const audioPlayer = document.getElementById('audio-player');
   const timerEl = document.getElementById('timer');
   const progressText = document.getElementById('progress-text');
+  const progressFill = document.getElementById('header-progress-fill');
   const questionsArea = document.getElementById('questions-area');
+  const questionNavGrid = document.getElementById('question-nav-grid');
+  const questionNavCount = document.getElementById('question-nav-count');
   const resultsArea = document.getElementById('results-area');
   const resultsContent = document.getElementById('results-content');
   const btnSubmit = document.getElementById('btn-submit');
+  const audioToggle = document.getElementById('audio-toggle');
+  const audioCurrent = document.getElementById('audio-current');
+  const audioDuration = document.getElementById('audio-duration');
+  const audioSeek = document.getElementById('audio-seek');
 
-  // Set audio
-  if (audio) audioPlayer.src = audio;
+  function formatAudioTime(seconds) {
+    if (!Number.isFinite(seconds)) return '0:00';
+    const total = Math.max(0, Math.floor(seconds));
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
 
-  // Start timer
+    if (h > 0) {
+      return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  function syncAudioProgress() {
+    const duration = Number.isFinite(audioPlayer.duration) ? audioPlayer.duration : 0;
+    const current = Number.isFinite(audioPlayer.currentTime) ? audioPlayer.currentTime : 0;
+    const percent = duration > 0 ? Math.min(100, Math.max(0, current / duration * 100)) : 0;
+
+    audioCurrent.textContent = formatAudioTime(current);
+    audioSeek.value = String(current);
+    audioSeek.style.setProperty('--audio-progress', `${percent}%`);
+  }
+
+  function syncAudioToggle() {
+    audioToggle.classList.toggle('audio-playing', !audioPlayer.paused);
+    audioToggle.setAttribute('aria-label', audioPlayer.paused ? 'Play audio' : 'Pause audio');
+  }
+
+  audioPlayer.addEventListener('loadedmetadata', () => {
+    const duration = Number.isFinite(audioPlayer.duration) ? audioPlayer.duration : 0;
+    audioSeek.max = String(duration);
+    audioDuration.textContent = formatAudioTime(duration);
+    syncAudioProgress();
+  });
+
+  audioPlayer.addEventListener('timeupdate', syncAudioProgress);
+  audioPlayer.addEventListener('play', syncAudioToggle);
+  audioPlayer.addEventListener('pause', syncAudioToggle);
+  audioPlayer.addEventListener('ended', () => {
+    syncAudioProgress();
+    syncAudioToggle();
+  });
+
+  audioToggle.addEventListener('click', () => {
+    if (audioPlayer.paused) {
+      audioPlayer.play().catch(err => console.error('Failed to play audio:', err));
+    } else {
+      audioPlayer.pause();
+      syncAudioToggle();
+    }
+  });
+
+  audioSeek.addEventListener('input', () => {
+    audioPlayer.currentTime = Number(audioSeek.value);
+    syncAudioProgress();
+  });
+
+  if (audio) {
+    audioPlayer.src = audio;
+    audioPlayer.load();
+  } else {
+    console.warn('Missing audio field in listening data');
+  }
+
+  function syncProgress() {
+    const answered = Object.keys(answers).length;
+    progressText.textContent = `${answered} / ${questions.length}`;
+    questionNavCount.textContent = `${answered} / ${questions.length}`;
+    if (progressFill) {
+      progressFill.style.width = `${Math.round(answered / questions.length * 100)}%`;
+    }
+  }
+
+  function renderQuestionNav() {
+    questionNavGrid.innerHTML = questions.map((q) => {
+      const key = `listening-${q.id}`;
+      const selected = answers[key];
+      let stateClass = selected ? 'question-nav-done' : 'question-nav-empty';
+
+      if (!submitted && q.id === activeQuestionId) {
+        stateClass += ' question-nav-current';
+      }
+
+      if (submitted) {
+        if (selected === q.answer) stateClass = 'question-nav-correct';
+        else if (selected) stateClass = 'question-nav-wrong';
+      }
+
+      return `<button class="question-nav-btn ${stateClass}" type="button" data-jump="${q.id}" aria-label="Go to question ${q.id}">${q.id}</button>`;
+    }).join('');
+
+    questionNavGrid.querySelectorAll('[data-jump]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeQuestionId = Number(btn.dataset.jump);
+        renderQuestionNav();
+        const target = document.getElementById(`question-${btn.dataset.jump}`);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  // Timer
   timerInterval = setInterval(() => {
     timeLeft--;
     const m = Math.floor(timeLeft / 60);
     const s = timeLeft % 60;
     timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    timerEl.className = timeLeft < 60 ? 'text-xl font-mono text-red-700 font-bold animate-pulse' : 'text-xl font-mono text-red-600 font-bold';
-    
-    const answered = Object.keys(answers).length;
-    progressText.textContent = `${answered}/${questions.length} câu`;
-    
+
+    if (timeLeft < 60) {
+      timerEl.classList.add('timer-urgent');
+    }
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       submit();
     }
+
+    syncProgress();
   }, 1000);
 
-  // Render questions
+  // Render
   function render() {
     let html = '';
     let lastGroup = '';
 
-    questions.forEach((q, qi) => {
+    questions.forEach((q) => {
       const key = `listening-${q.id}`;
       const selected = answers[key];
 
       // Group instruction
       if (q.group_instruction && q.group_instruction !== lastGroup) {
         lastGroup = q.group_instruction;
-        html += `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4">
-          <p class="text-sm font-semibold text-yellow-800">${q.group_instruction}</p>
-        </div>`;
+        html += `
+          <div class="group-instruction">
+            <span class="group-bracket">※ ${q.group_instruction}</span>
+          </div>`;
       }
 
       // Question card
-      html += `<div class="bg-white rounded-xl shadow-md p-5">`;
-      html += `<div class="flex items-start gap-3 mb-3">
-        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold text-sm flex items-center justify-center">${q.id}</span>
-        <div class="flex-1">`;
+      html += `<div class="q-card" id="question-${q.id}">`;
 
-      // Show transcript only after submit
+      // Question number + text
+      html += `<div class="q-head">
+        <span class="q-num">${q.id}</span>
+        <div class="q-body">`;
+
       if (submitted && q.question_ko) {
-        html += `<div class="bg-gray-50 p-3 rounded-lg mb-3">
-          <p class="text-xs text-gray-500 mb-1">Transcript:</p>
-          <p class="text-sm text-gray-700 whitespace-pre-line">${q.question_ko}</p>
-        </div>`;
+        // Highlight speakers: 남자:, 여자:, 안내방송: etc.
+        const formattedTranscript = q.question_ko.replace(/(남자:|여자:|안내방송:|남:|여:)/g, '<span class="speaker-label">$1</span>');
+        
+        html += `
+          <div class="transcript-box">
+            <p class="transcript-label">녹음 내용 (Transcript)</p>
+            <p class="transcript-text">${formattedTranscript}</p>
+          </div>
+        `;
+      } else if (!submitted && !q.choices.some(c => typeof c === 'object' && c.type === 'image')) {
+        // Just empty space to align choices nicely if no transcript shown yet
       }
 
       html += `</div></div>`;
 
       // Choices
       if (q.choices && q.choices.length > 0) {
-        // Check if image choices
         const hasImages = q.choices.some(c => typeof c === 'object' && c.type === 'image');
-        
+
         if (hasImages) {
-          // Image choices - grid 2x2
-          html += `<div class="grid grid-cols-2 gap-3 mt-3 ml-11">`;
+          html += `<div class="choices-img-grid">`;
           q.choices.forEach((choice, ci) => {
             const choiceNum = ci + 1;
             const choiceImg = choice.image;
 
-            let borderClass = 'border-gray-200 hover:border-purple-400';
+            let stateClass = '';
             if (submitted) {
-              if (choiceNum === q.answer) borderClass = 'border-green-500 bg-green-50';
-              else if (choiceNum === selected && choiceNum !== q.answer) borderClass = 'border-red-500 bg-red-50';
+              if (choiceNum === q.answer) stateClass = 'choice-correct';
+              else if (choiceNum === selected && choiceNum !== q.answer) stateClass = 'choice-wrong';
+              else stateClass = 'choice-idle';
             } else if (choiceNum === selected) {
-              borderClass = 'border-purple-500 bg-purple-50 ring-2 ring-purple-300';
+              stateClass = 'choice-selected';
             }
 
-            html += `<button class="choice-btn flex flex-col items-center p-3 rounded-lg border-2 transition-all ${borderClass}" 
-              data-key="listening-${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
-              <span class="mb-2 text-sm font-bold
-                ${choiceNum === selected ? 'text-purple-600' : 'text-gray-500'}
-                ${submitted && choiceNum === q.answer ? 'text-green-600' : ''}
-                ${submitted && choiceNum === selected && choiceNum !== q.answer ? 'text-red-600' : ''}
-              ">${['①','②','③','④'][ci]}</span>
-              <img src="${choiceImg}" alt="Choice ${choiceNum}" class="w-full h-40 object-contain rounded" />
+            html += `<button class="choice-img-btn ${stateClass}" 
+              data-key="${key}" data-qid="${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
+              <span class="choice-num-floating">${choiceNum}</span>
+              <img src="${choiceImg}" alt="Lựa chọn ${choiceNum}" />
             </button>`;
           });
           html += `</div>`;
         } else {
-          // Text choices - list
-          html += `<div class="grid grid-cols-1 gap-2 mt-3 ml-11">`;
+          html += `<div class="choices">`;
           q.choices.forEach((choice, ci) => {
             const choiceNum = ci + 1;
             const choiceText = choice;
 
-            let borderClass = 'border-gray-200 hover:border-purple-400 hover:bg-purple-50';
+            let stateClass = '';
             if (submitted) {
-              if (choiceNum === q.answer) borderClass = 'border-green-500 bg-green-50';
-              else if (choiceNum === selected && choiceNum !== q.answer) borderClass = 'border-red-500 bg-red-50';
+              if (choiceNum === q.answer) stateClass = 'choice-correct';
+              else if (choiceNum === selected && choiceNum !== q.answer) stateClass = 'choice-wrong';
+              else stateClass = 'choice-idle';
             } else if (choiceNum === selected) {
-              borderClass = 'border-purple-500 bg-purple-50 ring-2 ring-purple-300';
+              stateClass = 'choice-selected';
             }
 
-            html += `<button class="choice-btn flex items-center gap-3 p-3 rounded-lg border-2 text-left transition-all ${borderClass}" 
-              data-key="listening-${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
-              <span class="flex-shrink-0 w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold
-                ${choiceNum === selected ? 'bg-purple-600 text-white border-purple-600' : 'border-gray-300 text-gray-500'}
-                ${submitted && choiceNum === q.answer ? 'bg-green-600 text-white border-green-600' : ''}
-                ${submitted && choiceNum === selected && choiceNum !== q.answer ? 'bg-red-600 text-white border-red-600' : ''}
-              ">${['①','②','③','④'][ci]}</span>
-              <span class="text-gray-700 text-sm">${choiceText}</span>
+            html += `<button class="choice-btn ${stateClass}"
+              data-key="${key}" data-qid="${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
+              <span class="choice-num">${choiceNum}</span>
+              <span class="choice-text">${choiceText}</span>
             </button>`;
           });
           html += `</div>`;
         }
       }
 
-      // Result
+      // Result inline
       if (submitted) {
         const isCorrect = selected === q.answer;
-        html += `<div class="ml-11 mt-3 flex items-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}">
-          ${isCorrect 
-            ? '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>'
-            : '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>'
+        html += `<div class="q-result ${isCorrect ? 'q-result-ok' : 'q-result-err'}">
+          ${isCorrect
+            ? `<svg width="15" height="15" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg> Đúng`
+            : `<svg width="15" height="15" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg> Sai · Đáp án đúng: <strong>${q.answer}</strong>`
           }
-          <span class="text-sm font-semibold">${isCorrect ? 'Đúng!' : `Sai. Đáp án: ${['①','②','③','④'][q.answer-1]}`}</span>
         </div>`;
       }
 
-      html += `</div>`;
+      html += `</div>`; // end q-card
     });
 
     questionsArea.innerHTML = html;
+    renderQuestionNav();
+    syncProgress();
 
     // Click handlers
-    questionsArea.querySelectorAll('.choice-btn').forEach(btn => {
+    questionsArea.querySelectorAll('.choice-btn, .choice-img-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         if (submitted) return;
+        activeQuestionId = Number(btn.dataset.qid);
         answers[btn.dataset.key] = parseInt(btn.dataset.choice);
         render();
       });
@@ -229,6 +374,10 @@ function initListening(data) {
     submitted = true;
     clearInterval(timerInterval);
     audioPlayer.pause();
+    syncAudioToggle();
+    document.body.classList.remove('topik-exam-mode');
+    const header = document.getElementById('exam-header');
+    if (header) header.classList.add('header-static');
     render();
 
     let correct = 0;
@@ -236,20 +385,21 @@ function initListening(data) {
       if (answers[`listening-${q.id}`] === q.answer) correct++;
     });
 
-    const percent = Math.round(correct / questions.length * 100);
-    const color = percent >= 70 ? 'green' : percent >= 50 ? 'yellow' : 'red';
+    const pct = Math.round(correct / questions.length * 100);
+    const grade = pct >= 70 ? 'pass' : pct >= 50 ? 'mid' : 'fail';
 
     resultsArea.classList.remove('hidden');
     resultsContent.innerHTML = `
-      <div class="bg-${color}-50 rounded-lg p-6 inline-block">
-        <p class="text-4xl font-bold text-${color}-700">${correct}/${questions.length}</p>
-        <p class="text-lg text-${color}-600">${percent}%</p>
+      <div class="results-score results-${grade}">
+        <p class="score-num">${correct}<span class="score-total"> / ${questions.length}</span></p>
+        <p class="score-pct">${pct}%</p>
       </div>
+      <p class="score-label">${pct >= 70 ? 'Xuất sắc!' : pct >= 50 ? 'Đạt yêu cầu' : 'Cần luyện thêm'}</p>
     `;
 
-    btnSubmit.textContent = 'Đã nộp bài';
+    btnSubmit.textContent = 'Đã nộp';
     btnSubmit.disabled = true;
-    btnSubmit.classList.add('opacity-50');
+    btnSubmit.classList.add('submitted');
   }
 
   btnSubmit.addEventListener('click', () => {
@@ -260,8 +410,550 @@ function initListening(data) {
 }
 </script>
 
-<style>
-  .choice-btn:disabled { cursor: default; }
-  .animate-pulse { animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+<style is:global>
+/* ── Root layout ─────────────────────────────── */
+.exam-root {
+  min-height: 100vh;
+  background: #f7f6f3;
+  font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111111;
+}
+
+/* ── Header ──────────────────────────────────── */
+#exam-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+#exam-header.header-static { position: static; }
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.5rem;
+  gap: 1rem;
+  min-height: 64px;
+}
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #787774;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.back-link:hover { color: #111111; }
+
+.section-label { font-size: 0.85rem; font-weight: 600; color: #111111; white-space: nowrap; }
+.header-audio {
+  flex: 1 1 520px;
+  min-width: 260px;
+  max-width: 560px;
+}
+.audio-player {
+  display: none;
+}
+.audio-control-bar {
+  display: grid;
+  grid-template-columns: 30px auto minmax(140px, 1fr) auto;
+  align-items: center;
+  gap: 0.65rem;
+  height: 38px;
+  padding: 0 0.65rem;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background: #f9f9f8;
+}
+.audio-toggle {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111111;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s, border-color 0.15s;
+}
+.audio-toggle:hover { background: #f7f6f3; border-color: rgba(0,0,0,0.12); }
+.audio-toggle:active { transform: scale(0.98); }
+.audio-toggle-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #111111;
+  transform: translate(-38%, -50%);
+}
+.audio-toggle.audio-playing .audio-toggle-icon::before {
+  width: 9px;
+  height: 10px;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 3px solid #111111;
+  border-right: 3px solid #111111;
+  transform: translate(-50%, -50%);
+}
+.audio-time {
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: #787774;
+  white-space: nowrap;
+}
+.audio-seek {
+  --audio-progress: 0%;
+  width: 100%;
+  height: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(to right, #111111 0%, #111111 var(--audio-progress), #eaeaea var(--audio-progress), #eaeaea 100%);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.audio-seek::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: transparent;
+}
+.audio-seek::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: #111111;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+.audio-seek::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: transparent;
+}
+.audio-seek::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: #111111;
+}
+.audio-seek::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: #111111;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+.timer-wrap { display: flex; align-items: baseline; gap: 0.35rem; white-space: nowrap; }
+.timer-label {
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #787774;
+}
+.timer-text {
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111111;
+}
+.timer-text.timer-urgent { color: #dc2626; animation: pulse-timer 1s infinite; }
+@keyframes pulse-timer { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+#exam-header #progress-text.progress-label { font-size: 0.8rem; color: #787774 !important; white-space: nowrap; }
+.btn-submit {
+  padding: 0.45rem 1rem; background: #111111; color: #ffffff;
+  font-size: 0.8rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  white-space: nowrap;
+}
+.btn-submit:hover { background: #333333; }
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit.submitted { opacity: 0.4; cursor: default; }
+
+.header-progress-bg { height: 2px; background: #f1f1ef; }
+.header-progress-fill { height: 100%; background: #111111; transition: width 0.4s; }
+
+/* ── Main ─────────────────────────────────────── */
+.exam-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 4rem;
+}
+.exam-shell {
+  display: grid;
+  grid-template-columns: minmax(760px, 860px) 220px;
+  align-items: start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.questions-area { min-width: 0; }
+.question-nav {
+  position: sticky;
+  top: 86px;
+}
+.question-nav-card {
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem;
+}
+.question-nav-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+.question-nav-title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: #111111;
+}
+.question-nav-count {
+  margin: 0;
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #787774;
+  font-variant-numeric: tabular-nums;
+}
+.question-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+}
+.question-nav-btn {
+  height: 30px;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #787774;
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+}
+.question-nav-btn:hover {
+  border-color: rgba(0,0,0,0.16);
+  color: #111111;
+}
+.question-nav-btn:active { transform: scale(0.98); }
+.question-nav-done {
+  border-color: #111111;
+  background: #111111;
+  color: #ffffff;
+}
+.question-nav-current {
+  border-color: #111111;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: inset 0 0 0 1px #111111;
+}
+.question-nav-correct {
+  border-color: #346538;
+  background: #edf3ec;
+  color: #346538;
+}
+.question-nav-wrong {
+  border-color: #9f2f2d;
+  background: #fdebec;
+  color: #9f2f2d;
+}
+
+/* ── Group instruction ────────────────────────── */
+.group-instruction {
+  margin: 2.25rem 0 0.85rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid #eaeaea;
+  scroll-margin-top: 96px;
+}
+.group-bracket { font-size: 0.82rem; color: #787774; font-weight: 500; line-height: 1.6; }
+
+/* ── Question card ────────────────────────────── */
+.q-card {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: 96px;
+}
+.q-head { display: flex; gap: 0.875rem; align-items: flex-start; }
+.q-num {
+  flex-shrink: 0; width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700; color: #787774; border: 1px solid #eaeaea; border-radius: 4px; margin-top: 0.1rem;
+}
+.q-body { flex: 1; }
+
+.transcript-box {
+  background: #fbfbfa;
+  border: 1px solid #eaeaea;
+  border-left: 3px solid #111111;
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+}
+.transcript-label { font-size: 0.72rem; font-weight: 600; color: #787774; text-transform: uppercase; margin: 0 0 0.6rem; letter-spacing: 0.05em; }
+.transcript-text { font-size: 0.92rem; color: #333333; line-height: 1.75; margin: 0; white-space: pre-line; word-break: keep-all; }
+.speaker-label { font-weight: 650; color: #111111; margin-right: 0.15rem; }
+
+/* ── Text Choices ─────────────────────────────── */
+.choices { display: flex; flex-direction: column; gap: 0.45rem; margin-left: 2.375rem; }
+.choice-btn {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.875rem;
+  border: 1px solid #eaeaea; border-radius: 8px; background: #f9f9f8; text-align: left; cursor: pointer;
+  transition: border-color 0.12s, background 0.12s; width: 100%;
+}
+.choice-btn:hover:not(:disabled) { border-color: #aaa; background: #f3f2ef; }
+.choice-num {
+  flex-shrink: 0; width: 1.4rem; height: 1.4rem; display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 600; color: #888; border: 1.5px solid #ddd; border-radius: 50%; background: #fff;
+}
+.choice-text { font-size: 0.875rem; color: #333; line-height: 1.5; }
+
+/* ── Image Choices Grid ───────────────────────── */
+.choices-img-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin-left: 2.375rem;
+}
+.choice-img-btn {
+  position: relative;
+  background: #f9f9f8;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.choice-img-btn:hover:not(:disabled) { border-color: #aaa; background: #f3f2ef; }
+.choice-img-btn img { max-width: 100%; height: 170px; object-fit: contain; }
+
+.choice-num-floating {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #888;
+  border: 1.5px solid #ddd;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* ── Choice States (Shared) ───────────────────── */
+.choice-selected { border-color: #1a1a1a; background: #f0eeeb; }
+.choice-selected .choice-num, .choice-selected .choice-num-floating { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+
+.choice-correct { border-color: #16a34a; background: #f0fdf4; }
+.choice-correct .choice-num, .choice-correct .choice-num-floating { background: #16a34a; border-color: #16a34a; color: #fff; }
+
+.choice-wrong { border-color: #dc2626; background: #fef2f2; }
+.choice-wrong .choice-num, .choice-wrong .choice-num-floating { background: #dc2626; border-color: #dc2626; color: #fff; }
+
+.choice-idle { opacity: 0.5; }
+
+/* ── Inline result ────────────────────────────── */
+.q-result {
+  display: flex; align-items: center; gap: 0.35rem; margin-top: 0.75rem; margin-left: 2.375rem;
+  font-size: 0.78rem; font-weight: 500;
+}
+.q-result-ok { color: #16a34a; }
+.q-result-err { color: #dc2626; }
+
+/* ── Results area ─────────────────────────────── */
+.results-area { margin-top: 2.5rem; }
+.results-card { background: #fff; border: 1px solid #e8e6e1; border-radius: 12px; padding: 2.5rem; text-align: center; }
+.results-title { font-size: 0.8rem; font-weight: 600; color: #999; text-transform: uppercase; margin-bottom: 1.5rem; }
+.results-score { display: inline-block; padding: 1.5rem 3rem; border-radius: 10px; margin-bottom: 0.75rem; }
+.results-pass { background: #f0fdf4; }
+.results-mid  { background: #fefce8; }
+.results-fail { background: #fef2f2; }
+.score-num { font-size: 2.5rem; font-weight: 700; color: #1a1a1a; margin: 0; }
+.score-total { font-size: 1.2rem; color: #888; font-weight: 400; }
+.score-pct { font-size: 1rem; color: #666; margin: 0.3rem 0 0; }
+.score-label { font-size: 0.875rem; color: #666; margin: 0; }
+.btn-retry { display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.75rem; background: #1a1a1a; color: #fff; font-size: 0.875rem; font-weight: 600; border-radius: 8px; text-decoration: none; }
+.btn-retry:hover { background: #333; }
+
+/* ── Utilities & Responsive ───────────────────── */
+.hidden { display: none; }
+
+@media (max-width: 1199px) {
+  .exam-main {
+    max-width: 1040px;
+  }
+  .exam-shell {
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: 1rem;
+  }
+  .question-nav-card { padding: 0.85rem; }
+  .question-nav-grid { gap: 0.35rem; }
+  .question-nav-btn { height: 29px; }
+  .choice-img-btn img { height: 150px; }
+}
+
+@media (max-width: 900px) {
+  .exam-main {
+    max-width: 760px;
+    padding: 1.25rem 1rem 3.5rem;
+  }
+  .exam-shell {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+  .question-nav {
+    position: sticky;
+    top: 70px;
+    z-index: 20;
+    margin: 0 -1rem;
+    padding: 0.65rem 1rem;
+    background: rgba(247,246,243,0.96);
+    border-bottom: 1px solid #eaeaea;
+    width: calc(100% + 2rem);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .question-nav-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .question-nav-head { margin-bottom: 0.6rem; }
+  .question-nav-grid {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 0.1rem;
+    scrollbar-width: none;
+  }
+  .question-nav-grid::-webkit-scrollbar { display: none; }
+  .question-nav-btn {
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+  }
+  .group-instruction { scroll-margin-top: 170px; }
+  .q-card { scroll-margin-top: 170px; }
+  .choice-img-btn img { height: 150px; }
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    gap: 0.65rem;
+  }
+  .header-left {
+    flex: 1 1 auto;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .header-right {
+    flex: 1 1 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .header-audio {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: none;
+    order: 2;
+  }
+  .header-right { order: 3; }
+  .audio-control-bar {
+    grid-template-columns: 30px auto minmax(80px, 1fr) auto;
+    gap: 0.5rem;
+    height: 38px;
+  }
+  .audio-time { font-size: 0.68rem; }
+  .section-label { font-size: 0.8rem; }
+  .exam-main { padding: 1rem 0.75rem 3rem; }
+  .exam-shell {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+  .question-nav {
+    top: 132px;
+    margin: 0 -0.75rem;
+    padding: 0.65rem 0.75rem;
+    width: calc(100% + 1.5rem);
+  }
+  .question-nav-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.7rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .question-nav-head { margin-bottom: 0.6rem; }
+  .question-nav-grid {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 0.1rem;
+    scrollbar-width: none;
+  }
+  .question-nav-grid::-webkit-scrollbar { display: none; }
+  .question-nav-btn {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+  }
+  .group-instruction { margin-top: 1.5rem; scroll-margin-top: 210px; }
+  .q-card { scroll-margin-top: 210px; }
+  .q-card { padding: 1.25rem 1rem; }
+  .choices { margin-left: 0; }
+  .choices-img-grid { margin-left: 0; }
+  .choice-img-btn { padding: 0.65rem; }
+  .choice-img-btn img { height: clamp(132px, 34vw, 160px); }
+}
+
+@media (max-width: 360px) {
+  .exam-main { padding-left: 0.6rem; padding-right: 0.6rem; }
+  .q-card { padding: 0.85rem; }
+  .choices-img-grid { gap: 0.55rem; }
+  .choice-img-btn { padding: 0.55rem; }
+  .choice-img-btn img { height: 120px; }
+  .question-nav { margin-left: -0.6rem; margin-right: -0.6rem; width: calc(100% + 1.2rem); }
+}
 </style>

@@ -25,5 +25,7 @@ export default defineConfig({
   },
 
   integrations: [react(), mdx()],
-  adapter: cloudflare()
+  adapter: cloudflare({
+    workerEntryPoint: './src/worker.ts'
+  })
 });

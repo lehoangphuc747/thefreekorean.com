@@ -70,12 +70,12 @@ const relatedGrammar = allGrammar
   })
   .slice(0, 3);
 
-// Mappings
+// Mappings (Updated for flat monochrome/pastel look)
 const levelMap = { beginner: 'Sơ cấp', intermediate: 'Trung cấp', advanced: 'Cao cấp' };
 const levelColorMap = {
-  beginner: 'bg-emerald-100 text-emerald-700',
-  intermediate: 'bg-amber-100 text-amber-700',
-  advanced: 'bg-rose-100 text-rose-700'
+  beginner: 'bg-[#edf3ec] text-[#346538]',
+  intermediate: 'bg-[#fbf3db] text-[#956400]',
+  advanced: 'bg-[#fdebec] text-[#9f2f2d]'
 };
 
 // Formatted Headings for TOC
@@ -97,46 +97,46 @@ const tocHeadings = headings.map((h: any) => ({
   <article class="prose prose-slate max-w-none">
     
     <!-- 1. Header Section -->
-    <header class="border-b border-slate-100 pb-8 mb-8 text-center sm:text-left">
+    <header class="border-b border-[#eaeaea] pb-8 mb-8 text-center sm:text-left">
       <!-- Back Link (Mobile only) -->
-      <a href="/grammar" class="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-6 lg:hidden group">
+      <a href="/grammar" class="inline-flex items-center text-sm text-[#787774] hover:text-[#111111] mb-6 lg:hidden group transition-colors">
         <svg class="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         Quay lại danh sách
       </a>
 
       <!-- Badges -->
       <div class="flex flex-wrap items-center gap-3 mb-4 justify-center sm:justify-start">
-        <span class={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${levelColorMap[level]}`}>
+        <span class={`px-3 py-1 rounded-sm text-xs font-mono tracking-wide ${levelColorMap[level]}`}>
           {levelMap[level]}
         </span>
         {tags?.map((tag: string) => (
-          <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+          <span class="px-2.5 py-1 rounded-sm text-xs font-mono bg-[#f7f6f3] text-[#787774]">
             #{tag}
           </span>
         ))}
       </div>
 
       <!-- Title & Meaning -->
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2 leading-tight">
+      <h1 class="text-3xl sm:text-4xl font-medium text-[#111111] mb-2 leading-tight" style="letter-spacing: -0.02em;">
         {title} 
       </h1>
-      <p class="text-xl sm:text-2xl text-indigo-600 font-medium mb-6">
+      <p class="text-xl sm:text-2xl text-[#787774] font-medium mb-6">
         {meaning}
       </p>
 
       <!-- Description -->
       {description && (
-        <div class="bg-indigo-50/50 rounded-xl p-4 sm:p-6 border border-indigo-100 text-slate-600 leading-relaxed italic">
+        <div class="bg-[#fbfbfa] rounded-sm p-4 sm:p-6 border border-[#eaeaea] text-[#787774] leading-relaxed">
           <span set:html={description} />
         </div>
       )}
     </header>
 
     <!-- 2. Utility Bar -->
-    <div class="flex items-center justify-between gap-4 mb-8 py-4 border-y border-slate-50 not-prose">
+    <div class="flex items-center justify-between gap-4 mb-8 py-4 border-y border-[#f7f6f3] not-prose">
       <div class="flex gap-2">
         <ShareButton />
-        <button onclick="window.print()" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg transition-colors" title="In bài viết">
+        <button onclick="window.print()" class="p-2 text-[#787774] hover:text-[#111111] hover:bg-[#fbfbfa] rounded-sm transition-colors" title="In bài viết">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
         </button>
       </div>
@@ -165,7 +165,7 @@ const tocHeadings = headings.map((h: any) => ({
     <ImageViewer />
 
     <!-- 5. Navigation Footer -->
-    <footer class="mt-16 pt-8 border-t border-slate-100 not-prose">
+    <footer class="mt-16 pt-8 border-t border-[#eaeaea] not-prose">
       <NavigationButtons 
         prevGrammar={prevGrammar ? { level: prevGrammar.data.level, slug: prevGrammar.data.slug || prevGrammar.id } : undefined}
         nextGrammar={nextGrammar ? { level: nextGrammar.data.level, slug: nextGrammar.data.slug || nextGrammar.id } : undefined}
@@ -173,7 +173,7 @@ const tocHeadings = headings.map((h: any) => ({
       />
 
       <div class="mt-12">
-        <h3 class="text-lg font-bold text-slate-800 mb-6">Ngữ pháp liên quan</h3>
+        <h3 class="text-lg font-medium text-[#111111] mb-6">Ngữ pháp liên quan</h3>
         <RelatedGrammar 
           relatedGrammar={relatedGrammar.map(g => ({
             title: g.data.title,

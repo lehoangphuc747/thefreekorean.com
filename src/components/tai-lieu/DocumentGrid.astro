@@ -20,164 +20,301 @@ export interface Props {
 const { documents, class: className = '' } = Astro.props;
 ---
 
-<div class={`documents-grid ${className}`}>
+<section class={`documents-grid ${className}`} aria-label="Danh sách tài liệu">
   {documents.length === 0 ? (
-    <!-- Empty State -->
-    <div class="no-results-message col-span-full text-center py-16">
-      <div class="max-w-md mx-auto">
-        <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
-          <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+    <div class="no-results-message reveal-block">
+      <div class="empty-card">
+        <div class="empty-mark" aria-hidden="true">
+          <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M7.5 3.75h6.879c.398 0 .779.158 1.061.439l2.371 2.371c.281.282.439.663.439 1.061V18A2.25 2.25 0 0 1 16.5 20.25h-9A2.25 2.25 0 0 1 5.25 18V6A2.25 2.25 0 0 1 7.5 3.75Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 12h6M9 15h4" />
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">Không tìm thấy tài liệu</h3>
-        <p class="text-gray-600">
-          Không có tài liệu nào phù hợp với bộ lọc hiện tại. Hãy thử chọn danh mục khác.
-        </p>
+        <h3>Không tìm thấy tài liệu</h3>
+        <p>Không có tài liệu nào phù hợp với bộ lọc hiện tại. Hãy thử chọn danh mục khác.</p>
       </div>
     </div>
   ) : (
-    <!-- Documents Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {documents.map((doc) => (
-        <div 
-          class="document-card-wrapper cursor-pointer"
+    <div class="document-card-grid">
+      {documents.map((doc, index) => (
+        <div
+          class="document-card-wrapper reveal-block"
+          style={`--index: ${index}`}
           data-category={doc.category}
           data-subcategory={doc.subcategory}
           data-title={doc.title}
           onclick={`window.open('${doc.url}', '_blank')`}
         >
-          <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] h-full flex flex-row book-card">
-            
-            <!-- Cover Image - Left Side -->
-            <div class="w-1/3 h-48 relative overflow-hidden flex-shrink-0">
+          <article class="document-card">
+            <div class="cover-panel">
               {doc.cover ? (
-                <img 
-                  src={doc.cover} 
-                  alt={doc.title}
-                  class="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
-                  loading="lazy"
-                />
+                <img src={doc.cover} alt={doc.title} loading="lazy" />
               ) : (
-                <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                  <div class="text-white text-center p-4">
-                    <div class="text-xl md:text-2xl font-bold mb-2">{doc.type}</div>
-                    <div class="text-xs md:text-sm opacity-80">{doc.category}</div>
-                  </div>
+                <div class="cover-placeholder">
+                  <span>{doc.type}</span>
+                  <strong>{doc.category}</strong>
                 </div>
               )}
-              
-              <!-- Type badge overlay -->
-              <div class="absolute top-2 right-2">
-                <span class="bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs font-medium backdrop-blur-sm">
-                  {doc.type}
-                </span>
-              </div>
-              
-              <!-- Shadow overlay for better text readability -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
             </div>
 
-            <!-- Content - Right Side -->
-            <div class="flex-1 p-4 flex flex-col">
-              <!-- Title -->
-              <h3 class="text-base font-bold text-gray-900 mb-2 line-clamp-2">
-                {doc.title}
-              </h3>
+            <div class="document-body">
+              <div class="document-topline">
+                <span class="type-badge">{doc.type}</span>
+                {doc.subcategory && <span class="subcategory-label">{doc.subcategory}</span>}
+              </div>
 
-              <!-- Description -->
-              <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">
-                {doc.description}
-              </p>
+              <h3>{doc.title}</h3>
+              <p>{doc.description}</p>
 
-              <!-- Meta Information -->
-              <div class="flex flex-wrap gap-1 mt-auto">
-                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
-                  {doc.type}
-                </span>
-                {doc.fileSize && (
-                  <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-                    {doc.fileSize}
-                  </span>
-                )}
-                {doc.pages && doc.type !== "Anki Deck" && (
-                  <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                    {doc.pages} trang
-                  </span>
-                )}
-                {doc.cards && doc.type === "Anki Deck" && (
-                  <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
-                    {doc.cards} thẻ
-                  </span>
-                )}
+              <div class="document-meta">
+                {doc.fileSize && <span>{doc.fileSize}</span>}
+                {doc.pages && doc.type !== 'Anki Deck' && <span>{doc.pages} trang</span>}
+                {doc.cards && doc.type === 'Anki Deck' && <span>{doc.cards} thẻ</span>}
+              </div>
+
+              <div class="document-action">
+                <span>Mở tài liệu</span>
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       ))}
     </div>
   )}
-</div>
+</section>
 
 <style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .documents-grid {
+    margin-top: 1rem;
   }
 
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .document-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
   }
 
-  .document-card-wrapper:hover .bg-white {
-    transform: translateY(-2px);
+  .document-card-wrapper {
+    cursor: pointer;
   }
 
-  /* Book-like card styling */
-  .book-card {
-    border: 1px solid #e5e7eb;
-    position: relative;
-    min-height: 12rem; /* 192px */
-  }
-
-  .book-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -2px;
-    width: 2px;
+  .document-card {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    min-height: 250px;
     height: 100%;
-    background: linear-gradient(to bottom, #d1d5db, #9ca3af);
-    z-index: 1;
-    border-radius: 0 4px 4px 0;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #111111;
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
   }
 
-  .book-card:hover {
-    box-shadow: 
-      0 20px 25px -5px rgba(0, 0, 0, 0.1), 
-      0 10px 10px -5px rgba(0, 0, 0, 0.04),
-      2px 0 8px rgba(0, 0, 0, 0.05);
+  .document-card:hover {
+    border-color: rgba(0,0,0,0.22);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transform: translateY(-1px);
   }
 
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .book-card {
-      flex-direction: column !important;
-      min-height: auto;
+  .document-card:active { transform: scale(0.99); }
+
+  .cover-panel {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid #eaeaea;
+    background: #fbfbfa;
+  }
+
+  .cover-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.82) contrast(0.96);
+  }
+
+  .cover-placeholder {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #edf3ec;
+    color: #346538;
+  }
+
+  .cover-placeholder span {
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cover-placeholder strong {
+    max-width: 10ch;
+    color: #111111;
+    font-size: 1.4rem;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .document-body {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 1.2rem;
+  }
+
+  .document-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .type-badge,
+  .subcategory-label,
+  .document-meta span {
+    display: inline-flex;
+    width: fit-content;
+    border-radius: 9999px;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .type-badge {
+    background: #e1f3fe;
+    color: #1f6c9f;
+    padding: 0.32rem 0.62rem;
+  }
+
+  .subcategory-label {
+    max-width: 150px;
+    overflow: hidden;
+    color: #787774;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .document-body h3 {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    color: #111111;
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.18;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .document-body p {
+    display: -webkit-box;
+    flex: 1;
+    margin: 0.8rem 0 1rem;
+    overflow: hidden;
+    color: #787774;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .document-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: auto;
+  }
+
+  .document-meta span {
+    background: #fbf3db;
+    color: #956400;
+    padding: 0.26rem 0.52rem;
+  }
+
+  .document-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid #eaeaea;
+    color: #111111;
+    font-size: 0.84rem;
+    font-weight: 650;
+  }
+
+  .no-results-message {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  .empty-card {
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .empty-mark {
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem;
+    place-items: center;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    background: #f7f6f3;
+    color: #787774;
+  }
+
+  .empty-card h3 {
+    margin: 0;
+    color: #111111;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .empty-card p {
+    margin: 0.6rem auto 0;
+    max-width: 440px;
+    color: #787774;
+    line-height: 1.62;
+  }
+
+  @media (max-width: 960px) {
+    .document-card-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .document-card {
+      grid-template-columns: 1fr;
     }
-    
-    .book-card > div:first-child {
-      width: 100% !important;
-      height: 12rem !important;
+
+    .cover-panel {
+      min-height: 180px;
+      border-right: 0;
+      border-bottom: 1px solid #eaeaea;
     }
-    
-    .book-card .text-base {
-      font-size: 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .document-card {
+      transition: none;
     }
   }
 </style>

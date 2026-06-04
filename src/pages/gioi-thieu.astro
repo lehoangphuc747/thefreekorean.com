@@ -2,82 +2,62 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Đội ngũ The Free Korean - Giao diện nâng cấp">
-  <!-- MAIN CONTENT -->
-  <main>
+<Layout title="Đội ngũ The Free Korean">
+  <main class="bg-[#f7f6f3] min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
 
       <!-- FOUNDER SECTION -->
       <section class="mb-20 sm:mb-28">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-          <!-- Founder Image -->
-          <div class="lg:col-span-2 flex justify-center">
-            <div class="relative w-64 h-64 sm:w-80 sm:h-80">
-              <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full transform -rotate-12"></div>
-              <div class="relative w-full h-full bg-indigo-100 rounded-full flex items-center justify-center text-8xl ring-8 ring-white shadow-2xl">
-                👨‍💻
-              </div>
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+          
+          <!-- Founder Editorial Portrait (Placeholder) -->
+          <div class="lg:col-span-2 flex justify-center lg:justify-start">
+            <div class="relative w-full aspect-[4/5] max-w-sm overflow-hidden bg-[#eaeaea] rounded-none sm:rounded-sm flex items-center justify-center">
+              <div class="ambient-grid absolute inset-0 pointer-events-none opacity-20" aria-hidden="true" style="background: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px); background-size: 24px 24px;"></div>
+              <span class="text-[#787774] font-mono text-sm tracking-widest uppercase">P_LH</span>
             </div>
           </div>
 
           <!-- Founder Info -->
-          <div class="lg:col-span-3 text-center lg:text-left">
-            <p class="text-base font-semibold text-indigo-600 tracking-wide uppercase">Người sáng lập The Free Korean</p>
-            <h1 class="mt-2 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">Lê Hoàng Phúc</h1>
-            <blockquote class="mt-6 border-l-4 border-indigo-500 pl-6">
-              <p class="text-xl text-gray-700 italic">
-                "Tôi tin rằng công nghệ là cầu nối tri thức hiệu quả nhất. The Free Korean ra đời với mong muốn phá bỏ mọi rào cản, giúp người Việt tiếp cận tiếng Hàn một cách dễ dàng và hoàn toàn miễn phí."
+          <div class="lg:col-span-3 pt-4">
+            <p class="text-xs font-mono text-[#787774] tracking-widest uppercase mb-4">Người sáng lập dự án</p>
+            <h1 class="text-4xl sm:text-5xl font-medium text-[#111111] tracking-tight mb-8" style="letter-spacing: -0.03em;">Lê Hoàng Phúc</h1>
+            
+            <div class="border-l border-[#eaeaea] pl-6 mb-8">
+              <p class="text-xl text-[#111111] leading-relaxed">
+                "Tôi tin rằng công nghệ là cầu nối tri thức hiệu quả nhất. The Free Korean ra đời với mong muốn phá bỏ mọi rào cản, giúp người Việt tiếp cận tiếng Hàn một cách tự do."
               </p>
-            </blockquote>
-            <p class="mt-8 text-lg text-gray-600 leading-relaxed">
-              Với niềm đam mê giáo dục và mong muốn tạo ra một cộng đồng, lộ trình, và nơi tìm kiếm tài liệu học tập miễn phí, mình đã khởi xướng và trực tiếp phát triển The Free Korean. Mình chịu trách nhiệm định hướng chiến lược, xây dựng nền tảng công nghệ và kết nối cộng đồng để lan tỏa giá trị của dự án.
+            </div>
+            
+            <p class="text-base text-[#787774] leading-relaxed max-w-2xl mb-10">
+              Với mong muốn tạo ra một lộ trình học tập bài bản và hệ thống tài liệu chất lượng hoàn toàn mở, mình đã phát triển The Free Korean. Dự án tập trung vào kiến trúc thông tin tối giản, tối ưu trải nghiệm và đặt người học làm trung tâm.
             </p>
-            <div class="mt-8 flex justify-center lg:justify-start items-center gap-4">
-              <a href="https://www.facebook.com/tui.la.phuc747/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-full font-semibold text-base shadow-lg hover:bg-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"></path></svg>
+            
+            <div class="flex items-center gap-4">
+              <a href="https://www.facebook.com/tui.la.phuc747/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 bg-[#111111] text-white text-sm font-medium hover:bg-[#333333] transition-colors rounded-sm">
                 Kết nối
               </a>
-              <a href="mailto:thefreekorean@gmail.com" class="text-gray-500 hover:text-indigo-600 p-3 rounded-full transition-colors">
-                <span class="sr-only">Email</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V6a2 2 0 00-2-2H3zm18 2l-9 6-9-6h18z"/></svg>
-        </a>
-      </div>
+              <a href="mailto:thefreekorean@gmail.com" class="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111111] border border-[#eaeaea] text-sm font-medium hover:bg-[#f7f6f3] transition-colors rounded-sm">
+                Email
+              </a>
+            </div>
           </div>
         </div>
       </section>
-
-
       
       <!-- CTA SECTION -->
-      <section class="mt-20 sm:mt-28">
-        <div class="max-w-4xl mx-auto text-center">
-          <h2 class="text-3xl sm:text-4xl font-bold text-gray-800">Trở thành một phần của The Free Korean?</h2>
-          <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
-            Chúng tôi luôn chào đón những cá nhân có cùng chí hướng, mong muốn đóng góp cho cộng đồng. Nếu bạn quan tâm đến việc hợp tác, tài trợ hoặc đóng góp nội dung, đừng ngần ngại liên hệ.
+      <section class="mt-20 sm:mt-28 border-t border-[#eaeaea] pt-20">
+        <div class="max-w-2xl">
+          <h2 class="text-2xl font-medium text-[#111111] mb-4">Trở thành một phần của hệ sinh thái</h2>
+          <p class="text-base text-[#787774] mb-8 leading-relaxed">
+            Chúng tôi luôn mở rộng cửa cho những cá nhân muốn xây dựng các công cụ giáo dục có tư duy thiết kế tốt. Nếu bạn quan tâm đến việc đóng góp mã nguồn, tài liệu hoặc hợp tác dự án, hãy liên hệ.
           </p>
-          <div class="mt-8">
-            <a href="mailto:thefreekorean@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-gray-800 text-white rounded-full font-semibold text-lg shadow-lg hover:bg-gray-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
-              <span>Gửi Email cho chúng tôi</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-            </a>
-          </div>
-      </div>
-    </section>
+          <a href="mailto:thefreekorean@gmail.com" class="inline-flex items-center justify-center px-6 py-3 bg-[#111111] text-white text-sm font-medium hover:bg-[#333333] transition-colors rounded-sm">
+            Bắt đầu trò chuyện
+          </a>
+        </div>
+      </section>
 
     </div>
   </main>
 </Layout>
-
-<style>
-  /* Custom styles for the about page */
-  .card-hover-effect {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  }
-  .card-hover-effect:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  }
-  .shadow-inner-lg {
-    box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
-  }
-</style>

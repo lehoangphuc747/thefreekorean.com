@@ -17,8 +17,6 @@ export interface Props {
 }
 
 const { documents, class: className = '' } = Astro.props;
-
-// Get unique categories and subcategories
 const categories = [...new Set(documents.map(doc => doc.category).filter(Boolean))];
 const subcategoriesByCategory = categories.reduce((acc, category) => {
   acc[category] = [...new Set(documents
@@ -29,117 +27,63 @@ const subcategoriesByCategory = categories.reduce((acc, category) => {
   return acc;
 }, {} as Record<string, string[]>);
 
-// Count documents by category and subcategory
-const getDocumentCount = (category?: string, subcategory?: string) => {
+const getDocumentCount = (category?: string) => {
   if (!category) return documents.length;
-  if (!subcategory) return documents.filter(doc => doc.category === category).length;
-  return documents.filter(doc => doc.category === category && doc.subcategory === subcategory).length;
+  return documents.filter(doc => doc.category === category).length;
 };
 ---
 
-<div class={`document-filter ${className}`}>
-  <div class="bg-white rounded-xl shadow border border-gray-200 p-4 mb-4 backdrop-blur-sm compact-filter">
-    <!-- Modern Header -->
-    <div class="text-center mb-3">
-      <h2 class="text-lg font-semibold text-gray-900">Lọc tài liệu</h2>
+<section class={`document-filter reveal-block ${className}`} aria-label="Bộ lọc tài liệu">
+  <div class="filter-panel">
+    <div class="filter-header">
+      <div>
+        <h2>Lọc tài liệu</h2>
+        <p>Tìm theo danh mục, nhóm tài liệu hoặc tên sách.</p>
+      </div>
+      <div class="results-count" id="results-count">
+        <strong>{documents.length}</strong>
+        <span>tài liệu</span>
+      </div>
     </div>
 
-    
+    <div class="filter-section" aria-label="Danh mục chính">
+      <button type="button" class="filter-btn category-filter active" data-category="">
+        <span>Tất cả</span>
+        <small>{getDocumentCount()}</small>
+      </button>
 
-    <!-- Main Categories - Large and Prominent -->
-    <div class="mb-3">
-      <div class="flex flex-wrap gap-2">
-        <!-- All Categories Button -->
-        <button 
-          type="button"
-          class="filter-btn category-filter active px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-blue-600 text-white hover:bg-blue-700"
-          data-category=""
-        >
-          <span class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-            </svg>
-            Tất cả ({getDocumentCount()})
-          </span>
+      {categories.map(category => (
+        <button type="button" class="filter-btn category-filter" data-category={category}>
+          <span>{category}</span>
+          <small>{getDocumentCount(category)}</small>
         </button>
-        
-        <!-- Individual Category Buttons -->
-        {categories.map(category => (
-          <button 
-            type="button"
-            class="filter-btn category-filter px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
-            data-category={category}
-          >
-            <span class="flex items-center gap-2">
-              <span>{category}</span>
-              <span class="px-2 py-0.5 bg-gray-300 text-gray-600 text-xs rounded-full font-medium">
-                {getDocumentCount(category)}
-              </span>
-            </span>
-          </button>
-        ))}
-      </div>
+      ))}
     </div>
 
-    <!-- Subcategories - Secondary -->
-    <div class="mb-3">
-      <div class="flex flex-wrap gap-2" id="subcategory-filters">
-        <!-- All Subcategories Button -->
-        <button 
-          type="button"
-          class="filter-btn subcategory-filter active px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-purple-600 text-white hover:bg-purple-700"
-          data-subcategory=""
-        >
-          Tất cả
-        </button>
-      </div>
+    <div class="filter-section subcategory-row" id="subcategory-filters" aria-label="Danh mục phụ">
+      <button type="button" class="filter-btn subcategory-filter active" data-subcategory="">
+        Tất cả nhóm
+      </button>
     </div>
 
-    <!-- Search Section - Bottom Position -->
-    <div class="mb-3">
-      <div class="relative">
-        <input
-          type="text"
-          id="document-search"
-          placeholder="Tìm kiếm tài liệu..."
-          class="w-full px-4 py-3 pl-10 pr-10 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 text-sm bg-gray-50 transition-all duration-200 hover:bg-white text-gray-800 placeholder-gray-400"
-        />
-        <!-- Search Icon -->
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-        </div>
-        
-      </div>
-    </div>
-
-    <!-- Results and Actions -->
-    <div class="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 flex-wrap">
-      <!-- Results Count -->
-      <div class="text-xs text-gray-600" id="results-count">
-        <span class="font-bold text-base text-gray-900">{documents.length}</span> tài liệu
-      </div>
-
-      <!-- Active Filters Chips moved here -->
-      <div class="flex flex-wrap gap-2 flex-1 min-w-[200px]" id="active-filter-chips">
-        <!-- Active filter chips will be inserted here -->
-      </div>
-
-      <!-- Clear All Filters Button -->
-      <button
-        type="button"
-        id="clear-filters"
-        class="hidden px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-all duration-200"
-      >
-        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    <div class="search-row">
+      <label for="document-search">Tìm kiếm tài liệu</label>
+      <div class="search-field">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
         </svg>
-        Xóa tất cả
+        <input id="document-search" type="text" placeholder="Nhập tên giáo trình hoặc bộ thẻ" />
+      </div>
+    </div>
+
+    <div class="filter-footer">
+      <div id="active-filter-chips" class="active-filter-chips" aria-live="polite"></div>
+      <button type="button" id="clear-filters" class="clear-filters hidden">
+        Xóa bộ lọc
       </button>
     </div>
   </div>
-</div>
+</section>
 
 <script define:vars={{ subcategoriesByCategory }}>
 document.addEventListener('DOMContentLoaded', function() {
@@ -148,136 +92,78 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultsCount = document.getElementById('results-count');
   const subcategoryContainer = document.getElementById('subcategory-filters');
   const clearFiltersBtn = document.getElementById('clear-filters');
-  const clearSearchBtn = document.getElementById('clear-search');
   const activeFilterChips = document.getElementById('active-filter-chips');
-  
+
   let currentCategory = '';
   let currentSubcategory = '';
   let currentSearch = '';
 
-  // Update subcategory buttons based on selected category
+  function setActive(buttons, activeButton) {
+    buttons.forEach((btn) => btn.classList.remove('active'));
+    activeButton.classList.add('active');
+  }
+
+  function bindSubcategoryButton(button) {
+    button.addEventListener('click', function() {
+      handleSubcategoryFilter(this);
+    });
+  }
+
   function updateSubcategoryButtons(selectedCategory) {
-    // Clear existing subcategory buttons except "Tất cả"
-    const allButton = subcategoryContainer.querySelector('[data-subcategory=""]');
     subcategoryContainer.innerHTML = '';
+    const allButton = document.createElement('button');
+    allButton.type = 'button';
+    allButton.className = 'filter-btn subcategory-filter active';
+    allButton.setAttribute('data-subcategory', '');
+    allButton.textContent = 'Tất cả nhóm';
+    bindSubcategoryButton(allButton);
     subcategoryContainer.appendChild(allButton);
-    // Rebind click for "Tất cả" after being re-appended
-    if (allButton) {
-      allButton.addEventListener('click', function() {
-        handleSubcategoryFilter(this);
-      });
-    }
-    
-    // Reset subcategory selection
     currentSubcategory = '';
-    allButton.classList.add('active', 'bg-purple-600', 'text-white');
-    allButton.classList.remove('bg-gray-100', 'text-gray-700');
-    
-    // Add subcategory buttons for selected category
+
     if (selectedCategory && subcategoriesByCategory[selectedCategory]) {
-      subcategoriesByCategory[selectedCategory].forEach(subcategory => {
+      subcategoriesByCategory[selectedCategory].forEach((subcategory) => {
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = 'filter-btn subcategory-filter px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200';
+        button.className = 'filter-btn subcategory-filter';
         button.setAttribute('data-subcategory', subcategory);
         button.textContent = subcategory;
-        
-        button.addEventListener('click', function() {
-          handleSubcategoryFilter(this);
-        });
-        
+        bindSubcategoryButton(button);
         subcategoryContainer.appendChild(button);
       });
     }
   }
 
-  // Handle category filter
   function handleCategoryFilter(button) {
-    // Remove active class from all category buttons
-    categoryButtons.forEach(btn => {
-      btn.classList.remove('active', 'bg-blue-600', 'text-white');
-      btn.classList.add('bg-gray-100', 'text-gray-700');
-    });
-    
-    // Add active class to clicked button
-    button.classList.add('active', 'bg-blue-600', 'text-white');
-    button.classList.remove('bg-gray-100', 'text-gray-700');
-    
-    currentCategory = button.getAttribute('data-category');
+    setActive(categoryButtons, button);
+    currentCategory = button.getAttribute('data-category') || '';
     updateSubcategoryButtons(currentCategory);
     filterDocuments();
   }
 
-  // Handle subcategory filter
   function handleSubcategoryFilter(button) {
-    // Remove active class from all subcategory buttons
-    document.querySelectorAll('.subcategory-filter').forEach(btn => {
-      btn.classList.remove('active', 'bg-purple-600', 'text-white');
-      btn.classList.add('bg-gray-100', 'text-gray-700');
-    });
-    
-    // Add active class to clicked button
-    button.classList.add('active', 'bg-purple-600', 'text-white');
-    button.classList.remove('bg-gray-100', 'text-gray-700');
-    
-    currentSubcategory = button.getAttribute('data-subcategory');
+    const buttons = document.querySelectorAll('.subcategory-filter');
+    setActive(buttons, button);
+    currentSubcategory = button.getAttribute('data-subcategory') || '';
     filterDocuments();
   }
 
-  // Update active filter chips
   function updateActiveFilterChips() {
     if (!activeFilterChips) return;
-    
     activeFilterChips.innerHTML = '';
-    
-    // Add category chip
-    if (currentCategory) {
-      const categoryChip = document.createElement('div');
-      categoryChip.className = 'inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-800 text-sm font-medium rounded-full border border-blue-200';
-      categoryChip.innerHTML = `
-        <span>${currentCategory}</span>
-        <button type="button" class="clear-chip-btn text-blue-600 hover:text-blue-800" data-type="category">
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      `;
-      activeFilterChips.appendChild(categoryChip);
-    }
-    
-    // Add subcategory chip
-    if (currentSubcategory) {
-      const subcategoryChip = document.createElement('div');
-      subcategoryChip.className = 'inline-flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-800 text-sm font-medium rounded-full border border-purple-200';
-      subcategoryChip.innerHTML = `
-        <span>${currentSubcategory}</span>
-        <button type="button" class="clear-chip-btn text-purple-600 hover:text-purple-800" data-type="subcategory">
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      `;
-      activeFilterChips.appendChild(subcategoryChip);
-    }
-    
-    // Add search chip
-    if (currentSearch) {
-      const searchChip = document.createElement('div');
-      searchChip.className = 'inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-800 text-sm font-medium rounded-full border border-green-200';
-      searchChip.innerHTML = `
-        <span>"${currentSearch}"</span>
-        <button type="button" class="clear-chip-btn text-green-600 hover:text-green-800" data-type="search">
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      `;
-      activeFilterChips.appendChild(searchChip);
-    }
-    
-    // Add event listeners to chip clear buttons
-    activeFilterChips.querySelectorAll('.clear-chip-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
+
+    const chips = [
+      currentCategory && { label: currentCategory, type: 'category' },
+      currentSubcategory && { label: currentSubcategory, type: 'subcategory' },
+      currentSearch && { label: `"${currentSearch}"`, type: 'search' },
+    ].filter(Boolean);
+
+    chips.forEach((chip) => {
+      const element = document.createElement('button');
+      element.type = 'button';
+      element.className = `active-chip ${chip.type}`;
+      element.setAttribute('data-type', chip.type);
+      element.innerHTML = `<span>${chip.label}</span><span aria-hidden="true">×</span>`;
+      element.addEventListener('click', function() {
         const type = this.getAttribute('data-type');
         if (type === 'category') {
           const allCategoryBtn = document.querySelector('[data-category=""]');
@@ -289,494 +175,297 @@ document.addEventListener('DOMContentLoaded', function() {
           clearSearch();
         }
       });
+      activeFilterChips.appendChild(element);
     });
   }
 
-  // Filter documents based on current filters
   function filterDocuments() {
     const documentCards = document.querySelectorAll('.document-card-wrapper');
     let visibleCount = 0;
 
-    documentCards.forEach(card => {
+    documentCards.forEach((card) => {
       const cardCategory = card.getAttribute('data-category');
       const cardSubcategory = card.getAttribute('data-subcategory');
       const cardTitle = card.getAttribute('data-title')?.toLowerCase() || '';
-      
-      let isVisible = true;
+      const matchesCategory = !currentCategory || cardCategory === currentCategory;
+      const matchesSubcategory = !currentSubcategory || cardSubcategory === currentSubcategory;
+      const matchesSearch = !currentSearch || cardTitle.includes(currentSearch.toLowerCase());
+      const isVisible = matchesCategory && matchesSubcategory && matchesSearch;
 
-      // Category filter
-      if (currentCategory && cardCategory !== currentCategory) {
-        isVisible = false;
-      }
-
-      // Subcategory filter
-      if (currentSubcategory && cardSubcategory !== currentSubcategory) {
-        isVisible = false;
-      }
-
-      // Search filter
-      if (currentSearch && !cardTitle.includes(currentSearch.toLowerCase())) {
-        isVisible = false;
-      }
-
-      // Show/hide card
-      if (isVisible) {
-        card.style.display = 'block';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = isVisible ? 'block' : 'none';
+      if (isVisible) visibleCount++;
     });
 
-    // Update results count
     if (resultsCount) {
-      resultsCount.innerHTML = `<span class="font-bold text-base text-gray-900">${visibleCount}</span> tài liệu`;
+      resultsCount.innerHTML = `<strong>${visibleCount}</strong><span>tài liệu</span>`;
     }
 
-    // Update active filter chips
     updateActiveFilterChips();
 
-    // Show/hide clear filters button
     const hasActiveFilters = currentCategory || currentSubcategory || currentSearch;
-    if (clearFiltersBtn) {
-      if (hasActiveFilters) {
-        clearFiltersBtn.classList.remove('hidden');
-      } else {
-        clearFiltersBtn.classList.add('hidden');
-      }
-    }
+    if (clearFiltersBtn) clearFiltersBtn.classList.toggle('hidden', !hasActiveFilters);
   }
 
-  // Clear search only
   function clearSearch() {
-    if (searchInput) {
-      searchInput.value = '';
-    }
+    if (searchInput) searchInput.value = '';
     currentSearch = '';
     filterDocuments();
   }
 
-  // Clear all filters
   function clearAllFilters() {
-    // Reset category
-    categoryButtons.forEach(btn => {
-      btn.classList.remove('active', 'bg-blue-600', 'text-white');
-      btn.classList.add('bg-gray-100', 'text-gray-700');
-    });
     const allCategoryBtn = document.querySelector('[data-category=""]');
-    if (allCategoryBtn) {
-      allCategoryBtn.classList.add('active', 'bg-blue-600', 'text-white');
-      allCategoryBtn.classList.remove('bg-gray-100', 'text-gray-700');
-    }
+    if (allCategoryBtn) setActive(categoryButtons, allCategoryBtn);
     currentCategory = '';
-
-    // Reset subcategory
-    document.querySelectorAll('.subcategory-filter').forEach(btn => {
-      btn.classList.remove('active', 'bg-purple-600', 'text-white');
-      btn.classList.add('bg-gray-100', 'text-gray-700');
-    });
-    const allSubcategoryBtn = document.querySelector('[data-subcategory=""]');
-    if (allSubcategoryBtn) {
-      allSubcategoryBtn.classList.add('active', 'bg-purple-600', 'text-white');
-      allSubcategoryBtn.classList.remove('bg-gray-100', 'text-gray-700');
-    }
-    currentSubcategory = '';
-
-    // Reset search
-    clearSearch();
-
-    // Update subcategories
     updateSubcategoryButtons('');
-    
-    // Filter documents
+    clearSearch();
     filterDocuments();
   }
 
-  // Event listeners
-  categoryButtons.forEach(button => {
+  categoryButtons.forEach((button) => {
     button.addEventListener('click', function() {
       handleCategoryFilter(this);
     });
   });
 
-
   if (clearFiltersBtn) {
-    clearFiltersBtn.addEventListener('click', function() {
-      clearAllFilters();
-    });
+    clearFiltersBtn.addEventListener('click', clearAllFilters);
   }
 
-  if (clearSearchBtn) {
-    clearSearchBtn.addEventListener('click', function() {
-      clearSearch();
-    });
-  }
-
-  // Show/hide clear search button based on input
   if (searchInput) {
     searchInput.addEventListener('input', function() {
-      currentSearch = this.value;
+      currentSearch = this.value.trim();
       filterDocuments();
-      
-      // Show/hide clear search button
-      if (clearSearchBtn) {
-        if (this.value.trim()) {
-          clearSearchBtn.style.display = 'flex';
-        } else {
-          clearSearchBtn.style.display = 'none';
-        }
-      }
     });
   }
 
-  // Initialize subcategories for "All" category
   updateSubcategoryButtons('');
 });
 </script>
 
-<style>
-/* Performance-optimized animations */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<style is:global>
+  .document-filter {
+    margin: 0 0 1.25rem;
+  }
 
-/* Hardware acceleration for smooth animations */
-.filter-btn, 
-#document-search, 
-#clear-search, 
-#clear-filters,
-.clear-chip-btn {
-  will-change: transform, box-shadow, background-color;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
+  .filter-panel {
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.9);
+    padding: 1.25rem;
+  }
 
-/* Ultra-smooth filter buttons */
-.filter-btn {
-  white-space: nowrap;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-}
+  .filter-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eaeaea;
+  }
 
-/* Optimized shimmer effect */
-.filter-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateZ(0);
-}
+  .filter-header h2 {
+    margin: 0;
+    color: #111111;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
 
-.filter-btn:hover::before {
-  left: 100%;
-}
+  .filter-header p {
+    margin: 0.35rem 0 0;
+    color: #787774;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
 
-/* Enhanced hover effects with better visual feedback */
-.filter-btn:hover {
-  transform: translateY(-2px) translateZ(0);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  border-color: rgba(59, 130, 246, 0.3);
-}
+  .results-count {
+    display: grid;
+    min-width: 96px;
+    gap: 0.1rem;
+    text-align: right;
+  }
 
-.filter-btn:active {
-  transform: translateY(-1px) translateZ(0);
-  transition: transform 0.1s ease-out;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
+  .results-count strong {
+    color: #111111;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 1rem;
+  }
 
-.filter-btn.active {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+  .results-count span {
+    color: #787774;
+    font-size: 0.72rem;
+  }
 
-/* Enhanced hover effects with color transitions */
-.filter-btn:hover:not(.active) {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-  color: #0f172a !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
+  .filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+  }
 
-/* Special hover for active buttons */
-.filter-btn.active:hover {
-  transform: translateY(-3px) translateZ(0);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-}
+  .subcategory-row {
+    padding-top: 0.7rem;
+  }
 
-/* Category button specific hover */
-.filter-btn.category-filter:hover:not(.active) {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
-  color: #1e40af !important;
-  border-color: #93c5fd !important;
-}
-
-/* Subcategory button specific hover */
-.filter-btn.subcategory-filter:hover:not(.active) {
-  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%) !important;
-  color: #7c3aed !important;
-  border-color: #c4b5fd !important;
-}
-
-/* Enhanced focus states with reduced motion */
-.document-filter input:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Enhanced search input */
-#document-search {
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateZ(0);
-}
-
-#document-search:hover {
-  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-  border-color: #cbd5e1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-#document-search:focus {
-  background: #ffffff;
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 4px 20px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px) translateZ(0);
-}
-
-#document-search:focus:hover {
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15), 0 6px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* Enhanced clear search button */
-#clear-search {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateZ(0);
-  border-radius: 50%;
-  padding: 4px;
-}
-
-#clear-search:hover {
-  transform: scale(1.1) translateZ(0);
-  color: #dc2626;
-  background-color: rgba(239, 68, 68, 0.1);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
-}
-
-#clear-search:active {
-  transform: scale(0.95) translateZ(0);
-  background-color: rgba(239, 68, 68, 0.2);
-}
-
-/* Enhanced clear button */
-#clear-filters {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateZ(0);
-}
-
-#clear-filters:hover {
-  transform: translateY(-2px) translateZ(0);
-  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2);
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border-color: #fca5a5;
-}
-
-#clear-filters:active {
-  transform: translateY(-1px) translateZ(0);
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
-}
-
-/* Enhanced chip animations */
-.clear-chip-btn {
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateZ(0);
-  border-radius: 50%;
-  padding: 2px;
-}
-
-.clear-chip-btn:hover {
-  transform: scale(1.15) translateZ(0);
-  background-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.clear-chip-btn:active {
-  transform: scale(0.9) translateZ(0);
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-/* Performance-optimized container */
-.document-filter {
-  background: transparent;
-  transform: translateZ(0);
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
   .filter-btn {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-    transition: all 0.15s ease-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #787774;
+    padding: 0.55rem 0.72rem;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: border-color 200ms ease, background 200ms ease, color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
   }
-  
+
+  .filter-btn small {
+    color: inherit;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    opacity: 0.78;
+  }
+
+  .filter-btn:hover {
+    border-color: rgba(0,0,0,0.2);
+    color: #111111;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .filter-btn:active { transform: scale(0.98); }
+
+  .filter-btn.active {
+    border-color: #111111;
+    background: #111111;
+    color: #ffffff;
+  }
+
+  .subcategory-filter.active {
+    border-color: #eaeaea;
+    background: #edf3ec;
+    color: #346538;
+  }
+
+  .search-row {
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 1rem;
+  }
+
+  .search-row label {
+    color: #787774;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .search-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-field svg {
+    position: absolute;
+    left: 0.9rem;
+    color: #787774;
+    pointer-events: none;
+  }
+
   #document-search {
-    padding: 0.875rem 1rem;
-    font-size: 0.875rem;
+    width: 100%;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    background: #fbfbfa;
+    color: #111111;
+    padding: 0.9rem 1rem 0.9rem 2.6rem;
+    font: inherit;
+    font-size: 0.92rem;
+    transition: border-color 200ms ease, background 200ms ease;
   }
-  
-  /* Reduce animations on mobile for better performance */
-  .filter-btn:hover {
-    transform: translateY(-0.5px) translateZ(0);
-  }
-  
-  .filter-btn::before {
-    display: none; /* Disable shimmer on mobile */
-  }
-}
 
-/* Reduced motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .filter-btn,
-  #document-search,
-  #clear-search,
-  #clear-filters,
-  .clear-chip-btn {
-    transition: none;
+  #document-search::placeholder { color: #9b9a97; }
+
+  #document-search:focus {
+    outline: none;
+    border-color: #111111;
+    background: #ffffff;
   }
-  
-  .filter-btn::before {
-    display: none;
+
+  .filter-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2rem;
+    padding-top: 1rem;
   }
-  
-  .filter-btn:hover {
-    transform: none;
+
+  .active-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-}
 
-/* Ultra-smooth animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px) translateZ(0);
+  .active-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid #eaeaea;
+    border-radius: 9999px;
+    background: #fbf3db;
+    color: #956400;
+    padding: 0.32rem 0.62rem;
+    font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) translateZ(0);
+
+  .active-chip.subcategory { background: #e1f3fe; color: #1f6c9f; }
+  .active-chip.search { background: #fdebec; color: #9f2f2d; }
+
+  .clear-filters {
+    flex: 0 0 auto;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #9f2f2d;
+    padding: 0.5rem 0.7rem;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 200ms ease, transform 200ms ease;
   }
-}
 
-.document-filter {
-  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+  .clear-filters:hover { border-color: rgba(159,47,45,0.32); }
+  .clear-filters:active { transform: scale(0.98); }
+  .hidden { display: none; }
 
-/* Optimized glass morphism */
-.document-filter > div {
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateZ(0);
-}
-
-/* Enhanced touch optimizations for mobile */
-@media (hover: none) and (pointer: coarse) {
-  .filter-btn:hover {
-    transform: none;
-    box-shadow: none;
+  @media (max-width: 640px) {
+    .filter-panel { padding: 1rem; }
+    .filter-header,
+    .filter-footer {
+      display: grid;
+      text-align: left;
+    }
+    .results-count { text-align: left; }
   }
-  
-  .filter-btn:active {
-    transform: scale(0.96) translateZ(0);
-    transition: transform 0.1s ease-out;
-    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%) !important;
+
+  @media (prefers-reduced-motion: reduce) {
+    .filter-btn,
+    .clear-filters,
+    #document-search {
+      transition: none;
+    }
   }
-  
-  .filter-btn.active:active {
-    transform: scale(0.98) translateZ(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  #clear-search:hover,
-  .clear-chip-btn:hover {
-    transform: none;
-  }
-  
-  #clear-search:active {
-    transform: scale(0.9) translateZ(0);
-    background-color: rgba(239, 68, 68, 0.2);
-  }
-  
-  .clear-chip-btn:active {
-    transform: scale(0.85) translateZ(0);
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-  
-  #document-search:active {
-    transform: scale(0.99) translateZ(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* GPU acceleration for smooth scrolling */
-.document-filter {
-  contain: layout style paint;
-}
-
-/* Optimize repaints */
-.filter-btn,
-#document-search {
-  contain: layout style;
-}
-</style>
-
-<style>
-/* Compact tweaks */
-.compact-filter .filter-btn { padding: 0.375rem 0.625rem; }
-.compact-filter .category-filter { font-size: 0.875rem; }
-.compact-filter .subcategory-filter { font-size: 0.75rem; }
-.compact-filter h2, .compact-filter h3 { margin-bottom: 0.5rem; }
-.compact-filter .flex.flex-wrap { gap: 0.5rem; }
-
-/* Hover improvements for category-filter */
-.filter-btn.category-filter {
-  border: 1px solid transparent;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  position: relative;
-  z-index: 1;
-  pointer-events: auto;
-}
-
-.filter-btn.category-filter:hover:not(.active) {
-  background-color: #e5e7eb; /* gray-200 */
-  border-color: #e5e7eb;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
-}
-
-.filter-btn.category-filter.active {
-  background-color: #2563eb; /* blue-600 */
-  color: #fff;
-  border-color: #2563eb;
-}
-
-.filter-btn.category-filter.active:hover {
-  background-color: #1d4ed8; /* blue-700 */
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(29,78,216,0.18);
-}
-
-.filter-btn.category-filter:focus-visible {
-  outline: 2px solid rgba(59,130,246,0.35);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-}
-
-/* Chips container should not overlay buttons */
-#active-filter-chips { position: relative; z-index: 0; }
 </style>

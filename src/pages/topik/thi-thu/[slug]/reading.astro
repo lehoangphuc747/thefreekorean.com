@@ -16,44 +16,64 @@ const slug = entry.id;
 ---
 
 <TopikLayout title="읽기 (Reading) - TOPIK">
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Back -->
-    <a href={`/topik/thi-thu/${slug}`} class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4 transition-colors">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-      <span>Quay lại</span>
-    </a>
+  <div class="exam-root">
 
-    <!-- Header -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-      <h1 class="text-2xl font-bold text-gray-900 mb-2">읽기 Reading</h1>
-      <p class="text-gray-600">50 câu hỏi • 50 phút</p>
-    </div>
-
-    <!-- Timer -->
-    <div id="timer-bar" class="sticky z-40 bg-white shadow-md rounded-lg px-4 py-3 mb-4 flex items-center justify-between" style="top: 0.5rem;">
-      <div class="flex items-center gap-4">
-        <span class="font-bold text-gray-800">📖 Reading</span>
-        <span id="timer" class="text-xl font-mono text-red-600 font-bold">50:00</span>
+    <!-- Sticky header bar -->
+    <header id="exam-header">
+      <div class="header-inner">
+        <div class="header-left">
+          <a href={`/topik/thi-thu/${slug}`} class="back-link" id="back-link">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Quay lại
+          </a>
+          <span class="section-label">읽기 · Reading</span>
+        </div>
+        <div class="header-right">
+          <div class="timer-wrap">
+            <span class="timer-label">TIME</span>
+            <span id="timer" class="timer-text">50:00</span>
+          </div>
+          <span id="progress-text" class="progress-label">0 / 50</span>
+          <button id="btn-submit" class="btn-submit">Nộp bài</button>
+        </div>
       </div>
-      <div class="flex items-center gap-3">
-        <span id="progress-text" class="text-sm text-gray-500">0/50 câu</span>
-        <button id="btn-submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors">Nộp bài</button>
+      <!-- Progress bar thin line -->
+      <div class="header-progress-bg">
+        <div id="header-progress-fill" class="header-progress-fill" style="width:0%"></div>
       </div>
-    </div>
+    </header>
 
-    <!-- Questions -->
-    <div id="questions-area" class="space-y-4"></div>
+    <!-- Main content -->
+    <main class="exam-main">
+      <div class="exam-shell">
+        <section id="questions-area" class="questions-area" aria-label="Reading questions"></section>
+        <aside class="question-nav" aria-label="Question navigator">
+          <div class="question-nav-card">
+            <div class="question-nav-head">
+              <p class="question-nav-title">Câu hỏi</p>
+              <p id="question-nav-count" class="question-nav-count">0 / 50</p>
+            </div>
+            <div id="question-nav-grid" class="question-nav-grid"></div>
+          </div>
+        </aside>
+      </div>
 
-    <!-- Results -->
-    <div id="results-area" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
-      <h2 class="text-2xl font-bold mb-4">Kết quả</h2>
-      <div id="results-content" class="text-lg"></div>
-      <a href={`/topik/thi-thu/${slug}/reading`} class="mt-6 inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">Làm lại</a>
-    </div>
+      <!-- Results -->
+      <div id="results-area" class="results-area hidden">
+        <div class="results-card">
+          <p class="results-title">Kết quả</p>
+          <div id="results-content"></div>
+          <a href={`/topik/thi-thu/${slug}/reading`} class="btn-retry">Làm lại</a>
+        </div>
+      </div>
+    </main>
+
   </div>
 </TopikLayout>
 
 <script is:inline>
+document.body.classList.add('topik-exam-mode');
+
 fetch(`/topik2-thi-thu-35-reading.json`)
   .then(r => r.json())
   .then(data => initReading(data))
@@ -63,31 +83,73 @@ function initReading(data) {
   const questions = data.questions;
   let answers = {};
   let submitted = false;
+  let activeQuestionId = questions[0]?.id;
   let timeLeft = data.meta.duration * 60;
   let timerInterval = null;
 
   const timerEl = document.getElementById('timer');
   const progressText = document.getElementById('progress-text');
+  const progressFill = document.getElementById('header-progress-fill');
   const questionsArea = document.getElementById('questions-area');
+  const questionNavGrid = document.getElementById('question-nav-grid');
+  const questionNavCount = document.getElementById('question-nav-count');
   const resultsArea = document.getElementById('results-area');
   const resultsContent = document.getElementById('results-content');
   const btnSubmit = document.getElementById('btn-submit');
 
-  // Start timer
+  function syncProgress() {
+    const answered = Object.keys(answers).length;
+    progressText.textContent = `${answered} / ${questions.length}`;
+    questionNavCount.textContent = `${answered} / ${questions.length}`;
+    if (progressFill) {
+      progressFill.style.width = `${Math.round(answered / questions.length * 100)}%`;
+    }
+  }
+
+  function renderQuestionNav() {
+    questionNavGrid.innerHTML = questions.map((q) => {
+      const key = `reading-${q.id}`;
+      const selected = answers[key];
+      let stateClass = selected ? 'question-nav-done' : 'question-nav-empty';
+
+      if (!submitted && q.id === activeQuestionId) {
+        stateClass += ' question-nav-current';
+      }
+
+      if (submitted) {
+        if (selected === q.answer) stateClass = 'question-nav-correct';
+        else if (selected) stateClass = 'question-nav-wrong';
+      }
+
+      return `<button class="question-nav-btn ${stateClass}" type="button" data-jump="${q.id}" aria-label="Go to question ${q.id}">${q.id}</button>`;
+    }).join('');
+
+    questionNavGrid.querySelectorAll('[data-jump]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeQuestionId = Number(btn.dataset.jump);
+        renderQuestionNav();
+        const target = document.getElementById(`question-${btn.dataset.jump}`);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  // Timer
   timerInterval = setInterval(() => {
     timeLeft--;
     const m = Math.floor(timeLeft / 60);
     const s = timeLeft % 60;
     timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    timerEl.className = timeLeft < 60 ? 'text-xl font-mono text-red-700 font-bold animate-pulse' : 'text-xl font-mono text-red-600 font-bold';
-    
-    const answered = Object.keys(answers).length;
-    progressText.textContent = `${answered}/${questions.length} câu`;
-    
+
+    if (timeLeft < 60) {
+      timerEl.classList.add('timer-urgent');
+    }
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       submit();
     }
+
+    syncProgress();
   }, 1000);
 
   // Render
@@ -95,85 +157,95 @@ function initReading(data) {
     let html = '';
     let lastGroup = '';
 
-    questions.forEach((q, qi) => {
+    questions.forEach((q) => {
       const key = `reading-${q.id}`;
       const selected = answers[key];
 
       // Group instruction
       if (q.group_instruction && q.group_instruction !== lastGroup) {
         lastGroup = q.group_instruction;
-        html += `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4">
-          <p class="text-sm font-semibold text-yellow-800">${q.group_instruction}</p>
-        </div>`;
+        html += `
+          <div class="group-instruction">
+            <span class="group-bracket">${q.group_instruction}</span>
+          </div>`;
       }
 
       // Question card
-      html += `<div class="bg-white rounded-xl shadow-md p-5">`;
-      html += `<div class="flex items-start gap-3 mb-3">
-        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold text-sm flex items-center justify-center">${q.id}</span>
-        <div class="flex-1">`;
+      html += `<div class="q-card" id="question-${q.id}">`;
 
-      // Show passage text
+      // Question number + text
+      html += `<div class="q-head">
+        <span class="q-num">${q.id}</span>
+        <div class="q-body">`;
+
       if (q.question_ko) {
-        html += `<p class="text-gray-800 whitespace-pre-line text-sm">${q.question_ko}</p>`;
+        html += `<p class="q-text">${q.question_ko}</p>`;
+      }
+      if (q.question_prompt) {
+        html += `<p class="q-prompt">${q.id}. ${q.question_prompt}</p>`;
+      }
+      if (q.question_vi) {
+        html += `<p class="q-text-vi">${q.question_vi}</p>`;
+      }
+      if (q.image) {
+        html += `<img src="${q.image}" alt="Câu ${q.id}" class="q-image" />`;
       }
 
       html += `</div></div>`;
 
       // Choices
       if (q.choices && q.choices.length > 0) {
-        html += `<div class="grid grid-cols-1 gap-2 mt-3 ml-11">`;
+        html += `<div class="choices">`;
         q.choices.forEach((choice, ci) => {
           const choiceNum = ci + 1;
           const isImage = typeof choice === 'object' && choice.type === 'image';
           const choiceText = isImage ? choice.text : choice;
           const choiceImg = isImage ? choice.image : null;
 
-          let borderClass = 'border-gray-200 hover:border-blue-400 hover:bg-blue-50';
+          let stateClass = '';
           if (submitted) {
-            if (choiceNum === q.answer) borderClass = 'border-green-500 bg-green-50';
-            else if (choiceNum === selected && choiceNum !== q.answer) borderClass = 'border-red-500 bg-red-50';
+            if (choiceNum === q.answer) stateClass = 'choice-correct';
+            else if (choiceNum === selected && choiceNum !== q.answer) stateClass = 'choice-wrong';
+            else stateClass = 'choice-idle';
           } else if (choiceNum === selected) {
-            borderClass = 'border-blue-500 bg-blue-50 ring-2 ring-blue-300';
+            stateClass = 'choice-selected';
           }
 
-          html += `<button class="choice-btn flex items-center gap-3 p-3 rounded-lg border-2 text-left transition-all ${borderClass}" 
-            data-key="${key}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
-            <span class="flex-shrink-0 w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold
-              ${choiceNum === selected ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-500'}
-              ${submitted && choiceNum === q.answer ? 'bg-green-600 text-white border-green-600' : ''}
-              ${submitted && choiceNum === selected && choiceNum !== q.answer ? 'bg-red-600 text-white border-red-600' : ''}
-            ">${['①','②','③','④'][ci]}</span>
-            ${choiceImg 
-              ? `<img src="${choiceImg}" alt="Choice ${choiceNum}" class="w-20 h-20 object-contain rounded" />` 
-              : `<span class="text-gray-700 text-sm">${choiceText}</span>`
+          html += `<button class="choice-btn ${stateClass}"
+            data-key="${key}" data-qid="${q.id}" data-choice="${choiceNum}" ${submitted ? 'disabled' : ''}>
+            <span class="choice-num">${choiceNum}</span>
+            ${choiceImg
+              ? `<img src="${choiceImg}" alt="Lựa chọn ${choiceNum}" class="choice-img" />`
+              : `<span class="choice-text">${choiceText}</span>`
             }
           </button>`;
         });
         html += `</div>`;
       }
 
-      // Result
+      // After submit: show result inline
       if (submitted) {
         const isCorrect = selected === q.answer;
-        html += `<div class="ml-11 mt-3 flex items-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}">
-          ${isCorrect 
-            ? '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>'
-            : '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>'
+        html += `<div class="q-result ${isCorrect ? 'q-result-ok' : 'q-result-err'}">
+          ${isCorrect
+            ? `<svg width="15" height="15" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg> Đúng`
+            : `<svg width="15" height="15" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg> Sai · Đáp án đúng: <strong>${q.answer}</strong>`
           }
-          <span class="text-sm font-semibold">${isCorrect ? 'Đúng!' : `Sai. Đáp án: ${['①','②','③','④'][q.answer-1]}`}</span>
         </div>`;
       }
 
-      html += `</div>`;
+      html += `</div>`; // end q-card
     });
 
     questionsArea.innerHTML = html;
+    renderQuestionNav();
+    syncProgress();
 
     // Click handlers
     questionsArea.querySelectorAll('.choice-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         if (submitted) return;
+        activeQuestionId = Number(btn.dataset.qid);
         answers[btn.dataset.key] = parseInt(btn.dataset.choice);
         render();
       });
@@ -184,6 +256,9 @@ function initReading(data) {
   function submit() {
     submitted = true;
     clearInterval(timerInterval);
+    document.body.classList.remove('topik-exam-mode');
+    const header = document.getElementById('exam-header');
+    if (header) header.classList.add('header-static');
     render();
 
     let correct = 0;
@@ -191,20 +266,21 @@ function initReading(data) {
       if (answers[`reading-${q.id}`] === q.answer) correct++;
     });
 
-    const percent = Math.round(correct / questions.length * 100);
-    const color = percent >= 70 ? 'green' : percent >= 50 ? 'yellow' : 'red';
+    const pct = Math.round(correct / questions.length * 100);
+    const grade = pct >= 70 ? 'pass' : pct >= 50 ? 'mid' : 'fail';
 
     resultsArea.classList.remove('hidden');
     resultsContent.innerHTML = `
-      <div class="bg-${color}-50 rounded-lg p-6 inline-block">
-        <p class="text-4xl font-bold text-${color}-700">${correct}/${questions.length}</p>
-        <p class="text-lg text-${color}-600">${percent}%</p>
+      <div class="results-score results-${grade}">
+        <p class="score-num">${correct}<span class="score-total"> / ${questions.length}</span></p>
+        <p class="score-pct">${pct}%</p>
       </div>
+      <p class="score-label">${pct >= 70 ? 'Xuất sắc!' : pct >= 50 ? 'Đạt yêu cầu' : 'Cần luyện thêm'}</p>
     `;
 
-    btnSubmit.textContent = 'Đã nộp bài';
+    btnSubmit.textContent = 'Đã nộp';
     btnSubmit.disabled = true;
-    btnSubmit.classList.add('opacity-50');
+    btnSubmit.classList.add('submitted');
   }
 
   btnSubmit.addEventListener('click', () => {
@@ -215,8 +291,534 @@ function initReading(data) {
 }
 </script>
 
-<style>
-  .choice-btn:disabled { cursor: default; }
-  .animate-pulse { animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+<style is:global>
+/* ── Root layout ─────────────────────────────── */
+.exam-root {
+  min-height: 100vh;
+  background: #f7f6f3;
+  font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111111;
+}
+
+/* ── Header ──────────────────────────────────── */
+#exam-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+#exam-header.header-static {
+  position: static;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  gap: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #787774;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.back-link:hover { color: #111111; }
+
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.timer-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+.timer-label {
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #787774;
+}
+.timer-text {
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: 0.03em;
+}
+.timer-text.timer-urgent {
+  color: #dc2626;
+  animation: pulse-timer 1s ease-in-out infinite;
+}
+@keyframes pulse-timer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  color: #787774;
+  white-space: nowrap;
+}
+
+.btn-submit {
+  padding: 0.4rem 1rem;
+  background: #111111;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s, transform 0.15s;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.btn-submit:hover { background: #333333; }
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit.submitted { opacity: 0.4; cursor: default; }
+
+/* Thin progress line below header */
+.header-progress-bg {
+  height: 2px;
+  background: #f1f1ef;
+}
+.header-progress-fill {
+  height: 100%;
+  background: #111111;
+  transition: width 0.4s ease;
+}
+
+/* ── Main ─────────────────────────────────────── */
+.exam-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 4rem;
+}
+.exam-shell {
+  display: grid;
+  grid-template-columns: minmax(760px, 860px) 220px;
+  align-items: start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.questions-area { min-width: 0; }
+.question-nav {
+  position: sticky;
+  top: 86px;
+}
+.question-nav-card {
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem;
+}
+.question-nav-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+.question-nav-title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: #111111;
+}
+.question-nav-count {
+  margin: 0;
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #787774;
+  font-variant-numeric: tabular-nums;
+}
+.question-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+}
+.question-nav-btn {
+  height: 30px;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #787774;
+  font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+}
+.question-nav-btn:hover { border-color: rgba(0,0,0,0.16); color: #111111; }
+.question-nav-btn:active { transform: scale(0.98); }
+.question-nav-done { border-color: #111111; background: #111111; color: #ffffff; }
+.question-nav-current {
+  border-color: #111111;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: inset 0 0 0 1px #111111;
+}
+.question-nav-correct { border-color: #346538; background: #edf3ec; color: #346538; }
+.question-nav-wrong { border-color: #9f2f2d; background: #fdebec; color: #9f2f2d; }
+
+/* ── Group instruction ────────────────────────── */
+.group-instruction {
+  margin: 2.25rem 0 0.85rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid #eaeaea;
+  scroll-margin-top: 96px;
+}
+.group-bracket {
+  font-size: 0.82rem;
+  color: #787774;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* ── Question card ────────────────────────────── */
+.q-card {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: 96px;
+}
+
+.q-head {
+  display: flex;
+  gap: 0.875rem;
+  align-items: flex-start;
+  margin-bottom: 0.875rem;
+}
+
+.q-num {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #787774;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  margin-top: 0.1rem;
+}
+
+.q-body { flex: 1; }
+
+.q-text {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: #111111;
+  white-space: pre-line;
+  margin: 0;
+}
+
+.q-prompt {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333333;
+  margin: 0.75rem 0 0;
+}
+
+.q-text-vi {
+  font-size: 0.8rem;
+  color: #787774;
+  line-height: 1.6;
+  margin: 0.4rem 0 0;
+}
+
+.q-image {
+  margin-top: 0.75rem;
+  max-width: 100%;
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+}
+
+/* ── Choices ──────────────────────────────────── */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 2.375rem;
+}
+
+.choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.72rem 0.95rem;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background: #f9f9f8;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+  width: 100%;
+}
+.choice-btn:hover:not(:disabled) {
+  border-color: #aaa;
+  background: #f3f2ef;
+}
+.choice-btn:disabled { cursor: default; }
+
+.choice-num {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #787774;
+  border: 1px solid #eaeaea;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.choice-text {
+  font-size: 0.875rem;
+  color: #333333;
+  line-height: 1.55;
+}
+
+.choice-img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* Selected */
+.choice-selected {
+  border-color: #1a1a1a;
+  background: #f0eeeb;
+}
+.choice-selected .choice-num {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: #fff;
+}
+
+/* Correct */
+.choice-correct {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+.choice-correct .choice-num {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+/* Wrong */
+.choice-wrong {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+.choice-wrong .choice-num {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+/* Idle (after submit, not selected not answer) */
+.choice-idle {
+  opacity: 0.5;
+}
+
+/* ── Inline result ────────────────────────────── */
+.q-result {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  margin-left: 2.375rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+.q-result-ok { color: #16a34a; }
+.q-result-err { color: #dc2626; }
+
+/* ── Results area ─────────────────────────────── */
+.results-area { margin-top: 2.5rem; }
+.results-card {
+  background: #fff;
+  border: 1px solid #e8e6e1;
+  border-radius: 12px;
+  padding: 2.5rem;
+  text-align: center;
+}
+.results-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+}
+.results-score {
+  display: inline-block;
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+}
+.results-pass { background: #f0fdf4; }
+.results-mid  { background: #fefce8; }
+.results-fail { background: #fef2f2; }
+
+.score-num {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1;
+  margin: 0;
+}
+.score-total { font-size: 1.2rem; color: #888; font-weight: 400; }
+.score-pct {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.3rem 0 0;
+}
+.score-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}
+.btn-retry {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.75rem;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.btn-retry:hover { background: #333; }
+
+/* ── Utilities ────────────────────────────────── */
+.hidden { display: none; }
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 1199px) {
+  .exam-main { max-width: 1040px; }
+  .exam-shell {
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: 1rem;
+  }
+  .question-nav-card { padding: 0.85rem; }
+  .question-nav-grid { gap: 0.35rem; }
+  .question-nav-btn { height: 29px; }
+}
+
+@media (max-width: 900px) {
+  .exam-main {
+    max-width: 760px;
+    padding: 1.25rem 1rem 3.5rem;
+  }
+  .exam-shell {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+  .question-nav {
+    position: sticky;
+    top: 70px;
+    z-index: 20;
+    margin: 0 -1rem;
+    padding: 0.65rem 1rem;
+    background: rgba(247,246,243,0.96);
+    border-bottom: 1px solid #eaeaea;
+    width: calc(100% + 2rem);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .question-nav-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .question-nav-head { margin-bottom: 0.6rem; }
+  .question-nav-grid {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 0.1rem;
+    scrollbar-width: none;
+  }
+  .question-nav-grid::-webkit-scrollbar { display: none; }
+  .question-nav-btn {
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+  }
+  .group-instruction { scroll-margin-top: 170px; }
+  .q-card { scroll-margin-top: 170px; }
+}
+
+@media (max-width: 600px) {
+  .header-inner { padding: 0.65rem 0.75rem; gap: 0.6rem; }
+  .header-left { gap: 0.55rem; min-width: 0; }
+  .header-right { gap: 0.65rem; flex-shrink: 0; }
+  .back-link { font-size: 0.76rem; }
+  .section-label { font-size: 0.8rem; }
+  .timer-label { font-size: 0.56rem; }
+  .timer-text { font-size: 0.92rem; }
+  .progress-label { font-size: 0.74rem; }
+  .btn-submit { padding: 0.42rem 0.72rem; font-size: 0.78rem; }
+  .exam-main { padding: 1rem 0.75rem 3rem; }
+  .question-nav {
+    top: 70px;
+    margin: 0 -0.75rem;
+    padding: 0.65rem 0.75rem;
+    width: calc(100% + 1.5rem);
+  }
+  .q-card { padding: 1.25rem 1rem; }
+  .choices { margin-left: 0; }
+  .choice-btn { padding: 0.68rem 0.75rem; }
+  .q-text { font-size: 0.93rem; }
+}
+
+@media (max-width: 360px) {
+  .exam-main { padding-left: 0.6rem; padding-right: 0.6rem; }
+  .q-card { padding: 0.85rem; }
+  .question-nav { margin-left: -0.6rem; margin-right: -0.6rem; width: calc(100% + 1.2rem); }
+}
 </style>

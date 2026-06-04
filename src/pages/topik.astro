@@ -1,99 +1,279 @@
 ---
 export const prerender = true;
 import TopikLayout from '../layouts/TopikLayout.astro';
+
+const sections = [
+  {
+    href: '/topik/tim-hieu',
+    label: 'Tìm hiểu',
+    title: 'Tìm hiểu về TOPIK',
+    description: 'Thông tin chi tiết về kỳ thi TOPIK, cách tính điểm, và phương pháp làm bài.',
+    tone: 'sage',
+    path: 'M12 6v12m6-6H6',
+  },
+  {
+    href: '/topik/kien-thuc',
+    label: 'Kiến thức',
+    title: 'Kiến thức',
+    description: 'Tổng hợp kiến thức về TOPIK: ngữ pháp, từ vựng và kỹ năng làm bài.',
+    tone: 'cream',
+    path: 'M4 19.5V5.75A2.75 2.75 0 0 1 6.75 3H20v16.5H6.75A2.75 2.75 0 0 0 4 22.25m0-2.75A2.75 2.75 0 0 1 6.75 16.75H20',
+  },
+  {
+    href: '/topik/luyen-tap',
+    label: 'Luyện tập',
+    title: 'Luyện tập',
+    description: 'Luyện từng dạng bài thi TOPIK với câu hỏi, đáp án và giải thích rõ ràng.',
+    tone: 'blue',
+    path: 'm15.232 5.232 3.536 3.536M4 20h3.536L19.768 7.768a2.5 2.5 0 0 0-3.536-3.536L4 16.464V20Z',
+  },
+  {
+    href: '/topik/thi-thu',
+    label: 'Thi thử',
+    title: 'Thi thử',
+    description: 'Làm đề thi thử TOPIK đầy đủ để kiểm tra trình độ và làm quen với cấu trúc bài thi.',
+    tone: 'rose',
+    path: 'M9 11.25h6M9 15h6M7.5 3.75h9A2.25 2.25 0 0 1 18.75 6v12A2.25 2.25 0 0 1 16.5 20.25h-9A2.25 2.25 0 0 1 5.25 18V6A2.25 2.25 0 0 1 7.5 3.75Z',
+  },
+];
 ---
 
-<TopikLayout 
+<TopikLayout
   title="TOPIK"
   description="Thông tin về kỳ thi TOPIK - Test of Proficiency in Korean"
 >
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">
-        TOPIK - Test of Proficiency in Korean
-      </h1>
-      <p class="text-xl text-gray-600">
-        Tài liệu và thông tin về kỳ thi TOPIK
-      </p>
-    </div>
+  <main class="topik-hub">
+    <div class="ambient-grid" aria-hidden="true"></div>
 
-    <!-- Quick Links -->
-    <div class="grid md:grid-cols-1 gap-6 max-w-2xl mx-auto">
-      <a 
-        href="/topik/tim-hieu"
-        class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-purple-200 hover:border-purple-400 transform hover:-translate-y-1"
-      >
-        <div class="flex items-center gap-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-            <span class="text-3xl">📚</span>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-              Tìm hiểu về TOPIK
-            </h3>
-            <p class="text-gray-600">
-              Thông tin chi tiết về kỳ thi TOPIK, cách tính điểm, và phương pháp làm bài
-            </p>
-          </div>
+    <section class="hub-shell">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">TOPIK Command Center</p>
+          <h1>TOPIK - Test of Proficiency in Korean</h1>
+          <p class="hero-lead">
+            Tài liệu và thông tin về kỳ thi TOPIK được tổ chức như một workspace gọn: hiểu cấu trúc, ôn kiến thức, luyện từng dạng bài và thi thử đầy đủ.
+          </p>
         </div>
-      </a>
 
-      <a 
-        href="/topik/kien-thuc"
-        class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-indigo-200 hover:border-indigo-400 transform hover:-translate-y-1"
-      >
-        <div class="flex items-center gap-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
-            <span class="text-3xl">💡</span>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-              Kiến thức
-            </h3>
-            <p class="text-gray-600">
-              Tổng hợp kiến thức về TOPIK - Ngữ pháp, Từ vựng, Kỹ năng làm bài
-            </p>
-          </div>
-        </div>
-      </a>
+        <aside class="exam-note" aria-label="Thông tin nhanh">
+          <span class="note-label">Learning Path</span>
+          <strong>Understand · Practice · Simulate</strong>
+          <p>Đi từ nền tảng đến mô phỏng phòng thi, không cần đổi ngữ cảnh học tập.</p>
+        </aside>
+      </div>
 
-      <a 
-        href="/topik/luyen-tap"
-        class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-400 transform hover:-translate-y-1"
-      >
-        <div class="flex items-center gap-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
-            <span class="text-3xl">✏️</span>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-              Luyện tập
-            </h3>
-            <p class="text-gray-600">
-              Luyện tập từng dạng bài thi TOPIK với các câu hỏi có giải thích chi tiết
-            </p>
-          </div>
-        </div>
-      </a>
+      <div class="section-grid" aria-label="Các mục TOPIK">
+        {sections.map((section, index) => (
+          <a href={section.href} class={`section-card ${section.tone}`} style={`--index: ${index}`}>
+            <div class="card-mark" aria-hidden="true">
+              <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d={section.path} />
+              </svg>
+            </div>
 
-      <a 
-        href="/topik/thi-thu"
-        class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-green-200 hover:border-green-400 transform hover:-translate-y-1"
-      >
-        <div class="flex items-center gap-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-            <span class="text-3xl">📝</span>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-              Thi thử
-            </h3>
-            <p class="text-gray-600">
-              Làm đề thi thử TOPIK đầy đủ để kiểm tra trình độ và làm quen với format thi
-            </p>
-          </div>
-        </div>
-      </a>
-    </div>
-  </div>
+            <div class="card-content">
+              <span>{section.label}</span>
+              <h2>{section.title}</h2>
+              <p>{section.description}</p>
+            </div>
+
+            <div class="card-footer">
+              <span>Mở mục</span>
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6" />
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <style is:global>
+    .topik-hub {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #f7f6f3;
+      color: #111111;
+      font-family: 'SF Pro Display', 'Geist Sans', 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .topik-hub .ambient-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.38;
+      background:
+        linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px);
+      background-size: 56px 56px, 56px 56px;
+      z-index: 0;
+    }
+
+    .topik-hub .hub-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 6rem 1.25rem 7rem;
+    }
+
+    .topik-hub .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 3rem;
+    }
+
+    .topik-hub .hero-copy { max-width: 760px; }
+
+    .topik-hub .eyebrow {
+      margin: 0 0 1rem;
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topik-hub h1 {
+      margin: 0;
+      color: #111111;
+      font-size: clamp(2.65rem, 6.2vw, 6rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      font-weight: 720;
+    }
+
+    .topik-hub .hero-lead {
+      max-width: 680px;
+      margin: 1.5rem 0 0;
+      color: #2f3437;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.68;
+    }
+
+    .topik-hub .exam-note {
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.86);
+      backdrop-filter: blur(10px);
+      padding: 1.25rem;
+    }
+
+    .topik-hub .note-label,
+    .topik-hub .card-content span {
+      color: #787774;
+      font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topik-hub .exam-note strong {
+      display: block;
+      margin-top: 0.75rem;
+      color: #111111;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .topik-hub .exam-note p {
+      margin: 0.8rem 0 0;
+      color: #787774;
+      font-size: 0.92rem;
+      line-height: 1.62;
+    }
+
+    .topik-hub .section-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .topik-hub .section-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 310px;
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      background: #ffffff;
+      color: inherit;
+      padding: 1.4rem;
+      text-decoration: none;
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    .topik-hub .section-card:hover {
+      border-color: rgba(0,0,0,0.24);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transform: translateY(-1px);
+    }
+
+    .topik-hub .section-card:active { transform: scale(0.99); }
+
+    .topik-hub .card-mark {
+      display: grid;
+      width: 4rem;
+      height: 4rem;
+      place-items: center;
+      border: 1px solid #eaeaea;
+      border-radius: 10px;
+      color: #111111;
+    }
+
+    .topik-hub .section-card.sage .card-mark { background: #edf3ec; }
+    .topik-hub .section-card.cream .card-mark { background: #fbf3db; }
+    .topik-hub .section-card.blue .card-mark { background: #e1f3fe; }
+    .topik-hub .section-card.rose .card-mark { background: #fdebec; }
+
+    .topik-hub .card-content {
+      flex: 1;
+      padding: 2.2rem 0 1.5rem;
+    }
+
+    .topik-hub .card-content h2 {
+      margin: 0.8rem 0 0;
+      color: #111111;
+      font-size: clamp(1.45rem, 3vw, 2.1rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+
+    .topik-hub .card-content p {
+      margin: 0.9rem 0 0;
+      color: #787774;
+      font-size: 0.95rem;
+      line-height: 1.62;
+    }
+
+    .topik-hub .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eaeaea;
+      color: #111111;
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    @media (max-width: 900px) {
+      .topik-hub .hub-shell { padding: 4rem 1rem 5rem; }
+      .topik-hub .hero-grid { grid-template-columns: 1fr; }
+      .topik-hub .exam-note { max-width: 520px; }
+      .topik-hub .section-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .topik-hub .hub-shell { padding: 3rem 0.85rem 4rem; }
+      .topik-hub .section-card { min-height: 280px; padding: 1.2rem; }
+    }
+  </style>
 </TopikLayout>
