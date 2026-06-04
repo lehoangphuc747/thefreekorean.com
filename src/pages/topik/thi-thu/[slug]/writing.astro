@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const slug = entry.id;
+const examData = entry.data;
 ---
 
 <TopikLayout title="쓰기 (Writing) - TOPIK">
@@ -71,13 +72,20 @@ const slug = entry.id;
   </div>
 </TopikLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ examData, slug }}>
 document.body.classList.add('topik-exam-mode');
 
-fetch(`/topik2-thi-thu-35-writing.json`)
-  .then(r => r.json())
-  .then(data => initWriting(data))
-  .catch(err => console.error('Failed to load:', err));
+// Extract writing section from the dynamically passed examData
+const writingSection = examData.sections.find(s => s.type === 'writing');
+if (writingSection) {
+  // Inject metadata into the section object for the initialization logic
+  writingSection.meta = {
+    duration: writingSection.duration || 50
+  };
+  initWriting(writingSection);
+} else {
+  console.error('Writing section not found in exam data');
+}
 
 function initWriting(data) {
   const questions = data.questions;

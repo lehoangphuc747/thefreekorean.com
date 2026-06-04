@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const slug = entry.id;
+const examData = entry.data;
 ---
 
 <TopikLayout title="듣기 (Listening) - TOPIK">
@@ -93,15 +94,20 @@ const slug = entry.id;
   </div>
 </TopikLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ examData, slug }}>
 document.body.classList.add('topik-exam-mode');
 
-const slug = window.location.pathname.split('/').filter(Boolean).pop();
-
-fetch(`/topik2-thi-thu-35-listening.json`)
-  .then(r => r.json())
-  .then(data => initListening(data))
-  .catch(err => console.error('Failed to load listening data:', err));
+// Extract the listening section from the dynamically passed examData
+const listeningSection = examData.sections.find(s => s.type === 'listening');
+if (listeningSection) {
+  // Inject metadata into the section object for the initialization logic
+  listeningSection.meta = {
+    duration: listeningSection.duration || 60
+  };
+  initListening(listeningSection);
+} else {
+  console.error('Listening section not found in exam data');
+}
 
 function initListening(data) {
   const questions = data.questions;
